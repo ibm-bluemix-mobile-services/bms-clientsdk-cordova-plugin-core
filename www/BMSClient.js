@@ -31,7 +31,7 @@ var BMSClient = function() {
     this.initialize = function(backendRoute, backendGuid) {
         this._backendRoute = backendRoute;
         this._backendGuid = backendGuid;
-        cordova.exec(success, failure, "MFPClient", "initialize", [backendRoute, backendGuid]);
+        cordova.exec(success, failure, "BMSClient", "initialize", [backendRoute, backendGuid]);
     };
 
     /**
@@ -40,7 +40,7 @@ var BMSClient = function() {
      * @param {function} authenticationListener
      */
     this.registerAuthenticationListener = function(realm, authenticationListener) {
-        cordova.exec(success, failure, "MFPClient", "registerAuthenticationListener", [realm, authenticationListener]);
+        cordova.exec(success, failure, "BMSClient", "registerAuthenticationListener", [realm, authenticationListener]);
     };
 
     /**
@@ -48,7 +48,7 @@ var BMSClient = function() {
      * @param {function} authenticationListener
      */
     this.unregisterAuthenticationListener = function(authenticationListener) {
-        cordova.exec(success, failure, "MFPClient", "unregisterAuthenticationListener", [authenticationListener]);
+        cordova.exec(success, failure, "BMSClient", "unregisterAuthenticationListener", [authenticationListener]);
     };
 
     /**
@@ -56,7 +56,7 @@ var BMSClient = function() {
      * @param callback
      */
     this.getBluemixAppRoute = function(callback) {
-        cordova.exec(callback, callback, "MFPClient", "backendRoute", []);
+        cordova.exec(callback, callback, "BMSClient", "backendRoute", []);
     };
 
     /**
@@ -64,7 +64,7 @@ var BMSClient = function() {
      * @param callback
      */
     this.getBluemixAppGUID = function(callback) {
-        cordova.exec(callback, callback, "MFPClient", "backendGUID", []);
+        cordova.exec(callback, callback, "BMSClient", "backendGUID", []);
     };
 };
 

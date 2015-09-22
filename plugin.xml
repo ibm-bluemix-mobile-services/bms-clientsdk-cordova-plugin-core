@@ -20,10 +20,10 @@
         </config-file>
 
         <config-file parent="/*" target="res/xml/config.xml">
-            <feature name="MFPClient">
+            <feature name="BMSClient">
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CordovaBMSClient"/>
             </feature>
-            <feature name="MFPResourceRequest">
+            <feature name="MFPRequest">
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CordovaMFPRequest"/>
             </feature>
         </config-file>
@@ -39,24 +39,19 @@
 
         <config-file parent="/*" target="config.xml">
 
-            <feature name="MFPCore">
-                <param name="ios-package" value="MFPCore"/>
+            <feature name="BMSClient">
+                <param name="ios-package" value="CDVBMSClient"/>
             </feature>
 
-            <feature name="MFPClient">
-                <param name="ios-package" value="MFPClient"/>
-            </feature>
-
-            <feature name="MFPResourceRequest">
-                <param name="ios-package" value="MFPResourceRequest"/>
+            <feature name="MFPRequest">
+                <param name="ios-package" value="CDVMFPRequest"/>
             </feature>
 
         </config-file>
 
         <header-file src="src/ios/Bridging-Header.h" />
-        <source-file src="src/ios/MFPCore.swift" />
-        <source-file src="src/ios/MFPClient.swift" />
-        <source-file src="src/ios/MFPResourceRequest.swift" />
+        <source-file src="src/ios/CDVBMSClient.swift" />
+        <source-file src="src/ios/CDVMFPRequest.swift" />
 
     </platform>
 

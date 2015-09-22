@@ -8,7 +8,7 @@
 import Foundation
 import IMFCore
 
-@objc(MFPClient) class MFPClient : CDVPlugin {
+@objc(CDVBMSClient) class CDVBMSClient : CDVPlugin {
     
     func initialize(command: CDVInvokedUrlCommand) {
         let route = command.arguments[0] as! String

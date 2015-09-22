@@ -9,13 +9,13 @@ var MFPRequest = function (url, method, timeout) {
     this._timeout = timeout || 30000;
 };
 
-    MFPRequest.GET = "GET";
-    MFPRequest.PUT = "PUT";
-    MFPRequest.POST = "POST";
-    MFPRequest.DELETE = "DELETE";
-    MFPRequest.TRACE = "TRACE";
-    MFPRequest.HEAD = "HEAD";
-    MFPRequest.OPTIONS = "OPTIONS";
+MFPRequest.GET = "GET";
+MFPRequest.PUT = "PUT";
+MFPRequest.POST = "POST";
+MFPRequest.DELETE = "DELETE";
+MFPRequest.TRACE = "TRACE";
+MFPRequest.HEAD = "HEAD";
+MFPRequest.OPTIONS = "OPTIONS";
 
 MFPRequest.prototype = function () {
 
@@ -96,13 +96,13 @@ MFPRequest.prototype = function () {
             var cbFailure = callbackWrap.bind(this, failure);
             console.log(this.TAG + " send with empty body");
 
-            cordova.exec(cbSuccess, cbFailure, "MFPResourceRequest", "send", [buildRequest()]);
+            cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest()]);
         } else if (typeof arg === "string" || typeof arg === "object") {
             var cbSuccess = callbackWrap.bind(this, success);
             var cbFailure = callbackWrap.bind(this, failure);
             // Input = String or JSON
             console.log(this.TAG + " send with string or object for the body");
-            cordova.exec(cbSuccess, cbFailure, "MFPResourceRequest", "send", [buildRequest(arg)]);
+            cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(arg)]);
         }
     };
 
@@ -135,7 +135,7 @@ MFPRequest.prototype = function () {
                 request.headers["Content-Type"] = "application/json";
             }
         }
-
+        //TODO update when Logger is complete
         console.log(this.TAG + " The request is: " + JSON.stringify(request));
         return request;
     };

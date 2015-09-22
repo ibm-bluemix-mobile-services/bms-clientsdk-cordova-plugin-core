@@ -9,7 +9,7 @@
 import Foundation
 import IMFCore
 
-@objc(MFPResourceRequest) class MFPResourceRequest : CDVPlugin {
+@objc(CDVMFPRequest) class CDVMFPRequest : CDVPlugin {
     
     func send(command: CDVInvokedUrlCommand) {
         let nativeRequest = unPackRequest(command.arguments[0] as! NSDictionary)
