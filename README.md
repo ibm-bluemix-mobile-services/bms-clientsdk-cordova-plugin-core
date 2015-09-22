@@ -1,22 +1,60 @@
-IBM Bluemix Mobile Services - Client SDK Cordova
-===
+# IBM Bluemix Mobile Services - Client SDK Cordova
 
-Description here
-
-Examples
----
-(Show example code snippets here)
+A brief description of our plugin here.
 
 ## Installation
+```
+$ cordova plugin install ibm-mfp-core
+```
+## Examples
 
-Prerequisites
----
-npm
-cordova
-###Android-specific
-###iOS-specific
+### To initialize:
+(Explain line of code below this line)
+```
+BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
+```
 
+### Creating a Request. 
+To create a new MFPRequest instance... (Explain line of code below this line)
+```
+var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
+```
 
+### Setting the headers for your request. 
+(More Explanation of code snippet below this line)
+```
+var headers = {
+    header1: "val1",
+    header2: ["val2", "val3"]
+}
+request.setHeaders(headers)
+```
+
+### Setting your MFPRequest's query parameters
+```
+var queryParams = {
+    param1: "val1",
+    param2: "val2
+}
+request.setQueryParameters(queryParams)
+```
+
+Sending the request
+###
+(A more detailed explanation here. Elaborate on the Response)
+
+```
+request.send("some body",
+    function(successResponse){
+        console.log("status :: " + successResponse.status);
+        console.log("headers :: " + successResponse.getHeaders());
+    }, 
+    function (failureResponse){
+        console.log("errorCode:: " + failureResponse.errorCode);
+        console.log("errorDescription :: " + failureResponse.errorDescription);
+    }
+)
+```
 
 Copyright 2015 IBM Corp.
 
