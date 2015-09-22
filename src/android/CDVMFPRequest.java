@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class CordovaMFPRequest extends CordovaPlugin {
-    private static final String TAG = "CordovaMFPRequest";
+public class CDVMFPRequest extends CordovaPlugin {
+    private static final String TAG = "CDVMFPRequest";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -39,8 +39,8 @@ public class CordovaMFPRequest extends CordovaPlugin {
         JSONObject myrequest = args.getJSONObject(0);
         try {
             final Context currentContext = this.cordova.getActivity();
-            final Request nativeRequest = unpackRequest(myrequest);
-            final String bodyText = (myrequest.has("body") && !myrequest.isNull("body")) ? myrequest.getString("body") : "";
+            final Request nativeRequest = unpackJSONRequest(myrequest);
+            final String bodyText = myrequest.optString("body", "");
 
             //TODO: Logging
             printNativeRequest(nativeRequest);
@@ -52,44 +52,51 @@ public class CordovaMFPRequest extends CordovaPlugin {
                         @Override
                         public void onSuccess(Response response) {
                             try {
-                                PluginResult result = new PluginResult(PluginResult.Status.OK, packResponse(response));
+                                PluginResult result = new PluginResult(PluginResult.Status.OK, packJavaResponseToJSON(response));
                                 //TODO: Logging
                                 Log.d(TAG, "Success = Sending plugin result to javascript");
                                 callbackContext.sendPluginResult(result);
-                            } catch (JSONException e) { e.printStackTrace(); }
+                            } catch (JSONException e) { 
+                                callbackContext.error(e.getMessage());
+                            }
                         }
                         @Override
                         public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                             try {
-                                PluginResult result = new PluginResult(PluginResult.Status.ERROR, packResponse(failResponse));
+                                PluginResult result = new PluginResult(PluginResult.Status.ERROR, packJavaResponseToJSON(failResponse));
                                 //TODO: Logging
                                 Log.d(TAG, "Failure = Sending plugin result to javascript");
                                 callbackContext.sendPluginResult(result);
-                            } catch (JSONException e) { e.printStackTrace(); }
+                            } catch (JSONException e) {
+                                callbackContext.error(e.getMessage());
+                            }
                         }
                     });
 
                 }
             });
+        } catch (MalformedURLException e) { 
+            //TODO: Handle exception similarly to BMSClient
+            //TODO: Use Logger
+            Log.d(TAG, "Malformed URL Exception"); 
+            callbackContext.error(e.getMessage());
         }
-        //TODO: Handle exception similarly to BMSClient
-        //TODO: Use Logger
-        catch (MalformedURLException e) { Log.d(TAG, "Malformed URL Exception"); e.printStackTrace(); }
     }
 
-    private Request unpackRequest(JSONObject jsRequest) throws JSONException {
+    private Request unpackJSONRequest(JSONObject jsRequest) throws JSONException {
         //Parse request from Javascript
         String url    = jsRequest.getString("url");
         String method = jsRequest.getString("method");
         int timeout   = jsRequest.getInt("timeout");
+
         Map<String, List<String>> headers = null;
         Map<String, String> queryParameters = null;
 
         if (jsRequest.has("headers") && !jsRequest.isNull("headers")) {
-            headers = fromJSONtoHashMap(jsRequest.getJSONObject("headers"));
+            headers = convertJSONtoHashMap(jsRequest.getJSONObject("headers"));
         }
         if (jsRequest.has("queryParameters") && !jsRequest.isNull("queryParameters")){
-            queryParameters = fromJSONtoHashMap(jsRequest.getJSONObject("queryParameters"));
+            queryParameters = convertJSONtoHashMap(jsRequest.getJSONObject("queryParameters"));
         }
 
         //Build request using the native Android SDK
@@ -103,13 +110,13 @@ public class CordovaMFPRequest extends CordovaPlugin {
         return nativeRequest;
     }
 
-    private JSONObject packResponse(Response response) throws JSONException {
+    private JSONObject packJavaResponseToJSON(Response response) throws JSONException {
         if(response != null) {
             JSONObject jsonResponse = new JSONObject();
 
             int status                 = (response.getStatus() != 0)          ? response.getStatus() : 0;
             String responseText        = (response.getResponseText() != null) ? response.getResponseText() : "";
-            JSONObject responseHeaders = (response.getHeaders() != null)      ? fromHashMaptoJSON(response.getHeaders()) : null;
+            JSONObject responseHeaders = (response.getHeaders() != null)      ? convertHashMaptoJSON(response.getHeaders()) : null;
             
             //TODO: Resolve errorCode & description
             int errorCode = status;
@@ -123,7 +130,7 @@ public class CordovaMFPRequest extends CordovaPlugin {
             jsonResponse.put("errorDescription", errorDescription);
 
             //TODO: Use Internal Logger class instead
-            Log.d(TAG, "packResponse -> Complete JSON");
+            Log.d(TAG, "packJavaResponseToJSON -> Complete JSON");
             Log.d(TAG, jsonResponse.toString());
 
             return jsonResponse;
@@ -136,7 +143,7 @@ public class CordovaMFPRequest extends CordovaPlugin {
      *
      *
      */
-    private static JSONObject fromHashMaptoJSON(Map<String, List<String>> originalMap) throws JSONException {
+    private static JSONObject convertHashMaptoJSON(Map<String, List<String>> originalMap) throws JSONException {
         JSONObject convertedJSON = new JSONObject();
         Iterator it = originalMap.entrySet().iterator();
         while(it.hasNext()) {
@@ -150,7 +157,7 @@ public class CordovaMFPRequest extends CordovaPlugin {
         return convertedJSON;
     }
 
-    private static Map fromJSONtoHashMap(JSONObject originalJSON) throws JSONException {
+    private static Map convertJSONtoHashMap(JSONObject originalJSON) throws JSONException {
         Map<String, Object> convertedMap = new HashMap<String, Object>();
 
         Iterator<?> keys = originalJSON.keys();

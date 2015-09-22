@@ -21,8 +21,8 @@ import java.net.MalformedURLException;
 
 import java.lang.reflect.Method;
 
-public class CordovaBMSClient extends CordovaPlugin {
-    private static final String TAG = "CordovaBMSClient";
+public class CDVBMSClient extends CordovaPlugin {
+    private static final String TAG = "CDVBMSClient";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -30,7 +30,7 @@ public class CordovaBMSClient extends CordovaPlugin {
         if("initialize".equals(action)) {
             this.initialize(args, callbackContext);
             return true;
-        } 
+        }
         // else if("registerAuthenticationListener".equals(action)) {
         //     return true;
         // } else if("unregisterAuthenticationListener".equals(action)) {
@@ -47,7 +47,7 @@ public class CordovaBMSClient extends CordovaPlugin {
                 BMSClient.getInstance().initialize(this.cordova.getActivity().getApplicationContext(), backendRoute, backendGuid);
             } catch (MalformedURLException e) {
                 //TODO: Verify exception is passed back.
-                callbackContext.error(e.printStackTrace());
+                callbackContext.error(e.getMessage());
             }
             Log.d(TAG, "initialize() => Successfully set up BMSClient");
             callbackContext.success();
