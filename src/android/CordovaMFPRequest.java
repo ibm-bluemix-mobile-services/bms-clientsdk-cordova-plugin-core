@@ -5,9 +5,6 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
-// import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
-// import com.ibm.mobilefirstplatform.clientsdk.android.security.api.*;
-// import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.Logger;
 
 import android.util.Log;
 import android.app.Activity;
@@ -27,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class CordovaMFPRequest extends CordovaPlugin {
-    private static final String TAG = "NATIVE-MFPRequest";
+    private static final String TAG = "CordovaMFPRequest";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -40,12 +37,12 @@ public class CordovaMFPRequest extends CordovaPlugin {
 
     public void send(JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject myrequest = args.getJSONObject(0);
-        Log.d(TAG, "myrequest.toString() = " + myrequest.toString());
-        final Context currentContext = this.cordova.getActivity().getApplicationContext();
-
         try {
+            final Context currentContext = this.cordova.getActivity();
             final Request nativeRequest = unpackRequest(myrequest);
             final String bodyText = (myrequest.has("body") && !myrequest.isNull("body")) ? myrequest.getString("body") : "";
+
+            //TODO: Logging
             printNativeRequest(nativeRequest);
 
             cordova.getThreadPool().execute(new Runnable() {
@@ -56,7 +53,7 @@ public class CordovaMFPRequest extends CordovaPlugin {
                         public void onSuccess(Response response) {
                             try {
                                 PluginResult result = new PluginResult(PluginResult.Status.OK, packResponse(response));
-                                result.setKeepCallback(true);
+                                //TODO: Logging
                                 Log.d(TAG, "Success = Sending plugin result to javascript");
                                 callbackContext.sendPluginResult(result);
                             } catch (JSONException e) { e.printStackTrace(); }
@@ -65,7 +62,7 @@ public class CordovaMFPRequest extends CordovaPlugin {
                         public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                             try {
                                 PluginResult result = new PluginResult(PluginResult.Status.ERROR, packResponse(failResponse));
-                                result.setKeepCallback(true);
+                                //TODO: Logging
                                 Log.d(TAG, "Failure = Sending plugin result to javascript");
                                 callbackContext.sendPluginResult(result);
                             } catch (JSONException e) { e.printStackTrace(); }
@@ -75,6 +72,8 @@ public class CordovaMFPRequest extends CordovaPlugin {
                 }
             });
         }
+        //TODO: Handle exception similarly to BMSClient
+        //TODO: Use Logger
         catch (MalformedURLException e) { Log.d(TAG, "Malformed URL Exception"); e.printStackTrace(); }
     }
 
@@ -94,8 +93,7 @@ public class CordovaMFPRequest extends CordovaPlugin {
         }
 
         //Build request using the native Android SDK
-        Request nativeRequest = null;
-        nativeRequest = new Request(url, method, timeout);
+        Request nativeRequest = new Request(url, method, timeout);
         if (headers != null){
             nativeRequest.setHeaders(headers);
         }
@@ -105,33 +103,36 @@ public class CordovaMFPRequest extends CordovaPlugin {
         return nativeRequest;
     }
 
-    private String packResponse(Response response) throws JSONException {
-        JSONObject jsonResponse = new JSONObject();
+    private JSONObject packResponse(Response response) throws JSONException {
+        if(response != null) {
+            JSONObject jsonResponse = new JSONObject();
 
-        int status                 = (response.getStatus() != 0)          ? response.getStatus() : 0;
-        String responseText        = (response.getResponseText() != null) ? response.getResponseText() : "";
-        JSONObject responseHeaders = (response.getHeaders() != null)      ? fromHashMaptoJSON(response.getHeaders()) : null;
-        
-        //TODO: Resolve errorCode & description
-        int errorCode = 0;
-        String errorDescription = "";
+            int status                 = (response.getStatus() != 0)          ? response.getStatus() : 0;
+            String responseText        = (response.getResponseText() != null) ? response.getResponseText() : "";
+            JSONObject responseHeaders = (response.getHeaders() != null)      ? fromHashMaptoJSON(response.getHeaders()) : null;
+            
+            //TODO: Resolve errorCode & description
+            int errorCode = status;
+            String errorDescription = "";
 
-        jsonResponse.put("status", status);
-        jsonResponse.put("responseText", responseText);
-        jsonResponse.put("responseHeaders", responseHeaders);
+            jsonResponse.put("status", status);
+            jsonResponse.put("responseText", responseText);
+            jsonResponse.put("responseHeaders", responseHeaders);
 
-        jsonResponse.put("errorCode", errorCode);
-        jsonResponse.put("errorDescription", errorDescription);
+            jsonResponse.put("errorCode", errorCode);
+            jsonResponse.put("errorDescription", errorDescription);
 
-        Log.d(TAG, "packResponse -> Complete JSON");
-        Log.d(TAG, jsonResponse.toString());
+            //TODO: Use Internal Logger class instead
+            Log.d(TAG, "packResponse -> Complete JSON");
+            Log.d(TAG, jsonResponse.toString());
 
-        return jsonResponse.toString();
+            return jsonResponse;
+        } else {
+            return null;
+        }
     }
 
     /**
-     *
-     *
      *
      *
      */
@@ -174,6 +175,7 @@ public class CordovaMFPRequest extends CordovaPlugin {
     }
 
     private void printNativeRequest(Request theRequest) throws MalformedURLException {
+        //TODO: Remove
         Log.d(TAG, "\n[START] printNativeRequest()");
         Log.d(TAG, "URL = \t" + theRequest.getUrl());
         Log.d(TAG, "Method = \t" + theRequest.getMethod());
