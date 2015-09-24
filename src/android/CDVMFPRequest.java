@@ -35,12 +35,16 @@ public class CDVMFPRequest extends CordovaPlugin {
         return false;
     }
 
+    /**
+     * 
+     * @param 
+     */
     public void send(JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject myrequest = args.getJSONObject(0);
         try {
             final Context currentContext = this.cordova.getActivity();
-            final Request nativeRequest = unpackJSONRequest(myrequest);
-            final String bodyText = myrequest.optString("body", "");
+            final Request nativeRequest  = unpackJSONRequest(myrequest);
+            final String bodyText        = myrequest.optString("body");
 
             //TODO: Logging
             printNativeRequest(nativeRequest);
@@ -87,7 +91,7 @@ public class CDVMFPRequest extends CordovaPlugin {
         //Parse request from Javascript
         String url    = jsRequest.getString("url");
         String method = jsRequest.getString("method");
-        int timeout   = jsRequest.getInt("timeout");
+        int timeout   = jsRequest.optInt("timeout", Request.DEFAULT_TIMEOUT);
 
         Map<String, List<String>> headers = null;
         Map<String, String> queryParameters = null;
