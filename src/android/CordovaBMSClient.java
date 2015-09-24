@@ -4,12 +4,6 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
-// import com.ibm.mobilefirstplatform.clientsdk.android.core.api.BMSClient;
-// import com.ibm.mobilefirstplatform.clientsdk.android.core.api.FailResponse;
-// import com.ibm.mobilefirstplatform.clientsdk.android.core.api.MFPRequest;
-// import com.ibm.mobilefirstplatform.clientsdk.android.core.api.ResourceRequest;
-// import com.ibm.mobilefirstplatform.clientsdk.android.core.api.Response;
-// import com.ibm.mobilefirstplatform.clientsdk.android.core.api.ResponseListener;
 import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
 import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationListener;
 import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthorizationManager;
@@ -28,7 +22,7 @@ import java.net.MalformedURLException;
 import java.lang.reflect.Method;
 
 public class CordovaBMSClient extends CordovaPlugin {
-    private static final String TAG = "NATIVE-BMSClient";
+    private static final String TAG = "CordovaBMSClient";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -36,11 +30,12 @@ public class CordovaBMSClient extends CordovaPlugin {
         if("initialize".equals(action)) {
             this.initialize(args, callbackContext);
             return true;
-        } else if("registerAuthenticationListener".equals(action)) {
-            return true;
-        } else if("unregisterAuthenticationListener".equals(action)) {
-            return true;
-        }
+        } 
+        // else if("registerAuthenticationListener".equals(action)) {
+        //     return true;
+        // } else if("unregisterAuthenticationListener".equals(action)) {
+        //     return true;
+        // }
         return false;
     }
 
@@ -51,15 +46,17 @@ public class CordovaBMSClient extends CordovaPlugin {
             try {
                 BMSClient.getInstance().initialize(this.cordova.getActivity().getApplicationContext(), backendRoute, backendGuid);
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                //TODO: Verify exception is passed back.
+                callbackContext.error(e.printStackTrace());
             }
-            Log.d(TAG, "initialize() => Successfully set up BMSClient!");
-            callbackContext.success(backendRoute);
+            Log.d(TAG, "initialize() => Successfully set up BMSClient");
+            callbackContext.success();
         } else {
             callbackContext.error("Expected non-empty string arguments.");
         }
     }
 
+    //TODO
     public void registerAuthenticationListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String realm                  = args.getString(0);
         String authenticationListener = args.getString(1);
@@ -74,6 +71,7 @@ public class CordovaBMSClient extends CordovaPlugin {
         }
     }
 
+    //TODO
     public void unregisterAuthenticationListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String authenticationListener = args.getString(0);
         if (authenticationListener != null && authenticationListener.length() > 0) {
