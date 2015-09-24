@@ -52,8 +52,8 @@ import IMFCore
         nativeRequest.setParameters(requestQueryParamsDict)
         
         // timeout
-        let timeout = requestDict.objectForKey("timeout") as? Int
-        nativeRequest.setTimeoutInterval(NSTimeInterval( timeout! ) )
+        let timeout = (requestDict.objectForKey("timeout") as! Double) / Double(1000)
+        nativeRequest.setTimeoutInterval(NSTimeInterval( timeout  ) )
         
         // process the body
         if let body = requestDict.objectForKey("body") as? String {

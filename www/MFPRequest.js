@@ -84,25 +84,21 @@ MFPRequest.prototype = function () {
      * @param arg
      */
     var send = function (arg, success, failure) {
-
+        var args = arguments;
         var buildRequest = buildJSONRequest.bind(this);
-
-        if (typeof arg === "function") {
-            // Empty argument
-            failure = success;
-            success = arg;
-
-            var cbSuccess = callbackWrap.bind(this, success);
-            var cbFailure = callbackWrap.bind(this, failure);
+        
+        if (typeof args[0] === "function") {
+            var cbSuccess = callbackWrap.bind(this, args[0]);
+            var cbFailure = callbackWrap.bind(this, args[1]);
             console.log(this.TAG + " send with empty body");
-
+            
             cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest()]);
         } else if (typeof arg === "string" || typeof arg === "object") {
-            var cbSuccess = callbackWrap.bind(this, success);
-            var cbFailure = callbackWrap.bind(this, failure);
+            var cbSuccess = callbackWrap.bind(this, args[1]);
+            var cbFailure = callbackWrap.bind(this, args[2]);
             // Input = String or JSON
             console.log(this.TAG + " send with string or object for the body");
-            cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(arg)]);
+            cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(args[0])]);
         }
     };
 
