@@ -1,11 +1,12 @@
-#import <IMFClient+initializeException.h>
+#import "IMFClient+initializeException.h"
 
 @implementation IMFClient (InitializeException)
 
--(void) tryInitializeWithBackendRoute: (NSString*)backendRoute backendGUID:(NSString*)backendGUID {
+-(NSString*) tryInitializeWithBackendRoute: (NSString*)backendRoute backendGUID:(NSString*)backendGUID {
     NSString *result;
     @try {
-        [IMFClient initializeWithBackendRoute: backendRoute backendGUID:backendGUID];
+        IMFClient *imfClient = [IMFClient sharedInstance];
+        [imfClient initializeWithBackendRoute: backendRoute backendGUID:backendGUID];
     }
     @catch (NSException *exception) {
         result = exception.name;

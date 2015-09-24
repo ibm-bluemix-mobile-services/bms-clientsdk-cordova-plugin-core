@@ -16,7 +16,7 @@ import IMFCore
         let client = IMFClient.sharedInstance()
         
         //use category to handle objective-c exception
-        client.tryInitializeWithBackendRoute(route, backendGUID: guid, iMFClient:client)
+        client.tryInitializeWithBackendRoute(route, backendGUID: guid)
         
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "")
         commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
