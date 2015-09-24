@@ -50,6 +50,8 @@
         </config-file>
 
         <header-file src="src/ios/Bridging-Header.h" />
+        <header-file src="src/ios/IMFClient+initializeException.h" />
+        <source-file src="src/ios/IMFClient+initializeException.m" />
         <source-file src="src/ios/CDVBMSClient.swift" />
         <source-file src="src/ios/CDVMFPRequest.swift" />
 
