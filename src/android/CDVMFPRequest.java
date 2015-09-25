@@ -44,47 +44,41 @@ public class CDVMFPRequest extends CordovaPlugin {
      */
     public void send(JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject myrequest = args.getJSONObject(0);
-        try {
-            final Context currentContext = this.cordova.getActivity();
-            final Request nativeRequest  = unpackJSONRequest(myrequest);
-            final String bodyText        = myrequest.optString("body");
 
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
+        final Context currentContext = this.cordova.getActivity();
+        final Request nativeRequest  = unpackJSONRequest(myrequest);
+        final String bodyText        = myrequest.optString("body", "");
 
-                    nativeRequest.send(currentContext, bodyText, new ResponseListener() {
-                        @Override
-                        public void onSuccess(Response response) {
-                            try {
-                                PluginResult result = new PluginResult(PluginResult.Status.OK, packJavaResponseToJSON(response));
-                                //TODO: Logging
-                                Log.d(TAG, "Success = Sending plugin result to javascript");
-                                callbackContext.sendPluginResult(result);
-                            } catch (JSONException e) { 
-                                callbackContext.error(e.getMessage());
-                            }
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+
+                nativeRequest.send(currentContext, bodyText, new ResponseListener() {
+                    @Override
+                    public void onSuccess(Response response) {
+                        try {
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, packJavaResponseToJSON(response));
+                            //TODO: Logging
+                            Log.d(TAG, "Success = Sending plugin result to javascript");
+                            callbackContext.sendPluginResult(result);
+                        } catch (JSONException e) { 
+                            callbackContext.error(e.getMessage());
                         }
-                        @Override
-                        public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
-                            try {
-                                PluginResult result = new PluginResult(PluginResult.Status.ERROR, packJavaResponseToJSON(failResponse));
-                                //TODO: Logging
-                                Log.d(TAG, "Failure = Sending plugin result to javascript");
-                                callbackContext.sendPluginResult(result);
-                            } catch (JSONException e) {
-                                callbackContext.error(e.getMessage());
-                            }
+                    }
+                    @Override
+                    public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
+                        try {
+                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, packJavaResponseToJSON(failResponse));
+                            //TODO: Logging
+                            Log.d(TAG, "Failure = Sending plugin result to javascript");
+                            callbackContext.sendPluginResult(result);
+                        } catch (JSONException e) {
+                            callbackContext.error(e.getMessage());
                         }
-                    });
+                    }
+                });
 
-                }
-            });
-        } catch (MalformedURLException e) { 
-            //TODO: Handle exception similarly to BMSClient
-            //TODO: Use Logger
-            Log.d(TAG, "Malformed URL Exception"); 
-            callbackContext.error(e.getMessage());
-        }
+            }
+        });
     }
 
     /**

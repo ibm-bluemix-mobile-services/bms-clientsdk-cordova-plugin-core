@@ -26,12 +26,11 @@ public class CDVBMSClient extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Log.d(TAG, "In execute()");
         if("initialize".equals(action)) {
             this.initialize(args, callbackContext);
             return true;
         }
-        // TODO: registerAuthenticationListener and unregisterAuthenticationListener
+        // TODO: Implement registerAuthenticationListener and unregisterAuthenticationListener
         // else if("registerAuthenticationListener".equals(action)) {
         //     return true;
         // } else if("unregisterAuthenticationListener".equals(action)) {
