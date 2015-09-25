@@ -5,6 +5,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
+import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 
 import android.util.Log;
 import android.app.Activity;
@@ -36,8 +37,10 @@ public class CDVMFPRequest extends CordovaPlugin {
     }
 
     /**
-     * 
-     * @param 
+     * Responsible for converting a JSON request to a Bluemix Request, sending the request, receiving a Response, and converting it to a 
+     *    JSON object that is sent back to the Javascript layer.
+     * @param args A JSONArray that contains the JSONObject with the request
+     * @param callbackContext Callback that will indicate whether the request succeeded or failed
      */
     public void send(JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject myrequest = args.getJSONObject(0);
@@ -45,9 +48,6 @@ public class CDVMFPRequest extends CordovaPlugin {
             final Context currentContext = this.cordova.getActivity();
             final Request nativeRequest  = unpackJSONRequest(myrequest);
             final String bodyText        = myrequest.optString("body");
-
-            //TODO: Logging
-            printNativeRequest(nativeRequest);
 
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -87,6 +87,11 @@ public class CDVMFPRequest extends CordovaPlugin {
         }
     }
 
+    /**
+     * Unpacks a JSONObject to create a Bluemix Request
+     * @param jsRequest JSON request that will be converted to a native Bluemix Request Object
+     * @return nativeRequest The converted Bluemix Request Object
+     */
     private Request unpackJSONRequest(JSONObject jsRequest) throws JSONException {
         //Parse request from Javascript
         String url    = jsRequest.getString("url");
@@ -114,7 +119,12 @@ public class CDVMFPRequest extends CordovaPlugin {
         return nativeRequest;
     }
 
-    private JSONObject packJavaResponseToJSON(Response response) throws JSONException {
+    /**
+     * Packs a Bluemix Response object into a JSONObject
+     * @param response The native Bluemix Response that will be converted to a JSONObject
+     * @return jsonResponse The String representation of the JSONObject
+     */
+    private String packJavaResponseToJSON(Response response) throws JSONException {
         if(response != null) {
             JSONObject jsonResponse = new JSONObject();
 
@@ -122,30 +132,30 @@ public class CDVMFPRequest extends CordovaPlugin {
             String responseText        = (response.getResponseText() != null) ? response.getResponseText() : "";
             JSONObject responseHeaders = (response.getHeaders() != null)      ? convertHashMaptoJSON(response.getHeaders()) : null;
             
-            //TODO: Resolve errorCode & description
-            int errorCode = status;
-            String errorDescription = "";
+            if( response.getStatus() == 0 || response.getStatus() >= 400) {
+                jsonResponse.put("errorCode", status);
+                jsonResponse.put("errorDescription", responseText);
+            } else {
+                jsonResponse.put("status", status);
+                jsonResponse.put("responseText", responseText);    
+            }
 
-            jsonResponse.put("status", status);
-            jsonResponse.put("responseText", responseText);
             jsonResponse.put("responseHeaders", responseHeaders);
-
-            jsonResponse.put("errorCode", errorCode);
-            jsonResponse.put("errorDescription", errorDescription);
 
             //TODO: Use Internal Logger class instead
             Log.d(TAG, "packJavaResponseToJSON -> Complete JSON");
             Log.d(TAG, jsonResponse.toString());
 
-            return jsonResponse;
+            return jsonResponse.toString();
         } else {
             return null;
         }
     }
 
     /**
-     *
-     *
+     * Converts a HashMap<String, List<String>> to a JSONObject
+     * @param originalMap A hashmap that will be converted to a JSONObject
+     * @return convertedJSON The converted JSONObject
      */
     private static JSONObject convertHashMaptoJSON(Map<String, List<String>> originalMap) throws JSONException {
         JSONObject convertedJSON = new JSONObject();
@@ -161,6 +171,11 @@ public class CDVMFPRequest extends CordovaPlugin {
         return convertedJSON;
     }
 
+    /**
+     * Converts a JSONObject to a HashMap
+     * @param originalJSON A JSONObject that will be converted to a Hashmap
+     * @return convertedMap The converted HashMap
+     */
     private static Map convertJSONtoHashMap(JSONObject originalJSON) throws JSONException {
         Map<String, Object> convertedMap = new HashMap<String, Object>();
 
@@ -183,37 +198,6 @@ public class CDVMFPRequest extends CordovaPlugin {
             }
         }
         return convertedMap;
-    }
-
-    private void printNativeRequest(Request theRequest) throws MalformedURLException {
-        //TODO: Remove
-        Log.d(TAG, "\n[START] printNativeRequest()");
-        Log.d(TAG, "URL = \t" + theRequest.getUrl());
-        Log.d(TAG, "Method = \t" + theRequest.getMethod());
-        Log.d(TAG, "Timeout = \t" + theRequest.getTimeout());
-
-        Map<String, List<String>> native_headers = theRequest.getAllHeaders();
-        Map<String, String> native_params        = theRequest.getQueryParameters();
-
-        Log.d(TAG, "-----Headers-----");
-        if (native_headers != null) {
-            for (String key: native_headers.keySet()) {
-                        List<String> value = native_headers.get(key);
-
-                        Log.d(TAG, "Header Name = " + key);
-                        for(String headerValue : value) {
-                            Log.d(TAG, "\tvalue = " + headerValue);
-                        }
-            }
-        }
-        Log.d(TAG, "-----Queries-----");
-        if(native_params != null) {
-            for (String key: native_params.keySet()) {
-                        String value = native_params.get(key).toString();
-                        Log.d(TAG, key + " : " + value);
-            }
-        }
-        Log.d(TAG, "[END] printNativeRequest()\n\n");
     }
 
 }

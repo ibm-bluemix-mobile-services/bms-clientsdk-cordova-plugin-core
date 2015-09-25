@@ -31,6 +31,7 @@ public class CDVBMSClient extends CordovaPlugin {
             this.initialize(args, callbackContext);
             return true;
         }
+        // TODO: registerAuthenticationListener and unregisterAuthenticationListener
         // else if("registerAuthenticationListener".equals(action)) {
         //     return true;
         // } else if("unregisterAuthenticationListener".equals(action)) {
@@ -39,17 +40,22 @@ public class CDVBMSClient extends CordovaPlugin {
         return false;
     }
 
+    /**
+     * Use the native SDK API to set the base URL for the authorization server.
+     * @param args JSONArray that contains the backendRoute and backendGUID
+     * @param callbackContext 
+     */
     public void initialize(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String backendRoute = args.getString(0);
-        String backendGuid = args.getString(1);
-        if (backendRoute != null && backendRoute.length() > 0 && backendGuid != null && backendGuid.length() > 0) {
+        String backendGUID = args.getString(1);
+        if (backendRoute != null && backendRoute.length() > 0 && backendGUID != null && backendGUID.length() > 0) {
             try {
-                BMSClient.getInstance().initialize(this.cordova.getActivity().getApplicationContext(), backendRoute, backendGuid);
+                BMSClient.getInstance().initialize(this.cordova.getActivity().getApplicationContext(), backendRoute, backendGUID);
             } catch (MalformedURLException e) {
                 //TODO: Verify exception is passed back.
                 callbackContext.error(e.getMessage());
             }
-            Log.d(TAG, "initialize() => Successfully set up BMSClient");
+            Log.d(TAG, "initialize() : Successfully set up BMSClient");
             callbackContext.success();
         } else {
             callbackContext.error("Expected non-empty string arguments.");
