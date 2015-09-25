@@ -20,9 +20,8 @@ MFPRequest.OPTIONS = "OPTIONS";
 MFPRequest.prototype = function () {
 
     /**
-     *    Destructively modify an existing header name
-     * @param name
-     * @param value
+     * Set the headers for the request object
+     * @param jsonObj
      */
     var setHeaders = function (jsonObj) {
         //performant Deep Clone the json object
@@ -30,8 +29,8 @@ MFPRequest.prototype = function () {
     };
 
     /**
-     * Return a list of the value or all the values associated with the given header name
-     * @param name
+     * Return the headers object for the request object
+     * @param
      * @returns {null, string}
      */
     var getHeaders = function () {
@@ -39,7 +38,7 @@ MFPRequest.prototype = function () {
     };
 
     /**
-     *
+     * Return the url for this request
      * @returns {string}
      */
     var getUrl = function () {
@@ -47,7 +46,7 @@ MFPRequest.prototype = function () {
     };
 
     /**
-     *
+     * Return the HTTP method for this request
      * @returns {string}
      */
     var getMethod = function () {
@@ -55,7 +54,7 @@ MFPRequest.prototype = function () {
     };
 
     /**
-     *
+     * Return the timeout (in ms) for this request
      * @returns {number}
      */
     var getTimeout = function () {
@@ -63,7 +62,7 @@ MFPRequest.prototype = function () {
     };
 
     /**
-     *
+     * Return the queryParameters object for this request
      * @returns JSON
      */
     var getQueryParameters = function () {
@@ -71,8 +70,8 @@ MFPRequest.prototype = function () {
     };
 
     /**
-     *
-     * @param json_object
+     * Set the Query Parameters for the request object
+     * @param jsonObj
      */
     var setQueryParameters = function (jsonObj) {
         //performant Deep Clone the json object
@@ -80,25 +79,29 @@ MFPRequest.prototype = function () {
     };
 
     /**
-     *
-     * @param arg
+     * Send this resource request asynchronously.
+     * @param body (Optional) The body: Either a string or an object
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
      */
-    var send = function (arg, success, failure) {
-        var args = arguments;
+    var send = function () {
         var buildRequest = buildJSONRequest.bind(this);
-        
-        if (typeof args[0] === "function") {
-            var cbSuccess = callbackWrap.bind(this, args[0]);
-            var cbFailure = callbackWrap.bind(this, args[1]);
+
+        if(arguments.length == 2) {
+            // Empty Body
             console.log(this.TAG + " send with empty body");
-            
+            var cbSuccess = callbackWrap.bind(this, arguments[0]);
+            var cbFailure = callbackWrap.bind(this, arguments[1]);
+
             cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest()]);
-        } else if (typeof arg === "string" || typeof arg === "object") {
-            var cbSuccess = callbackWrap.bind(this, args[1]);
-            var cbFailure = callbackWrap.bind(this, args[2]);
-            // Input = String or JSON
-            console.log(this.TAG + " send with string or object for the body");
-            cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(args[0])]);
+        } else if(arguments.length >= 3) {
+            // Non-empty Body 
+            if(typeof arguments[0] == "string" || typeof arguments[0] == "object") {
+                console.log(this.TAG + " send with string or object for the body");
+                var cbSuccess = callbackWrap.bind(this, arguments[1]);
+                var cbFailure = callbackWrap.bind(this, arguments[2]);
+                cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(arguments[0])]);
+            }
         }
     };
 
