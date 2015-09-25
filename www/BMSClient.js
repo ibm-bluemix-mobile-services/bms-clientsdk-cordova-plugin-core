@@ -17,9 +17,9 @@ var BMSClient = function() {
     this._backendGuid = "";
     this._challengeHandlers = {};
 
-    var success = function(msg) { console.log("BMSClient success: " + msg) };
+    var success = function() { console.log("Success: BMSClient initialization succeeded"); };
+    var failure = function() { console.log("Error: BMSClient could not initialize"); };
 
-    var failure = function(msg) { console.log("BMSClient Error: " + msg) };
     /**
      * Sets the base URL for the authorization server.
      * <p>
@@ -31,7 +31,7 @@ var BMSClient = function() {
     this.initialize = function(backendRoute, backendGuid) {
         this._backendRoute = backendRoute;
         this._backendGuid = backendGuid;
-        cordova.exec(success, failure, "MFPClient", "initialize", [backendRoute, backendGuid]);
+        cordova.exec(success, failure, "BMSClient", "initialize", [backendRoute, backendGuid]);
     };
 
     /**
@@ -40,7 +40,7 @@ var BMSClient = function() {
      * @param {function} authenticationListener
      */
     this.registerAuthenticationListener = function(realm, authenticationListener) {
-        cordova.exec(success, failure, "MFPClient", "registerAuthenticationListener", [realm, authenticationListener]);
+        cordova.exec(success, failure, "BMSClient", "registerAuthenticationListener", [realm, authenticationListener]);
     };
 
     /**
@@ -48,23 +48,25 @@ var BMSClient = function() {
      * @param {function} authenticationListener
      */
     this.unregisterAuthenticationListener = function(authenticationListener) {
-        cordova.exec(success, failure, "MFPClient", "unregisterAuthenticationListener", [authenticationListener]);
+        cordova.exec(success, failure, "BMSClient", "unregisterAuthenticationListener", [authenticationListener]);
     };
 
     /**
      *
-     * @param callback
+     * @return backendRoute
      */
     this.getBluemixAppRoute = function(callback) {
-        cordova.exec(callback, callback, "MFPClient", "backendRoute", []);
+        //TODO : Completely implement once registerAuthenticationListener and unregisterAuthenticationListener are complete
+        return this._backendRoute;
     };
 
     /**
-     *
-     * @param callback
+     * 
+     * @param backendGUID
      */
     this.getBluemixAppGUID = function(callback) {
-        cordova.exec(callback, callback, "MFPClient", "backendGUID", []);
+        //TODO : Completely implement once registerAuthenticationListener and unregisterAuthenticationListener are complete
+        return this._backendGuid;
     };
 };
 
