@@ -24,7 +24,7 @@ var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
 (More Explanation of code snippet below this line)
 ```
 var headers = {
-    header1: "val1",
+    header1: ["val1"]
     header2: ["val2", "val3"]
 }
 request.setHeaders(headers)
@@ -39,21 +39,30 @@ var queryParams = {
 request.setQueryParameters(queryParams)
 ```
 
-Sending the request
-###
+###Sending the request
 (A more detailed explanation here. Elaborate on the Response)
 
 ```
 request.send("some body",
     function(successResponse){
         console.log("status :: " + successResponse.status);
-        console.log("headers :: " + successResponse.getHeaders());
+        console.log("headers :: " + successResponse.headers);
     }, 
     function (failureResponse){
         console.log("errorCode:: " + failureResponse.errorCode);
         console.log("errorDescription :: " + failureResponse.errorDescription);
     }
 )
+```
+
+The successResponse or failureResponse are JSON objects that will be passed to your callbacks with the following fields:
+
+```
+response.status  =>  Integer
+response.responseText  =>  Undefined or String
+response.headers  =>  Object
+response.errorCode  =>  Integer 
+response.errorDescription  =>  Undefined or String
 ```
 
 Copyright 2015 IBM Corp.
