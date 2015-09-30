@@ -11,6 +11,14 @@
         <clobbers target="MFPRequest"/>
     </js-module>
 
+    <js-module name="MFPLogger" src="www/MFPLogger.js">
+        <clobbers target="MFPLogger"/>
+    </js-module>
+
+    <js-module name="MFPAnalytics" src="www/MFPAnalytics.js">
+        <clobbers target="MFPAnalytics"/>
+    </js-module>
+
     <platform name="android">
         <!-- Include Android BMS SDK -->
         <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
