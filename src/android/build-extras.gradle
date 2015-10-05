@@ -1,12 +1,7 @@
-repositories {
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
-}
 dependencies {
 	compile group: 'com.ibm.mobilefirstplatform.clientsdk.android',
         name: 'core',
-        version: '1.0.0-SNAPSHOT',
+        version: '1.0.0',
         ext: 'aar',
         transitive: true
 }
