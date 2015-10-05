@@ -236,8 +236,18 @@ exports.defineAutoTests = function () {
 		});
 
 		describe('MFPLogger behavior', function() {
-			xit('TODO: unit tests', function() {
+			it('should create a new instance for a new name', function() {
+				var log1 = MFPLogger.getInstance("logger1");
+				var log2 = MFPLogger.getInstance("logger2");
 
+				expect(log1).not.toBe(log2);
+			});
+
+			it('should retrieve the same internal instance if using the same name ', function() {
+				var log1 = MFPLogger.getInstance("logger1");
+				var log2 = MFPLogger.getInstance("logger1");
+
+				expect(log1).toBe(log2);
 			});
 		});
 

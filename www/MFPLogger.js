@@ -17,29 +17,20 @@ var Logger = function (name){
 };
 
 Logger.prototype = function(){
-    var func1 = function(){console.log("Hello from func1 " + this.name)};
-    var func2 = function(){console.log("Hello from func2 " + this.name)};
-
     var debug = function () {}
-
     var info = function () {}
-
     var error = function () {}
-
     var fatal = function () {}
-
     var warn = function () {}
+    var getName = function () {}
 
-    // retun the public interface
     return {
-        func1 : func1,
-        func2 : func2,
-
         debug : debug,
         info : info,
         error : error,
         fatal : fatal,
-        warn : warn
+        warn : warn,
+        getName : getName
     };
 }();
 
@@ -71,11 +62,11 @@ var MFPLogger = (function () {
         isUncaughtExceptionDetected : function () {},
         send : function () {}
     };
-});
+})();
 MFPLogger.FATAL = "FATAL";
 MFPLogger.ERROR = "ERROR";
 MFPLogger.WARN = "WARN";
 MFPLogger.INFO = "INFO";
 MFPLogger.DEBUG = "DEBUG";
 
-module.exports = new MFPLogger();
+module.exports = MFPLogger;
