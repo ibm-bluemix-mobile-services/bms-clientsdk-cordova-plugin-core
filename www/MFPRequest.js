@@ -1,5 +1,6 @@
-var MFPRequest = function (url, method, timeout) {
-    var exec = require("cordova/exec");
+var exec = require("cordova/exec");
+
+var MFPRequest = function (url, method, timeout) {    
     this.TAG = "javascript-MFPRequest ";
 
     this._headers = {};
