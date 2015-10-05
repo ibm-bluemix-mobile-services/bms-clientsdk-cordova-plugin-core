@@ -93,6 +93,18 @@ exports.defineAutoTests = function () {
 
 		});
 
+		/*
+			TODO: create unit tests for:
+				constructor
+				setheaders
+				getheaders
+				geturl
+				getmethod
+				gettimeout
+				setqueryparams
+				getqueryparams
+		*/
+
 		describe('MFPRequest behavior', function() {
 			var testRequest;
 			var DEFAULT_TIMEOUT = 30000;
@@ -160,6 +172,110 @@ exports.defineAutoTests = function () {
 
 			xit('should correctly send a request (with headers and query parameters) with send', function() {});
 
+		});
+
+		describe('MFPLogger class method definitions', function() {
+			it('should exist', function() {
+				expect(MFPLogger).toBeDefined();
+			});
+
+			it('should have getInstance() and is a function', function() {
+				expect(typeof MFPLogger.getInstance).toBeDefined();
+				expect(typeof MFPLogger.getInstance == 'function').toBe(true);
+			});
+
+			it('should have getCapture() and is a function', function() {
+				expect(typeof MFPLogger.getCapture).toBeDefined();
+				expect(typeof MFPLogger.getCapture == 'function').toBe(true);
+			});
+
+			it('should have setCapture() and is a function', function() {
+				expect(typeof MFPLogger.setCapture).toBeDefined();
+				expect(typeof MFPLogger.setCapture == 'function').toBe(true);
+			});
+
+			it('should have getFilters() and is a function', function() {
+				expect(typeof MFPLogger.getFilters).toBeDefined();
+				expect(typeof MFPLogger.getFilters == 'function').toBe(true);
+			});
+
+			it('should have setFilters() and is a function', function() {
+				expect(typeof MFPLogger.setFilters).toBeDefined();
+				expect(typeof MFPLogger.setFilters == 'function').toBe(true);
+			});
+
+			it('should have getMaxStoreSize() and is a function', function() {
+				expect(typeof MFPLogger.getMaxStoreSize).toBeDefined();
+				expect(typeof MFPLogger.getMaxStoreSize == 'function').toBe(true);
+			});
+
+			it('should have setMaxStoreSize() and is a function', function() {
+				expect(typeof MFPLogger.setMaxStoreSize).toBeDefined();
+				expect(typeof MFPLogger.setMaxStoreSize == 'function').toBe(true);
+			});
+
+			it('should have getLevel() and is a function', function() {
+				expect(typeof MFPLogger.getLevel).toBeDefined();
+				expect(typeof MFPLogger.getLevel == 'function').toBe(true);
+			});
+
+			it('should have setLevel() and is a function', function() {
+				expect(typeof MFPLogger.setLevel).toBeDefined();
+				expect(typeof MFPLogger.setLevel == 'function').toBe(true);
+			});
+
+			it('should have isUncaughtExceptionDetected() and is a function', function() {
+				expect(typeof MFPLogger.isUncaughtExceptionDetected).toBeDefined();
+				expect(typeof MFPLogger.isUncaughtExceptionDetected == 'function').toBe(true);
+			});
+
+			it('should have send() and is a function', function() {
+				expect(typeof MFPLogger.send).toBeDefined();
+				expect(typeof MFPLogger.send == 'function').toBe(true);
+			});
+		});
+
+		describe('MFPLogger behavior', function() {
+			xit('TODO: unit tests', function() {
+
+			});
+		});
+
+		describe('MFPAnalytics class method definitions', function() {
+			it('should exist', function() {
+				expect(MFPAnalytics).toBeDefined();
+			});
+
+			it('should have enable() and is a function', function() {
+				expect(typeof MFPAnalytics.enable).toBeDefined();
+				expect(typeof MFPAnalytics.enable == 'function').toBe(true);
+			});
+
+			it('should have disable() and is a function', function() {
+				expect(typeof MFPAnalytics.disable).toBeDefined();
+				expect(typeof MFPAnalytics.disable == 'function').toBe(true);
+			});
+
+			it('should have isEnabled() and is a function', function() {
+				expect(typeof MFPAnalytics.isEnabled).toBeDefined();
+				expect(typeof MFPAnalytics.isEnabled == 'function').toBe(true);
+			});
+
+			it('should have send() and is a function', function() {
+				expect(typeof MFPAnalytics.send).toBeDefined();
+				expect(typeof MFPAnalytics.send == 'function').toBe(true);
+			});
+
+			// (TODO: For future release)
+			xit('should have logEvent() and is a function', function() {
+				expect(typeof MFPAnalytics.logEvent).toBeDefined();
+				expect(typeof MFPAnalytics.logEvent == 'function').toBe(true);
+			});
+		});
+
+		describe('MFPAnalytics behavior', function() {
+			xit('TODO: unit tests', function() {
+			});
 		});
 
 	});
