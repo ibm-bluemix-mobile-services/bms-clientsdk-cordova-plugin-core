@@ -41,7 +41,13 @@ exports.defineAutoTests = function () {
 				//BMSClient
 			});
 		});
-
+		
+		/*
+		Do unit-tests for:
+			send method behavior
+			onsuccess callback
+			onfailure callback
+		*/
 		describe('MFPRequest method definitions', function() {
 			var testRequest;
 
