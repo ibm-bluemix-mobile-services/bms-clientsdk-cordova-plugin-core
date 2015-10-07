@@ -15,6 +15,9 @@ package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class CDVMFPAnalytics extends CordovaPlugin {
     private static final String TAG = "CDVMFPAnalytics";
 
