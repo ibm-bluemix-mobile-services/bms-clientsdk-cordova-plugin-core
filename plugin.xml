@@ -69,6 +69,13 @@
                 <param name="ios-package" value="CDVMFPRequest"/>
             </feature>
 
+            <feature name="MFPLogger">
+                <param name="ios-package" value="CDVMFPLogger"/>
+            </feature>
+
+            <feature name="MFPAnalytics">
+                <param name="ios-package" value="CDVMFPAnalytics"/>
+            </feature>
         </config-file>
 
         <header-file src="src/ios/Bridging-Header.h" />
@@ -76,7 +83,8 @@
         <source-file src="src/ios/IMFClient+initializeException.m" />
         <source-file src="src/ios/CDVBMSClient.swift" />
         <source-file src="src/ios/CDVMFPRequest.swift" />
-
+        <source-file src="src/ios/CDVMFPLogger.swift" />
+        <source-file src="src/ios/CDVMFPAnalytics.swift" />
     </platform>
 
 </plugin>
