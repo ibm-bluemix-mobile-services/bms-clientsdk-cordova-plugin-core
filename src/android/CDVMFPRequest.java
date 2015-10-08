@@ -27,6 +27,88 @@ import java.util.Iterator;
 public class CDVMFPRequest extends CordovaPlugin {
     private static final String TAG = "CDVMFPRequest";
 
+    /* START OF THREAD TEST */
+
+    private interface ExecOp {
+        void run(JSONArray args) throws Exception;
+    }
+
+    private void threadHelper(final ExecOp f, final JSONArray args, final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                try {
+                    f.run(args);
+                    //test
+                }
+                catch(Exception e) {
+                    if (e instanceof JSONException) {
+                        callbackContext.error(e.getMessage());
+                    }
+                    else {
+                        e.printStackTrace();
+                        callbackContext.error(e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        if (action.equals("send")) {
+
+            JSONObject myRequest = args.getJSONObject(0);
+            final Context currentContext = this.cordova.getActivity();
+            final Request nativeRequest  = unpackJSONRequest(myRequest);
+            final String bodyText        = myRequest.optString("body", "");
+
+            threadHelper(new ExecOp() {
+                public void run(JSONArray args) {
+                    nativeRequest.send(currentContext, bodyText, new ResponseListener() {
+                        @Override
+                        public void onSuccess(Response response) {
+                            try {
+                                PluginResult result = new PluginResult(PluginResult.Status.OK, packJavaResponseToJSON(response));
+                                //TODO: Logging
+                                Log.d(TAG, "Success = Sending plugin result to javascript");
+                                callbackContext.sendPluginResult(result);
+                            } catch (JSONException e) {
+                                callbackContext.error(e.getMessage());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
+                            try {
+                                PluginResult result = new PluginResult(PluginResult.Status.ERROR, packJavaResponseToJSON(failResponse));
+                                //TODO: Logging
+                                Log.d(TAG, "Failure = Sending plugin result to javascript");
+                                callbackContext.sendPluginResult(result);
+                            } catch (JSONException e) {
+                                callbackContext.error(e.getMessage());
+                            }
+                        }
+                    });
+                }
+            }, args, callbackContext);
+        }
+        if (action.equals("log")) {
+            threadHelper(new ExecOp() {
+                public void run(JSONArray args) {
+
+                }
+            })
+        }
+        else {
+            return false;
+        }
+        return true;
+    }
+
+    /* END OF THREAD TEST */
+
+    /* START OF ORIGINAL CODE */
+
+    /*
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if("send".equals(action)) {
@@ -37,11 +119,12 @@ public class CDVMFPRequest extends CordovaPlugin {
     }
 
     /**
-     * Responsible for converting a JSON request to a Bluemix Request, sending the request, receiving a Response, and converting it to a 
+     * Responsible for converting a JSON request to a Bluemix Request, sending the request, receiving a Response, and converting it to a
      *    JSON object that is sent back to the Javascript layer.
      * @param args A JSONArray that contains the JSONObject with the request
      * @param callbackContext Callback that will indicate whether the request succeeded or failed
      */
+    /*
     public void send(JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject myrequest = args.getJSONObject(0);
 
@@ -60,7 +143,7 @@ public class CDVMFPRequest extends CordovaPlugin {
                             //TODO: Logging
                             Log.d(TAG, "Success = Sending plugin result to javascript");
                             callbackContext.sendPluginResult(result);
-                        } catch (JSONException e) { 
+                        } catch (JSONException e) {
                             callbackContext.error(e.getMessage());
                         }
                     }
@@ -80,6 +163,7 @@ public class CDVMFPRequest extends CordovaPlugin {
             }
         });
     }
+    */
 
     /**
      * Unpacks a JSONObject to create a Bluemix Request
@@ -125,13 +209,13 @@ public class CDVMFPRequest extends CordovaPlugin {
             int status                 = (response.getStatus() != 0)          ? response.getStatus() : 0;
             String responseText        = (response.getResponseText() != null) ? response.getResponseText() : "";
             JSONObject responseHeaders = (response.getHeaders() != null)      ? convertHashMaptoJSON(response.getHeaders()) : null;
-            
+
             if( response.getStatus() == 0 || response.getStatus() >= 400) {
                 jsonResponse.put("errorCode", status);
                 jsonResponse.put("errorDescription", responseText);
             } else {
                 jsonResponse.put("status", status);
-                jsonResponse.put("responseText", responseText);    
+                jsonResponse.put("responseText", responseText);
             }
 
             jsonResponse.put("responseHeaders", responseHeaders);
