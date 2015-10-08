@@ -91,7 +91,7 @@ public class CDVMFPRequest extends CordovaPlugin {
                 }
             }, args, callbackContext);
         }
-        if (action.equals("log")) {
+        if (action.equals("debug")) {
             threadHelper(new ExecOp() {
                 public void run(JSONArray args) {
 
