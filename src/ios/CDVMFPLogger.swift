@@ -48,7 +48,7 @@ import IMFCore
     }
     
     func setLevel(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger19 seLevel called")
+        print("CDVMFPLogger09 seLevel called")
     }
     
     func isUncaughtExceptionDetected(command: CDVInvokedUrlCommand){
