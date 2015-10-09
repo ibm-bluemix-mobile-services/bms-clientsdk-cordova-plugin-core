@@ -74,26 +74,26 @@ var MFPLogger = (function () {
         getCapture : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getCapture", []);
         },
-        setCapture : function (capture) {
-            cordova.exec(success , failure, "MFPLogger", "setCapture", []);
+        setCapture : function (enabled) {
+            cordova.exec(success , failure, "MFPLogger", "setCapture", [enabled]);
         },
         getFilters : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getFilters", []);
         },
-        setFilters : function (filter) {
-            cordova.exec(success , failure, "MFPLogger", "setFilters", []);
+        setFilters : function (filters) {
+            cordova.exec(success , failure, "MFPLogger", "setFilters", [filters]);
         },
         getMaxStoreSize : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getMaxStoreSize", []);
         },
-        setMaxStoreSize : function () {
-            cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", []);
+        setMaxStoreSize : function (intSize) {
+            cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", [intSize]);
         },
         getLevel : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getLevel", []);
         },
-        setLevel : function (level) {
-            cordova.exec(success , failure, "MFPLogger", "setLevel", []);
+        setLevel : function (logLevel) {
+            cordova.exec(success , failure, "MFPLogger", "setLevel", [logLevel]);
         },
         isUncaughtExceptionDetected : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "isUncaughtExceptionDetected", []);
