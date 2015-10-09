@@ -16,6 +16,8 @@ import IMFCore
 @objc(CDVMFPLogger) class CDVMFPLogger : CDVPlugin {
     
     func getInstance(command: CDVInvokedUrlCommand){
+        // parms: [name]
+
         print("CDVMFPLogger01 getInstance called")
     }
     
@@ -60,22 +62,31 @@ import IMFCore
     }
     
     func debug(command: CDVInvokedUrlCommand) {
+        // parms: [name, message]
+
         print("CDVMFPLogger12 debug called")
     }
     
     func info(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
+
         print("CDVMFPLogger13 info called")
     }
     
     func warn(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
+
         print("CDVMFPLogger14 warn called")
     }
     
     func error(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
+
         print("CDVMFPLogger15 command called")
     }
     
     func fatal(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
         print("CDVMFPLogger16 fatal called")
     }
     
