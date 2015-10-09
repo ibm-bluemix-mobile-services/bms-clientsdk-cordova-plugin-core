@@ -29,7 +29,14 @@ import IMFCore
     }
     
     func setCapture(command: CDVInvokedUrlCommand){
+        // parms: enabled
         print("CDVMFPLogger03 setCapture called")
+        
+        self.commandDelegate!.runInBackground({
+            let enabled = command.arguments[0] as! Bool
+            
+            IMFLogger.setCapture(enabled)
+        })
         
     }
     
