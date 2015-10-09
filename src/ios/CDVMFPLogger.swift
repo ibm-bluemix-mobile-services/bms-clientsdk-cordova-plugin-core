@@ -17,8 +17,14 @@ import IMFCore
     
     func getInstance(command: CDVInvokedUrlCommand){
         // parms: [name]
-
-        print("CDVMFPLogger01 getInstance called")
+        let name = command.arguments[0] as! String
+        
+        self.commandDelegate!.runInBackground({
+            print("CDVMFPLogger01 getInstance called")
+            let logger = IMFLogger(forName: name)
+            let loggerName = logger.name()
+            print ("!!!!!!!!!! getInstance: " + loggerName)
+        })
     }
     
     func getCapture(command: CDVInvokedUrlCommand){
@@ -64,30 +70,74 @@ import IMFCore
     func debug(command: CDVInvokedUrlCommand) {
         // parms: [name, message]
 
-        print("CDVMFPLogger12 debug called")
+        self.commandDelegate!.runInBackground({
+            print("CDVMFPLogger12 debug called")
+            let name = command.arguments[0] as! String
+            let message = command.arguments[1] as! String
+
+            let logger = IMFLogger(forName: name)
+            logger.logWithLevel(.Debug, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
+
+            print ("!!!!!!!!!! fatal: " + logger.name())
+        })
     }
     
     func info(command: CDVInvokedUrlCommand){
         // parms: [name, message]
 
-        print("CDVMFPLogger13 info called")
+        self.commandDelegate!.runInBackground({
+            print("CDVMFPLogger13 info called")
+
+            let name = command.arguments[0] as! String
+            let message = command.arguments[1] as! String
+
+            let logger = IMFLogger(forName: name)
+            logger.logWithLevel(.Info, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
+
+            print ("!!!!!!!!!! fatal: " + logger.name())
+        })
     }
     
     func warn(command: CDVInvokedUrlCommand){
         // parms: [name, message]
 
-        print("CDVMFPLogger14 warn called")
+        self.commandDelegate!.runInBackground({
+            print("CDVMFPLogger14 warn called")
+            let name = command.arguments[0] as! String
+            let message = command.arguments[1] as! String
+
+            let logger = IMFLogger(forName: name)
+            logger.logWithLevel(.Warn, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
+
+            print ("!!!!!!!!!! fatal: " + logger.name())
+        })
     }
     
     func error(command: CDVInvokedUrlCommand){
         // parms: [name, message]
+        self.commandDelegate!.runInBackground({
+            print("CDVMFPLogger15 command called")
+            let name = command.arguments[0] as! String
+            let message = command.arguments[1] as! String
 
-        print("CDVMFPLogger15 command called")
+            let logger = IMFLogger(forName: name)
+            logger.logWithLevel(.Error, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
+
+            print ("!!!!!!!!!! fatal: " + logger.name())
+        })
     }
     
     func fatal(command: CDVInvokedUrlCommand){
         // parms: [name, message]
-        print("CDVMFPLogger16 fatal called")
+            self.commandDelegate!.runInBackground({
+            print("CDVMFPLogger16 fatal called")
+            let name = command.arguments[0] as! String
+            let message = command.arguments[1] as! String
+
+            let logger = IMFLogger(forName: name)
+            logger.logWithLevel(.Fatal, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
+
+            print ("!!!!!!!!!! fatal: " + logger.name())
+        })
     }
-    
 }
