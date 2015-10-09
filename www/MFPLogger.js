@@ -102,11 +102,11 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "send", []);
         }
     };
-});
-MFPLogger.FATAL = "FATAL";
-MFPLogger.ERROR = "ERROR";
-MFPLogger.WARN = "WARN";
-MFPLogger.INFO = "INFO";
-MFPLogger.DEBUG = "DEBUG";
+})();
+MFPLogger.FATAL = 50;
+MFPLogger.ERROR = 100;
+MFPLogger.WARN = 200;
+MFPLogger.INFO = 300;
+MFPLogger.DEBUG = 400;
 
-module.exports = new MFPLogger();
+module.exports = MFPLogger;
