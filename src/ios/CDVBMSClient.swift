@@ -49,21 +49,24 @@ import IMFCore
     
     func backendRoute(command: CDVInvokedUrlCommand) {
         
-        let client = IMFClient.sharedInstance()
-        let backendRoute: String = client.backendRoute
-        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendRoute)
-        // call success callback
-        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-        
+        self.commandDelegate!.runInBackground({
+            let client = IMFClient.sharedInstance()
+            let backendRoute: String = client.backendRoute
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendRoute)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
     }
     
     func backendGUID(command: CDVInvokedUrlCommand) {
         
-        let client = IMFClient.sharedInstance()
-        let backendGUID: String = client.backendGUID
-        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendGUID)
-        // call success callback
-        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        self.commandDelegate!.runInBackground({
+            let client = IMFClient.sharedInstance()
+            let backendGUID: String = client.backendGUID
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendGUID)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
         
     }
 }
