@@ -25,14 +25,20 @@ $ cordova plugin list
     - Download IFMCore.framework from [HERE](https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework) and copy it to the Frameworks folder
 
 - Configuring your project in Xcode:
+
     - Click on your app name in the project directory and navigate to Build Phases => Link Library with Libraries
+    - 
     - Make sure the IMFCore.framework was added
+    - 
     - Navigate to Build Settings => Search Paths => Framework Search Paths and add the following:
         - $(inherited)
         - $(PROJECT_DIR)/Frameworks
+    
     - Navigate to Build settings => search for “bridging” => Objective-C Bridging Header and add the following:
         - [your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h
+    
     - Add the following line to Runpath Search Paths of your target (your_target -> Build Settings -> Linking -> Runpath Search Paths)
+    
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - @executable_path/Frameworks
 
