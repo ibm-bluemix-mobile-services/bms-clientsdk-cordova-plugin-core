@@ -37,8 +37,6 @@ $ cordova plugin list
     - Navigate to Build settings => search for “bridging” => Objective-C Bridging Header and add the following:
         - [your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h
 
-    - Add the following line to Runpath Search Paths of your target (your_target -> Build Settings -> Linking -> Runpath Search Paths)
-
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - @executable_path/Frameworks
 
