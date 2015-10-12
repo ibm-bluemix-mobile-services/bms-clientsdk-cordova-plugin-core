@@ -43,10 +43,12 @@ $ cordova plugin list
 ## Examples
 
 ### To initialize:
-(Explain line of code below this line)
+The following code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
 ```
 BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
 ```
+The first parameter specifies the base URL for the authorization server
+The second parameter specifies the GUID of the application
 
 ### Creating a Request. 
 To create a new MFPRequest instance... (Explain line of code below this line)
