@@ -15,6 +15,7 @@ $ cordova plugin list
 ```
 ## Configuring Your App for iOS
 - Make sure your Xcode version is at least 7.0
+
 - Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
 - Make sure to change iOS deployment target to at least 7.0. This is required for using Swift
 - Including the IMFCore framework:
@@ -31,6 +32,7 @@ $ cordova plugin list
     - Add the following line to Runpath Search Paths of your target (your_target -> Build Settings -> Linking -> Runpath Search Paths)
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - @executable_path/Frameworks
+
 ## Examples
 
 ### To initialize:
