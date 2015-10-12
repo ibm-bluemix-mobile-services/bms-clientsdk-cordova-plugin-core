@@ -17,10 +17,13 @@ $ cordova plugin list
 - Make sure your Xcode version is at least 7.0
 
 - Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
+
 - Make sure to change iOS deployment target to at least 7.0. This is required for using Swift
+
 - Including the IMFCore framework:
     - In [your-app-name]/platforms/ios add a folder named "Frameworks"
     - Download IFMCore.framework from [HERE](https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework) and copy it to the Frameworks folder
+
 - Configuring your project in Xcode:
     - Click on your app name in the project directory and navigate to Build Phases => Link Library with Libraries
     - Make sure the IMFCore.framework was added
