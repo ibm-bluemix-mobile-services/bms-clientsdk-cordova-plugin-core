@@ -1,11 +1,36 @@
 # IBM Bluemix Mobile Services - Client SDK Cordova
 
-A brief description of our plugin here.
+This plugin for Cordova provides access to IBM Bluemix Mobile Services used for logging and analytics.
 
 ## Installation
+**_TODO Include info on adding platforms_**
+
+Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
 ```
 $ cordova plugin install ibm-mfp-core
 ```
+You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
+```
+$ cordova plugin list
+```
+## Configuring Your App for iOS
+- Make sure your Xcode version is at least 7.0
+- Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
+- Make sure to change iOS deployment target to at least 7.0. This is required for using Swift
+- Including the IMFCore framework:
+    - In [your-app-name]/platforms/ios add a folder named "Frameworks"
+    - Download IFMCore.framework from [HERE](https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework) and copy it to the Frameworks folder
+- Configuring your project in Xcode:
+    - Click on your app name in the project directory and navigate to Build Phases => Link Library with Libraries
+    - Make sure the IMFCore.framework was added
+    - Navigate to Build Settings => Search Paths => Framework Search Paths and add the following:
+        - $(inherited)
+        - $(PROJECT_DIR)/Frameworks
+    - Navigate to Build settings => search for “bridging” => Objective-C Bridging Header and add the following:
+        - [your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h
+    - Add the following line to Runpath Search Paths of your target (your_target -> Build Settings -> Linking -> Runpath Search Paths)
+    - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
+        - @executable_path/Frameworks
 ## Examples
 
 ### To initialize:
