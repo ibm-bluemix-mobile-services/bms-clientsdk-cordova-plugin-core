@@ -2,14 +2,17 @@
 
 This plugin for Cordova provides access to IBM Bluemix Mobile Services used for logging and analytics.
 
-<a href="#installation">Installation</a><br/>
-<a href="#configure-ios">Configuring Your App for iOS</a><br/>
-<a href="#configure-android">Configuring Your App for Android</a><br/>
-<a href="#bmsclient">BMSClient</a><br/>
-<a href="#mfprequest">MFPRequest</a><br/>
-<a href="#mfplogger">MFPLogger</a><br/>
-<a href="#mfpanalytics">MFPAnalytics</a><br/>
-<a href="#examples">Examples</a>
+## Contents
+<ul>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#configure-ios">Configuring Your App for iOS</a></li>
+    <li><a href="#configure-android">Configuring Your App for Android</a></li>
+    <li><a href="#bmsclient">BMSClient</a></li>
+    <li><a href="#mfprequest">MFPRequest</a></li>
+    <li><a href="#mfplogger">MFPLogger</a></li>
+    <li><a href="#mfpanalytics">MFPAnalytics</a></li>
+    <li><a href="#examples">Examples</a></li>
+</ul>
 
 <h2 id="installation">Installation</h2>
 
@@ -85,11 +88,11 @@ Success and failure callbacks of the MFPRequest.send() receive response JSON obj
 
 Property | Info
 --- | ---
-status | The response status as an integer
-responseText | Return response text as null or string
-headers | Return response headers in JSON format
-errorCode | Return response error code as integer 
-errorDescription | Return response error description as null or string
+status | The response status as an integer.
+responseText | Return response text as null or string.
+headers | Return response headers in JSON format.
+errorCode | Return response error code as integer. 
+errorDescription | Return response error description as null or string.
 
 Request methods available:
 
