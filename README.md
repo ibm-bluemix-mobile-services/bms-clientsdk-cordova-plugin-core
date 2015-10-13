@@ -2,7 +2,8 @@
 
 This plugin for Cordova provides access to IBM Bluemix Mobile Services used for logging and analytics.
 
-<a href="#Installation">asdfasd</a>
+<a href="#Installation">Installation</a>
+<a href="#Configure">Configuring Your App for iOS</a>
 
 <h2 id="Installation">Installation</h2>
 
@@ -16,7 +17,7 @@ You can check if the plugin installed successfully by running the following comm
 ```
 $ cordova plugin list
 ```
-## Configuring Your App for iOS
+<h2 id="Configure">Configuring Your App for iOS</h2>
 - Make sure your Xcode version is at least 7.0
 
 - Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
