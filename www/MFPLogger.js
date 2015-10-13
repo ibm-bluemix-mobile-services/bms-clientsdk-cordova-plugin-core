@@ -12,6 +12,15 @@
 */
 var exec = require("cordova/exec");
 
+var success = function(message) {
+    console.log("Success");
+    console.log(message);
+};
+var failure = function(message) {
+    console.log("Failure");
+    console.log(message);
+};
+
 /**
  *
  * @param name
