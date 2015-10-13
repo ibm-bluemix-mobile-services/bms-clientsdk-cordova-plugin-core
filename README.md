@@ -26,7 +26,7 @@ You can check if the plugin installed successfully by running the following comm
 ```
 $ cordova plugin list
 ```
-<h2 id="Configure">Configuring Your App for iOS</h2>
+<h2 id="configure-ios">Configuring Your App for iOS</h2>
 - Make sure your Xcode version is at least 7.0
 
 - Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
@@ -66,6 +66,8 @@ Function | Use
 `getBluemixAppGUID(callback)` | Return the Bluemix app GUID.
 `registerAuthenticationListener(realm, authenticationListener)` | Registers authentication callback for the specified realm.
 `unregisterAuthenticationListener(realm)` | Unregisters the authentication callback for the specified realm.
+
+<h2 id="configure-android">Configuring Your App for Android</h2>
 
 <h2 id="mfprequest">MFPRequest</h2>
 
