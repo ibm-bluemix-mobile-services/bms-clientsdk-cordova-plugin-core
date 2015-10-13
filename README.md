@@ -51,10 +51,23 @@ The first parameter specifies the base URL for the authorization server.
 The second parameter specifies the GUID of the application.
 
 ### Creating a Request 
-To create a new MFPRequest instance... (Explain line of code below this line)
+After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value.
 ```
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
+var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
 ```
+
+MFPRequest functions available:
+
+Function | Use
+--- | ---
+`setHeaders(jsonObj)` | Set the headers for the request object in JSON format.
+`getHeaders` | Return the headers object for the request object.
+`getUrl` | Return the url for this request.
+`getMethod` | Return the HTTP method for this request.
+`getTimeout` | Return the timeout (in ms) for this request.
+`setQueryParameters(jsonObj)` | Return the queryParameters object for this request.
+`getQueryParameters` | Set the Query Parameters for the request object in JSON format.
+`send` | Send this resource request asynchronously.
 
 ### Setting the headers for your request. 
 (More Explanation of code snippet below this line)
