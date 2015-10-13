@@ -50,7 +50,7 @@ import IMFCore
     func send(command: CDVInvokedUrlCommand) {
     // has success, failure callbacks
     self.commandDelegate!.runInBackground({
-        IMFAnalytics.sharedInstance().send()
+        IMFAnalytics.sharedInstance().sendPersistedLogs()
     })
     }
 
