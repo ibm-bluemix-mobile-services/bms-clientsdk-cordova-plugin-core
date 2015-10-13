@@ -5,13 +5,10 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 <a href="#installation">Installation</a><br/>
 <a href="#configure-ios">Configuring Your App for iOS</a><br/>
 <a href="#configure-android">Configuring Your App for Android</a><br/>
-<a href="#bmsclient">Cordova SDK</a>
-<ul>
-    <li><a href="#bmsclient">BMSClient</a></li>
-    <li><a href="#mfprequest">MFPRequest</a></li>
-    <li><a href="#mfplogger">MFPLogger</a></li>
-    <li><a href="#mfpanalytics">MFPAnalytics</a></li>
-</ul>
+<a href="#bmsclient">BMSClient</a>
+<a href="#mfprequest">MFPRequest</a>
+<a href="#mfplogger">MFPLogger</a>
+<a href="#mfpanalytics">MFPAnalytics</a>
 <a href="#examples">Examples</a>
 
 <h2 id="installation">Installation</h2>
@@ -67,21 +64,9 @@ Function | Use
 `registerAuthenticationListener(realm, authenticationListener)` | Registers authentication callback for the specified realm.
 `unregisterAuthenticationListener(realm)` | Unregisters the authentication callback for the specified realm.
 
-## Examples
+<h2 id="mfprequest">MFPRequest</h2>
 
-### To initialize:
-The following Javascript code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
-```
-BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
-```
-The first parameter specifies the base URL for the authorization server.
-The second parameter specifies the GUID of the application.
-
-### Creating a Request 
-After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value.
-```
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
-```
+After initializing the client you may create a new MFPRequest instance, used to send a request to a specified URL.
 
 MFPRequest functions available:
 
@@ -107,6 +92,22 @@ MFPRequest.DELETE |
 MFPRequest.TRACE |
 MFPRequest.HEAD |
 MFPRequest.OPTIONS |
+
+## Examples
+
+### To initialize:
+The following Javascript code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
+```
+BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
+```
+The first parameter specifies the base URL for the authorization server.
+The second parameter specifies the GUID of the application.
+
+### Creating a Request 
+After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value.
+```
+var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
+```
 
 ### Setting the headers for your request. 
 (More Explanation of code snippet below this line)
