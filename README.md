@@ -14,7 +14,6 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
     - <a href="#mfpanalytics">MFPAnalytics</a>
 - <a href="#examples">Examples</a>
 
-
 <h2 id="installation">Installation</h2>
 
 **_TODO Include info on adding platforms_**
@@ -54,9 +53,7 @@ $ cordova plugin list
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - @executable_path/Frameworks
 
-
 <h2 id="configure-android">Configuring Your App for Android</h2>
-
 
 <h2 id="bmsclient">BMSClient</h2>
 
@@ -72,6 +69,10 @@ Function | Use
 `registerAuthenticationListener(realm, authenticationListener)` | Registers authentication callback for the specified realm.
 `unregisterAuthenticationListener(realm)` | Unregisters the authentication callback for the specified realm.
 
+Example:
+```
+BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
+```
 
 <h2 id="mfprequest">MFPRequest</h2>
 
@@ -90,8 +91,7 @@ Function | Use
 `getQueryParameters` | Set the Query Parameters for the request object in JSON format.
 `send(success, failure)` | Send this resource request asynchronously. You must supply success and failure callback functions, and optionally a body parameter.
 
-
-Success and failure callbacks of the MFPRequest.send() receive response JSON object as an argument (see <a href="#examples">Examples</a>). The following properties are available for the response:
+Success and failure callbacks of the MFPRequest.send() receive a response object as an argument (see <a href="#examples">Examples</a>). The following properties are available for the response:
 
 Property | Info
 --- | ---
@@ -100,7 +100,6 @@ responseText | Return response text as null or string.
 headers | Return response headers in JSON format.
 errorCode | Return response error code as integer. 
 errorDescription | Return response error description as null or string.
-
 
 Request methods available:
 
@@ -114,8 +113,41 @@ MFPRequest.TRACE |
 MFPRequest.HEAD |
 MFPRequest.OPTIONS |
 
+Example:
+```
+var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
+```
 
-## Examples
+<h2 id="mfplogger">MFPLogger</h2>
+
+MFPLogger is a Singleton class used for logging messages. You can create an instance of MFPLogger using:
+```
+MFPLogger.getInstance("myLogger")
+```
+The following functions are available for the logger instance to send a specific log message:
+
+Function |
+--- |
+`debug(message)` |
+`info(message)` |
+`warn(message)` | 
+`error(message)` |
+`fatal(message)` |
+Example:
+```
+myLogger.debug(message)
+```
+
+MFPLogger functions available:
+
+Function | Use
+--- | ---
+`
+See below for <a href="#examples">Examples</a> of how to use MFPLogger.
+
+<h2 id="mfpanalytics">MFPAnalytics</h2>
+
+<h2 id="examples">Examples</h2>
 
 ### To initialize:
 The following Javascript code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
