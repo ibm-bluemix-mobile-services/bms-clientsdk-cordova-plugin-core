@@ -13,20 +13,35 @@
 var exec = require("cordova/exec");
 
 var MFPAnalytics = {
-    enable: function () {},
-    disable: function () {},
     /**
-     *
-     * @param success
+     * Turns on the global setting for persisting of the analytics data.
+     */
+    enable: function () {
+        cordova.exec(success , failure, "MFPAnalytics", "enable", []);
+    },
+    /**
+     * Turns off the global setting for persisting of the analytics data.
+     */
+    disable: function () {
+        cordova.exec(success , failure, "MFPAnalytics", "disable", []);
+    },
+    /**
+     * Gets the current setting for determining if log data should be saved persistently.
+     * @param success recieves {boolean}
      * @param failure
      */
-    isEnabled: function (success, failure) {},
+    isEnabled: function (success, failure) {
+        cordova.exec(success , failure, "MFPAnalytics", "isEnabled", []);
+    },
     /**
-     *
-     * @param success
-     * @param failure
+     * Sends the analytics log file when the log store exists and is not empty
+     * If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
+     * @param success callback (android only)
+     * @param failure  callback (android only)
      */
-    send: function (success, failure) {}
+    send: function (success, failure) {
+        cordova.exec(success , failure, "MFPAnalytics", "send", []);
+    }
 };
 
 module.exports = MFPAnalytics;
