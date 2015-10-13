@@ -15,70 +15,171 @@ import IMFCore
 
 @objc(CDVMFPLogger) class CDVMFPLogger : CDVPlugin {
     
+    
     func getInstance(command: CDVInvokedUrlCommand){
         // parms: [name]
-        let name = command.arguments[0] as! String
+        
+        guard let name  = command.arguments[0] as? String else {
+            let message = "Name  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
         
         self.commandDelegate!.runInBackground({
             _ = IMFLogger(forName: name)
+            // log uncaught exceptions
+            IMFLogger.captureUncaughtExceptions()
         })
     }
     
     func getCapture(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger02 getCapture called")
+        
+        self.commandDelegate!.runInBackground({
+            
+            let isCaptureEnabled = IMFLogger.getCapture()
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: isCaptureEnabled)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
     }
     
     func setCapture(command: CDVInvokedUrlCommand){
-        // parms: enabled
-        print("CDVMFPLogger03 setCapture called")
+        
+        guard let enabled  = command.arguments[0] as? Bool else {
+            let message = "Enabled Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
         
         self.commandDelegate!.runInBackground({
-            let enabled = command.arguments[0] as! Bool
-            
             IMFLogger.setCapture(enabled)
         })
-        
     }
     
     func getFilters(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger04 getFilters called")
+        
+        self.commandDelegate!.runInBackground({
+            
+            let filters = IMFLogger.getFilters()
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: filters)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
     }
     
     func setFilters(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger05 setFilters called")
+        // parms: [filters]
+        guard let filters  = (command.arguments[0] as? [NSObject:AnyObject]) else {
+            let message = "Filters Object is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
+        self.commandDelegate!.runInBackground({
+            IMFLogger.setFilters(filters)
+        })
     }
     
     func getMaxStoreSize(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger06 getMaxStoreSize called")
+        
+        self.commandDelegate!.runInBackground({
+            
+            let maxStoreSize = IMFLogger.getMaxStoreSize()
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsInt: maxStoreSize)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
     }
     
     func setMaxStoreSize(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger07 setMaxStoreSize called")
+        // parms: [maxStoreSize]
+        
+        guard let maxStoreSize  = (command.arguments[0] as? Int) else {
+            let message = "MaxStoreSize is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
+        self.commandDelegate!.runInBackground({
+            IMFLogger.setMaxStoreSize(Int32(maxStoreSize))
+        })
     }
     
     func getLevel(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger08 getLevel called")
+        
+        self.commandDelegate!.runInBackground({
+            
+            let logLevel: Int32 = Int32(IMFLogger.getLogLevel().rawValue)
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsInt: logLevel)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
     }
     
     func setLevel(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger09 seLevel called")
+        // parms: [logLevel]
+        
+        self.commandDelegate!.runInBackground({
+            
+            guard let logLevel =  IMFLogLevel(rawValue: command.arguments[0] as! Int) else {
+                
+                let message = "LogLevel Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+            
+            IMFLogger.setLogLevel(logLevel)
+        })
     }
     
     func isUncaughtExceptionDetected(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger10 isUncaughtExceptionDetected called")
+        
+        self.commandDelegate!.runInBackground({
+            
+            let uncaughtExeptionDetected = IMFLogger.uncaughtExceptionDetected()
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: uncaughtExeptionDetected)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
     }
     
     func send(command: CDVInvokedUrlCommand){
-        print("CDVMFPLogger11 send called")
+        
+        self.commandDelegate!.runInBackground({
+            IMFLogger.send()
+        })
     }
     
     func debug(command: CDVInvokedUrlCommand) {
         // parms: [name, message]
+        
+        guard let name  = command.arguments[0] as? String else {
+            let message = "Name  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
 
+        guard let message  = command.arguments[1] as? String else {
+            let msg = "message  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
         self.commandDelegate!.runInBackground({
-            let name = command.arguments[0] as! String
-            let message = command.arguments[1] as! String
-
             let logger = IMFLogger(forName: name)
             logger.logWithLevel(.Debug, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
         })
@@ -86,11 +187,25 @@ import IMFCore
     
     func info(command: CDVInvokedUrlCommand){
         // parms: [name, message]
-
+        
+        guard let name  = command.arguments[0] as? String else {
+            let message = "Name  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
+        guard let message  = command.arguments[1] as? String else {
+            let msg = "message  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
         self.commandDelegate!.runInBackground({
-            let name = command.arguments[0] as! String
-            let message = command.arguments[1] as! String
-
+            
             let logger = IMFLogger(forName: name)
             logger.logWithLevel(.Info, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
         })
@@ -98,11 +213,25 @@ import IMFCore
     
     func warn(command: CDVInvokedUrlCommand){
         // parms: [name, message]
-
+        
+        guard let name  = command.arguments[0] as? String else {
+            let message = "Name  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
+        guard let message  = command.arguments[1] as? String else {
+            let msg = "message  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
         self.commandDelegate!.runInBackground({
-            let name = command.arguments[0] as! String
-            let message = command.arguments[1] as! String
-
+          
             let logger = IMFLogger(forName: name)
             logger.logWithLevel(.Warn, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
         })
@@ -110,11 +239,25 @@ import IMFCore
     
     func error(command: CDVInvokedUrlCommand){
         // parms: [name, message]
-
+        
+        guard let name  = command.arguments[0] as? String else {
+            let message = "Name  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
+        guard let message  = command.arguments[1] as? String else {
+            let msg = "message  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
         self.commandDelegate!.runInBackground({
-            let name = command.arguments[0] as! String
-            let message = command.arguments[1] as! String
-
+        
             let logger = IMFLogger(forName: name)
             logger.logWithLevel(.Error, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
         })
@@ -122,11 +265,25 @@ import IMFCore
     
     func fatal(command: CDVInvokedUrlCommand){
         // parms: [name, message]
-
+        
+        guard let name  = command.arguments[0] as? String else {
+            let message = "Name  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
+        guard let message  = command.arguments[1] as? String else {
+            let msg = "message  Parameter is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+        }
+        
         self.commandDelegate!.runInBackground({
-            let name = command.arguments[0] as! String
-            let message = command.arguments[1] as! String
-
+            
             let logger = IMFLogger(forName: name)
             logger.logWithLevel(.Fatal, message: message, args: CVaListPointer(_fromUnsafeMutablePointer: nil), userInfo:Dictionary<String, String>())
         })
