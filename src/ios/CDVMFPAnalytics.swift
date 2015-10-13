@@ -24,8 +24,14 @@ import IMFCore
     }
 
     func isEnabled(command: CDVInvokedUrlCommand) {
-    // has success, failure callbacks
+        // has success, failure callbacks
         
+        self.commandDelegate!.runInBackground({
+            let isEnabled = IMFAnalytics.sharedInstance().isEnabled()
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: isEnabled)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+        })
     }
 
     func send(command: CDVInvokedUrlCommand) {
