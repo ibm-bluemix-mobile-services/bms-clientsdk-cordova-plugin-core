@@ -67,7 +67,19 @@ Function | Use
 `getTimeout` | Return the timeout (in ms) for this request.
 `setQueryParameters(jsonObj)` | Return the queryParameters object for this request.
 `getQueryParameters` | Set the Query Parameters for the request object in JSON format.
-`send` | Send this resource request asynchronously.
+`send` | Send this resource request asynchronously. May have an optional body parameter as a String or Object
+
+Request methods available:
+
+Method |
+--- |
+MFPRequest.GET |
+MFPRequest.PUT |
+MFPRequest.POST |
+MFPRequest.DELETE |
+MFPRequest.TRACE |
+MFPRequest.HEAD |
+MFPRequest.OPTIONS |
 
 ### Setting the headers for your request. 
 (More Explanation of code snippet below this line)
