@@ -2,7 +2,7 @@
 
 This plugin for Cordova provides access to IBM Bluemix Mobile Services used for logging and analytics.
 
-<a href="#Installation">Installation</a>
+<a href="#Installation">Installation</a><br/>
 <a href="#Configure">Configuring Your App for iOS</a>
 
 <h2 id="Installation">Installation</h2>
