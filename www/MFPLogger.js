@@ -109,30 +109,72 @@ var MFPLogger = (function () {
         getCapture : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getCapture", []);
         },
+        /**
+         * Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class
+         * @param {Boolean} enabled - Boolean used to indicate whether the log data must be saved persistently
+         */
         setCapture : function (enabled) {
             cordova.exec(success , failure, "MFPLogger", "setCapture", [enabled]);
         },
+        /**
+         *
+         * @param success callback
+         * @param failure callback
+         */
         getFilters : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getFilters", []);
         },
+        /**
+         * Sets the filters that are used to determine which log messages are persisted.
+         * Each key defines a name and each value defines a logging level.
+         * @param filters
+         */
         setFilters : function (filters) {
             cordova.exec(success , failure, "MFPLogger", "setFilters", [filters]);
         },
+        /**
+         *
+         * @param success
+         * @param failure
+         */
         getMaxStoreSize : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getMaxStoreSize", []);
         },
+        /**
+         *
+         * @param intSize
+         */
         setMaxStoreSize : function (intSize) {
             cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", [intSize]);
         },
+        /**
+         *
+         * @param success
+         * @param failure
+         */
         getLevel : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getLevel", []);
         },
+        /**
+         *
+         * @param logLevel
+         */
         setLevel : function (logLevel) {
             cordova.exec(success , failure, "MFPLogger", "setLevel", [logLevel]);
         },
+        /**
+         *
+         * @param success
+         * @param failure
+         */
         isUncaughtExceptionDetected : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "isUncaughtExceptionDetected", []);
         },
+        /**
+         *
+         * @param success callback
+         * @param failure callback
+         */
         send : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "send", []);
         }
