@@ -12,38 +12,58 @@
 */
 var exec = require("cordova/exec");
 
-var success = function(message) {
-    console.log("Success");
-    console.log(message);
-};
-var failure = function(message) {
-    console.log("Failure");
-    console.log(message);
-};
-
+/**
+ *
+ * @param name
+ * @constructor
+ */
 var Logger = function (name){
     this.name = name; // instance variable
 };
 
 Logger.prototype = function(){
+    /**
+     *
+     * @param message
+     */
     var debug = function (message) {
         cordova.exec(success, failure, "MFPLogger", "debug", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var info = function (message) {
         cordova.exec(success, failure, "MFPLogger", "info", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var error = function (message) {
         cordova.exec(success, failure, "MFPLogger", "error", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var fatal = function (message) {
         cordova.exec(success, failure, "MFPLogger", "fatal", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var warn = function (message) {
         cordova.exec(success, failure, "MFPLogger", "warn", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @returns {*}
+     */
     var getName = function () {
         return this.name;
-    }
+    };
 
     return {
         debug : debug,
@@ -58,12 +78,22 @@ Logger.prototype = function(){
 var MFPLogger = (function () {
     var instances = {};
 
+    /**
+     * Private Method for creating logger instances
+     * @param name
+     * @returns {Logger}
+     */
     function createInstance(name) {
         var logger = new Logger(name);
         return logger;
     }
 
     return {
+        /**
+         *  Returns a named Logger Instance
+         * @param name - the name for the logger
+         * @returns {*} a Logger instance
+         */
         getInstance: function (name) {
             if (!instances[name]) {
                 instances[name] = createInstance(name);
@@ -71,6 +101,11 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "getInstance", [name]);
             return instances[name];
         },
+        /**
+         *  Gets the current setting for determining if log data should be saved persistently
+         * @param success callback takes single boolean parameter which indicates whether capture is set
+         * @param failure callback
+         */
         getCapture : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getCapture", []);
         },
@@ -102,7 +137,7 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "send", []);
         }
     };
-});
+})();
 
 /** Trace level */
 MFPLogger.FATAL = 50;
@@ -111,4 +146,4 @@ MFPLogger.WARN = 200;
 MFPLogger.INFO = 300;
 MFPLogger.DEBUG = 500;
 
-module.exports = new MFPLogger();
+module.exports = MFPLogger;

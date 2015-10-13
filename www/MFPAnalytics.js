@@ -15,7 +15,17 @@ var exec = require("cordova/exec");
 var MFPAnalytics = {
     enable: function () {},
     disable: function () {},
+    /**
+     *
+     * @param success
+     * @param failure
+     */
     isEnabled: function (success, failure) {},
+    /**
+     *
+     * @param success
+     * @param failure
+     */
     send: function (success, failure) {}
 };
 
