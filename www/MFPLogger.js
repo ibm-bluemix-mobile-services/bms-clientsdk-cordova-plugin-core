@@ -149,16 +149,18 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", [intSize]);
         },
         /**
-         *
-         * @param success
+         * Gets the currently configured Log Level
+         * @param success callback receives  {integer} indicating Log Level
          * @param failure
          */
         getLevel : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getLevel", []);
         },
         /**
-         *
-         * @param logLevel
+         * Sets the level from which log messages must be saved and printed.
+         * For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
+
+         * @param { integer or symbolic level definde below} logLevel
          */
         setLevel : function (logLevel) {
             cordova.exec(success , failure, "MFPLogger", "setLevel", [logLevel]);
