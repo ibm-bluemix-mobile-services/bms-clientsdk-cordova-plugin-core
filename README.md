@@ -81,6 +81,16 @@ Function | Use
 `getQueryParameters` | Set the Query Parameters for the request object in JSON format.
 `send(success, failure)` | Send this resource request asynchronously. You must supply success and failure callback functions, and optionally a body parameter.
 
+Success and failure callbacks of the MFPRequest.send() receive response JSON object as an argument (see <a href="#examples">Examples</a>)
+
+Property | Info
+--- | ---
+status | The response status as an integer
+responseText | Return response text as null or string
+headers | Return response headers in JSON format
+errorCode | Return response error code as integer 
+errorDescription | Return response error description as null or string
+
 Request methods available:
 
 Method |
@@ -92,6 +102,7 @@ MFPRequest.DELETE |
 MFPRequest.TRACE |
 MFPRequest.HEAD |
 MFPRequest.OPTIONS |
+
 
 ## Examples
 
