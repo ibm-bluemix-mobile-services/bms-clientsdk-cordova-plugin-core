@@ -6,10 +6,12 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 <a href="#configure-ios">Configuring Your App for iOS</a><br/>
 <a href="#configure-android">Configuring Your App for Android</a><br/>
 <a href="#bmsclient">Cordova SDK</a>
+<ul>
     <li><a href="#bmsclient">BMSClient</a></li>
     <li><a href="#mfprequest">MFPRequest</a></li>
     <li><a href="#mfplogger">MFPLogger</a></li>
     <li><a href="#mfpanalytics">MFPAnalytics</a></li>
+</ul>
 <a href="#examples">Examples</a>
 
 <h2 id="installation">Installation</h2>
@@ -50,6 +52,20 @@ $ cordova plugin list
 
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - @executable_path/Frameworks
+
+<h2 id="bmsclient">BMSClient</h2>
+
+BMSClient is your entry point to the MobileFirst services. Initializing the BMSClient is required before sending a request that requires authorization.
+
+BMSClient functions available:
+
+Function | Use
+--- | ---
+`initialize(bluemixAppRoute, bluemixAppGUID)` | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
+`getBluemixAppRoute(callback)` | Return the Bluemix app route.
+`getBluemixAppGUID(callback)` | Return the Bluemix app GUID.
+`registerAuthenticationListener(realm, authenticationListener)` | Registers authentication callback for the specified realm.
+`unregisterAuthenticationListener(realm)` | Unregisters the authentication callback for the specified realm.
 
 ## Examples
 
