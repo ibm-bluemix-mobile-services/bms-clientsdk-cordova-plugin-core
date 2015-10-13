@@ -4,13 +4,15 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 
 ## Contents
 - <a href="#installation">Installation</a>
-- <a href="#configure-ios">Configuring Your App for iOS</a></li>
-- <a href="#configure-android">Configuring Your App for Android</a></li>
-- <a href="#bmsclient">BMSClient</a></li>
-- <a href="#mfprequest">MFPRequest</a></li>
-- <a href="#mfplogger">MFPLogger</a></li>
-- <a href="#mfpanalytics">MFPAnalytics</a></li>
-- <a href="#examples">Examples</a></li>
+- <a href="#configure-ios">Configuration</a>
+    - <a href="#configure-ios">Configuring Your App for iOS</a>
+    - <a href="#configure-android">Configuring Your App for Android</a>
+- <a href="#bmsclient">Usage</a>
+    - <a href="#bmsclient">BMSClient</a>
+    - <a href="#mfprequest">MFPRequest</a>
+    - <a href="#mfplogger">MFPLogger</a>
+    - <a href="#mfpanalytics">MFPAnalytics</a>
+- <a href="#examples">Examples</a>
 
 <h2 id="installation">Installation</h2>
 
