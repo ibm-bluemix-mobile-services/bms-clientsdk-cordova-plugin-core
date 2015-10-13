@@ -2,6 +2,8 @@
 
 This plugin for Cordova provides access to IBM Bluemix Mobile Services used for logging and analytics.
 
+[I am a link][Installation]
+
 ## Installation
 **_TODO Include info on adding platforms_**
 
@@ -67,7 +69,7 @@ Function | Use
 `getTimeout` | Return the timeout (in ms) for this request.
 `setQueryParameters(jsonObj)` | Return the queryParameters object for this request.
 `getQueryParameters` | Set the Query Parameters for the request object in JSON format.
-`send` | Send this resource request asynchronously. May have an optional body parameter as a String or Object
+`send(success, failure)` | Send this resource request asynchronously. You must supply success and failure callback functions, and optionally a body parameter.
 
 Request methods available:
 
