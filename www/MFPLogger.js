@@ -141,8 +141,9 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "getMaxStoreSize", []);
         },
         /**
-         *
-         * @param intSize
+         * Sets the maximum size of the local persistent storage for queuing log data.
+         * When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
+         * @param {integer} intSize
          */
         setMaxStoreSize : function (intSize) {
             cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", [intSize]);
@@ -163,15 +164,17 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "setLevel", [logLevel]);
         },
         /**
-         *
-         * @param success
+         * Indicates that an uncaught exception was detected.
+         * The indicator is cleared on successful send.
+         * @param success callback receives Boolean that indicates an uncaught exception was detected (true) or not (false)
          * @param failure
          */
         isUncaughtExceptionDetected : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "isUncaughtExceptionDetected", []);
         },
         /**
-         *
+         * Sends the log file when the log store exists and is not empty.
+         * If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
          * @param success callback
          * @param failure callback
          */
