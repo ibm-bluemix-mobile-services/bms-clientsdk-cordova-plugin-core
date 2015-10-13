@@ -14,6 +14,7 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
     - <a href="#mfpanalytics">MFPAnalytics</a>
 - <a href="#examples">Examples</a>
 
+
 <h2 id="installation">Installation</h2>
 
 **_TODO Include info on adding platforms_**
@@ -53,6 +54,10 @@ $ cordova plugin list
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - @executable_path/Frameworks
 
+
+<h2 id="configure-android">Configuring Your App for Android</h2>
+
+
 <h2 id="bmsclient">BMSClient</h2>
 
 BMSClient is your entry point to the MobileFirst services. Initializing the BMSClient is required before sending a request that requires authorization.
@@ -67,7 +72,6 @@ Function | Use
 `registerAuthenticationListener(realm, authenticationListener)` | Registers authentication callback for the specified realm.
 `unregisterAuthenticationListener(realm)` | Unregisters the authentication callback for the specified realm.
 
-<h2 id="configure-android">Configuring Your App for Android</h2>
 
 <h2 id="mfprequest">MFPRequest</h2>
 
@@ -86,7 +90,8 @@ Function | Use
 `getQueryParameters` | Set the Query Parameters for the request object in JSON format.
 `send(success, failure)` | Send this resource request asynchronously. You must supply success and failure callback functions, and optionally a body parameter.
 
-Success and failure callbacks of the MFPRequest.send() receive response JSON object as an argument (see <a href="#examples">Examples</a>)
+
+Success and failure callbacks of the MFPRequest.send() receive response JSON object as an argument (see <a href="#examples">Examples</a>). The following properties are available for the response:
 
 Property | Info
 --- | ---
@@ -95,6 +100,7 @@ responseText | Return response text as null or string.
 headers | Return response headers in JSON format.
 errorCode | Return response error code as integer. 
 errorDescription | Return response error description as null or string.
+
 
 Request methods available:
 
