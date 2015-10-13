@@ -16,14 +16,27 @@ import IMFCore
 @objc(CDVMFPAnalytics) class CDVMFPAnalytics : CDVPlugin {
 
     func enable(command: CDVInvokedUrlCommand) {
-        IMFAnalytics.sharedInstance().setEnabled(true)
+        
+        self.commandDelegate!.runInBackground({
+            IMFAnalytics.sharedInstance().setEnabled(true)
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: true)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+        })
     }
 
     func disable(command: CDVInvokedUrlCommand) {
-        IMFAnalytics.sharedInstance().setEnabled(false)
+        
+        self.commandDelegate!.runInBackground({
+            IMFAnalytics.sharedInstance().setEnabled(false)
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: false)
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+        })
     }
 
     func isEnabled(command: CDVInvokedUrlCommand) {
+        
         // has success, failure callbacks
         
         self.commandDelegate!.runInBackground({
