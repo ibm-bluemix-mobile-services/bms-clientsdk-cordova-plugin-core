@@ -15,26 +15,26 @@ import IMFCore
 
 @objc(CDVMFPAnalytics) class CDVMFPAnalytics : CDVPlugin {
 
-    func enable(command: CDVInvokedUrlCommand){
-
+    func enable(command: CDVInvokedUrlCommand) {
+        IMFAnalytics.sharedInstance().setEnabled(true)
     }
 
-    func disable(command: CDVInvokedUrlCommand){
-
+    func disable(command: CDVInvokedUrlCommand) {
+        IMFAnalytics.sharedInstance().setEnabled(false)
     }
 
-    func isEnabled(command: CDVInvokedUrlCommand){
+    func isEnabled(command: CDVInvokedUrlCommand) {
     // has success, failure callbacks
-
+        
     }
 
-    func send(command: CDVInvokedUrlCommand){
+    func send(command: CDVInvokedUrlCommand) {
     // has success, failure callbacks
 
     }
 
     // TODO (For future release)
-    func logEvent(command: CDVInvokedUrlCommand){
+    func logEvent(command: CDVInvokedUrlCommand) {
     // takes parms: msg, name
 
     }
