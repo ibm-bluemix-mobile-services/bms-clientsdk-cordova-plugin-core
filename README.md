@@ -10,6 +10,7 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
     <li><a href="#bmsclient">SDK</a></li>
     <li><a href="#bmsclient">SDK</a></li>
 </ul>
+<a href="#examples">Examples</a>
 
 <h2 id="installation">Installation</h2>
 
