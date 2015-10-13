@@ -4,7 +4,8 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 
 <a href="#Installation">asdfasd</a>
 
-## Installation
+<h2 id="Installation">Installation</h2>
+
 **_TODO Include info on adding platforms_**
 
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
