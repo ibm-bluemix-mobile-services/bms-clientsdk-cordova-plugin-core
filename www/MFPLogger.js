@@ -117,8 +117,8 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "setCapture", [enabled]);
         },
         /**
-         *
-         * @param success callback
+         * Retrieves the filters that are used to determine which log messages are persisted
+         * @param success callback - single parameter receives json object defining the logging filters
          * @param failure callback
          */
         getFilters : function (success, failure) {
@@ -127,14 +127,14 @@ var MFPLogger = (function () {
         /**
          * Sets the filters that are used to determine which log messages are persisted.
          * Each key defines a name and each value defines a logging level.
-         * @param filters
+         * @param {jsonObj} filters
          */
         setFilters : function (filters) {
             cordova.exec(success , failure, "MFPLogger", "setFilters", [filters]);
         },
         /**
-         *
-         * @param success
+         * Gets the current setting for the maximum storage size threshold
+         * @param success - single parameter receives Integer indicating the maximum storage size threshold
          * @param failure
          */
         getMaxStoreSize : function (success, failure) {
