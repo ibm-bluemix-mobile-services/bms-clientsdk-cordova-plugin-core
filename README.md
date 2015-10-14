@@ -237,13 +237,13 @@ BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
 The first parameter specifies the base URL for the authorization server.
 The second parameter specifies the GUID of the application.
 
-### Creating a request 
+#### Creating a request 
 After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value.
 ```
 var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
 ```
 
-### Setting the headers for your request 
+#### Setting the headers for your request 
 ```
 var headers = {
     header1: ["val1"]
@@ -252,7 +252,7 @@ var headers = {
 request.setHeaders(headers)
 ```
 
-### Setting your MFPRequest's query parameters
+#### Setting your MFPRequest's query parameters
 ```
 var queryParams = {
     param1: "val1",
@@ -261,7 +261,7 @@ var queryParams = {
 request.setQueryParameters(queryParams)
 ```
 
-### Sending the request
+#### Sending the request
 
 ```
 request.send("some body",
