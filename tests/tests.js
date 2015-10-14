@@ -360,7 +360,7 @@ exports.defineAutoTests = function () {
 
 			}, 25000);
 
-			xit('should Set AND Get the filters correctly #1', function(done) {
+			it('should Set AND Get the filters correctly #1', function(done) {
 				MFPLogger.setFilters({
 					"pkgOne": MFPLogger.INFO,
 					"pkgTwo": MFPLogger.DEBUG
@@ -371,8 +371,8 @@ exports.defineAutoTests = function () {
 						// filter = JSON.parse(filter);
 						expect(filter).toEqual(
 							{
-							"pkgOne": MFPLogger.INFO,
-							"pkgTwo": MFPLogger.DEBUG
+							"pkgOne": "INFO",
+							"pkgTwo": "DEBUG"
 							});
 						done();
 					},
