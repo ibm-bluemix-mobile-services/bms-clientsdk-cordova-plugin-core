@@ -171,6 +171,8 @@ Example:
 var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
 ```
 
+See below for more <a href="#using-bms">Examples</a> of how to use BMSClient and MFPRequest.
+
 <h3 id="mfplogger">MFPLogger</h3>
 
 MFPLogger is a Singleton class used for logging messages. 
