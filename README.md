@@ -21,19 +21,13 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 
 **_TODO Include info on adding platforms_**
 
-Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
-```
-$ cordova plugin install ibm-mfp-core
-```
-You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
-```
-$ cordova plugin list
-```
-
 ### Install necessary libraries
+The Cordova library is required to use this plugin. Use the following commands to install it and other necessary tools.
+
 **Homebrew**
 ```
 $ ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”```
+```
 
 **Node Package Manager (npm)**
 ```
@@ -43,6 +37,15 @@ $ brew install npm
 **Cordova**
 ```
 $ npm install -g cordova
+```
+
+Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
+```
+$ cordova plugin install ibm-mfp-core
+```
+You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
+```
+$ cordova plugin list
 ```
 
 <h2 id="configure-ios">Configuring Your App for iOS</h2>
@@ -73,6 +76,10 @@ $ npm install -g cordova
         - @executable_path/Frameworks
 
 <h2 id="configure-android">Configuring Your App for Android</h2>
+
+- In your Cordova app, you need to make sure your config.xml file is configured for the right API:
+
+- The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwich):
 
 <h2 id="bmsclient">BMSClient</h2>
 
