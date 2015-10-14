@@ -32,9 +32,18 @@ $ cordova plugin list
 
 ### Install necessary libraries
 **Homebrew**
+```
+$ ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”```
 
-`ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”`
+**Node Package Manager (npm)**
+```
+$ brew install npm
+```
 
+**Cordova**
+```
+$ npm install -g cordova
+```
 
 <h2 id="configure-ios">Configuring Your App for iOS</h2>
 - Make sure your Xcode version is at least 7.0
