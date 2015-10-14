@@ -189,7 +189,7 @@ Function | Use
 `getLevel(success, failure)` | Get the currently configured Log Level.
 `setLevel(logLevel)` | Set the level from which log messages must be saved and printed. For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
 `isUncaughtExceptionDetected(success, failure)` | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
-`send` | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
+`send(success, failure)` | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
 
 You can create an instance of MFPLogger using:
 ```
