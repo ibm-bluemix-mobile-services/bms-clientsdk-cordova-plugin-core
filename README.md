@@ -220,7 +220,7 @@ Example:
 myLogger.debug(message)
 ```
 
-See below for more <a href="#examples">Examples</a> of how to use MFPLogger.
+See below for more <a href="#using-mfplogger">Examples</a> of how to use MFPLogger.
 
 <h3 id="mfpanalytics">MFPAnalytics</h3>
 
@@ -235,7 +235,7 @@ Function | Use
 `isEnabled(success, failure)` | Get the current setting for determining if log data should be saved persistently.
 `send(success, failure)` | Send the analytics log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
 
-See below for <a href="#examples">Examples</a> of how to use MFPAnalytics.
+See below for <a href="#using-mfpanalytics">Examples</a> of how to use MFPAnalytics.
 
 <h2 id="examples">Examples</h2>
 
