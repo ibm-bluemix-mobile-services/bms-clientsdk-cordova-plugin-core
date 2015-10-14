@@ -160,7 +160,18 @@ See below for more <a href="#examples">Examples</a> of how to use MFPLogger.
 
 <h2 id="mfpanalytics">MFPAnalytics</h2>
 
-<h2 id="examples">Examples</h2>
+MFPAnalytics is used for sending analytics logs.
+
+MFPAnalytics functions available:
+
+Function | Use
+--- | ---
+`enable` | Turn on the global setting for persisting of the analytics data.
+`disable` | Turn off the global setting for persisting of the analytics data.
+`isEnabled(success, failure)` | Get the current setting for determining if log data should be saved persistently.
+`send(success, failure)` | Send the analytics log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
+
+See below for <a href="#examples">Examples</a> of how to use MFPAnalytics.
 
 ### To initialize:
 The following Javascript code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
