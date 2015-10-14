@@ -4,7 +4,7 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 
 ## Contents
 - <a href="#installation">Installation</a>
-- <a href="#configure-ios">Configuration</a>
+- <a href="#configuration">Configuration</a>
     - <a href="#configure-ios">Configuring Your App for iOS</a>
     - <a href="#configure-android">Configuring Your App for Android</a>
 - <a href="#usage">Usage</a>
@@ -64,7 +64,9 @@ You can check if the plugin installed successfully by running the following comm
 $ cordova plugin list
 ```
 
-<h2 id="configure-ios">Configuring Your App for iOS</h2>
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="configure-ios">Configuring Your App for iOS</h3>
 - Make sure your Xcode version is at least 7.0
 
 - Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
@@ -91,7 +93,7 @@ $ cordova plugin list
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - @executable_path/Frameworks
 
-<h2 id="configure-android">Configuring Your App for Android</h2>
+<h3 id="configure-android">Configuring Your App for Android</h3>
 
 In your Cordova app, you need to make sure your config.xml file is configured for the right API:
 
