@@ -138,8 +138,6 @@ Function | Use
 `isUncaughtExceptionDetected(success, failure)` | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
 `send` | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
 
-See below for <a href="#examples">Examples</a> of how to use MFPLogger.
-
 You can create an instance of MFPLogger using:
 ```
 MFPLogger.getInstance("myLogger")
@@ -158,7 +156,7 @@ Example:
 myLogger.debug(message)
 ```
 
-See below for <a href="#examples">Examples</a> of how to use MFPLogger.
+See below for more <a href="#examples">Examples</a> of how to use MFPLogger.
 
 <h2 id="mfpanalytics">MFPAnalytics</h2>
 
