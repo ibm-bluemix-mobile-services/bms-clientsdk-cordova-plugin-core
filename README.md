@@ -19,8 +19,6 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 
 <h2 id="installation">Installation</h2>
 
-**_TODO Include info on adding platforms_**
-
 ### Install necessary libraries
 The Cordova library is required to use this plugin. Use the following commands to install it and other necessary tools.
 
@@ -38,6 +36,24 @@ $ brew install npm
 ```
 $ npm install -g cordova
 ```
+
+### Add your app platform
+
+You have to generate your app's platform before adding the plugin.
+
+To generate the iOS platform:
+```
+$ cordova platform add ios
+```
+
+To generate the Android platform:
+```
+$ cordova platform add android
+```
+
+You should see a "Platforms" folder added to your app's directory.
+
+### And the Cordova plugin
 
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
 ```
