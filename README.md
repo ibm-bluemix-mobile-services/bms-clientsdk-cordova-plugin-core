@@ -77,9 +77,24 @@ $ cordova plugin list
 
 <h2 id="configure-android">Configuring Your App for Android</h2>
 
-- In your Cordova app, you need to make sure your config.xml file is configured for the right API:
+In your Cordova app, you need to make sure your config.xml file is configured for the right API:
 
-- The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwich):
+The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwich):
+
+- Open your config.xml and look for the section:
+    - `<platform name="android">`
+- Add the following
+    - `<preference name="android-minSdkVersion" value="15" />`
+- (Optional) If you wish to target a specific Android API Level, you can use the following:
+    - `<preference name="android-targetSdkVersion" value="23" />`  
+
+You must add the following:
+
+<preference name="android-minSdkVersion" value="15" />
+
+(Optional) If you wish to target a specific Android API Level, you can use the following:
+
+<preference name="android-targetSdkVersion" value="23" />
 
 <h2 id="bmsclient">BMSClient</h2>
 
