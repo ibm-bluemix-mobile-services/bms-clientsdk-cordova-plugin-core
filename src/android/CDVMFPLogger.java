@@ -25,18 +25,28 @@ import org.json.JSONObject;
 import org.json.JSONException;
 import android.util.Log;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class CDVMFPLogger extends CordovaPlugin {
     private static final String TAG = "CDVMFPLogger";
 
+    private static final Map<Integer, LEVEL> NUM_TO_ENUM = new HashMap<Integer, LEVEL>(){{
+        put(50, LEVEL.FATAL);
+        put(100, LEVEL.DEBUG);
+        put(200, LEVEL.WARN);
+        put(300, LEVEL.INFO);
+        put(400, LEVEL.DEBUG);
+    }};
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if("getInstance".equals(action)) {
             String packageName = args.getString(0);
             this.getInstance(packageName, callbackContext);
-//            callbackContext.success("getInstance called");
+            callbackContext.success();
             return true;
 
         } else if("getCapture".equals(action)) {
@@ -49,15 +59,19 @@ public class CDVMFPLogger extends CordovaPlugin {
             callbackContext.success();
             return true;
 
+
+
         } else if("getFilters".equals(action)) {
             JSONObject filters = new JSONObject(Logger.getFilters());
             callbackContext.success(filters);
         } else if("setFilters".equals(action)) {
-//            JSONObject filtersAsJSON = new JSONObject(args.getString(0));
-//            HashMap<String, LEVEL> newFilters = toMap(filtersAsJSON);
-//            Logger.setFilters(newFilters);
+            String myarg = args.getString(0);
+            JSONObject filtersAsJSON = new JSONObject(args.getString(0));
+            HashMap<String, LEVEL> newFilters = this.JSONObjectToHashMap(filtersAsJSON);
+            Logger.setFilters(newFilters);
             callbackContext.success();
             return true;
+
 
         } else if("getMaxStoreSize".equals(action)) {
             callbackContext.success(Logger.getMaxStoreSize());
@@ -73,7 +87,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             callbackContext.success(currentLevel);
             return true;
         } else if("setLevel".equals(action)) {
-            LEVEL newLevel = LEVEL.values()[args.getInt(0)];
+            LEVEL newLevel = NUM_TO_ENUM.get(args.getInt(0));
             Logger.setLevel(newLevel);
             callbackContext.success();
             return true;
@@ -89,102 +103,92 @@ public class CDVMFPLogger extends CordovaPlugin {
             return true;
 
 
+        } else if("fatal".equals(action)) {
+            String packageName = args.getString(0);
+            String message = args.getString(1);
+
+            Logger instance = Logger.getInstance(packageName);
+            instance.fatal(message);
+
+            callbackContext.success();
+
+        } else if("error".equals(action)) {
+            String packageName = args.getString(0);
+            String message = args.getString(1);
+
+            Logger instance = Logger.getInstance(packageName);
+            instance.error(message);
+
+            callbackContext.success();
+        } else if("warn".equals(action)) {
+            String packageName = args.getString(0);
+            String message = args.getString(1);
+
+            Logger instance = Logger.getInstance(packageName);
+            instance.warn(message);
+
+            callbackContext.success();
+        } else if("info".equals(action)) {
+            String packageName = args.getString(0);
+            String message = args.getString(1);
+
+            Logger instance = Logger.getInstance(packageName);
+            instance.info(message);
+
+            callbackContext.success();
         } else if("debug".equals(action)) {
             String packageName = args.getString(0);
             String message = args.getString(1);
-            this.debug(packageName, message, callbackContext);
-            callbackContext.success("debug called");
+
+            Logger instance = Logger.getInstance(packageName);
+            instance.debug(message);
+
+            callbackContext.success();
             return true;
-        } else if("info".equals(action)) {
-        } else if("error".equals(action)) {
-        } else if("error".equals(action)) {
-        } else if("fatal".equals(action)) {
-        } else if("warn".equals(action)) {
         }
 
         return false;
     }
 
     public void getInstance(String packageName, CallbackContext callbackContext) {
-        Log.d(TAG, "getInstance() -> creating a new instance");
-        Log.d(TAG, "getInstance() packageName: " + packageName);
-
+        Log.d(TAG, "getInstance(" + packageName + ")");
         Logger.getInstance(packageName);
     }
 
-    public void debug(String packageName, String message, CallbackContext callbackContext) {
-        Log.d(TAG, "debug(1) -> creating a log with DEBUG level.");
-        Log.d(TAG, "debug(2) packageName: " + packageName);
-        Log.d(TAG, "debug(3) message: " + message);
-
-        Logger currentInstance = Logger.getInstance(packageName);        
-        currentInstance.debug(message);
-    }
-
-    public void setCapture(Boolean captureFlag) {
-    	Log.d(TAG, "setCapture : setting it " + String.valueOf(captureFlag));
-        Logger.setCapture(captureFlag);
-    }
-
-    public void setFilters(final HashMap<String, LEVEL> filters) {
-    	
-    }
-
-    public void getMaxStoreSize() {
-
-    }
-
-    public void setMaxStoreSize(JSONArray args) {
-
-    }
-
-    public void getLevel(CallbackContext callbackContext) {
-
-    }
-
-    public void isUncaughtExceptionDetected() {
-
-    }
 
     public void send() {
-        Log.d(TAG, "send(0) -> Sending logs.");
-        Logger.send(new ResponseListener() {
-            @Override
-            public void onSuccess(Response r) {
-                Log.d(TAG, "send(1) -> onSuccess: successfully sent logs");
+        Log.d(TAG, "send() : Sending logs.");
+
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                Logger.send(new ResponseListener() {
+                    @Override
+                    public void onSuccess(Response r) {
+                        Log.d(TAG, "send : onSuccess : Successfully sent logs");
+                    }
+
+                    @Override
+                    public void onFailure(Response r, Throwable t, JSONObject extendedInfo) {
+                    }
+                });
             }
-
-            ;
-
-            public void onFailure(Response r, Throwable t, JSONObject extendedInfo) {
-                Log.d(TAG, "send(1) -> onFailure: Could not send the logs to the server!");
-                if (extendedInfo != null) {
-                    Log.d(TAG, extendedInfo.toString());
-                }
-            };
         });
     }
 
-//    public static HashMap<String, LEVEL> toMap(JSONObject object) throws JSONException {
-//        HashMap<String, LEVEL> map = new HashMap();
-//        Iterator keys = object.keys();
-//        while (keys.hasNext()) {
-//            String key = (String) keys.next();
-//            map.put(key, fromJson(object.get(key)));
-//        }
-//        return map;
-//    }
-//
-//    private static LEVEL fromJson(LEVEL json) throws JSONException {
-//        if (json == JSONObject.NULL) {
-//            return null;
-//        } else if (json instanceof JSONObject) {
-//            return toMap((JSONObject) json);
-//        } else if (json instanceof JSONArray) {
-//            return toList((JSONArray) json);
-//        } else {
-//            return json;
-//        }
-//    }
+    public static HashMap<String, LEVEL> JSONObjectToHashMap(JSONObject object) {
+        HashMap<String, LEVEL> pairs = new HashMap<String, LEVEL>();
+        @SuppressWarnings("rawtypes")
+        Iterator it = object.keys();
+        while (it.hasNext()) {
+            String n = (String) it.next();
+            try {
+                pairs.put(n, NUM_TO_ENUM.get(object.getInt(n)));
+            } catch (JSONException e) {
+                // not possible
+            }
+        }
+        return pairs;
+    }
 
-}
+
+        }
