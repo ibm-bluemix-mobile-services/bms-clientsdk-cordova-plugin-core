@@ -7,7 +7,7 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
 - <a href="#configure-ios">Configuration</a>
     - <a href="#configure-ios">Configuring Your App for iOS</a>
     - <a href="#configure-android">Configuring Your App for Android</a>
-- <a href="#bmsclient">Usage</a>
+- <a href="#usage">Usage</a>
     - <a href="#bmsclient">BMSClient</a>
     - <a href="#mfprequest">MFPRequest</a>
     - <a href="#mfplogger">MFPLogger</a>
@@ -53,7 +53,7 @@ $ cordova platform add android
 
 You should see a "Platforms" folder added to your app's directory.
 
-### And the Cordova plugin
+### Add the Cordova plugin
 
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
 ```
@@ -104,7 +104,9 @@ The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwic
 - (Optional) If you wish to target a specific Android API Level, you can use the following:
     - `<preference name="android-targetSdkVersion" value="23" />`  
 
-<h2 id="bmsclient">BMSClient</h2>
+<h2 id="usage">Usage</h2>
+
+<h3 id="bmsclient">BMSClient</h3>
 
 BMSClient is your entry point to the MobileFirst services. Initializing the BMSClient is required before sending a request that requires authorization.
 
@@ -123,7 +125,7 @@ Example:
 BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
 ```
 
-<h2 id="mfprequest">MFPRequest</h2>
+<h3 id="mfprequest">MFPRequest</h3>
 
 After initializing the client you may create a new MFPRequest instance, used to send a request to a specified URL.
 
@@ -167,7 +169,7 @@ Example:
 var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
 ```
 
-<h2 id="mfplogger">MFPLogger</h2>
+<h3 id="mfplogger">MFPLogger</h3>
 
 MFPLogger is a Singleton class used for logging messages. 
 
@@ -207,7 +209,7 @@ myLogger.debug(message)
 
 See below for more <a href="#examples">Examples</a> of how to use MFPLogger.
 
-<h2 id="mfpanalytics">MFPAnalytics</h2>
+<h3 id="mfpanalytics">MFPAnalytics</h3>
 
 MFPAnalytics is used for sending analytics logs.
 
