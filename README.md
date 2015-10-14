@@ -120,7 +120,27 @@ var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
 
 <h2 id="mfplogger">MFPLogger</h2>
 
-MFPLogger is a Singleton class used for logging messages. You can create an instance of MFPLogger using:
+MFPLogger is a Singleton class used for logging messages. 
+
+MFPLogger functions available:
+
+Function | Use
+--- | ---
+`getInstance(name)` | Return a named logger instance.
+`getCapture(success, failure)` | Get the current setting for determining if log data should be saved persistently.
+`setCapture(enabled)` | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
+`getFilters(success, failure)` | Retrieve the filters that are used to determine which log messages are persisted.
+`setFilters(filters)` | Set the filters that are used to determine which log messages are persisted. Each key defines a name and each value defines a logging level.
+`getMaxStoreSize(success, failure)` | Gets the current setting for the maximum storage size threshold.
+`setMaxStoreSize(size)` | Set the maximum size of the local persistent storage for queuing log data. When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
+`getLevel(success, failure)` | Get the currently configured Log Level.
+`setLevel(logLevel)` | Set the level from which log messages must be saved and printed. For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
+`isUncaughtExceptionDetected(success, failure)` | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
+`send` | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
+
+See below for <a href="#examples">Examples</a> of how to use MFPLogger.
+
+You can create an instance of MFPLogger using:
 ```
 MFPLogger.getInstance("myLogger")
 ```
@@ -138,11 +158,6 @@ Example:
 myLogger.debug(message)
 ```
 
-MFPLogger functions available:
-
-Function | Use
---- | ---
-`
 See below for <a href="#examples">Examples</a> of how to use MFPLogger.
 
 <h2 id="mfpanalytics">MFPAnalytics</h2>
