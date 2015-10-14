@@ -12,6 +12,10 @@
 */
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
+import com.ibm.mobilefirstplatform.clientsdk.android.analytics.api.*;
+
+import android.util.Log;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
@@ -23,7 +27,25 @@ public class CDVMFPAnalytics extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if("initialize".equals(action)) {
+        if("enable".equals(action)) {
+            MFPAnalytics.enable();
+            callbackContext.success();
+            return true;
+        } else if("disable".equals(action)) {
+            MFPAnalytics.disable();
+            callbackContext.success();
+            return true;
+        } else if("isEnabled".equals(action)) {
+            //TODO: This does not exist for Android SDK
+//            Boolean enabledFlag = MFPAnalytics.isEnabled();
+//            callbackContext.success(enabledFlag);
+            return true;
+        } else if("send".equals(action)) {
+            MFPAnalytics.send();
+            callbackContext.success();
+            return true;
+        } else if("logEvent".equals(action)) {
+            // TODO: Not yet implemented for the Android SDK
             return true;
         }
         return false;
