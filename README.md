@@ -13,6 +13,9 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
     - <a href="#mfplogger">MFPLogger</a>
     - <a href="#mfpanalytics">MFPAnalytics</a>
 - <a href="#examples">Examples</a> 
+    - <a href="#using-bmsclient">Using BMSClient and MFPRequest</a> 
+    - <a href="#using-mfplogger">Using MFPLogger</a>
+    - <a href="#using-mfpanalytics">Using MFPAnalytics</a> 
 
 <h2 id="installation">Installation</h2>
 
@@ -175,7 +178,8 @@ See below for <a href="#examples">Examples</a> of how to use MFPAnalytics.
 
 <h2 id="examples">Examples</h2>
 
-### To initialize BMSClient:
+<h3 id="using-bmsclient">Using BMSClient and MFPRequest</h3>
+
 The following Javascript code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
 ```
 BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
@@ -183,14 +187,13 @@ BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
 The first parameter specifies the base URL for the authorization server.
 The second parameter specifies the GUID of the application.
 
-### Creating a Request 
+### Creating a request 
 After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value.
 ```
 var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
 ```
 
-### Setting the headers for your request. 
-(More Explanation of code snippet below this line)
+### Setting the headers for your request 
 ```
 var headers = {
     header1: ["val1"]
@@ -208,8 +211,7 @@ var queryParams = {
 request.setQueryParameters(queryParams)
 ```
 
-###Sending the request
-(A more detailed explanation here. Elaborate on the Response)
+### Sending the request
 
 ```
 request.send("some body",
@@ -233,6 +235,34 @@ response.headers  =>  Object
 response.errorCode  =>  Integer 
 response.errorDescription  =>  Undefined or String
 ```
+
+<h3 id="using-mfplogger">Using MFPLogger</h3>
+
+```
+var myPackageLogger = MFPLogger.getInstance("myPackage");
+
+// Persist logs to a file
+MFPLogger.setCapture(true);
+
+// Globally set the logging level
+MFPLogger.setLevel(MFPLogger.WARN);
+
+// Log a message at FATAL level
+myPackageLogger.fatal("Fatal level message");
+
+// Only use the logger specified here. All others will be ignored, including Analytics.
+MFPLogger.setFilters( { "myPackage": MFPLogger.WARN} );
+
+// Send the logs to the server
+MFPLogger.send(
+    function() { 
+        console.log("Send() succeeded"); 
+    }, 
+    function() { 
+        console.log("Send() failed"); 
+});
+```
+
 ## MFPAnalytics
 When you show example for method:
 
