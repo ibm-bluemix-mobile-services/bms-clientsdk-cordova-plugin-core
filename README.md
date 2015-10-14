@@ -24,7 +24,7 @@ The Cordova library is required to use this plugin. Use the following commands t
 
 **Homebrew**
 ```
-$ ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”```
+$ ruby -e “$(curl -fsSL "https://raw.githubusercontent.com/Homebrew/install/master/install)”
 ```
 
 **Node Package Manager (npm)**
@@ -190,6 +190,15 @@ Function | Use
 `setLevel(logLevel)` | Set the level from which log messages must be saved and printed. For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
 `isUncaughtExceptionDetected(success, failure)` | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
 `send(success, failure)` | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
+
+Log levels available:
+Level |
+---
+FATAL |
+ERROR |
+WARN |
+INFO |
+DEBUG |
 
 You can create an instance of MFPLogger using:
 ```
