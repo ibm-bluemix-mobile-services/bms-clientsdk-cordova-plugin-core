@@ -129,6 +129,8 @@ exports.defineAutoTests = function () {
 			var DEFAULT_TIMEOUT = 30000;
 			var TEST_URL = "http://httpbin.org"
 
+			BMSClient.initialize(TEST_URL, "someGUID");
+
 			beforeEach(function() {
 				testRequest = new MFPRequest(TEST_URL, MFPRequest.GET, DEFAULT_TIMEOUT);
 			});
@@ -186,13 +188,11 @@ exports.defineAutoTests = function () {
 			});
 
 			it('should send and invoke the success callback', function(done) {
-				BMSClient.initialize(TEST_URL, "someGUID");
 				spyOn(testRequest, 'send').and.callThrough();
 				testRequest.send(succeed.bind(null, done), fail.bind(null, done));
 			}, 25000);
 
 			it('should send and invoke the success callback', function(done) {
-				BMSClient.initialize(TEST_URL, "someGUID");
 				spyOn(testRequest, 'send').and.callThrough();
 				testRequest.send("stuff", succeed.bind(null, done), fail.bind(null, done));
 			}, 25000);
@@ -331,6 +331,7 @@ exports.defineAutoTests = function () {
 
 				MFPLogger.getCapture(
 					function(result) {
+						result = (result === 'true');
 						expect(result).toBe(true);
 						done();
 					},
@@ -341,6 +342,7 @@ exports.defineAutoTests = function () {
 				MFPLogger.setCapture(false);
 				MFPLogger.getCapture(
 					function(result) {
+						result = (result === 'true');
 						expect(result).toBe(false);
 						done();
 					},
@@ -471,9 +473,9 @@ exports.defineAutoTests = function () {
 			xit('should use isEnabled to get Capture flag and return the value to success callback', function(done) {
 			}, 5000);
 
-			it('should invoke Succeed callback after Send()', function(done) {
+			it('should invoke failure callback if using send without setting up correctly', function(done) {
 				spyOn(MFPAnalytics, 'send').and.callFake(function() {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPAnalytics", "send", []);
+					cordova.exec(fail.bind(null, done), succeed.bind(null, done), "MFPAnalytics", "send", []);
 				});
 				MFPAnalytics.send();
 			}, 5000);
