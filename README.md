@@ -88,14 +88,6 @@ The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwic
 - (Optional) If you wish to target a specific Android API Level, you can use the following:
     - `<preference name="android-targetSdkVersion" value="23" />`  
 
-You must add the following:
-
-<preference name="android-minSdkVersion" value="15" />
-
-(Optional) If you wish to target a specific Android API Level, you can use the following:
-
-<preference name="android-targetSdkVersion" value="23" />
-
 <h2 id="bmsclient">BMSClient</h2>
 
 BMSClient is your entry point to the MobileFirst services. Initializing the BMSClient is required before sending a request that requires authorization.
