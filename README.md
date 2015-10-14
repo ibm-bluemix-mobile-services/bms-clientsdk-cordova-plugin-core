@@ -29,6 +29,12 @@ You can check if the plugin installed successfully by running the following comm
 ```
 $ cordova plugin list
 ```
+
+### Install necessary libraries
+**Homebrew**
+`ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”`
+
+
 <h2 id="configure-ios">Configuring Your App for iOS</h2>
 - Make sure your Xcode version is at least 7.0
 
