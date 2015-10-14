@@ -33,7 +33,8 @@ import java.util.Iterator;
 public class CDVMFPLogger extends CordovaPlugin {
     private static final String TAG = "CDVMFPLogger";
 
-    private static final Map<Integer, LEVEL> NUM_TO_ENUM = new HashMap<Integer, LEVEL>(){{
+    //TODO : Discuss JS API implementation on whether we should need the following
+    private static final Map<Integer, LEVEL> INT_TO_ENUM = new HashMap<Integer, LEVEL>(){{
         put(50, LEVEL.FATAL);
         put(100, LEVEL.DEBUG);
         put(200, LEVEL.WARN);
@@ -62,7 +63,7 @@ public class CDVMFPLogger extends CordovaPlugin {
 
 
         } else if("getFilters".equals(action)) {
-            JSONObject filters = new JSONObject(Logger.getFilters());
+            JSONObject filters = Logger.HashMapToJSONObject(Logger.getFilters());
             callbackContext.success(filters);
         } else if("setFilters".equals(action)) {
             String myarg = args.getString(0);
@@ -87,7 +88,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             callbackContext.success(currentLevel);
             return true;
         } else if("setLevel".equals(action)) {
-            LEVEL newLevel = NUM_TO_ENUM.get(args.getInt(0));
+            LEVEL newLevel = INT_TO_ENUM.get(args.getInt(0));
             Logger.setLevel(newLevel);
             callbackContext.success();
             return true;
@@ -102,7 +103,6 @@ public class CDVMFPLogger extends CordovaPlugin {
             callbackContext.success();
             return true;
 
-
         } else if("fatal".equals(action)) {
             String packageName = args.getString(0);
             String message = args.getString(1);
@@ -111,7 +111,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             instance.fatal(message);
 
             callbackContext.success();
-
+            return true;
         } else if("error".equals(action)) {
             String packageName = args.getString(0);
             String message = args.getString(1);
@@ -120,6 +120,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             instance.error(message);
 
             callbackContext.success();
+            return true;
         } else if("warn".equals(action)) {
             String packageName = args.getString(0);
             String message = args.getString(1);
@@ -128,6 +129,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             instance.warn(message);
 
             callbackContext.success();
+            return true;
         } else if("info".equals(action)) {
             String packageName = args.getString(0);
             String message = args.getString(1);
@@ -136,6 +138,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             instance.info(message);
 
             callbackContext.success();
+            return true;
         } else if("debug".equals(action)) {
             String packageName = args.getString(0);
             String message = args.getString(1);
@@ -157,18 +160,19 @@ public class CDVMFPLogger extends CordovaPlugin {
 
 
     public void send() {
-        Log.d(TAG, "send() : Sending logs.");
+        Log.d(TAG, "send()");
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 Logger.send(new ResponseListener() {
                     @Override
                     public void onSuccess(Response r) {
-                        Log.d(TAG, "send : onSuccess : Successfully sent logs");
+                        Log.d(TAG, "send(). Successfully sent logs");
                     }
 
                     @Override
                     public void onFailure(Response r, Throwable t, JSONObject extendedInfo) {
+                        Log.d(TAG, "send(). Failed to send logs");
                     }
                 });
             }
@@ -182,13 +186,12 @@ public class CDVMFPLogger extends CordovaPlugin {
         while (it.hasNext()) {
             String n = (String) it.next();
             try {
-                pairs.put(n, NUM_TO_ENUM.get(object.getInt(n)));
+                pairs.put(n, INT_TO_ENUM.get(object.getInt(n)));
             } catch (JSONException e) {
-                // not possible
             }
         }
         return pairs;
     }
 
 
-        }
+}
