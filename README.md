@@ -192,8 +192,9 @@ Function | Use
 `send(success, failure)` | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
 
 Log levels available:
+
 Level |
----
+--- |
 FATAL |
 ERROR |
 WARN |
@@ -213,6 +214,7 @@ Function |
 `warn(message)` | 
 `error(message)` |
 `fatal(message)` |
+
 Example:
 ```
 myLogger.debug(message)
