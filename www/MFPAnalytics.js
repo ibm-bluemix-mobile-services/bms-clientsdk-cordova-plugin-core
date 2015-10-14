@@ -13,8 +13,8 @@
 var exec = require("cordova/exec");
 
 var MFPAnalytics = {
-    var success = function() { console.log("Success: MFPAnalytics "); };
-    var failure = function() { console.log("Error: MFPAnalytics"); };
+    success: function() { console.log("Success: MFPAnalytics "); },
+    failure: function() { console.log("Error: MFPAnalytics"); },
     /**
      * Turns on the global setting for persisting of the analytics data.
      */

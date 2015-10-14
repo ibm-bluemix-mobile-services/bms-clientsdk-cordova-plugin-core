@@ -13,12 +13,10 @@
 var exec = require("cordova/exec");
 
 var success = function(message) {
-    console.log("Success");
-    console.log(message);
+    console.log("MFPLogger: Success: " + message);
 };
 var failure = function(message) {
-    console.log("Failure");
-    console.log(message);
+    console.log("MFPLogger: Failure: " + message);
 };
 
 /**
@@ -200,6 +198,6 @@ MFPLogger.FATAL = 50;
 MFPLogger.ERROR = 100;
 MFPLogger.WARN = 200;
 MFPLogger.INFO = 300;
-MFPLogger.DEBUG = 500;
+MFPLogger.DEBUG = 400;
 
 module.exports = MFPLogger;

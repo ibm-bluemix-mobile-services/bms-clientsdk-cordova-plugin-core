@@ -1,8 +1,6 @@
 var exec = require("cordova/exec");
 
 var MFPRequest = function (url, method, timeout) {    
-    this.TAG = "javascript-MFPRequest ";
-
     this._headers = {};
     this._queryParameters = {};
     this._url = url;
@@ -90,7 +88,6 @@ MFPRequest.prototype = function () {
 
         if(arguments.length == 2) {
             // Empty Body
-            console.log(this.TAG + " send with empty body");
             var cbSuccess = callbackWrap.bind(this, arguments[0]);
             var cbFailure = callbackWrap.bind(this, arguments[1]);
 
@@ -98,7 +95,6 @@ MFPRequest.prototype = function () {
         } else if(arguments.length >= 3) {
             // Non-empty Body 
             if(typeof arguments[0] == "string" || typeof arguments[0] == "object") {
-                console.log(this.TAG + " send with string or object for the body");
                 var cbSuccess = callbackWrap.bind(this, arguments[1]);
                 var cbFailure = callbackWrap.bind(this, arguments[2]);
                 cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(arguments[0])]);
@@ -136,7 +132,7 @@ MFPRequest.prototype = function () {
             }
         }
         //TODO update when Logger is complete
-        console.log(this.TAG + " The request is: " + JSON.stringify(request));
+        console.log(" The request is: " + JSON.stringify(request));
         return request;
     };
 
