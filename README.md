@@ -84,14 +84,14 @@ $ cordova plugin list
     - Make sure the IMFCore.framework was added
 
     - Navigate to Build Settings => Search Paths => Framework Search Paths and add the following:
-        - $(inherited)
-        - $(PROJECT_DIR)/Frameworks
+        - `$(inherited)`
+        - `$(PROJECT_DIR)/Frameworks`
 
     - Navigate to Build settings => search for “bridging” => Objective-C Bridging Header and add the following:
         - [your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h
 
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
-        - @executable_path/Frameworks
+        - `@executable_path/Frameworks`
 
 <h3 id="configure-android">Configuring Your App for Android</h3>
 
