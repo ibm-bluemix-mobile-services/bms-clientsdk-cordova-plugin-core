@@ -12,7 +12,7 @@ This plugin for Cordova provides access to IBM Bluemix Mobile Services used for 
     - <a href="#mfprequest">MFPRequest</a>
     - <a href="#mfplogger">MFPLogger</a>
     - <a href="#mfpanalytics">MFPAnalytics</a>
-- <a href="#examples">Examples</a>
+- <a href="#examples">Examples</a> 
 
 <h2 id="installation">Installation</h2>
 
@@ -173,7 +173,9 @@ Function | Use
 
 See below for <a href="#examples">Examples</a> of how to use MFPAnalytics.
 
-### To initialize:
+<h2 id="examples">Examples</h2>
+
+### To initialize BMSClient:
 The following Javascript code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
 ```
 BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
