@@ -238,6 +238,8 @@ response.errorDescription  =>  Undefined or String
 
 <h3 id="using-mfplogger">Using MFPLogger</h3>
 
+Below are some examples of how to use the MFPLogger class.
+
 ```
 var myPackageLogger = MFPLogger.getInstance("myPackage");
 
@@ -263,18 +265,25 @@ MFPLogger.send(
 });
 ```
 
-## MFPAnalytics
-When you show example for method:
+<h3 id="using-analytics">Using MFPAnalytics</h3>
 
-ios:
+Below are some examples of how to use the MFPAnalytics class.
+
 ```
-code here
+// Enable analytics logging
+MFPAnalytics.enable();
+
+MFPAnalytics.logEvent("Logging a message to Analytics");
+
+// Send the analytics log to the server 
+MFPAnalytics.send(
+    function() { 
+        console.log("Send() succeeded"); 
+    }, 
+    function() { 
+        console.log("Send() failed"); 
+});
 ```
-android:
-```
-code here
-```
-note difference between. The ios version of this method takes no arguments, whereas Android version does this
 
 Copyright 2015 IBM Corp.
 
