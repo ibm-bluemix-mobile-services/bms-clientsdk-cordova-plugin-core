@@ -12,6 +12,8 @@
 */
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
+import com.ibm.mobilefirstplatform.clientsdk.android.core.api.Response;
+import com.ibm.mobilefirstplatform.clientsdk.android.core.api.ResponseListener;
 import com.ibm.mobilefirstplatform.clientsdk.android.analytics.api.*;
 
 import android.util.Log;
@@ -20,6 +22,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONException;
 
 public class CDVMFPAnalytics extends CordovaPlugin {
@@ -37,18 +40,38 @@ public class CDVMFPAnalytics extends CordovaPlugin {
             return true;
         } else if("isEnabled".equals(action)) {
             //TODO: This does not exist for Android SDK
-//            Boolean enabledFlag = MFPAnalytics.isEnabled();
-//            callbackContext.success(enabledFlag);
+            callbackContext.error("Not yet implemented");
             return true;
         } else if("send".equals(action)) {
-            MFPAnalytics.send();
-            callbackContext.success();
+            this.send(callbackContext);
             return true;
         } else if("logEvent".equals(action)) {
             // TODO: Not yet implemented for the Android SDK
+            callbackContext.error("Not yet implemented");
             return true;
         }
         return false;
+    }
+
+    public void send(final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                MFPAnalytics.send(new ResponseListener() {
+                    @Override
+                    public void onSuccess(Response response) {
+                        callbackContext.success();
+                    }
+
+                    @Override
+                    public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
+                        callbackContext.error(failResponse.toString());
+                    }
+
+                });
+            }
+        });
+
+
     }
 
 }
