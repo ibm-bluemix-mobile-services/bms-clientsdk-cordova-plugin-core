@@ -21,29 +21,58 @@ var failure = function(message) {
     console.log(message);
 };
 
+/**
+ *
+ * @param name
+ * @constructor
+ */
 var Logger = function (name){
     this.name = name; // instance variable
 };
 
 Logger.prototype = function(){
+    /**
+     *
+     * @param message
+     */
     var debug = function (message) {
         cordova.exec(success, failure, "MFPLogger", "debug", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var info = function (message) {
         cordova.exec(success, failure, "MFPLogger", "info", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var error = function (message) {
         cordova.exec(success, failure, "MFPLogger", "error", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var fatal = function (message) {
         cordova.exec(success, failure, "MFPLogger", "fatal", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @param message
+     */
     var warn = function (message) {
         cordova.exec(success, failure, "MFPLogger", "warn", [this.name, message]);
-    }
+    };
+    /**
+     *
+     * @returns {*}
+     */
     var getName = function () {
         return this.name;
-    }
+    };
 
     return {
         debug : debug,
@@ -58,12 +87,22 @@ Logger.prototype = function(){
 var MFPLogger = (function () {
     var instances = {};
 
+    /**
+     * Private Method for creating logger instances
+     * @param name
+     * @returns {Logger}
+     */
     function createInstance(name) {
         var logger = new Logger(name);
         return logger;
     }
 
     return {
+        /**
+         *  Returns a named Logger Instance
+         * @param name - the name for the logger
+         * @returns {*} a Logger instance
+         */
         getInstance: function (name) {
             if (!instances[name]) {
                 instances[name] = createInstance(name);
@@ -71,42 +110,96 @@ var MFPLogger = (function () {
             cordova.exec(success , failure, "MFPLogger", "getInstance", [name]);
             return instances[name];
         },
+        /**
+         *  Gets the current setting for determining if log data should be saved persistently
+         * @param success callback takes single boolean parameter which indicates whether capture is set
+         * @param failure callback
+         */
         getCapture : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getCapture", []);
         },
-        setCapture : function (capture) {
-            cordova.exec(success , failure, "MFPLogger", "setCapture", []);
+        /**
+         * Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class
+         * @param {Boolean} enabled - Boolean used to indicate whether the log data must be saved persistently
+         */
+        setCapture : function (enabled) {
+            cordova.exec(success , failure, "MFPLogger", "setCapture", [enabled]);
         },
+        /**
+         * Retrieves the filters that are used to determine which log messages are persisted
+         * @param success callback - single parameter receives json object defining the logging filters
+         * @param failure callback
+         */
         getFilters : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getFilters", []);
         },
-        setFilters : function (filter) {
-            cordova.exec(success , failure, "MFPLogger", "setFilters", []);
+        /**
+         * Sets the filters that are used to determine which log messages are persisted.
+         * Each key defines a name and each value defines a logging level.
+         * @param {jsonObj} filters
+         */
+        setFilters : function (filters) {
+            cordova.exec(success , failure, "MFPLogger", "setFilters", [filters]);
         },
+        /**
+         * Gets the current setting for the maximum storage size threshold
+         * @param success - single parameter receives Integer indicating the maximum storage size threshold
+         * @param failure
+         */
         getMaxStoreSize : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getMaxStoreSize", []);
         },
-        setMaxStoreSize : function () {
-            cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", []);
+        /**
+         * Sets the maximum size of the local persistent storage for queuing log data.
+         * When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
+         * @param {integer} intSize
+         */
+        setMaxStoreSize : function (intSize) {
+            cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", [intSize]);
         },
+        /**
+         * Gets the currently configured Log Level
+         * @param success callback receives  {integer} indicating Log Level
+         * @param failure
+         */
         getLevel : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "getLevel", []);
         },
-        setLevel : function (level) {
-            cordova.exec(success , failure, "MFPLogger", "setLevel", []);
+        /**
+         * Sets the level from which log messages must be saved and printed.
+         * For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
+
+         * @param { integer or symbolic level definde below} logLevel
+         */
+        setLevel : function (logLevel) {
+            cordova.exec(success , failure, "MFPLogger", "setLevel", [logLevel]);
         },
+        /**
+         * Indicates that an uncaught exception was detected.
+         * The indicator is cleared on successful send.
+         * @param success callback receives Boolean that indicates an uncaught exception was detected (true) or not (false)
+         * @param failure
+         */
         isUncaughtExceptionDetected : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "isUncaughtExceptionDetected", []);
         },
+        /**
+         * Sends the log file when the log store exists and is not empty.
+         * If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
+         * @param success callback
+         * @param failure callback
+         */
         send : function (success, failure) {
             cordova.exec(success , failure, "MFPLogger", "send", []);
         }
     };
 })();
+
+/** Trace level */
 MFPLogger.FATAL = 50;
 MFPLogger.ERROR = 100;
 MFPLogger.WARN = 200;
 MFPLogger.INFO = 300;
-MFPLogger.DEBUG = 400;
+MFPLogger.DEBUG = 500;
 
 module.exports = MFPLogger;

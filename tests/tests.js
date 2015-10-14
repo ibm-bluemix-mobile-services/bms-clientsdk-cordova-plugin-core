@@ -1,7 +1,35 @@
 exports.defineAutoTests = function () {
 	describe('MFPCore test suite', function () {
 
-		describe('BMSClient method definitions', function() {
+		var fail = function (done, context, message) {
+            if (context) {
+                if (context.done) return;
+                context.done = true;
+            }
+
+            if (message) {
+                expect(false).toBe(true, message);
+            } else {
+                expect(false).toBe(true);
+            }
+            setTimeout(function () {
+                done();
+            });
+    	};
+        var succeed = function (done, context) {
+            if (context) {
+                if (context.done) return;
+                context.done = true;
+            }
+
+            expect(true).toBe(true);
+
+            setTimeout(function () {
+                done();
+            });
+        };
+
+		describe('BMSClient API', function() {
 
 			it('BMSClient should exist', function(){
 				expect(BMSClient).toBeDefined();
@@ -35,20 +63,17 @@ exports.defineAutoTests = function () {
 		});
 
 		describe('BMSClient behavior', function() {
-			//TODO: Pending
-			xit('TODO: should...', function() {
-				BMSClient.initialize("", "");
-				//BMSClient
-			});
+			it('should initialize and call the success callback', function(done) {
+				spyOn(BMSClient, 'initialize').and.callFake(
+					function(backendRoute, backendGuid) {
+						cordova.exec(succeed.bind(null,done), fail.bind(null, done), "BMSClient", "initialize", [backendRoute, backendGuid]);
+				});
+				BMSClient.initialize("http://httpbin.org", "someGUID");
+				
+			}, 5000);
 		});
 		
-		/*
-		Do unit-tests for:
-			send method behavior
-			onsuccess callback
-			onfailure callback
-		*/
-		describe('MFPRequest method definitions', function() {
+		describe('MFPRequest API', function() {
 			var testRequest;
 
 			beforeEach(function () {
@@ -99,28 +124,17 @@ exports.defineAutoTests = function () {
 
 		});
 
-		/*
-			TODO: create unit tests for:
-				constructor
-				setheaders
-				getheaders
-				geturl
-				getmethod
-				gettimeout
-				setqueryparams
-				getqueryparams
-		*/
-
 		describe('MFPRequest behavior', function() {
 			var testRequest;
 			var DEFAULT_TIMEOUT = 30000;
+			var TEST_URL = "http://httpbin.org"
 
 			beforeEach(function() {
-				testRequest = new MFPRequest("http://www.google.com", MFPRequest.GET, DEFAULT_TIMEOUT);
+				testRequest = new MFPRequest(TEST_URL, MFPRequest.GET, DEFAULT_TIMEOUT);
 			});
 
 			it('should correctly create a new request with correct URL and Method', function() {
-				expect(testRequest._url).toEqual("http://www.google.com");
+				expect(testRequest._url).toEqual(TEST_URL);
 				expect(testRequest._method).toEqual(MFPRequest.GET);
 			});
 
@@ -138,7 +152,7 @@ exports.defineAutoTests = function () {
 				expect(testRequest._headers.headername2).toEqual("headervalue2");
 			});
 
-			it('should retrieve the header object with getAllHeaders', function() {
+			it('should retrieve the header object with getHeaders', function() {
 				testRequest._headers = {"oneheader":"retrieve1",
 										"twoheader": "retrieve2",
 										"threeheader": "retrieve3"};
@@ -149,7 +163,7 @@ exports.defineAutoTests = function () {
 			});
 
 			it('should retrieve the url with getUrl', function() {
-				expect(testRequest.getUrl()).toEqual("http://www.google.com");
+				expect(testRequest.getUrl()).toEqual(TEST_URL);
 			});
 
 			it('should retrieve the method with getMethod', function() {
@@ -171,16 +185,21 @@ exports.defineAutoTests = function () {
 				expect(testRequest.getQueryParameters()).toEqual({"somequery": "somevalue", "anotherquery": "anothervalue"});
 			});
 
-			//TODO
-			xit('should correctly send a request (no headers and no query parameters) with send', function() {});
+			it('should send and invoke the success callback', function(done) {
+				BMSClient.initialize(TEST_URL, "someGUID");
+				spyOn(testRequest, 'send').and.callThrough();
+				testRequest.send(succeed.bind(null, done), fail.bind(null, done));
+			}, 25000);
 
-			xit('should correctly send a request (with headers and no query parameters) with send', function() {});
-
-			xit('should correctly send a request (with headers and query parameters) with send', function() {});
+			it('should send and invoke the success callback', function(done) {
+				BMSClient.initialize(TEST_URL, "someGUID");
+				spyOn(testRequest, 'send').and.callThrough();
+				testRequest.send("stuff", succeed.bind(null, done), fail.bind(null, done));
+			}, 25000);
 
 		});
 
-		describe('Logger class method definitions', function() {
+		describe('Logger API', function() {
 			var logger;
 
 			beforeEach(function () {
@@ -222,7 +241,7 @@ exports.defineAutoTests = function () {
 			});
 		});
 
-		describe('MFPLogger class method definitions', function() {
+		describe('MFPLogger API', function() {
 			it('should exist', function() {
 				expect(MFPLogger).toBeDefined();
 			});
@@ -297,9 +316,110 @@ exports.defineAutoTests = function () {
 
 				expect(log1).toBe(log2);
 			});
+
+
+			it('should Set capture and invoke the success callback', function(done) {
+				spyOn(MFPLogger, 'setCapture').and.callFake(function(enabled) {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setCapture", [enabled]);
+				});
+				MFPLogger.setCapture(true);
+			}, 25000);
+
+
+			it('should Set AND Get the capture flag correctly #1', function(done) {
+				MFPLogger.setCapture(true);
+
+				MFPLogger.getCapture(
+					function(result) {
+						expect(result).toBe(true);
+						done();
+					},
+					fail.bind(null, done));
+			}, 25000);
+
+			it('should Set AND Get the capture flag correctly #2', function(done) {
+				MFPLogger.setCapture(false);
+				MFPLogger.getCapture(
+					function(result) {
+						expect(result).toBe(false);
+						done();
+					},
+					fail.bind(null, done));
+			}, 25000);
+
+			it('should Set filters and invoke success callback', function(done) {
+				spyOn(MFPLogger, 'setFilters').and.callFake(function(filters) {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setFilters", [filters]);
+				});
+
+				MFPLogger.setFilters({
+					"stuff": MFPLogger.FATAL
+				});
+
+			}, 25000);
+
+			xit('should Set AND Get the filters correctly #1', function(done) {
+				MFPLogger.setFilters({
+					"pkgOne": MFPLogger.INFO,
+					"pkgTwo": MFPLogger.DEBUG
+				});
+
+				MFPLogger.getFilters(
+					function(filter) {
+						// filter = JSON.parse(filter);
+						expect(filter).toEqual(
+							{
+							"pkgOne": MFPLogger.INFO,
+							"pkgTwo": MFPLogger.DEBUG
+							});
+						done();
+					},
+					fail.bind(null, done));
+			}, 25000);
+
+			it('should Set Max Store Size and invoke the Succeed callback', function(done) {
+				spyOn(MFPLogger, 'setMaxStoreSize').and.callFake(function(intSize) {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setMaxStoreSize", [intSize]);
+				});
+				MFPLogger.setMaxStoreSize(20000);
+			}, 25000);
+
+			it('should Set Max Store Size and Get the previously set value', function(done) {
+				MFPLogger.setMaxStoreSize(20000);
+				MFPLogger.getMaxStoreSize(
+					function(intSize) {
+						expect(intSize).toBe(20000);
+						done();
+					}, 
+					fail.bind(null, done));
+			}, 25000);
+
+
+			it('should Set the Logger Level and invoke the Succeed callback', function(done) {
+				spyOn(MFPLogger, 'setLevel').and.callFake(function(logLevel) {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setMaxStoreSize", [logLevel]);
+				});
+				MFPLogger.setLevel(MFPLogger.FATAL);
+			}, 25000);
+
+			// it('should Set and Get the logger level', function(done) {
+			// 	MFPLogger.setLevel(MFPLogger.ERROR);
+			// 	MFPLogger.getLevel(
+			// 		function(logLevel){
+			// 			console.log("LogLevel = " + logLevel);
+
+			// 			done();
+			// 		},
+			// 		fail.bind(null, done));
+			// }, 25000);
+
+			it('should call isUncaughtExceptionDetected and invoke the Succeed callback', function(done) {
+				MFPLogger.isUncaughtExceptionDetected(succeed.bind(null, done), fail.bind(null, done));
+			}, 25000);
+
 		});
 
-		describe('MFPAnalytics class method definitions', function() {
+		describe('MFPAnalytics API', function() {
 			it('should exist', function() {
 				expect(MFPAnalytics).toBeDefined();
 			});
@@ -332,8 +452,31 @@ exports.defineAutoTests = function () {
 		});
 
 		describe('MFPAnalytics behavior', function() {
-			xit('TODO: unit tests', function() {
-			});
+
+			it('should Enable Analytics logging and invoke the Succeed callback', function(done) {
+				spyOn(MFPAnalytics, 'enable').and.callFake(function() {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPAnalytics", "enable", []);
+				});
+				MFPAnalytics.enable();
+			}, 5000);
+
+			it('should disable Analytics logging and invoke the Succeed callback', function(done) {
+				spyOn(MFPAnalytics, 'disable').and.callFake(function() {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPAnalytics", "disable", []);
+				});
+
+				MFPAnalytics.disable();
+			}, 5000);
+
+			xit('should use isEnabled to get Capture flag and return the value to success callback', function(done) {
+			}, 5000);
+
+			it('should invoke Succeed callback after Send()', function(done) {
+				spyOn(MFPAnalytics, 'send').and.callFake(function() {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPAnalytics", "send", []);
+				});
+				MFPAnalytics.send();
+			}, 5000);
 		});
 
 	});
