@@ -143,6 +143,8 @@ Function | Use
 `setQueryParameters(jsonObj)` | Return the queryParameters object for this request.
 `getQueryParameters` | Set the Query Parameters for the request object in JSON format.
 `send(success, failure)` | Send this resource request asynchronously. You must supply success and failure callback functions, and optionally a body parameter.
+`send(body, success, failure)` | With optional body text parameter.
+`send(json, success, failure)` | With optional JSON object parameter.
 
 Success and failure callbacks of the MFPRequest.send() receive a response object as an argument (see <a href="#examples">Examples</a>). The following properties are available for the response:
 
@@ -154,7 +156,7 @@ headers | Return response headers in JSON format.
 errorCode | Return response error code as integer. 
 errorDescription | Return response error description as null or string.
 
-Request methods available:
+The following HTTP methods are available:
 
 Method |
 --- |
@@ -166,9 +168,14 @@ MFPRequest.TRACE |
 MFPRequest.HEAD |
 MFPRequest.OPTIONS |
 
-Example:
+Examples:
+You can specify a path relative to your Bluemix app route
 ```
 var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
+```
+or you can specify a full URL path:
+```
+var request = new MFPRequest("http://www.github.com", MFPRequest.GET);
 ```
 
 <h3 id="mfplogger">MFPLogger</h3>
@@ -219,8 +226,8 @@ MFPAnalytics functions available:
 
 Function | Use
 --- | ---
-`enable` | Turn on the global setting for persisting of the analytics data.
-`disable` | Turn off the global setting for persisting of the analytics data.
+`enable()` | Turn on the global setting for persisting of the analytics data.
+`disable()` | Turn off the global setting for persisting of the analytics data.
 `isEnabled(success, failure)` | Get the current setting for determining if log data should be saved persistently.
 `send(success, failure)` | Send the analytics log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
 
