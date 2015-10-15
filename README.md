@@ -24,7 +24,7 @@ The Cordova library is required to use this plugin. Use the following commands t
 
 **Homebrew**
 ```
-$ ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”```
+$ ruby -e “$(curl -fsSL "https://raw.githubusercontent.com/Homebrew/install/master/install)”
 ```
 
 **Node Package Manager (npm)**
@@ -84,14 +84,14 @@ $ cordova plugin list
     - Make sure the IMFCore.framework was added
 
     - Navigate to Build Settings => Search Paths => Framework Search Paths and add the following:
-        - $(inherited)
-        - $(PROJECT_DIR)/Frameworks
+        - `$(inherited)`
+        - `$(PROJECT_DIR)/Frameworks`
 
     - Navigate to Build settings => search for “bridging” => Objective-C Bridging Header and add the following:
         - [your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h
 
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
-        - @executable_path/Frameworks
+        - `@executable_path/Frameworks`
 
 <h3 id="configure-android">Configuring Your App for Android</h3>
 
@@ -178,6 +178,8 @@ or you can specify a full URL path:
 var request = new MFPRequest("http://www.github.com", MFPRequest.GET);
 ```
 
+See below for more <a href="#using-bmsclient">Examples</a> of how to use BMSClient and MFPRequest.
+
 <h3 id="mfplogger">MFPLogger</h3>
 
 MFPLogger is a Singleton class used for logging messages. 
@@ -198,6 +200,16 @@ Function | Use
 `isUncaughtExceptionDetected(success, failure)` | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
 `send(success, failure)` | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
 
+Log levels available:
+
+Level |
+--- |
+FATAL |
+ERROR |
+WARN |
+INFO |
+DEBUG |
+
 You can create an instance of MFPLogger using:
 ```
 MFPLogger.getInstance("myLogger")
@@ -211,12 +223,13 @@ Function |
 `warn(message)` | 
 `error(message)` |
 `fatal(message)` |
+
 Example:
 ```
 myLogger.debug(message)
 ```
 
-See below for more <a href="#examples">Examples</a> of how to use MFPLogger.
+See below for more <a href="#using-mfplogger">Examples</a> of how to use MFPLogger.
 
 <h3 id="mfpanalytics">MFPAnalytics</h3>
 
@@ -231,7 +244,7 @@ Function | Use
 `isEnabled(success, failure)` | Get the current setting for determining if log data should be saved persistently.
 `send(success, failure)` | Send the analytics log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
 
-See below for <a href="#examples">Examples</a> of how to use MFPAnalytics.
+See below for <a href="#using-mfpanalytics">Examples</a> of how to use MFPAnalytics.
 
 <h2 id="examples">Examples</h2>
 
