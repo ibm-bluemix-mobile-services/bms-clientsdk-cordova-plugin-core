@@ -5,8 +5,8 @@ Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 ## Contents
 - <a href="#installation">Installation</a>
 - <a href="#configuration">Configuration</a>
-    - <a href="#configure-ios">Configuring Your App for iOS</a>
-    - <a href="#configure-android">Configuring Your App for Android</a>
+    - <a href="#configure-ios">Configure Your iOS Development Environment</a>
+    - <a href="#configure-android">Configure Your Android Development Environment</a>
 - <a href="#usage">Usage</a>
     - <a href="#bmsclient">BMSClient</a>
     - <a href="#mfprequest">MFPRequest</a>
@@ -20,38 +20,14 @@ Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 <h2 id="installation">Installation</h2>
 
 ### Install necessary libraries
-The Cordova library is required to use this plugin. Use the following commands to install it and other necessary tools.
 
-**Homebrew**
-```
-$ ruby -e “$(curl -fsSL "https://raw.githubusercontent.com/Homebrew/install/master/install)”
-```
+You should already have Node.js/npm and the Cordova package installed. If not then follow the instructions here to download and insall Node:
 
-**Node Package Manager (npm)**
-```
-$ brew install npm
-```
+[https://nodejs.org/en/download/](https://nodejs.org/en/download/)
 
-**Cordova**
-```
-$ npm install -g cordova
-```
+The Cordova library is required to use this plugin. Follow the instructions in the following link to install Cordova and set up your Cordova app:
 
-### Add your app platform
-
-You have to generate your app's platform before adding the plugin.
-
-To generate the iOS platform:
-```
-$ cordova platform add ios
-```
-
-To generate the Android platform:
-```
-$ cordova platform add android
-```
-
-You should see a "Platforms" folder added to your app's directory.
+[https://cordova.apache.org/#getstarted](https://cordova.apache.org/#getstarted)
 
 ### Add the Cordova plugin
 
