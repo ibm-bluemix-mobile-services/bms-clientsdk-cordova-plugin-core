@@ -275,7 +275,7 @@ request.send("some body",
 )
 ```
 
-The successResponse or failureResponse are JSON objects that will be passed to your callbacks with the following fields:
+The successResponse and failureResponse parameters are JSON objects that will be passed to your callbacks with the following fields:
 
 ```
 response.status  =>  Integer
