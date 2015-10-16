@@ -226,7 +226,8 @@ See below for <a href="#using-mfpanalytics">Examples</a> of how to use MFPAnalyt
 
 <h3 id="using-bmsclient">Using BMSClient and MFPRequest</h3>
 
-The following Javascript code is your entry point to the MobileFirst services. This method should be called before making a request.
+The following Javascript code is your entry point to the MobileFirst services. This method should be called before making a request. Your app URL and GUID can be found by going to your app's dashboard on Bluemix and clicking on "Mobile Options".
+
 ```
 BMSClient.initialize("https://myapp.mybluemix.net", "abcd1234-abcd-1234-abcd-abcd1234abcd");
 ```
