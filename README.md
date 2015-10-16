@@ -157,7 +157,17 @@ See below for more <a href="#using-bmsclient">Examples</a> of how to use BMSClie
 
 <h3 id="mfplogger">MFPLogger</h3>
 
-MFPLogger is a Singleton class used for logging messages. 
+MFPLogger is a Singleton class used for logging messages.
+
+You can create an instance of MFPLogger using:
+```
+MFPLogger.getInstance("myLogger")
+```
+
+Example of sending a specific log message using your logger instance:
+```
+myLogger.debug(message)
+```
 
 MFPLogger functions available:
 
@@ -185,10 +195,6 @@ WARN |
 INFO |
 DEBUG |
 
-You can create an instance of MFPLogger using:
-```
-MFPLogger.getInstance("myLogger")
-```
 The following functions are available for the logger instance to send a specific log message:
 
 Function |
@@ -198,11 +204,6 @@ Function |
 `warn(message)` | 
 `error(message)` |
 `fatal(message)` |
-
-Example:
-```
-myLogger.debug(message)
-```
 
 See below for more <a href="#using-mfplogger">Examples</a> of how to use MFPLogger.
 
