@@ -1,6 +1,6 @@
 # IBM Bluemix Mobile Services - Client SDK Cordova
 
-This plugin for Cordova provides access to IBM Bluemix Mobile Services used for logging and analytics.
+Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 
 ## Contents
 - <a href="#installation">Installation</a>
