@@ -157,7 +157,7 @@ See below for more <a href="#using-bmsclient">Examples</a> of how to use BMSClie
 
 <h3 id="mfplogger">MFPLogger</h3>
 
-MFPLogger is a Singleton class used for logging messages.
+MFPLogger is a Singleton class used for logging messages. It persists logs to the local disk. When you call the send() function it will send the logs to the server.
 
 You can create an instance of MFPLogger using:
 ```
