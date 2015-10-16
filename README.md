@@ -42,7 +42,7 @@ $ cordova plugin list
 
 <h2 id="configuration">Configuration</h2>
 
-<h3 id="configure-ios">Configuring Your App for iOS</h3>
+<h3 id="configure-ios">Configure Your iOS Development Environment</h3>
 - Make sure your Xcode version is at least 7.0
 
 - Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
@@ -69,7 +69,7 @@ $ cordova plugin list
     - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
         - `@executable_path/Frameworks`
 
-<h3 id="configure-android">Configuring Your App for Android</h3>
+<h3 id="configure-android">Configure Your Android Development Environment</h3>
 
 In your Cordova app, you need to make sure your config.xml file is configured for the right API:
 
