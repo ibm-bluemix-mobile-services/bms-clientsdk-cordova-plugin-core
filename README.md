@@ -88,6 +88,11 @@ The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwic
 
 BMSClient is your entry point to the MobileFirst services. Initializing the BMSClient is required before sending a request that requires authorization.
 
+Example:
+```
+BMSClient.initialize("https://myapp.mybluemix.net", "abcd1234-abcd-1234-abcd-abcd1234abcd");
+```
+
 BMSClient functions available:
 
 Function | Use
@@ -97,11 +102,6 @@ Function | Use
 `getBluemixAppGUID(callback)` | Return the Bluemix app GUID.
 `registerAuthenticationListener(realm, authenticationListener)` | Registers authentication callback for the specified realm.
 `unregisterAuthenticationListener(realm)` | Unregisters the authentication callback for the specified realm.
-
-Example:
-```
-BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
-```
 
 <h3 id="mfprequest">MFPRequest</h3>
 
@@ -226,9 +226,9 @@ See below for <a href="#using-mfpanalytics">Examples</a> of how to use MFPAnalyt
 
 <h3 id="using-bmsclient">Using BMSClient and MFPRequest</h3>
 
-The following Javascript code is your entry point to the MobileFirst services. This method should be called before your send the first request that requires authorization.
+The following Javascript code is your entry point to the MobileFirst services. This method should be called before making a request.
 ```
-BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
+BMSClient.initialize("https://myapp.mybluemix.net", "abcd1234-abcd-1234-abcd-abcd1234abcd");
 ```
 
 #### Creating a request 
