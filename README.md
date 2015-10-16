@@ -16,6 +16,7 @@ Cordova Plugin for IBM Bluemix Mobile Services Core SDK
     - <a href="#using-bmsclient">Using BMSClient and MFPRequest</a> 
     - <a href="#using-mfplogger">Using MFPLogger</a>
     - <a href="#using-mfpanalytics">Using MFPAnalytics</a> 
+- <a href="#release-notes">Release Notes</a> 
 
 <h2 id="installation">Installation</h2>
 
@@ -332,7 +333,7 @@ MFPAnalytics.send(
 });
 ```
 
-## Release Notes
+<h2 id="release-notes">Release Notes</h3>
 
 ---
 
