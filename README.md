@@ -209,7 +209,7 @@ See below for more <a href="#using-mfplogger">Examples</a> of how to use MFPLogg
 
 <h3 id="mfpanalytics">MFPAnalytics</h3>
 
-MFPAnalytics is used for sending analytics logs.
+MFPAnalytics is used for sending operational analytics information to the server.
 
 MFPAnalytics functions available:
 
@@ -230,8 +230,6 @@ The following Javascript code is your entry point to the MobileFirst services. T
 ```
 BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
 ```
-The first parameter specifies the base URL for the authorization server.
-The second parameter specifies the GUID of the application.
 
 #### Creating a request 
 After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value.
@@ -242,8 +240,8 @@ var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
 #### Setting the headers for your request 
 ```
 var headers = {
-    header1: ["val1"]
-    header2: ["val2", "val3"]
+    header1: "val1",
+    header2: "val2"
 }
 request.setHeaders(headers)
 ```
@@ -257,15 +255,19 @@ var queryParams = {
 request.setQueryParameters(queryParams)
 ```
 
+The query parameters are parameters that you wish to use for your specific request.
+
 #### Sending the request
 
 ```
 request.send("some body",
     function(successResponse){
+        console.log("text :: " + successResponse.text);
         console.log("status :: " + successResponse.status);
         console.log("headers :: " + successResponse.headers);
     }, 
     function (failureResponse){
+        console.log("text :: " + failureResponse.text);
         console.log("errorCode:: " + failureResponse.errorCode);
         console.log("errorDescription :: " + failureResponse.errorDescription);
     }
@@ -319,8 +321,6 @@ Below are some examples of how to use the MFPAnalytics class.
 // Enable analytics logging
 MFPAnalytics.enable();
 
-MFPAnalytics.logEvent("Logging a message to Analytics");
-
 // Send the analytics log to the server 
 MFPAnalytics.send(
     function() { 
@@ -330,6 +330,8 @@ MFPAnalytics.send(
         console.log("Send() failed"); 
 });
 ```
+
+## Release Notes
 
 ---
 
