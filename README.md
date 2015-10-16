@@ -107,6 +107,15 @@ BMSClient.initialize("https://myapp.mybluemix.net", "abcd12345abcd12345");
 
 After initializing the client you may create a new MFPRequest instance, used to send a request to a specified URL.
 
+You can specify a path relative to your Bluemix app route
+```
+var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
+```
+or you can specify a full URL path:
+```
+var request = new MFPRequest("http://www.example.com", MFPRequest.GET);
+```
+
 MFPRequest functions available:
 
 Function | Use
@@ -143,16 +152,6 @@ MFPRequest.DELETE |
 MFPRequest.TRACE |
 MFPRequest.HEAD |
 MFPRequest.OPTIONS |
-
-Examples:
-You can specify a path relative to your Bluemix app route
-```
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
-```
-or you can specify a full URL path:
-```
-var request = new MFPRequest("http://www.github.com", MFPRequest.GET);
-```
 
 See below for more <a href="#using-bmsclient">Examples</a> of how to use BMSClient and MFPRequest.
 
