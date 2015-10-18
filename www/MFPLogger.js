@@ -194,10 +194,10 @@ var MFPLogger = (function () {
 })();
 
 /** Trace level */
-MFPLogger.FATAL = 50;
-MFPLogger.ERROR = 100;
-MFPLogger.WARN = 200;
-MFPLogger.INFO = 300;
-MFPLogger.DEBUG = 400;
+MFPLogger.FATAL = "FATAL";
+MFPLogger.ERROR = "ERROR";
+MFPLogger.WARN  = "WARN";
+MFPLogger.INFO  = "INFO";
+MFPLogger.DEBUG = "DEBUG";
 
 module.exports = MFPLogger;
