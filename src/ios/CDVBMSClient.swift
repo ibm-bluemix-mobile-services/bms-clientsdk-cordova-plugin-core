@@ -11,7 +11,9 @@ import IMFCore
 @objc(CDVBMSClient) class CDVBMSClient : CDVPlugin {
     
     func initialize(command: CDVInvokedUrlCommand) {
-        
+
+        self.commandDelegate!.runInBackground({
+
         guard let route  = command.arguments[0] as? String else {
             let message = "Invalid route."
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
@@ -27,8 +29,7 @@ import IMFCore
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
             return
         }
-        
-        self.commandDelegate!.runInBackground({
+
             let client = IMFClient.sharedInstance()
             
             //use category to handle objective-c exception
@@ -50,6 +51,7 @@ import IMFCore
     func backendRoute(command: CDVInvokedUrlCommand) {
         
         self.commandDelegate!.runInBackground({
+
             let client = IMFClient.sharedInstance()
             let backendRoute: String = client.backendRoute
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendRoute)
@@ -61,6 +63,7 @@ import IMFCore
     func backendGUID(command: CDVInvokedUrlCommand) {
         
         self.commandDelegate!.runInBackground({
+
             let client = IMFClient.sharedInstance()
             let backendGUID: String = client.backendGUID
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendGUID)
