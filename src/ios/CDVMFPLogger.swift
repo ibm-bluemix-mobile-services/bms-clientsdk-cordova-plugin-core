@@ -26,25 +26,6 @@ import IMFCore
         "ANALYTICS" : IMFLogLevel.Analytics,
     ]
 
-    func getInstance(command: CDVInvokedUrlCommand){
-        // parms: [name]
-
-        self.commandDelegate!.runInBackground({
-
-        guard let name  = command.arguments[0] as? String else {
-            let message = "Name  Parameter is Invalid."
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
-            // call error callback
-            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-            return
-        }
-
-            IMFLogger(forName: name)
-            // log uncaught exceptions
-            IMFLogger.captureUncaughtExceptions()
-        })
-    }
-
     func getCapture(command: CDVInvokedUrlCommand){
         
         self.commandDelegate!.runInBackground({

@@ -105,7 +105,6 @@ var MFPLogger = (function () {
             if (!instances[name]) {
                 instances[name] = createInstance(name);
             }
-            cordova.exec(success , failure, "MFPLogger", "getInstance", [name]);
             return instances[name];
         },
         /**
