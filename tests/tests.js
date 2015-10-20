@@ -199,48 +199,6 @@ exports.defineAutoTests = function () {
 
 		});
 
-		describe('Logger API', function() {
-			var logger;
-
-			beforeEach(function () {
-				logger = MFPLogger.getInstance("logger-test");
-			});
-
-			it('should exist', function() {
-				expect(logger).toBeDefined();
-			});
-
-			it('should have debug() and is a function', function() {
-				expect(typeof logger.debug).toBeDefined();
-				expect(typeof logger.debug == 'function').toBe(true);
-			});
-
-			it('should have info() and is a function', function() {
-				expect(typeof logger.info).toBeDefined();
-				expect(typeof logger.info == 'function').toBe(true);
-			});
-
-			it('should have error() and is a function', function() {
-				expect(typeof logger.error).toBeDefined();
-				expect(typeof logger.error == 'function').toBe(true);
-			});
-
-			it('should have warn() and is a function', function() {
-				expect(typeof logger.warn).toBeDefined();
-				expect(typeof logger.warn == 'function').toBe(true);
-			});
-
-			it('should have fatal() and is a function', function() {
-				expect(typeof logger.fatal).toBeDefined();
-				expect(typeof logger.fatal == 'function').toBe(true);
-			});
-
-			it('should have getName() and is a function', function() {
-				expect(typeof logger.getName).toBeDefined();
-				expect(typeof logger.getName == 'function').toBe(true);
-			});
-		});
-
 		describe('MFPLogger API', function() {
 			it('should exist', function() {
 				expect(MFPLogger).toBeDefined();
@@ -299,6 +257,48 @@ exports.defineAutoTests = function () {
 			it('should have send() and is a function', function() {
 				expect(typeof MFPLogger.send).toBeDefined();
 				expect(typeof MFPLogger.send == 'function').toBe(true);
+			});
+		});
+
+		describe('Logger API', function() {
+			var logger;
+
+			beforeEach(function () {
+				logger = MFPLogger.getInstance("logger-test");
+			});
+
+			it('should exist', function() {
+				expect(logger).toBeDefined();
+			});
+
+			it('should have debug() and is a function', function() {
+				expect(typeof logger.debug).toBeDefined();
+				expect(typeof logger.debug == 'function').toBe(true);
+			});
+
+			it('should have info() and is a function', function() {
+				expect(typeof logger.info).toBeDefined();
+				expect(typeof logger.info == 'function').toBe(true);
+			});
+
+			it('should have error() and is a function', function() {
+				expect(typeof logger.error).toBeDefined();
+				expect(typeof logger.error == 'function').toBe(true);
+			});
+
+			it('should have warn() and is a function', function() {
+				expect(typeof logger.warn).toBeDefined();
+				expect(typeof logger.warn == 'function').toBe(true);
+			});
+
+			it('should have fatal() and is a function', function() {
+				expect(typeof logger.fatal).toBeDefined();
+				expect(typeof logger.fatal == 'function').toBe(true);
+			});
+
+			it('should have getName() and is a function', function() {
+				expect(typeof logger.getName).toBeDefined();
+				expect(typeof logger.getName == 'function').toBe(true);
 			});
 		});
 
@@ -368,7 +368,6 @@ exports.defineAutoTests = function () {
 
 				MFPLogger.getFilters(
 					function(filter) {
-						// filter = JSON.parse(filter);
 						expect(filter).toEqual(
 							{
 							"pkgOne": "INFO",
@@ -399,7 +398,7 @@ exports.defineAutoTests = function () {
 
 			it('should Set the Logger Level and invoke the Succeed callback', function(done) {
 				spyOn(MFPLogger, 'setLevel').and.callFake(function(logLevel) {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setMaxStoreSize", [logLevel]);
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setLevel", [logLevel]);
 				});
 				MFPLogger.setLevel(MFPLogger.FATAL);
 			}, 25000);
