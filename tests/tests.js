@@ -331,7 +331,9 @@ exports.defineAutoTests = function () {
 
 				MFPLogger.getCapture(
 					function(result) {
-						result = (result === 'true');
+						// result should be a proper 'boolean'
+						expect(typeof(result) == "boolean").toBe(true);
+						// result should return the value that was previously set
 						expect(result).toBe(true);
 						done();
 					},
@@ -340,9 +342,12 @@ exports.defineAutoTests = function () {
 
 			it('should Set AND Get the capture flag correctly #2', function(done) {
 				MFPLogger.setCapture(false);
+
 				MFPLogger.getCapture(
 					function(result) {
-						result = (result === 'true');
+						// result should be a proper 'boolean'
+						expect(typeof(result) == "boolean").toBe(true);
+						// result should return the value that was previously set
 						expect(result).toBe(false);
 						done();
 					},
@@ -368,6 +373,9 @@ exports.defineAutoTests = function () {
 
 				MFPLogger.getFilters(
 					function(filter) {
+						// filter should be a proper 'object'
+						expect(typeof(filter) == "object").toBe(true);
+						// filter should return the value that was previously set
 						expect(filter).toEqual(
 							{
 							"pkgOne": "INFO",
@@ -387,8 +395,12 @@ exports.defineAutoTests = function () {
 
 			it('should Set Max Store Size and Get the previously set value', function(done) {
 				MFPLogger.setMaxStoreSize(20000);
+
 				MFPLogger.getMaxStoreSize(
 					function(intSize) {
+						// intSize should be a proper int
+						expect(typeof(intSize) == "number").toBe(true);
+						// intSize should return the value that was previously set
 						expect(intSize).toBe(20000);
 						done();
 					}, 
@@ -403,16 +415,19 @@ exports.defineAutoTests = function () {
 				MFPLogger.setLevel(MFPLogger.FATAL);
 			}, 25000);
 
-			// it('should Set and Get the logger level', function(done) {
-			// 	MFPLogger.setLevel(MFPLogger.ERROR);
-			// 	MFPLogger.getLevel(
-			// 		function(logLevel){
-			// 			console.log("LogLevel = " + logLevel);
+			it('should Set and Get the logger level', function(done) {
+				MFPLogger.setLevel(MFPLogger.ERROR);
 
-			// 			done();
-			// 		},
-			// 		fail.bind(null, done));
-			// }, 25000);
+				MFPLogger.getLevel(
+					function(logLevel){
+						// logLevel should be a proper String
+						expect(typeof(logLevel) == "string").toBe(true);
+						// logLevel should return the value that was previously set
+						expect(logLevel).toBe(MFPLogger.ERROR);
+						done();
+					},
+					fail.bind(null, done));
+			}, 25000);
 
 			it('should call isUncaughtExceptionDetected and invoke the Succeed callback', function(done) {
 				MFPLogger.isUncaughtExceptionDetected(succeed.bind(null, done), fail.bind(null, done));

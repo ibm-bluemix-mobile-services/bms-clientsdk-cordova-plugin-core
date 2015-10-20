@@ -95,6 +95,18 @@ var MFPLogger = (function () {
         return logger;
     }
 
+    function boolWrap(callback, result) {
+        /*   For now, it seems that Java cannot 
+         return boolean values to their callbacks.
+         So we intercept the callback, check if it's a string
+         and convert the result to a boolean.
+        */ 
+        if(typeof(result) == "string") {
+            result = (result === "true");
+        }
+        callback(result);
+    }
+
     return {
         /**
          *  Returns a named Logger Instance
@@ -113,7 +125,7 @@ var MFPLogger = (function () {
          * @param failure callback
          */
         getCapture : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "getCapture", []);
+            cordova.exec(boolWrap.bind(null, success), failure, "MFPLogger", "getCapture", []);
         },
         /**
          * Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class
