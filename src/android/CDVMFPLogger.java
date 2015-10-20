@@ -137,15 +137,6 @@ public class CDVMFPLogger extends CordovaPlugin {
 
             callbackContext.success();
             return true;
-        } else if("testDebug".equals(action)) {
-            Logger.setCapture(true);
-            Logger.setAnalyticsCapture(true);
-            Logger mylogger = Logger.getInstance("testDebug");
-            mylogger.debug("BBBBB TEST DEBUG");
-            mylogger.analytics("BBBBB Analytics Message", new JSONObject());
-            Logger.send();
-            callbackContext.success();
-            return true;
         }
         return false;
     }
