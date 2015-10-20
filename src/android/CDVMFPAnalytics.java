@@ -56,6 +56,10 @@ public class CDVMFPAnalytics extends CordovaPlugin {
         return false;
     }
 
+    /**
+     * Sends the Analytics logs to the server
+     * @param callbackContext Callback that will indicate whether the request succeeded or failed
+     */
     public void send(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {

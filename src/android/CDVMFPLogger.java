@@ -52,7 +52,6 @@ public class CDVMFPLogger extends CordovaPlugin {
             return true;
 
 
-
         } else if("getFilters".equals(action)) {
             JSONObject filters = Logger.HashMapToJSONObject(Logger.getFilters());
             callbackContext.success(filters);
@@ -64,6 +63,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             callbackContext.success();
             return true;
 
+
         } else if("getMaxStoreSize".equals(action)) {
             callbackContext.success(Logger.getMaxStoreSize());
             return true;
@@ -72,6 +72,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             Logger.setMaxStoreSize(newStoreSize);
             callbackContext.success();
             return true;
+
 
         } else if("getLevel".equals(action)) {
             String currentLevel = String.valueOf(Logger.getLevel());
@@ -83,14 +84,17 @@ public class CDVMFPLogger extends CordovaPlugin {
             callbackContext.success();
             return true;
 
+
         } else if("isUncaughtExceptionDetected".equals(action)) {
             String uncaughtExceptionFlag = String.valueOf(Logger.isUnCaughtExceptionDetected());
             callbackContext.success(uncaughtExceptionFlag);
             return true;
 
+
         } else if("send".equals(action)) {
             this.send(callbackContext);
             return true;
+
 
         } else if("fatal".equals(action)) {
             String packageName = args.getString(0);
@@ -141,6 +145,10 @@ public class CDVMFPLogger extends CordovaPlugin {
         return false;
     }
 
+    /**
+     * Sends non-Analytics logs to the server
+     * @param callbackContext Callback that will indicate whether the request succeeded or failed
+     */
     public void send(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
