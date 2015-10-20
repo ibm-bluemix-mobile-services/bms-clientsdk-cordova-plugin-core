@@ -23,7 +23,7 @@ import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import android.util.Log;
+
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -33,29 +33,20 @@ import java.util.Iterator;
 public class CDVMFPLogger extends CordovaPlugin {
     private static final String TAG = "CDVMFPLogger";
 
-    //TODO : Discuss JS API implementation on whether we should need the following
-    private static final Map<Integer, LEVEL> INT_TO_ENUM = new HashMap<Integer, LEVEL>(){{
-        put(50, LEVEL.FATAL);
-        put(100, LEVEL.DEBUG);
-        put(200, LEVEL.WARN);
-        put(300, LEVEL.INFO);
-        put(400, LEVEL.DEBUG);
-    }};
+    private static final Logger mfpLogger = Logger.getInstance("CDVMFPLogger");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if("getInstance".equals(action)) {
-            String packageName = args.getString(0);
-            this.getInstance(packageName, callbackContext);
-            callbackContext.success();
-            return true;
-
-        } else if("getCapture".equals(action)) {
+        if("getCapture".equals(action)) {
             String captureFlag = String.valueOf(Logger.getCapture());
+
+            mfpLogger.debug("getCapture: " + Logger.getCapture());
+
             callbackContext.success(captureFlag);
             return true;
         } else if("setCapture".equals(action)) {
-        	Boolean captureFlag = args.getBoolean(0);
+            Boolean captureFlag = args.getBoolean(0);
+            mfpLogger.debug("setCapture: " + captureFlag);
             Logger.setCapture(captureFlag);
             callbackContext.success();
             return true;
@@ -68,11 +59,10 @@ public class CDVMFPLogger extends CordovaPlugin {
         } else if("setFilters".equals(action)) {
             String myarg = args.getString(0);
             JSONObject filtersAsJSON = new JSONObject(args.getString(0));
-            HashMap<String, LEVEL> newFilters = this.JSONObjectToHashMap(filtersAsJSON);
+            HashMap<String, LEVEL> newFilters = Logger.JSONObjectToHashMap(filtersAsJSON);
             Logger.setFilters(newFilters);
             callbackContext.success();
             return true;
-
 
         } else if("getMaxStoreSize".equals(action)) {
             callbackContext.success(Logger.getMaxStoreSize());
@@ -88,7 +78,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             callbackContext.success(currentLevel);
             return true;
         } else if("setLevel".equals(action)) {
-            LEVEL newLevel = INT_TO_ENUM.get(args.getInt(0));
+            LEVEL newLevel = LEVEL.fromString(args.getString(0));
             Logger.setLevel(newLevel);
             callbackContext.success();
             return true;
@@ -99,8 +89,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             return true;
 
         } else if("send".equals(action)) {
-            this.send();
-            callbackContext.success();
+            this.send(callbackContext);
             return true;
 
         } else if("fatal".equals(action)) {
@@ -148,50 +137,35 @@ public class CDVMFPLogger extends CordovaPlugin {
 
             callbackContext.success();
             return true;
+        } else if("testDebug".equals(action)) {
+            Logger.setCapture(true);
+            Logger.setAnalyticsCapture(true);
+            Logger mylogger = Logger.getInstance("testDebug");
+            mylogger.debug("BBBBB TEST DEBUG");
+            mylogger.analytics("BBBBB Analytics Message", new JSONObject());
+            Logger.send();
+            callbackContext.success();
+            return true;
         }
-
         return false;
     }
 
-    public void getInstance(String packageName, CallbackContext callbackContext) {
-        Log.d(TAG, "getInstance(" + packageName + ")");
-        Logger.getInstance(packageName);
-    }
-
-
-    public void send() {
-        Log.d(TAG, "send()");
-
+    public void send(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 Logger.send(new ResponseListener() {
                     @Override
                     public void onSuccess(Response r) {
-                        Log.d(TAG, "send(). Successfully sent logs");
+                        callbackContext.success("send(): Successfully sent logs");
                     }
 
                     @Override
                     public void onFailure(Response r, Throwable t, JSONObject extendedInfo) {
-                        Log.d(TAG, "send(). Failed to send logs");
+                        callbackContext.error("send(): Failed to send logs");
                     }
                 });
             }
         });
     }
-
-    public static HashMap<String, LEVEL> JSONObjectToHashMap(JSONObject object) {
-        HashMap<String, LEVEL> pairs = new HashMap<String, LEVEL>();
-        @SuppressWarnings("rawtypes")
-        Iterator it = object.keys();
-        while (it.hasNext()) {
-            String n = (String) it.next();
-            try {
-                pairs.put(n, INT_TO_ENUM.get(object.getInt(n)));
-            } catch (JSONException e) {
-            }
-        }
-        return pairs;
-    }
-
 
 }

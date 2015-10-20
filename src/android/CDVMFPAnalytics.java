@@ -15,6 +15,7 @@ package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.Response;
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.ResponseListener;
 import com.ibm.mobilefirstplatform.clientsdk.android.analytics.api.*;
+import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.Logger;
 
 import android.util.Log;
 
@@ -31,10 +32,12 @@ public class CDVMFPAnalytics extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if("enable".equals(action)) {
+            Logger.setAnalyticsCapture(true);
             MFPAnalytics.enable();
             callbackContext.success();
             return true;
         } else if("disable".equals(action)) {
+            Logger.setAnalyticsCapture(false);
             MFPAnalytics.disable();
             callbackContext.success();
             return true;
@@ -56,7 +59,7 @@ public class CDVMFPAnalytics extends CordovaPlugin {
     public void send(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                MFPAnalytics.send(new ResponseListener() {
+                Logger.sendAnalytics(new ResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
                         callbackContext.success();
