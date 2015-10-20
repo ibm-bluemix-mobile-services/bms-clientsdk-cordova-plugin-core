@@ -61,7 +61,6 @@ import IMFCore
             nativeRequest.setHTTPBody(bodyData)
         }
         
-        //TODO Verify dictionary is string to string or string to list of strings now that api changed
         // get the headers
         let requestHeaderDict = requestDict.objectForKey("headers") as! Dictionary<String,String>
         let requestHeaderNamesArray = Array(requestHeaderDict.keys)
