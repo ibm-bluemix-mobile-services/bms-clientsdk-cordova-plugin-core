@@ -1,7 +1,18 @@
-var MFPRequest = function (url, method, timeout) {
-    var exec = require("cordova/exec");
-    this.TAG = "javascript-MFPRequest ";
+/*
+    Copyright 2015 IBM Corp.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+var exec = require("cordova/exec");
 
+var MFPRequest = function (url, method, timeout) {    
     this._headers = {};
     this._queryParameters = {};
     this._url = url;
@@ -89,7 +100,6 @@ MFPRequest.prototype = function () {
 
         if(arguments.length == 2) {
             // Empty Body
-            console.log(this.TAG + " send with empty body");
             var cbSuccess = callbackWrap.bind(this, arguments[0]);
             var cbFailure = callbackWrap.bind(this, arguments[1]);
 
@@ -97,7 +107,6 @@ MFPRequest.prototype = function () {
         } else if(arguments.length >= 3) {
             // Non-empty Body 
             if(typeof arguments[0] == "string" || typeof arguments[0] == "object") {
-                console.log(this.TAG + " send with string or object for the body");
                 var cbSuccess = callbackWrap.bind(this, arguments[1]);
                 var cbFailure = callbackWrap.bind(this, arguments[2]);
                 cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(arguments[0])]);
@@ -135,7 +144,7 @@ MFPRequest.prototype = function () {
             }
         }
         //TODO update when Logger is complete
-        console.log(this.TAG + " The request is: " + JSON.stringify(request));
+        console.log(" The request is: " + JSON.stringify(request));
         return request;
     };
 

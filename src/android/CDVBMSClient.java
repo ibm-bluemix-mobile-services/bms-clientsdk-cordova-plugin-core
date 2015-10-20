@@ -1,28 +1,31 @@
+/*
+    Copyright 2015 IBM Corp.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationListener;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthorizationManager;
-
-import android.util.Log;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
+import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.MalformedURLException;
-
-import java.lang.reflect.Method;
 
 public class CDVBMSClient extends CordovaPlugin {
     private static final String TAG = "CDVBMSClient";
+
+    private static final Logger bmsLogger = Logger.getInstance("CDVBMSClient");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -51,12 +54,12 @@ public class CDVBMSClient extends CordovaPlugin {
             try {
                 BMSClient.getInstance().initialize(this.cordova.getActivity().getApplicationContext(), backendRoute, backendGUID);
             } catch (MalformedURLException e) {
-                //TODO: Verify exception is passed back.
                 callbackContext.error(e.getMessage());
             }
-            Log.d(TAG, "initialize() : Successfully set up BMSClient");
+            bmsLogger.debug("Successfully initialized BMSClient");
             callbackContext.success();
         } else {
+            bmsLogger.error("Trouble initializing BMSClient");
             callbackContext.error("Expected non-empty string arguments.");
         }
     }
@@ -66,10 +69,7 @@ public class CDVBMSClient extends CordovaPlugin {
         String realm                  = args.getString(0);
         String authenticationListener = args.getString(1);
         if (realm != null && realm.length() > 0) {
-            Log.d(TAG, "Called registerAuthenticationListener");
-
-            Log.d(TAG, "Arg1: " + realm);
-            Log.d(TAG, "Arg2: " + authenticationListener);
+            bmsLogger.debug("Called registerAuthenticationListener");
             callbackContext.success(realm);
         } else {
             callbackContext.error("Expected one non-empty string argument.");
@@ -80,10 +80,10 @@ public class CDVBMSClient extends CordovaPlugin {
     public void unregisterAuthenticationListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String authenticationListener = args.getString(0);
         if (authenticationListener != null && authenticationListener.length() > 0) {
-            Log.d(TAG, "Called unregisterAuthenticationListener");
-            Log.d(TAG, "Arg1: " + authenticationListener);
+            bmsLogger.debug("Called unregisterAuthenticationListener");
             callbackContext.success(authenticationListener);
         } else {
+            bmsLogger.error("Expected one non-empty string argument.");
             callbackContext.error("Expected one non-empty string argument.");
         }
     }

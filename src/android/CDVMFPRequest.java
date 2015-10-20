@@ -1,3 +1,15 @@
+/*
+    Copyright 2015 IBM Corp.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import org.apache.cordova.CordovaPlugin;
@@ -7,17 +19,12 @@ import org.apache.cordova.PluginResult;
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 
-import android.util.Log;
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +33,8 @@ import java.util.Iterator;
 
 public class CDVMFPRequest extends CordovaPlugin {
     private static final String TAG = "CDVMFPRequest";
+
+    private static final Logger mfpRequestLogger = Logger.getInstance("CDVMFPRequest");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -57,8 +66,7 @@ public class CDVMFPRequest extends CordovaPlugin {
                     public void onSuccess(Response response) {
                         try {
                             PluginResult result = new PluginResult(PluginResult.Status.OK, packJavaResponseToJSON(response));
-                            //TODO: Logging
-                            Log.d(TAG, "Success = Sending plugin result to javascript");
+                            mfpRequestLogger.debug("Request successful.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) { 
                             callbackContext.error(e.getMessage());
@@ -68,8 +76,7 @@ public class CDVMFPRequest extends CordovaPlugin {
                     public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                         try {
                             PluginResult result = new PluginResult(PluginResult.Status.ERROR, packJavaResponseToJSON(failResponse));
-                            //TODO: Logging
-                            Log.d(TAG, "Failure = Sending plugin result to javascript");
+                            mfpRequestLogger.error("Failed to send request.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
                             callbackContext.error(e.getMessage());
@@ -82,7 +89,7 @@ public class CDVMFPRequest extends CordovaPlugin {
     }
 
     /**
-     * Unpacks a JSONObject to create a Bluemix Request
+     * Unpacks a JSONObject to create a native Bluemix Request
      * @param jsRequest JSON request that will be converted to a native Bluemix Request Object
      * @return nativeRequest The converted Bluemix Request Object
      */
@@ -119,6 +126,7 @@ public class CDVMFPRequest extends CordovaPlugin {
      * @return jsonResponse The String representation of the JSONObject
      */
     private String packJavaResponseToJSON(Response response) throws JSONException {
+        mfpRequestLogger.debug("packJavaResponseToJSON");
         if(response != null) {
             JSONObject jsonResponse = new JSONObject();
 
@@ -135,10 +143,6 @@ public class CDVMFPRequest extends CordovaPlugin {
             }
 
             jsonResponse.put("responseHeaders", responseHeaders);
-
-            //TODO: Use Internal Logger class instead
-            Log.d(TAG, "packJavaResponseToJSON -> Complete JSON");
-            Log.d(TAG, jsonResponse.toString());
 
             return jsonResponse.toString();
         } else {

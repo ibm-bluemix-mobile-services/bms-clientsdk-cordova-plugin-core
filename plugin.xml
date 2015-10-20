@@ -11,6 +11,14 @@
         <clobbers target="MFPRequest"/>
     </js-module>
 
+    <js-module name="MFPLogger" src="www/MFPLogger.js">
+        <clobbers target="MFPLogger"/>
+    </js-module>
+
+    <js-module name="MFPAnalytics" src="www/MFPAnalytics.js">
+        <clobbers target="MFPAnalytics"/>
+    </js-module>
+
     <platform name="android">
         <!-- Include Android BMS SDK -->
         <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
@@ -28,13 +36,24 @@
             <feature name="MFPRequest">
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPRequest"/>
             </feature>
+
+            <feature name="MFPLogger">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPLogger"/>
+            </feature>
+
+            <feature name="MFPAnalytics">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAnalytics"/>
+            </feature>
             
         </config-file>
 
         <config-file parent="/*" target="AndroidManifest.xml"/>
 
-        <source-file src="src/android/CDVBMSClient.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVBMSClient.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPRequest.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPLogger.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPAnalytics.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        
     </platform>
 
     <!-- ios -->
@@ -50,6 +69,13 @@
                 <param name="ios-package" value="CDVMFPRequest"/>
             </feature>
 
+            <feature name="MFPLogger">
+                <param name="ios-package" value="CDVMFPLogger"/>
+            </feature>
+
+            <feature name="MFPAnalytics">
+                <param name="ios-package" value="CDVMFPAnalytics"/>
+            </feature>
         </config-file>
 
         <header-file src="src/ios/Bridging-Header.h" />
@@ -57,7 +83,8 @@
         <source-file src="src/ios/IMFClient+initializeException.m" />
         <source-file src="src/ios/CDVBMSClient.swift" />
         <source-file src="src/ios/CDVMFPRequest.swift" />
-
+        <source-file src="src/ios/CDVMFPLogger.swift" />
+        <source-file src="src/ios/CDVMFPAnalytics.swift" />
     </platform>
 
 </plugin>
