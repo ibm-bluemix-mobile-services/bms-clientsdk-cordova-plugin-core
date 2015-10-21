@@ -22,13 +22,9 @@ Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 
 ### Install necessary libraries
 
-You should already have Node.js/npm and the Cordova package installed. If not then follow the instructions here to download and install Node:
+You should already have Node.js/npm and the Cordova package installed. If you don't, you can download and install Node from [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
-[https://nodejs.org/en/download/](https://nodejs.org/en/download/)
-
-The Cordova library is required to use this plugin. Follow the instructions in the following link to install Cordova and set up your Cordova app:
-
-[https://cordova.apache.org/#getstarted](https://cordova.apache.org/#getstarted)
+The Cordova library is also required to use this plugin. You can find instructions to install Cordova and set up your Cordova app at [https://cordova.apache.org/#getstarted](https://cordova.apache.org/#getstarted).
 
 ### Add the Cordova plugin
 
