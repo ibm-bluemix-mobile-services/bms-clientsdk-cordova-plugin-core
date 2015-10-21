@@ -42,41 +42,41 @@ $ cordova plugin list
 <h3 id="configure-ios">Configure Your iOS Development Environment</h3>
 - Make sure your Xcode version is at least 7.0
 
-- Open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova in Xcode
+- In Xcode, open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova
 
-- Make sure to change iOS deployment target to at least 7.0. This is required for using Swift
+- Change the iOS deployment target to at least 7.0,which is required for using Swift
 
-- Including the IMFCore framework:
+- Include the IMFCore framework:
     - In [your-app-name]/platforms/ios add a folder named "Frameworks"
-    - Download IFMCore.framework from [HERE](https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework) and copy it to the Frameworks folder
+    - Download IFMCore.framework from the [SDK repository](https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework) and copy it to the Frameworks folder
 
 - Configuring your project in Xcode:
 
-    - Click on your app name in the project directory and navigate to Build Phases => Link Library with Libraries
+    - Click your app name in the project directory and go to Build Phases > Link Library with Libraries
 
-    - Make sure the IMFCore.framework was added
+    - Make sure the IMFCore.framework is added
 
-    - Navigate to Build Settings => Search Paths => Framework Search Paths and add the following:
+    - Go to Build Settings > Search Paths > Framework Search Paths and add the following parameters:
         - `$(inherited)`
         - `$(PROJECT_DIR)/Frameworks`
 
-    - Navigate to Build settings => search for “bridging” => Objective-C Bridging Header and add the following:
+    - Go to Build settings and search for “bridging” > Objective-C Bridging Header and add the following path:
         - [your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h
 
-    - Navigate to Build Settings => Linking => Runpath Search Paths and add the following
+    - Go to Build Settings > Linking > Runpath Search Paths and add the following parameter
         - `@executable_path/Frameworks`
 
 <h3 id="configure-android">Configure Your Android Development Environment</h3>
 
-In your Cordova app, you need to make sure your config.xml file is configured for the right API:
+In your Cordova app, make sure your config.xml file is configured for the right API:
 
 The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwich):
 
-- Open your config.xml and look for the section:
+- Open your config.xml file and look for the section:
     - `<platform name="android">`
 - Add the following
     - `<preference name="android-minSdkVersion" value="15" />`
-- (Optional) If you wish to target a specific Android API Level, you can use the following:
+- (Optional) If you want to target a specific Android API Level, you can specify the following preference name:
     - `<preference name="android-targetSdkVersion" value="23" />`  
 
 <h2 id="usage">Usage</h2>
