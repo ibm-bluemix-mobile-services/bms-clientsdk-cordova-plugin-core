@@ -18,6 +18,10 @@
     <js-module name="MFPAnalytics" src="www/MFPAnalytics.js">
         <clobbers target="MFPAnalytics"/>
     </js-module>
+	
+    <js-module name="AuthorizationManager" src="www/AuthorizationManager.js">
+        <clobbers target="AuthorizationManager"/>
+    </js-module>
 
     <platform name="android">
         <!-- Include Android BMS SDK -->
@@ -76,6 +80,10 @@
             <feature name="MFPAnalytics">
                 <param name="ios-package" value="CDVMFPAnalytics"/>
             </feature>
+			
+            <feature name="AuthorizationManager">
+                <param name="ios-package" value="CDVAuthorizationManager"/>
+            </feature>
         </config-file>
 
         <header-file src="src/ios/Bridging-Header.h" />
@@ -85,6 +93,7 @@
         <source-file src="src/ios/CDVMFPRequest.swift" />
         <source-file src="src/ios/CDVMFPLogger.swift" />
         <source-file src="src/ios/CDVMFPAnalytics.swift" />
+		<source-file src="src/ios/CDVAuthorizationManager.swift" />
     </platform>
 
 </plugin>
