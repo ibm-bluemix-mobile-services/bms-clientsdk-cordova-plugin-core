@@ -49,7 +49,7 @@ $ cordova plugin list
 - Include the IMFCore framework:
     <ol>
         <li>In [your-app-name]/platforms/ios add a folder named "Frameworks"</li>
-        <li>Download IFMCore.framework from the <a target="_blank" href="https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework">SDK repository</a> and copy it to the Frameworks folder</li>
+        <li>Download IMFCore.framework from the <a target="_blank" href="https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework">SDK repository</a> and copy it to the Frameworks folder</li>
     </ol>
 
 - Configuring your project in Xcode:
