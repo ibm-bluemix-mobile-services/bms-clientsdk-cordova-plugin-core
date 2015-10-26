@@ -40,6 +40,9 @@ public class CDVAuthorizationManager extends CordovaPlugin {
     private static final String TAG = "CDVAuthorizationManager";
     private static final Logger AMLogger = Logger.getInstance("CDVAuthorizationManager");
 
+    private static final String PersistencePolicyAlways = "ALWAYS";
+    private static final String PersistencePolicyNever = "NEVER";
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if("obtainAuthorizationHeader".equals(action)) {
@@ -63,7 +66,7 @@ public class CDVAuthorizationManager extends CordovaPlugin {
             return true;
         }
         else if("setAuthorizationPersistencePolicy".equals(action)) {
-            this.setAuthorizationPersistencePolicy(args, callbackContext);
+            this.setAuthorizationPersistencePolicy(args);
             return true;
         }
         else if("getUserIdentity".equals(action)) {
@@ -150,28 +153,28 @@ public class CDVAuthorizationManager extends CordovaPlugin {
         callbackContext.success(policy.toString());
     }
 
-    private void setAuthorizationPersistencePolicy(JSONArray args,CallbackContext callbackContext) throws JSONException{
+    private void setAuthorizationPersistencePolicy(JSONArray args) throws JSONException{
         String policy = args.getString(0);
 
-        if (policy != null && policy.equals("ALWAYS")) {
+        if (policy.equals(PersistencePolicyAlways)) {
             AuthorizationManager.getInstance().setAuthorizationPersistencePolicy(AuthorizationManager.PersistencePolicy.ALWAYS);
             AMLogger.debug("PersistencePolicy set to:" + policy.toString());
-            callbackContext.success();
+
         }
-        else if(policy != null && policy.equals("NEVER")) {
+        else if(policy.equals(PersistencePolicyNever)) {
             AuthorizationManager.getInstance().setAuthorizationPersistencePolicy(AuthorizationManager.PersistencePolicy.NEVER);
             AMLogger.debug("PersistencePolicy set to:" + policy.toString());
-            callbackContext.success();
+
         }else {
+            //should not get to this code, hybrid code handle the error
             AMLogger.debug("Policy cann't be recognized:" + policy.toString());
-            callbackContext.error("Policy cann't be recognized");
         }
     }
 
     private void getUserIdentity(CallbackContext callbackContext) {
         UserIdentity userIdentity =  AuthorizationManager.getInstance().getUserIdentity();
         AMLogger.debug("userIdentity: " + userIdentity.toString());
-                callbackContext.success(userIdentity.toString());
+        callbackContext.success(userIdentity.toString());
     }
 
     private void getAppIdentity(CallbackContext callbackContext) {
