@@ -29,13 +29,13 @@ The Cordova library is also required to use this plugin. You can find instructio
 ### Add the Cordova plugin
 
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
-```
-$ cordova plugin install ibm-mfp-core
-```
+
+    $ cordova plugin install ibm-mfp-core
+
 You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
-```
-$ cordova plugin list
-```
+
+    $ cordova plugin list
+
 
 <h2 id="configuration">Configuration</h2>
 
@@ -95,9 +95,9 @@ The minimum API that the BMS Android SDK supports is level 15 (Ice Cream Sandwic
 BMSClient is your entry point to the MobileFirst services. Initializing the BMSClient is required before sending a request that requires authorization.
 
 Example:
-```
-BMSClient.initialize("https://myapp.mybluemix.net", "abcd1234-abcd-1234-abcd-abcd1234abcd");
-```
+
+    BMSClient.initialize("https://myapp.mybluemix.net", "abcd1234-abcd-1234-abcd-abcd1234abcd");
+
 
 BMSClient functions available:
 
@@ -114,13 +114,13 @@ Function | Use
 After initializing the client you may create a new MFPRequest instance, used to send a request to a specified URL.
 
 You can specify a path relative to your Bluemix app route
-```
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
-```
+
+    var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
+
 or you can specify a full URL path:
-```
-var request = new MFPRequest("http://www.example.com", MFPRequest.GET);
-```
+
+    var request = new MFPRequest("http://www.example.com", MFPRequest.GET);
+
 
 MFPRequest functions available:
 
@@ -166,14 +166,14 @@ See below for more <a href="#using-bmsclient">Examples</a> of how to use BMSClie
 MFPLogger is a Singleton class used for logging messages. It persists logs to the local disk. When you call the send() function it will send the logs to the server.
 
 You can create an instance of MFPLogger using:
-```
-MFPLogger.getInstance("myLogger")
-```
+
+    MFPLogger.getInstance("myLogger")
+
 
 Example of sending a specific log message using your logger instance:
-```
-myLogger.debug(message)
-```
+
+    myLogger.debug(message)
+
 
 MFPLogger functions available:
 
@@ -234,52 +234,52 @@ See below for <a href="#using-mfpanalytics">Examples</a> of how to use MFPAnalyt
 
 The following Javascript code is your entry point to the MobileFirst services. This method should be called before making a request. Your app URL and GUID can be found by going to your app's dashboard on Bluemix and clicking on "Mobile Options".
 
-```
-BMSClient.initialize("https://myapp.mybluemix.net", "abcd1234-abcd-1234-abcd-abcd1234abcd");
-```
+
+    BMSClient.initialize("https://myapp.mybluemix.net", "abcd1234-abcd-1234-abcd-abcd1234abcd");
+
 
 #### Creating a request 
 After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value.
-```
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
-```
+
+    var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
+
 
 #### Setting the headers for your request 
-```
-var headers = {
-    header1: "val1",
-    header2: "val2"
-}
-request.setHeaders(headers)
-```
+
+    var headers = {
+        header1: "val1",
+        header2: "val2"
+    }
+    request.setHeaders(headers)
+
 
 #### Setting your MFPRequest's query parameters
-```
-var queryParams = {
-    param1: "val1",
-    param2: "val2
-}
-request.setQueryParameters(queryParams)
-```
+
+    var queryParams = {
+        param1: "val1",
+        param2: "val2
+    }
+    request.setQueryParameters(queryParams)
+
 
 The query parameters are parameters that you wish to use for your specific request.
 
 #### Sending the request
 
-```
-request.send("some body",
-    function(successResponse){
-        console.log("text :: " + successResponse.text);
-        console.log("status :: " + successResponse.status);
-        console.log("headers :: " + successResponse.headers);
-    }, 
-    function (failureResponse){
-        console.log("text :: " + failureResponse.text);
-        console.log("errorCode:: " + failureResponse.errorCode);
-        console.log("errorDescription :: " + failureResponse.errorDescription);
-    }
-)
-```
+
+    request.send("some body",
+        function(successResponse){
+            console.log("text :: " + successResponse.text);
+            console.log("status :: " + successResponse.status);
+           console.log("headers :: " + successResponse.headers);
+       }, 
+       function (failureResponse){
+           console.log("text :: " + failureResponse.text);
+            console.log("errorCode:: " + failureResponse.errorCode);
+            console.log("errorDescription :: " + failureResponse.errorDescription);
+        }
+    )
+
 
 The successResponse and failureResponse parameters are JSON objects that will be passed to your callbacks with the following fields:
 
@@ -295,48 +295,48 @@ response.errorDescription  =>  Undefined or String
 
 Below are some examples of how to use the MFPLogger class.
 
-```
-var myPackageLogger = MFPLogger.getInstance("myPackage");
 
-// Persist logs to a file
-MFPLogger.setCapture(true);
+    var myPackageLogger = MFPLogger.getInstance("myPackage");
 
-// Globally set the logging level
-MFPLogger.setLevel(MFPLogger.WARN);
+    // Persist logs to a file
+    MFPLogger.setCapture(true);
 
-// Log a message at FATAL level
-myPackageLogger.fatal("Fatal level message");
+    // Globally set the logging level
+    MFPLogger.setLevel(MFPLogger.WARN);
 
-// Only use the logger specified here. All others will be ignored, including Analytics.
-MFPLogger.setFilters( { "myPackage": MFPLogger.WARN} );
+    // Log a message at FATAL level
+    myPackageLogger.fatal("Fatal level message");
 
-// Send the logs to the server
-MFPLogger.send(
-    function() { 
-        console.log("Send() succeeded"); 
-    }, 
-    function() { 
-        console.log("Send() failed"); 
-});
-```
+    // Only use the logger specified here. All others will be ignored, including Analytics.
+    MFPLogger.setFilters( { "myPackage": MFPLogger.WARN} );
+
+    // Send the logs to the server
+    MFPLogger.send(
+        function() { 
+           console.log("Send() succeeded"); 
+        }, 
+        function() { 
+            console.log("Send() failed"); 
+    });
+
 
 <h3 id="using-analytics">Using MFPAnalytics</h3>
 
 Below are some examples of how to use the MFPAnalytics class.
 
-```
-// Enable analytics logging
-MFPAnalytics.enable();
 
-// Send the analytics log to the server 
-MFPAnalytics.send(
-    function() { 
-        console.log("Send() succeeded"); 
-    }, 
-    function() { 
-        console.log("Send() failed"); 
-});
-```
+    // Enable analytics logging
+    MFPAnalytics.enable();
+
+    // Send the analytics log to the server 
+    MFPAnalytics.send(
+        function() { 
+            console.log("Send() succeeded"); 
+        }, 
+        function() { 
+            console.log("Send() failed"); 
+    });
+
 
 <h2 id="release-notes">Release Notes</h3>
 
