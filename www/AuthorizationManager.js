@@ -13,6 +13,7 @@
 var exec = require("cordova/exec");
 
 
+
 var AuthorizationManager = function() {
 	this.PersistencePolicyAlways = "ALWAYS";
 	this.PersistencePolicyNever = "NEVER";
