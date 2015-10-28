@@ -1,4 +1,4 @@
-/*
+cordova.define("ibm-mfp-core.BMSClient", function(require, exports, module) { /*
     Copyright 2015 IBM Corp.
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ var BMSClient = function() {
     this._backendGuid = "";
     this._challengeHandlers = {};
 
-    var success = function() { console.log("Success: BMSClient initialization succeeded"); };
-    var failure = function() { console.log("Error: BMSClient could not initialize"); };
+    var success = function() { console.log("Success: BMSClient  default  succeeded"); };
+    var failure = function() { console.log("Error: BMSClient  default failed"); };
 
     /**
      * Sets the base URL for the authorization server.
@@ -40,15 +40,46 @@ var BMSClient = function() {
      * @param {function} authenticationListener
      */
     this.registerAuthenticationListener = function(realm, authenticationListener) {
+
+        // register an action receiver function
+        addActionReceiver("myActionReceiverID", myActionReceiver);
+
+        // define action receiver function
+        function myActionReceiver(received)
+        {
+          if (received.action == "onAuthenticationChallengeReceived")
+          {
+            var AuthenticationContext = {
+
+                    submitAuthenticationChallengeAnswer:function(answer){
+                        cordova.exec(success, failure, "BMSClient", "submitAuthenticationChallengeAnswer", [received.authContext, answer]);
+                    },
+
+                    submitAuthenticationSuccess: function(){
+                    //TODO :call native
+                    },
+
+                    submitAuthenticationFailure: function(info){
+                    //TODO :call native
+                    }
+
+                };
+
+            authenticationListener.onAuthenticationChallengeReceived(AuthenticationContext, received.challenge);
+          }
+
+
+        };
+
         cordova.exec(success, failure, "BMSClient", "registerAuthenticationListener", [realm, authenticationListener]);
     };
 
     /**
      * Unregisters the authentication callback for the specified realm.
-     * @param {function} authenticationListener
+     * @param {string} realm Authentication realm
      */
-    this.unregisterAuthenticationListener = function(authenticationListener) {
-        cordova.exec(success, failure, "BMSClient", "unregisterAuthenticationListener", [authenticationListener]);
+    this.unregisterAuthenticationListener = function(realm) {
+        cordova.exec(success, failure, "BMSClient", "unregisterAuthenticationListener", [realm]);
     };
 
     /**
@@ -68,7 +99,24 @@ var BMSClient = function() {
         //TODO : Completely implement once registerAuthenticationListener and unregisterAuthenticationListener are complete
         return this._backendGuid;
     };
+
+
+    var addActionReceiver = function(receiverId , actionRecived){
+        var cbvsuccess =  callbackWrap.bind(this, actionRecived);
+        cordova.exec(cbvsuccess, failure, "BMSClient", "addActionReceiver", [receiverId]);
+
+     };
+
+     var callbackWrap = function (callback, action) {
+             callback(action);
+     };
+
+
+
+
+
 };
 
 //Return singleton instance
 module.exports = new BMSClient();
+});
