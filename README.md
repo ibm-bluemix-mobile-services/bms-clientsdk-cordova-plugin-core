@@ -283,13 +283,13 @@ The query parameters are parameters that you wish to use for your specific reque
 
 The successResponse and failureResponse parameters are JSON objects that will be passed to your callbacks with the following fields:
 
-```
-response.status  =>  Integer
-response.responseText  =>  Undefined or String
-response.headers  =>  Object
-response.errorCode  =>  Integer 
-response.errorDescription  =>  Undefined or String
-```
+
+    response.status  =>  Integer
+    response.responseText  =>  Undefined or String
+    response.headers  =>  Object
+    response.errorCode  =>  Integer 
+    response.errorDescription  =>  Undefined or String
+
 
 <h3 id="using-mfplogger">Using MFPLogger</h3>
 
