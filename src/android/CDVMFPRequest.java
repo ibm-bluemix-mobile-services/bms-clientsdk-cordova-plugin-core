@@ -75,7 +75,7 @@ public class CDVMFPRequest extends CordovaPlugin {
                     @Override
                     public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                         try {
-                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, packJavaResponseToJSON(failResponse));
+                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, packJavaResponseToJSON(failResponse, t , extendedInfo));
                             mfpRequestLogger.error("Failed to send request.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
@@ -87,6 +87,8 @@ public class CDVMFPRequest extends CordovaPlugin {
             }
         });
     }
+
+
 
     /**
      * Unpacks a JSONObject to create a native Bluemix Request
@@ -120,12 +122,25 @@ public class CDVMFPRequest extends CordovaPlugin {
         return nativeRequest;
     }
 
+
+
+    private String packJavaResponseToJSON(Response response, Throwable t, JSONObject extendedInfo) throws JSONException {
+        if(response != null)
+            return packJavaResponseToJSON(response);
+        if(extendedInfo != null)
+            return  extendedInfo.toString();
+        if(t != null)
+            return t.toString();
+// TODO parse this like response
+        return null;
+    }
+
     /**
      * Packs a Bluemix Response object into a JSONObject
      * @param response The native Bluemix Response that will be converted to a JSONObject
      * @return jsonResponse The String representation of the JSONObject
      */
-    private String packJavaResponseToJSON(Response response) throws JSONException {
+    static String packJavaResponseToJSON(Response response) throws JSONException {
         mfpRequestLogger.debug("packJavaResponseToJSON");
         if(response != null) {
             JSONObject jsonResponse = new JSONObject();

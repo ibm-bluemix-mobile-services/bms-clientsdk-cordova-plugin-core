@@ -36,9 +36,8 @@ public class CDVBMSClient extends CordovaPlugin {
 
     private static final Logger bmsLogger = Logger.getInstance("CDVBMSClient");
 
-    private static CallbackContext myCallbackContext;
+    private static CallbackContext ChallengeHandlerReceiver;
 
-    private AuthenticationContext innerAuthContext;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -51,8 +50,8 @@ public class CDVBMSClient extends CordovaPlugin {
         } else if ("unregisterAuthenticationListener".equals(action)) {
             this.unregisterAuthenticationListener(args, callbackContext);
             return true;
-        } else if ("addActionReceiver".equals(action)) {
-            this.doAddActionReceiver(args, callbackContext);
+        } else if ("addCallbackReceiver".equals(action)) {
+            this.doAddCallbackReceiver(callbackContext);
             return true;
         }
         //Consider move to separate file
@@ -60,13 +59,59 @@ public class CDVBMSClient extends CordovaPlugin {
             this.submitAuthenticationChallengeAnswer(args, callbackContext);
             return true;
         }
+        else if ("submitAuthenticationSuccess".equals(action)) {
+            this.submitAuthenticationSuccess(args, callbackContext);
+            return true;
+        }
+        else if ("submitAuthenticationFailure".equals(action)) {
+            this.submitAuthenticationFailure(args, callbackContext);
+            return true;
+        }
         return false;
     }
 
-    private void submitAuthenticationChallengeAnswer(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        JSONObject answer = args.getJSONObject(1);
-        innerAuthContext.submitAuthenticationChallengeAnswer(answer);
-        innerAuthContext = null;
+    private void submitAuthenticationFailure(JSONArray args,CallbackContext callbackContext) {
+        JSONObject info = null;
+        try {
+            info = args.getJSONObject(0);
+            String realm = args.getString(1);
+            callbackContext.success("submitAuthenticationFailure called");
+            bmsLogger.debug("Called submitAuthenticationFailure");
+            BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationFailure(info);
+        } catch (JSONException e) {
+            bmsLogger.error("submitAuthenticationFailure :: Expected two non-empty string argument.");
+            callbackContext.error(e.getMessage());
+        }
+
+    }
+
+    private void submitAuthenticationSuccess(JSONArray args, CallbackContext callbackContext)  {
+        String realm = null;
+        try {
+            realm = args.getString(0);
+            bmsLogger.debug("Called submitAuthenticationSuccess");
+            callbackContext.success("submitAuthenticationSuccess called");
+            BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationSuccess();
+        } catch (JSONException e) {
+            bmsLogger.error("submitAuthenticationSuccess :: Expected one non-empty string argument.");
+            callbackContext.error(e.getMessage());
+        }
+
+    }
+
+    private void submitAuthenticationChallengeAnswer(JSONArray args, CallbackContext callbackContext) {
+        JSONObject answer = null;
+        try {
+            answer = args.getJSONObject(1);
+            String realm = args.getString(2);
+            bmsLogger.debug("Called submitAuthenticationChallengeAnswer");
+            callbackContext.success("submitAuthenticationChallengeAnswer called");
+            BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationChallengeAnswer(answer);
+        } catch (JSONException e) {
+            bmsLogger.error("submitAuthenticationChallengeAnswer :: Expected two non-empty string argument.");
+            callbackContext.error(e.getMessage());
+        }
+
     }
 
 
@@ -93,15 +138,15 @@ public class CDVBMSClient extends CordovaPlugin {
         }
     }
 
-    //TODO
+
     public void registerAuthenticationListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String realm = args.getString(0);
-        //String authenticationListener = args.getString(1);
         if (realm != null && realm.length() > 0) {
             BMSClient.getInstance().registerAuthenticationListener(realm, new InternalAuthenticationListener());
             bmsLogger.debug("Called registerAuthenticationListener");
             callbackContext.success(realm);
         } else {
+            bmsLogger.error("Expected one non-empty string argument.");
             callbackContext.error("Expected one non-empty string argument.");
         }
     }
@@ -119,15 +164,9 @@ public class CDVBMSClient extends CordovaPlugin {
         }
     }
 
-    private void doAddActionReceiver(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        bmsLogger.debug("doAddActionReceiver");
-        String receiverId = args.getString(0);
-        bmsLogger.debug("Adding receiver :: " + receiverId);
-
-        myCallbackContext = callbackContext;
-        //ActionReceiverWithCallbackcontext actionReceiver = new ActionReceiverWithCallbackcontext(callbackContext);
-        //ActionSender.getInstance().addActionReceiver(actionReceiver, true, tag);
-        //actionReceivers.put(receiverId, actionReceiver);
+    private void doAddCallbackReceiver(CallbackContext callbackContext) throws JSONException {
+        bmsLogger.debug("doAddCallbackReceiver");
+        ChallengeHandlerReceiver = callbackContext;
     }
 
 
@@ -136,39 +175,53 @@ public class CDVBMSClient extends CordovaPlugin {
 
         @Override
         public void onAuthenticationChallengeReceived(final AuthenticationContext authContext, final JSONObject challenge, Context context) {
-            //TODO call hybrid onAuthenticationChallengeReceived :done
 
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
-
-                    bmsLogger.debug("onActionReceived :: action :: onAuthenticationChallengeReceived , data :: " + authContext.toString());
+                    bmsLogger.debug("onAuthenticationChallengeReceived called , data :: " + authContext.toString());
                     JSONObject responseObj = new JSONObject();
                     try {
                         responseObj.put("action", "onAuthenticationChallengeReceived");
                         responseObj.put("authContext", authContext);
                         responseObj.put("challenge", challenge);
                     } catch (JSONException e) {
-                        bmsLogger.debug("onActionReceived :: failed to generate JSON response");
+                        bmsLogger.debug("onAuthenticationChallengeReceived :: failed to generate JSON response");
                     }
-                    innerAuthContext = authContext;
                     PluginResult result = new PluginResult(PluginResult.Status.OK, responseObj);
                     result.setKeepCallback(true);
-                    myCallbackContext.sendPluginResult(result);
+                    ChallengeHandlerReceiver.sendPluginResult(result);
                     bmsLogger.debug("onAuthenticationChallengeReceived :: sent to JS");
                 }
-
             });
         }
 
         @Override
-        public void onAuthenticationSuccess(Context context, final JSONObject info) {
-            //TODO call hybrid onAuthenticationSuccess
-
+        public void onAuthenticationSuccess(final Context context, final JSONObject info) {
+            onAuthhenticationSuccessOrFailure(info, "onAuthenticationSuccess");
         }
 
         @Override
         public void onAuthenticationFailure(Context context, final JSONObject info) {
-            //TODO call hybrid onAuthenticationFailure
+            onAuthhenticationSuccessOrFailure(info, "onAuthenticationFailure");
+        }
+
+        private void onAuthhenticationSuccessOrFailure(final JSONObject info, final String msg) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    bmsLogger.debug(msg + " called");
+                    JSONObject responseObj = new JSONObject();
+                    try {
+                        responseObj.put("action", msg);
+                        responseObj.put("info", info);
+                    } catch (JSONException e) {
+                        bmsLogger.debug(msg + " :: failed to generate JSON response");
+                    }
+                    PluginResult result = new PluginResult(PluginResult.Status.OK, responseObj);
+                    result.setKeepCallback(true);
+                    ChallengeHandlerReceiver.sendPluginResult(result);
+                    bmsLogger.debug(msg + " :: sent to JS");
+                }
+            });
         }
 
     }
