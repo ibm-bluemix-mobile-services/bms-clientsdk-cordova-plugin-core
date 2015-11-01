@@ -130,8 +130,8 @@ public class CDVMFPRequest extends CordovaPlugin {
         if(extendedInfo != null)
             return  extendedInfo.toString();
         if(t != null)
-            return t.toString();
-// TODO parse this like response
+            return t.getMessage();
+
         return null;
     }
 

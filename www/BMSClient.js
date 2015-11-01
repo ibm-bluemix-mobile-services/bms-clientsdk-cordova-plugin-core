@@ -46,8 +46,27 @@ var BMSClient = function() {
      */
     this.registerAuthenticationListener = function(realm, userAuthenticationListener) {
 
+         var AuthenticationContext = {
+
+                            submitAuthenticationChallengeAnswer: function(answer){
+                                cordova.exec(success, failure, "BMSClient", "submitAuthenticationChallengeAnswer", [answer, realm]);
+                            },
+
+                            submitAuthenticationSuccess: function(){
+                                console.log("submitAuthenticationSuccess called");
+                                cordova.exec(success, failure, "BMSClient", "submitAuthenticationSuccess", [realm]);
+                            },
+
+                            submitAuthenticationFailure: function(info){
+                                console.log("submitAuthenticationFailure called");
+                                cordova.exec(success, failure, "BMSClient", "submitAuthenticationFailure", [info, realm]);
+                            }
+                    };
+
+
         // register an callback receiver function
-        addCallbackReceiver(ChallengeHandlerReceiver);
+        addCallbackReceiver(ChallengeHandlerReceiver,realm);
+        cordova.exec(success, failure, "BMSClient", "registerAuthenticationListener", [realm]);
 
         //callback receiver function definition
         function ChallengeHandlerReceiver(received)
@@ -55,26 +74,8 @@ var BMSClient = function() {
           if (received.action === "onAuthenticationChallengeReceived")
           {
             console.log("ChallengeHandlerReceiver: onAuthenticationChallengeReceived");
-            var AuthenticationContext = {
-
-                    submitAuthenticationChallengeAnswer: function(answer){
-                        cordova.exec(success, failure, "BMSClient", "submitAuthenticationChallengeAnswer", [received.authContext, answer, realm]);
-                    },
-
-                    submitAuthenticationSuccess: function(){
-                        console.log("submitAuthenticationSuccess called");
-                        cordova.exec(success, failure, "BMSClient", "submitAuthenticationSuccess", [realm]);
-                    },
-
-                    submitAuthenticationFailure: function(info){
-                        console.log("submitAuthenticationFailure called");
-                        cordova.exec(success, failure, "BMSClient", "submitAuthenticationFailure", [received.info, realm]);
-                    }
-
-                };
             userAuthenticationListener.onAuthenticationChallengeReceived(AuthenticationContext, received.challenge);
             return;
-
           }else if(received.action === "onAuthenticationSuccess")
           {
             console.log("ChallengeHandlerReceiver: onAuthenticationSuccess");
@@ -89,10 +90,8 @@ var BMSClient = function() {
           }
           console.log("Failure in ChallengeHandlerReceiver: action not recognize");
           return;
-
         };
 
-        cordova.exec(success, failure, "BMSClient", "registerAuthenticationListener", [realm]);
     };
 
     /**
@@ -120,18 +119,15 @@ var BMSClient = function() {
     };
 
 
-    var addCallbackReceiver = function(actionRecived){
+    var addCallbackReceiver = function(actionRecived,realm){
         var cdvsuccess =  callbackWrap.bind(this, actionRecived);
         var cdvfailure = function() { console.log("Error: addCallbackReceiver failed"); };
-        cordova.exec(cdvsuccess, cdvfailure, "BMSClient", "addCallbackReceiver", []);
-
+        cordova.exec(cdvsuccess, cdvfailure, "BMSClient", "addCallbackReceiver", [realm]);
      };
 
      var callbackWrap = function (callback, action) {
          callback(action);
      };
-
-
 
 };
 
