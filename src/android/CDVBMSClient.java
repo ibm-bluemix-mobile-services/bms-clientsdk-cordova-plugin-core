@@ -35,12 +35,8 @@ import java.util.HashMap;
 public class CDVBMSClient extends CordovaPlugin {
     private static final String TAG = "CDVBMSClient";
     private String errorEmptyArg = "Expected non-empty string argument.";
-
     private static final Logger bmsLogger = Logger.getInstance("CDVBMSClient");
-
     private HashMap<String, CallbackContext> challengeHandlersMap = new HashMap<String, CallbackContext>();
-
-    CallbackContext BMSClientCallbackContext = null;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -113,7 +109,6 @@ public class CDVBMSClient extends CordovaPlugin {
     }
 
     public void unregisterAuthenticationListener(final JSONArray args, final CallbackContext callbackContext) {
-
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 final String realm;
@@ -124,8 +119,8 @@ public class CDVBMSClient extends CordovaPlugin {
                         bmsLogger.debug("Called unregisterAuthenticationListener");
                         PluginResult result = new PluginResult(PluginResult.Status.OK, new JSONObject());
                         result.setKeepCallback(false);
-                        BMSClientCallbackContext.sendPluginResult(result);
-                        BMSClientCallbackContext = null;
+                        challengeHandlersMap.get(realm).sendPluginResult(result);
+                        challengeHandlersMap.remove(realm);
                         callbackContext.success(realm);
                     } else {
                         bmsLogger.error(errorEmptyArg);
@@ -146,10 +141,15 @@ public class CDVBMSClient extends CordovaPlugin {
                 try {
                     bmsLogger.debug("doAddCallbackReceiver");
                     final String realm = args.getString(0);
-                    bmsLogger.debug("realm: " + realm);
-                    challengeHandlersMap.put(realm, callbackContext);
+                    if (realm != null && realm.length() > 0) {
+                        bmsLogger.debug("realm: " + realm);
+                        challengeHandlersMap.put(realm, callbackContext);}
+                    else{
+                        bmsLogger.error(errorEmptyArg);
+                        callbackContext.error(errorEmptyArg);
+                    }
                 } catch (JSONException e) {
-                    bmsLogger.error("doAddCallbackReceiver :: " +errorEmptyArg);
+                    bmsLogger.error("doAddCallbackReceiver :: " + errorEmptyArg);
                     callbackContext.error(e.getMessage());
                 }
             }
@@ -231,8 +231,7 @@ public class CDVBMSClient extends CordovaPlugin {
             }
             PluginResult result = new PluginResult(PluginResult.Status.OK, responseObj);
             result.setKeepCallback(true);
-            BMSClientCallbackContext = challengeHandlersMap.get(realm);
-            BMSClientCallbackContext.sendPluginResult(result);
+            challengeHandlersMap.get(realm).sendPluginResult(result);
             bmsLogger.debug("onAuthenticationChallengeReceived :: sent to JS");
         }
 
@@ -258,8 +257,7 @@ public class CDVBMSClient extends CordovaPlugin {
             }
             PluginResult result = new PluginResult(PluginResult.Status.OK, responseObj);
             result.setKeepCallback(true);
-            //this.BMSClientCallbackContext = challengeHandlersMap.get(realm);
-            BMSClientCallbackContext.sendPluginResult(result);
+            challengeHandlersMap.get(realm).sendPluginResult(result);
             bmsLogger.debug(msg + " :: sent to JS");
         }
 

@@ -45,36 +45,29 @@ public class CDVAuthorizationManager extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        boolean ans = true;
         if ("obtainAuthorizationHeader".equals(action)) {
             this.obtainAuthorizationHeader(callbackContext);
-            return true;
         } else if ("clearAuthorizationData".equals(action)) {
             this.clearAuthorizationData(callbackContext);
-            return true;
         } else if ("isAuthorizationRequired".equals(action)) {
             this.isAuthorizationRequired(args, callbackContext);
-            return true;
         } else if ("getCachedAuthorizationHeader".equals(action)) {
             this.getCachedAuthorizationHeader(callbackContext);
-            return true;
         } else if ("getAuthorizationPersistencePolicy".equals(action)) {
             this.getAuthorizationPersistencePolicy(callbackContext);
-            return true;
         } else if ("setAuthorizationPersistencePolicy".equals(action)) {
             this.setAuthorizationPersistencePolicy(args, callbackContext);
-            return true;
         } else if ("getUserIdentity".equals(action)) {
             this.getUserIdentity(callbackContext);
-            return true;
         } else if ("getAppIdentity".equals(action)) {
             this.getAppIdentity(callbackContext);
-            return true;
         } else if ("getDeviceIdentity".equals(action)) {
             this.getDeviceIdentity(callbackContext);
-            return true;
+        }else {
+            ans = false;
         }
-
-        return false;
+        return ans;
     }
 
 
@@ -135,6 +128,7 @@ public class CDVAuthorizationManager extends CordovaPlugin {
                     AMLogger.debug("isAuthorizationRequired return " + answer);
                     callbackContext.success(String.valueOf(answer));
                 } catch (JSONException e) {
+                    AMLogger.debug("Expected non-empty string argument.");
                     callbackContext.error(e.getMessage());
                 }
             }

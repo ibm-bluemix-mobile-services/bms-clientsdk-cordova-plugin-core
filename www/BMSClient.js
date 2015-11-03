@@ -19,10 +19,10 @@ var BMSClient = function() {
     this._challengeHandlers = {};
     var BMSClientName = "BMSClient";
     var success = function(message) {
-        console.log("BMSClient: Success: " + message);
+        console.log(BMSClientName + ": Success: " + message);
     };
     var failure = function(message) {
-        console.log("BMSClient: Failure: " + message);
+        console.log(BMSClientName + ": Failure: " + message);
     };
 
     /**
@@ -45,12 +45,6 @@ var BMSClient = function() {
      * @param {function} userAuthenticationListener
      */
     this.registerAuthenticationListener = function(realm, userAuthenticationListener) {
-        if(!realm){
-            throw new Error("'realm' name can't be null/undefined");
-        }
-        if(!userAuthenticationListener){
-           throw new Error("'userAuthenticationListener' can't be null/undefined");
-        }
 
          var AuthenticationContext = {
 
@@ -67,10 +61,7 @@ var BMSClient = function() {
                                 console.log("submitAuthenticationFailure called");
                                 cordova.exec(success, failure, BMSClientName, "submitAuthenticationFailure", [info, realm]);
                             }
-                    };
-
-
-
+         };
 
         //callback receiver function definition
         var ChallengeHandlerReceiver = function(received)
