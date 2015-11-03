@@ -46,10 +46,10 @@ var BMSClient = function() {
      */
     this.registerAuthenticationListener = function(realm, userAuthenticationListener) {
         if(!realm){
-            console.error("'realm' name can not be undefine/null"); //TODO
+            throw new Error("'realm' name can't be null/undefined");
         }
         if(!userAuthenticationListener){
-           console.error("'userAuthenticationListener' cannt be undefine/null"); //TODO
+           throw new Error("'userAuthenticationListener' can't be null/undefined");
         }
 
          var AuthenticationContext = {
