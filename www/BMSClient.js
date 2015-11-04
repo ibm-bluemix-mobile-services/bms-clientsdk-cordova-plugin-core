@@ -1,3 +1,4 @@
+cordova.define("ibm-mfp-core.BMSClient", function(require, exports, module) {
 /*
     Copyright 2015 IBM Corp.
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +17,13 @@ var BMSClient = function() {
     this._backendRoute = "";
     this._backendGuid = "";
     this._challengeHandlers = {};
-
-    var success = function() { console.log("Success: BMSClient initialization succeeded"); };
-    var failure = function() { console.log("Error: BMSClient could not initialize"); };
+    var BMSClientName = "BMSClient";
+    var success = function(message) {
+        console.log(BMSClientName + ": Success: " + message);
+    };
+    var failure = function(message) {
+        console.log(BMSClientName + ": Failure: " + message);
+    };
 
     /**
      * Sets the base URL for the authorization server.
@@ -31,24 +36,68 @@ var BMSClient = function() {
     this.initialize = function(backendRoute, backendGuid) {
         this._backendRoute = backendRoute;
         this._backendGuid = backendGuid;
-        cordova.exec(success, failure, "BMSClient", "initialize", [backendRoute, backendGuid]);
+        cordova.exec(success, failure, BMSClientName, "initialize", [backendRoute, backendGuid]);
     };
 
     /**
      * Registers authentication callback for the specified realm.
      * @param {string} realm Authentication realm.
-     * @param {function} authenticationListener
+     * @param {function} userAuthenticationListener
      */
-    this.registerAuthenticationListener = function(realm, authenticationListener) {
-        cordova.exec(success, failure, "BMSClient", "registerAuthenticationListener", [realm, authenticationListener]);
+    this.registerAuthenticationListener = function(realm, userAuthenticationListener) {
+
+         var AuthenticationContext = {
+
+                            submitAuthenticationChallengeAnswer: function(answer){
+                                cordova.exec(success, failure, BMSClientName, "submitAuthenticationChallengeAnswer", [answer, realm]);
+                            },
+
+                            submitAuthenticationSuccess: function(){
+                                console.log("submitAuthenticationSuccess called");
+                                cordova.exec(success, failure, BMSClientName, "submitAuthenticationSuccess", [realm]);
+                            },
+
+                            submitAuthenticationFailure: function(info){
+                                console.log("submitAuthenticationFailure called");
+                                cordova.exec(success, failure, BMSClientName, "submitAuthenticationFailure", [info, realm]);
+                            }
+         };
+
+        //callback receiver function definition
+        var ChallengeHandlerReceiver = function(received)
+        {
+          if (received.action === "onAuthenticationChallengeReceived")
+          {
+            console.log("ChallengeHandlerReceiver: onAuthenticationChallengeReceived");
+            userAuthenticationListener.onAuthenticationChallengeReceived(AuthenticationContext, received.challenge);
+
+          }else if(received.action === "onAuthenticationSuccess")
+          {
+            console.log("ChallengeHandlerReceiver: onAuthenticationSuccess");
+            userAuthenticationListener.onAuthenticationSuccess(received.info);
+
+          }
+          else if(received.action === "onAuthenticationFailure")
+          {
+            console.log("ChallengeHandlerReceiver: onAuthenticationFailure");
+            userAuthenticationListener.onAuthenticationFailure(received.info);
+
+          }else{
+          console.log("Failure in ChallengeHandlerReceiver: action not recognize");
+          }
+        };
+        // register an callback receiver function
+        addCallbackReceiver(realm, ChallengeHandlerReceiver);
+        cordova.exec(success, failure, BMSClientName, "registerAuthenticationListener", [realm]);
+
     };
 
     /**
      * Unregisters the authentication callback for the specified realm.
-     * @param {function} authenticationListener
+     * @param {string} realm Authentication realm
      */
-    this.unregisterAuthenticationListener = function(authenticationListener) {
-        cordova.exec(success, failure, "BMSClient", "unregisterAuthenticationListener", [authenticationListener]);
+    this.unregisterAuthenticationListener = function(realm) {
+        cordova.exec(success, failure, BMSClientName, "unregisterAuthenticationListener", [realm]);
     };
 
     /**
@@ -56,7 +105,6 @@ var BMSClient = function() {
      * @return backendRoute
      */
     this.getBluemixAppRoute = function(callback) {
-        //TODO : Completely implement once registerAuthenticationListener and unregisterAuthenticationListener are complete
         return this._backendRoute;
     };
 
@@ -65,10 +113,22 @@ var BMSClient = function() {
      * @param backendGUID
      */
     this.getBluemixAppGUID = function(callback) {
-        //TODO : Completely implement once registerAuthenticationListener and unregisterAuthenticationListener are complete
         return this._backendGuid;
     };
+
+
+    var addCallbackReceiver = function(realm, actionRecived){
+        var cdvsuccess =  callbackWrap.bind(this, actionRecived);
+        var cdvfailure = function() { console.log("Error: addCallbackReceiver failed"); };
+        cordova.exec(cdvsuccess, cdvfailure, BMSClientName, "addCallbackReceiver", [realm]);
+     };
+
+     var callbackWrap = function (callback, action) {
+         callback(action);
+     };
+
 };
 
 //Return singleton instance
 module.exports = new BMSClient();
+});

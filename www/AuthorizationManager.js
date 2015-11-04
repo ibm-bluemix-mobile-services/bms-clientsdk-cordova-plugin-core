@@ -12,18 +12,55 @@
 */
 var exec = require("cordova/exec");
 
+
+
 var AuthorizationManager = function() {
 	this.PersistencePolicyAlways = "ALWAYS";
 	this.PersistencePolicyNever = "NEVER";
-	
-	var success = function() { console.log("Success: default success is called"); };
-    var failure = function() { console.log("Error: default failure is called"); };
-	
+
+    var AuthorizationManagerName = "AuthorizationManager";
+
+	var success = function() { console.log("AuthorizationManager Success: default success is called"); };
+    var failure = function() { console.log("AuthorizationManager Error: default failure is called"); };
+
 	this.obtainAuthorizationHeader = function(success, failure) {
-		cordova.exec(success, failure, "AuthorizationManager", "obtainAuthorizationHeader", []);
+		cordova.exec(success, failure, AuthorizationManagerName, "obtainAuthorizationHeader", []);
 	};
+
+	this.isAuthorizationRequired = function(statusCode, responseAuthHeader, success, failure){
+	    cordova.exec(success, failure, AuthorizationManagerName, "isAuthorizationRequired", [statusCode,responseAuthHeader]);
+	};
+
+    this.clearAuthorizationData = function(){
+        cordova.exec(success, failure, AuthorizationManagerName, "clearAuthorizationData", []);
+    };
+
+    this.getCachedAuthorizationHeader = function(success, failure){
+        cordova.exec(success, failure, AuthorizationManagerName, "getCachedAuthorizationHeader", []);
+    };
+
+    this.getAuthorizationPersistencePolicy= function(success, failure){
+        cordova.exec(success, failure, AuthorizationManagerName, "getAuthorizationPersistencePolicy", []);
+    };
+
+     this.setAuthorizationPersistencePolicy = function(policy){
+         cordova.exec(success, failure, AuthorizationManagerName, "setAuthorizationPersistencePolicy", [policy]);
+     };
+
+     this.getUserIdentity = function(success, failure){
+         cordova.exec(success, failure, AuthorizationManagerName, "getUserIdentity", []);
+     };
+
+     this.getAppIdentity = function(success, failure){
+         cordova.exec(success, failure, AuthorizationManagerName, "getAppIdentity", []);
+     };
+
+     this.getDeviceIdentity = function(success, failure){
+         cordova.exec(success, failure, AuthorizationManagerName, "getDeviceIdentity", []);
+     };
+
+
 };
 
 //Return singleton instance
 module.exports = new AuthorizationManager();
-
