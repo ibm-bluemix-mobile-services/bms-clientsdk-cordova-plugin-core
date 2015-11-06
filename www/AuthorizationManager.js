@@ -18,45 +18,45 @@ var AuthorizationManager = function() {
 	this.PersistencePolicyAlways = "ALWAYS";
 	this.PersistencePolicyNever = "NEVER";
 
-    var AuthorizationManagerName = "AuthorizationManager";
+    var AuthorizationManagerString = "AuthorizationManager";
 
 	var success = function() { console.log("AuthorizationManager Success: default success is called"); };
     var failure = function() { console.log("AuthorizationManager Error: default failure is called"); };
 
 	this.obtainAuthorizationHeader = function(success, failure) {
-		cordova.exec(success, failure, AuthorizationManagerName, "obtainAuthorizationHeader", []);
+		cordova.exec(success, failure, AuthorizationManagerString, "obtainAuthorizationHeader", []);
 	};
 
 	this.isAuthorizationRequired = function(statusCode, responseAuthHeader, success, failure){
-	    cordova.exec(success, failure, AuthorizationManagerName, "isAuthorizationRequired", [statusCode,responseAuthHeader]);
+	    cordova.exec(success, failure, AuthorizationManagerString, "isAuthorizationRequired", [statusCode,responseAuthHeader]);
 	};
 
     this.clearAuthorizationData = function(){
-        cordova.exec(success, failure, AuthorizationManagerName, "clearAuthorizationData", []);
+        cordova.exec(success, failure, AuthorizationManagerString, "clearAuthorizationData", []);
     };
 
     this.getCachedAuthorizationHeader = function(success, failure){
-        cordova.exec(success, failure, AuthorizationManagerName, "getCachedAuthorizationHeader", []);
+        cordova.exec(success, failure, AuthorizationManagerString, "getCachedAuthorizationHeader", []);
     };
 
     this.getAuthorizationPersistencePolicy= function(success, failure){
-        cordova.exec(success, failure, AuthorizationManagerName, "getAuthorizationPersistencePolicy", []);
+        cordova.exec(success, failure, AuthorizationManagerString, "getAuthorizationPersistencePolicy", []);
     };
 
      this.setAuthorizationPersistencePolicy = function(policy){
-         cordova.exec(success, failure, AuthorizationManagerName, "setAuthorizationPersistencePolicy", [policy]);
+         cordova.exec(success, failure, AuthorizationManagerString, "setAuthorizationPersistencePolicy", [policy]);
      };
 
      this.getUserIdentity = function(success, failure){
-         cordova.exec(success, failure, AuthorizationManagerName, "getUserIdentity", []);
+         cordova.exec(success, failure, AuthorizationManagerString, "getUserIdentity", []);
      };
 
      this.getAppIdentity = function(success, failure){
-         cordova.exec(success, failure, AuthorizationManagerName, "getAppIdentity", []);
+         cordova.exec(success, failure, AuthorizationManagerString, "getAppIdentity", []);
      };
 
      this.getDeviceIdentity = function(success, failure){
-         cordova.exec(success, failure, AuthorizationManagerName, "getDeviceIdentity", []);
+         cordova.exec(success, failure, AuthorizationManagerString, "getDeviceIdentity", []);
      };
 
 
