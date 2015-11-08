@@ -32,7 +32,12 @@ public class CDVAuthenticationContext extends CordovaPlugin {
         return ans;
 
     }
-
+    /**
+     * Use the native SDK API to submits authentication challenge response.
+     *
+     * @param args            JSONArray that contains the realm and JSON with challenge response.
+     * @param callbackContext
+     */
     private void submitAuthenticationChallengeAnswer(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -50,7 +55,12 @@ public class CDVAuthenticationContext extends CordovaPlugin {
             }
         });
     }
-
+    /**
+     * Use the native SDK API to informs about authentication success.
+     *
+     * @param args            JSONArray that contains the realm.
+     * @param callbackContext
+     */
     private void submitAuthenticationSuccess(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -67,7 +77,12 @@ public class CDVAuthenticationContext extends CordovaPlugin {
             }
         });
     }
-
+    /**
+     * Use the native SDK API to informs about authentication failure.
+     *
+     * @param args            JSONArray that contains the realm and info, information about the failure.
+     * @param callbackContext
+     */
     private void submitAuthenticationFailure(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {

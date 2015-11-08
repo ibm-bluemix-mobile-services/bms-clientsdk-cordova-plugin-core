@@ -23,43 +23,86 @@ var AuthorizationManager = function() {
 	var success = function() { console.log("AuthorizationManager Success: default success is called"); };
     var failure = function() { console.log("AuthorizationManager Error: default failure is called"); };
 
+    /**
+     * Invoke process for obtaining authorization header. during this process
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
+     */
 	this.obtainAuthorizationHeader = function(success, failure) {
 		cordova.exec(success, failure, AuthorizationManagerString, "obtainAuthorizationHeader", []);
 	};
 
+    /**
+     * Check if the params came from response that requires authorization
+     * @param {statusCode} of the response
+     * @param {responseAuthorizationHeader} 'WWW-Authenticate' header
+     * @param {success} The success callback that was supplied
+     * @param {failure} The failure callback that was supplied
+     * @return true if status is 401 or 403 and The value of the header contains 'Bearer' AND 'realm="imfAuthentication"'
+     */
 	this.isAuthorizationRequired = function(statusCode, responseAuthHeader, success, failure){
 	    cordova.exec(success, failure, AuthorizationManagerString, "isAuthorizationRequired", [statusCode,responseAuthHeader]);
 	};
 
+    /**
+     * Clear the local stored authorization data
+     */
     this.clearAuthorizationData = function(){
         cordova.exec(success, failure, AuthorizationManagerString, "clearAuthorizationData", []);
     };
 
+    /**
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
+     * @return the locally stored authorization header or null if the value is not exist.
+     */
     this.getCachedAuthorizationHeader = function(success, failure){
         cordova.exec(success, failure, AuthorizationManagerString, "getCachedAuthorizationHeader", []);
     };
 
+    /**
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
+     * @return Current authorization persistence policy.
+     */
     this.getAuthorizationPersistencePolicy= function(success, failure){
         cordova.exec(success, failure, AuthorizationManagerString, "getAuthorizationPersistencePolicy", []);
     };
 
-     this.setAuthorizationPersistencePolicy = function(policy){
-         cordova.exec(success, failure, AuthorizationManagerString, "setAuthorizationPersistencePolicy", [policy]);
-     };
+    /**
+     * Change the sate of the current authorization persistence policy
+     * @param policy new policy to use
+     */
+    this.setAuthorizationPersistencePolicy = function(policy){
+        cordova.exec(success, failure, AuthorizationManagerString, "setAuthorizationPersistencePolicy", [policy]);
+    };
 
-     this.getUserIdentity = function(success, failure){
-         cordova.exec(success, failure, AuthorizationManagerString, "getUserIdentity", []);
-     };
+    /**
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
+     * @return authorized user identity.
+     */
+    this.getUserIdentity = function(success, failure){
+        cordova.exec(success, failure, AuthorizationManagerString, "getUserIdentity", []);
+    };
 
-     this.getAppIdentity = function(success, failure){
+    /**
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
+     * @return application identity.
+     */
+    this.getAppIdentity = function(success, failure){
          cordova.exec(success, failure, AuthorizationManagerString, "getAppIdentity", []);
-     };
+    };
 
-     this.getDeviceIdentity = function(success, failure){
-         cordova.exec(success, failure, AuthorizationManagerString, "getDeviceIdentity", []);
-     };
-
-
+    /**
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
+     * @return device identity.
+     */
+    this.getDeviceIdentity = function(success, failure){
+        cordova.exec(success, failure, AuthorizationManagerString, "getDeviceIdentity", []);
+    };
 };
 
 //Return singleton instance

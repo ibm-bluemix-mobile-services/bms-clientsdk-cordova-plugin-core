@@ -111,7 +111,7 @@ var BMSClient = function() {
 
     /**
      * 
-     * @param backendGUID
+     * @return backendGUID
      */
     this.getBluemixAppGUID = function(callback) {
         return this._backendGuid;
