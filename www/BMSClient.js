@@ -1,3 +1,4 @@
+cordova.define("ibm-mfp-core.BMSClient", function(require, exports, module) {
 /*
     Copyright 2015 IBM Corp.
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -156,3 +157,4 @@ var BMSClient = function() {
 
 //Return singleton instance
 module.exports = new BMSClient();
+});
