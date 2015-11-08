@@ -128,8 +128,12 @@ public class CDVMFPRequest extends CordovaPlugin {
     private String packJavaResponseToJSON(Response response, Throwable t, JSONObject extendedInfo) throws JSONException {
         if (response != null)
             return packJavaResponseToJSON(response);
-        if (extendedInfo != null)
-            return extendedInfo.toString();
+        if (extendedInfo != null){
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("errorCode", extendedInfo.get("errorCode"));
+            jsonResponse.put("errorDescription",extendedInfo.get("msg"));
+            return jsonResponse.toString();
+        }
         if (t != null)
             return packJavaThrowableToJSON(t);
         return null;

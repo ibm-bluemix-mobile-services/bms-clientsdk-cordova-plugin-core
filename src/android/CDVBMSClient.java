@@ -13,22 +13,16 @@
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import android.content.Context;
-import android.util.Log;
-
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
-
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
 import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationListener;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.internal.challengehandlers.ChallengeHandler;
-
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.net.MalformedURLException;
 import java.util.HashMap;
 
@@ -47,15 +41,9 @@ public class CDVBMSClient extends CordovaPlugin {
             this.registerAuthenticationListener(args, callbackContext);
         } else if ("unregisterAuthenticationListener".equals(action)) {
             this.unregisterAuthenticationListener(args, callbackContext);
-        } else if ("addCallbackReceiver".equals(action)) {
-            this.doAddCallbackReceiver(args, callbackContext);
-        } else if ("submitAuthenticationChallengeAnswer".equals(action)) {
-            this.submitAuthenticationChallengeAnswer(args, callbackContext);
-        } else if ("submitAuthenticationSuccess".equals(action)) {
-            this.submitAuthenticationSuccess(args, callbackContext);
-        } else if ("submitAuthenticationFailure".equals(action)) {
-            this.submitAuthenticationFailure(args, callbackContext);
-        } else {
+        } else if ("addCallbackHandler".equals(action)) {
+            this.doAddCallbackHandler(args, callbackContext);
+        }else {
             ans = false;
         }
         return ans;
@@ -134,12 +122,12 @@ public class CDVBMSClient extends CordovaPlugin {
         });
     }
 
-    private void doAddCallbackReceiver(final JSONArray args, final CallbackContext callbackContext) {
+    private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    bmsLogger.debug("doAddCallbackReceiver");
+                    bmsLogger.debug("doAddCallbackHandler");
                     final String realm = args.getString(0);
                     if (realm != null && realm.length() > 0) {
                         bmsLogger.debug("realm: " + realm);
@@ -149,65 +137,14 @@ public class CDVBMSClient extends CordovaPlugin {
                         callbackContext.error(errorEmptyArg);
                     }
                 } catch (JSONException e) {
-                    bmsLogger.error("doAddCallbackReceiver :: " + errorEmptyArg);
+                    bmsLogger.error("doAddCallbackHandler :: " + errorEmptyArg);
                     callbackContext.error(e.getMessage());
                 }
             }
         });
     }
 
-    private void submitAuthenticationChallengeAnswer(final JSONArray args, final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                JSONObject answer = null;
-                try {
-                    answer = args.getJSONObject(0);
-                    String realm = args.getString(1);
-                    bmsLogger.debug("Called submitAuthenticationChallengeAnswer");
-                    callbackContext.success("submitAuthenticationChallengeAnswer called");
-                    BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationChallengeAnswer(answer);
-                } catch (JSONException e) {
-                    bmsLogger.error("submitAuthenticationChallengeAnswer :: " + errorEmptyArg);
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        });
-    }
 
-    private void submitAuthenticationSuccess(final JSONArray args, final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                String realm = null;
-                try {
-                    realm = args.getString(0);
-                    bmsLogger.debug("Called submitAuthenticationSuccess");
-                    callbackContext.success("submitAuthenticationSuccess called");
-                    BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationSuccess();
-                } catch (JSONException e) {
-                    bmsLogger.error("submitAuthenticationSuccess :: " + errorEmptyArg);
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        });
-    }
-
-    private void submitAuthenticationFailure(final JSONArray args, final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                JSONObject info = null;
-                try {
-                    info = args.getJSONObject(0);
-                    String realm = args.getString(1);
-                    callbackContext.success("submitAuthenticationFailure called");
-                    bmsLogger.debug("Called submitAuthenticationFailure");
-                    BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationFailure(info);
-                } catch (JSONException e) {
-                    bmsLogger.error("submitAuthenticationFailure :: " + errorEmptyArg);
-                    callbackContext.error(e.getMessage());
-                }
-            }
-        });
-    }
 
 
     //AuthenticationListener class that handles the challenges from the server

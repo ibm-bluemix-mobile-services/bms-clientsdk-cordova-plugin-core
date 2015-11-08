@@ -18,6 +18,7 @@ var BMSClient = function() {
     this._backendGuid = "";
     this._challengeHandlers = {};
     var BMSClientName = "BMSClient";
+    var AuthContextName = "AuthenticationContext";
     var success = function(message) {
         console.log(BMSClientName + ": Success: " + message);
     };
@@ -49,45 +50,45 @@ var BMSClient = function() {
          var AuthenticationContext = {
 
                             submitAuthenticationChallengeAnswer: function(answer){
-                                cordova.exec(success, failure, BMSClientName, "submitAuthenticationChallengeAnswer", [answer, realm]);
+                                cordova.exec(success, failure, AuthContextName, "submitAuthenticationChallengeAnswer", [answer, realm]);
                             },
 
                             submitAuthenticationSuccess: function(){
                                 console.log("submitAuthenticationSuccess called");
-                                cordova.exec(success, failure, BMSClientName, "submitAuthenticationSuccess", [realm]);
+                                cordova.exec(success, failure,  AuthContextName, "submitAuthenticationSuccess", [realm]);
                             },
 
                             submitAuthenticationFailure: function(info){
                                 console.log("submitAuthenticationFailure called");
-                                cordova.exec(success, failure, BMSClientName, "submitAuthenticationFailure", [info, realm]);
+                                cordova.exec(success, failure,  AuthContextName, "submitAuthenticationFailure", [info, realm]);
                             }
          };
 
-        //callback receiver function definition
-        var ChallengeHandlerReceiver = function(received)
+        //callback Challenge Handler function definition
+        var challengeHandler = function(received)
         {
           if (received.action === "onAuthenticationChallengeReceived")
           {
-            console.log("ChallengeHandlerReceiver: onAuthenticationChallengeReceived");
+            console.log("challengeHandler: onAuthenticationChallengeReceived");
             userAuthenticationListener.onAuthenticationChallengeReceived(AuthenticationContext, received.challenge);
 
           }else if(received.action === "onAuthenticationSuccess")
           {
-            console.log("ChallengeHandlerReceiver: onAuthenticationSuccess");
+            console.log("challengeHandler: onAuthenticationSuccess");
             userAuthenticationListener.onAuthenticationSuccess(received.info);
 
           }
           else if(received.action === "onAuthenticationFailure")
           {
-            console.log("ChallengeHandlerReceiver: onAuthenticationFailure");
+            console.log("challengeHandler: onAuthenticationFailure");
             userAuthenticationListener.onAuthenticationFailure(received.info);
 
           }else{
-          console.log("Failure in ChallengeHandlerReceiver: action not recognize");
+          console.log("Failure in challengeHandler: action not recognize");
           }
         };
-        // register an callback receiver function
-        addCallbackReceiver(realm, ChallengeHandlerReceiver);
+        // register an callback Handler function
+        addCallbackHandler(realm, challengeHandler);
         cordova.exec(success, failure, BMSClientName, "registerAuthenticationListener", [realm]);
 
     };
@@ -117,10 +118,10 @@ var BMSClient = function() {
     };
 
 
-    var addCallbackReceiver = function(realm, actionRecived){
-        var cdvsuccess =  callbackWrap.bind(this, actionRecived);
-        var cdvfailure = function() { console.log("Error: addCallbackReceiver failed"); };
-        cordova.exec(cdvsuccess, cdvfailure, BMSClientName, "addCallbackReceiver", [realm]);
+    var addCallbackHandler = function(realm, challengeHandler){
+        var cdvsuccess =  callbackWrap.bind(this, challengeHandler);
+        var cdvfailure = function() { console.log("Error: addCallbackHandler failed"); };
+        cordova.exec(cdvsuccess, cdvfailure, BMSClientName, "addCallbackHandler", [realm]);
      };
 
      var callbackWrap = function (callback, action) {

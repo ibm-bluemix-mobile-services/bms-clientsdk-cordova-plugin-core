@@ -49,6 +49,14 @@
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAnalytics"/>
             </feature>
             
+            <feature name="AuthorizationManager">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVAuthorizationManager" />
+            </feature>
+            
+            <feature name="AuthenticationContext">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVAuthenticationContext" />
+            </feature>
+            
         </config-file>
 
         <config-file parent="/*" target="AndroidManifest.xml"/>
@@ -84,6 +92,11 @@
             <feature name="AuthorizationManager">
                 <param name="ios-package" value="CDVAuthorizationManager"/>
             </feature>
+            
+            <feature name="AuthenticationContext">
+                <param name="ios-package" value="CDVAuthenticationContext"/>
+            </feature>
+            
         </config-file>
 
         <header-file src="src/ios/Bridging-Header.h" />
