@@ -124,11 +124,23 @@ public class CDVMFPRequest extends CordovaPlugin {
         return nativeRequest;
     }
 
+    /**
+     * Overloading, Handles the case of a failure and response is null.
+     *
+     * @param response The native Bluemix Response that will be converted to a JSONObject, May be null if the request did not reach the server.
+     * @param t        Exception that could have caused the request to fail. null if no Exception thrown.
+     * @param extendedInfo Contains details regarding operational failure. null if no operational failure occurred.
+     * @return The String representation of the JSONObject
+     */
 
     private String packJavaResponseToJSON(Response response, Throwable t, JSONObject extendedInfo) throws JSONException {
         if (response != null)
             return packJavaResponseToJSON(response);
         if (extendedInfo != null){
+<<<<<<< HEAD
+=======
+            //extendedinfo contains errorCode and msg, converting that into errorCode and errorDescription according to the format we use.
+>>>>>>> feature-mca-android
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("errorCode", extendedInfo.get("errorCode"));
             jsonResponse.put("errorDescription",extendedInfo.get("msg"));
@@ -138,13 +150,22 @@ public class CDVMFPRequest extends CordovaPlugin {
             return packJavaThrowableToJSON(t);
         return null;
     }
-
+    /**
+     * Packs a exception into a JSONObject
+     *
+     * @param t Exception that could have caused the request to fail. null if no Exception thrown.
+     * @return jsonException The String representation of the JSONObject
+     */
     private String packJavaThrowableToJSON(Throwable t) throws JSONException{
         mfpRequestLogger.debug("packJavaThrowableToJSON");
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("errorCode", "Exception: request failure");
-        jsonResponse.put("errorDescription", t.getMessage());
-        return jsonResponse.toString();
+        JSONObject jsonException = new JSONObject();
+        jsonException.put("errorCode", "Exception: request failure");
+        if(t.getMessage() != null)
+            jsonException.put("errorDescription", t.getMessage());
+        else
+            jsonException.put("errorDescription",t.toString());
+
+        return jsonException.toString();
     }
 
     /**
@@ -169,9 +190,7 @@ public class CDVMFPRequest extends CordovaPlugin {
                 jsonResponse.put("status", status);
                 jsonResponse.put("responseText", responseText);
             }
-
             jsonResponse.put("responseHeaders", responseHeaders);
-
             return jsonResponse.toString();
         } else {
             return null;

@@ -17,13 +17,18 @@ var BMSClient = function() {
     this._backendRoute = "";
     this._backendGuid = "";
     this._challengeHandlers = {};
+<<<<<<< HEAD
     var BMSClientName = "BMSClient";
     var AuthContextName = "AuthenticationContext";
+=======
+    var BMSClientString = "BMSClient";
+    var AuthContextString = "AuthenticationContext";
+>>>>>>> feature-mca-android
     var success = function(message) {
-        console.log(BMSClientName + ": Success: " + message);
+        console.log(BMSClientString + ": Success: " + message);
     };
     var failure = function(message) {
-        console.log(BMSClientName + ": Failure: " + message);
+        console.log(BMSClientString + ": Failure: " + message);
     };
 
     /**
@@ -37,7 +42,7 @@ var BMSClient = function() {
     this.initialize = function(backendRoute, backendGuid) {
         this._backendRoute = backendRoute;
         this._backendGuid = backendGuid;
-        cordova.exec(success, failure, BMSClientName, "initialize", [backendRoute, backendGuid]);
+        cordova.exec(success, failure, BMSClientString, "initialize", [backendRoute, backendGuid]);
     };
 
     /**
@@ -50,17 +55,29 @@ var BMSClient = function() {
          var AuthenticationContext = {
 
                             submitAuthenticationChallengeAnswer: function(answer){
+<<<<<<< HEAD
                                 cordova.exec(success, failure, AuthContextName, "submitAuthenticationChallengeAnswer", [answer, realm]);
+=======
+                                cordova.exec(success, failure, AuthContextString, "submitAuthenticationChallengeAnswer", [answer, realm]);
+>>>>>>> feature-mca-android
                             },
 
                             submitAuthenticationSuccess: function(){
                                 console.log("submitAuthenticationSuccess called");
+<<<<<<< HEAD
                                 cordova.exec(success, failure,  AuthContextName, "submitAuthenticationSuccess", [realm]);
+=======
+                                cordova.exec(success, failure,  AuthContextString, "submitAuthenticationSuccess", [realm]);
+>>>>>>> feature-mca-android
                             },
 
                             submitAuthenticationFailure: function(info){
                                 console.log("submitAuthenticationFailure called");
+<<<<<<< HEAD
                                 cordova.exec(success, failure,  AuthContextName, "submitAuthenticationFailure", [info, realm]);
+=======
+                                cordova.exec(success, failure,  AuthContextString, "submitAuthenticationFailure", [info, realm]);
+>>>>>>> feature-mca-android
                             }
          };
 
@@ -89,7 +106,11 @@ var BMSClient = function() {
         };
         // register an callback Handler function
         addCallbackHandler(realm, challengeHandler);
+<<<<<<< HEAD
         cordova.exec(success, failure, BMSClientName, "registerAuthenticationListener", [realm]);
+=======
+        cordova.exec(success, failure, BMSClientString, "registerAuthenticationListener", [realm]);
+>>>>>>> feature-mca-android
 
     };
 
@@ -98,7 +119,7 @@ var BMSClient = function() {
      * @param {string} realm Authentication realm
      */
     this.unregisterAuthenticationListener = function(realm) {
-        cordova.exec(success, failure, BMSClientName, "unregisterAuthenticationListener", [realm]);
+        cordova.exec(success, failure, BMSClientString, "unregisterAuthenticationListener", [realm]);
     };
 
     /**
@@ -111,7 +132,7 @@ var BMSClient = function() {
 
     /**
      * 
-     * @param backendGUID
+     * @return backendGUID
      */
     this.getBluemixAppGUID = function(callback) {
         return this._backendGuid;
@@ -121,7 +142,11 @@ var BMSClient = function() {
     var addCallbackHandler = function(realm, challengeHandler){
         var cdvsuccess =  callbackWrap.bind(this, challengeHandler);
         var cdvfailure = function() { console.log("Error: addCallbackHandler failed"); };
+<<<<<<< HEAD
         cordova.exec(cdvsuccess, cdvfailure, BMSClientName, "addCallbackHandler", [realm]);
+=======
+        cordova.exec(cdvsuccess, cdvfailure, BMSClientString, "addCallbackHandler", [realm]);
+>>>>>>> feature-mca-android
      };
 
      var callbackWrap = function (callback, action) {

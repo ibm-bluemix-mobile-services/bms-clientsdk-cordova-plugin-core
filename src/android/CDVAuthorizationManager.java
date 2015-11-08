@@ -29,16 +29,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.security.Policy;
-
 /**
  * Created by rotembr on 10/22/15.
  */
 public class CDVAuthorizationManager extends CordovaPlugin {
 
     private static final String TAG = "CDVAuthorizationManager";
-    private static final Logger AMLogger = Logger.getInstance("CDVAuthorizationManager");
+    private static final Logger amLogger = Logger.getInstance("CDVAuthorizationManager");
 
     private static final String PersistencePolicyAlways = "ALWAYS";
     private static final String PersistencePolicyNever = "NEVER";
@@ -70,7 +67,10 @@ public class CDVAuthorizationManager extends CordovaPlugin {
         return ans;
     }
 
-
+    /**
+     * Use the native SDK API to invoke process for obtaining authorization header.
+     * @param callbackContext Callback that will indicate whether the request succeeded or failed
+     */
     private void obtainAuthorizationHeader(final CallbackContext callbackContext) throws JSONException {
 
         final Context currentContext = this.cordova.getActivity();
@@ -83,7 +83,7 @@ public class CDVAuthorizationManager extends CordovaPlugin {
                     public void onSuccess(Response response) {
                         try {
                             PluginResult result = new PluginResult(PluginResult.Status.OK, CDVMFPRequest.packJavaResponseToJSON(response));
-                            AMLogger.debug("ObtainAuthorizationHeader: request successful.");
+                            amLogger.debug("ObtainAuthorizationHeader: request successful.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
                             callbackContext.error(e.getMessage());
@@ -94,7 +94,7 @@ public class CDVAuthorizationManager extends CordovaPlugin {
                     public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                         try {
                             PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVMFPRequest.packJavaResponseToJSON(failResponse));
-                            AMLogger.error("Failed to send request obtainAuthorizationHeader.");
+                            amLogger.error("Failed to send request obtainAuthorizationHeader.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
                             callbackContext.error(e.getMessage());
@@ -106,17 +106,26 @@ public class CDVAuthorizationManager extends CordovaPlugin {
         });
 
     }
-
+    /**
+     * Use the native SDK API to clear the local stored authorization data.
+     * @param callbackContext
+     */
     private void clearAuthorizationData(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 AuthorizationManager.getInstance().clearAuthorizationData();
-                AMLogger.debug("Authorization data cleared.");
+                amLogger.debug("Authorization data cleared.");
                 callbackContext.success();
             }
         });
     }
 
+    /**
+     * Use the native SDK API to check if the params came from response that requires authorization.
+     *
+     * @param args            JSONArray that contains the statusCode of the response, and responseAuthorizationHeader.
+     * @param callbackContext Callback that will get the result,true if status is 401 or 403 and The value of the header contains 'Bearer' AND 'realm="imfAuthentication"'
+     */
     private void isAuthorizationRequired(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
         cordova.getThreadPool().execute(new Runnable() {
@@ -125,37 +134,52 @@ public class CDVAuthorizationManager extends CordovaPlugin {
                     int statusCode = args.getInt(0);
                     String responseAuthorizationHeader = args.getString(1);
                     boolean answer = AuthorizationManager.getInstance().isAuthorizationRequired(statusCode, responseAuthorizationHeader);
-                    AMLogger.debug("isAuthorizationRequired return " + answer);
+                    amLogger.debug("isAuthorizationRequired return " + answer);
                     callbackContext.success(String.valueOf(answer));
                 } catch (JSONException e) {
-                    AMLogger.debug("Expected non-empty string argument.");
+                    amLogger.debug("Expected non-empty string argument.");
                     callbackContext.error(e.getMessage());
                 }
             }
         });
     }
 
-
+    /**
+     * Use the native SDK API get the locally stored authorization header or null if the value is not exist.
+     *
+     * @param callbackContext
+     */
     private void getCachedAuthorizationHeader(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 String header = AuthorizationManager.getInstance().getCachedAuthorizationHeader();
-                AMLogger.debug("Cached authorization header: " + header);
+                amLogger.debug("Cached authorization header: " + header);
                 callbackContext.success(header);
             }
         });
     }
 
+    /**
+     * Use the native SDK API to get the current authorization persistence policy
+     *
+     * @param callbackContext
+     */
     private void getAuthorizationPersistencePolicy(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 AuthorizationManager.PersistencePolicy policy = AuthorizationManager.getInstance().getAuthorizationPersistencePolicy();
-                AMLogger.debug("PersistencePolicy:" + policy.toString());
+                amLogger.debug("PersistencePolicy:" + policy.toString());
                 callbackContext.success(policy.toString());
             }
         });
     }
 
+    /**
+     * Use the native SDK API to change the sate of the current authorization persistence policy.
+     *
+     * @param args            JSONArray that contains the new policy to use.
+     * @param callbackContext
+     */
     private void setAuthorizationPersistencePolicy(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -172,43 +196,58 @@ public class CDVAuthorizationManager extends CordovaPlugin {
                     AuthorizationManager.getInstance().setAuthorizationPersistencePolicy(AuthorizationManager.PersistencePolicy.ALWAYS);
                 } else {
                     success = false;
-                    AMLogger.debug("Policy cann't be recognized:" + newPolicy.toString());
+                    amLogger.debug("Policy cann't be recognized:" + newPolicy.toString());
                     callbackContext.error("The specified persistence policy is not supported.");
                 }
 
                 if (success) {
-                    AMLogger.debug("PersistencePolicy set to:" + newPolicy.toString());
+                    amLogger.debug("PersistencePolicy set to:" + newPolicy.toString());
                     callbackContext.success();
                 }
             }
         });
     }
 
+    /**
+     * Use the native SDK API to get the authorized user identity.
+     *
+     * @param callbackContext
+     */
     private void getUserIdentity(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 UserIdentity userIdentity = AuthorizationManager.getInstance().getUserIdentity();
-                AMLogger.debug("userIdentity: " + userIdentity.toString());
+                amLogger.debug("userIdentity: " + userIdentity.toString());
                 callbackContext.success(userIdentity.toString());
             }
         });
     }
 
+    /**
+     * Use the native SDK API to get the application identity.
+     *
+     * @param callbackContext
+     */
     private void getAppIdentity(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 AppIdentity appIdentity = AuthorizationManager.getInstance().getAppIdentity();
-                AMLogger.debug("appIdentity: " + appIdentity.toString());
+                amLogger.debug("appIdentity: " + appIdentity.toString());
                 callbackContext.success(appIdentity.toString());
             }
         });
     }
 
+    /**
+     * Use the native SDK API to get the device identity.
+     *
+     * @param callbackContext
+     */
     private void getDeviceIdentity(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 DeviceIdentity deviceIdentity = AuthorizationManager.getInstance().getDeviceIdentity();
-                AMLogger.debug("deviceIdentity: " + deviceIdentity.toString());
+                amLogger.debug("deviceIdentity: " + deviceIdentity.toString());
                 callbackContext.success(deviceIdentity.toString());
             }
         });

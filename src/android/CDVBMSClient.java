@@ -73,7 +73,12 @@ public class CDVBMSClient extends CordovaPlugin {
         }
     }
 
-
+    /**
+     * Use the native SDK API to registers authentication listener for specified realm.
+     *
+     * @param args            JSONArray that contains the realm name
+     * @param callbackContext
+     */
     public void registerAuthenticationListener(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -96,6 +101,12 @@ public class CDVBMSClient extends CordovaPlugin {
         });
     }
 
+    /**
+     * Use the native SDK API to unregisters authentication listener
+     *
+     * @param args            JSONArray that contains the realm name the listener was registered for
+     * @param callbackContext
+     */
     public void unregisterAuthenticationListener(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -122,8 +133,12 @@ public class CDVBMSClient extends CordovaPlugin {
         });
     }
 
+<<<<<<< HEAD
     private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
+=======
+>>>>>>> feature-mca-android
 
+    private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
@@ -148,11 +163,11 @@ public class CDVBMSClient extends CordovaPlugin {
 
 
     //AuthenticationListener class that handles the challenges from the server
-    public class InternalAuthenticationListener implements AuthenticationListener {
+    private class InternalAuthenticationListener implements AuthenticationListener {
 
         private final String realm;
 
-        public InternalAuthenticationListener(String realm) {
+        private InternalAuthenticationListener(String realm) {
             this.realm = realm;
         }
 
