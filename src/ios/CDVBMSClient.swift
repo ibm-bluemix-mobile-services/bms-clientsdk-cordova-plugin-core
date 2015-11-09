@@ -11,6 +11,7 @@ import IMFCore
 @objc(CDVBMSClient) class CDVBMSClient : CDVPlugin {
     
     static var jsChallengeHandlers:NSMutableDictionary = [:]
+    static var authenticationContexts:NSMutableDictionary = [:]
     
     func initialize(command: CDVInvokedUrlCommand) {
 
@@ -140,11 +141,11 @@ import IMFCore
             let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm] as! CDVInvokedUrlCommand
             
             let jsonResponse: NSMutableDictionary = [:]
-            jsonResponse.setObject("action", forKey: "onAuthenticationChallengeReceived")
-            jsonResponse.setObject("challenge", forKey: challenge)
-            
-            let stringResult = self.stringifyResponse(jsonResponse)
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: stringResult)
+            jsonResponse.setObject("onAuthenticationChallengeReceived", forKey: "action")
+            jsonResponse.setObject(challenge, forKey: "challenge")
+            CDVBMSClient.authenticationContexts.setValue(context, forKey: realm)
+           
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse as [NSObject : AnyObject])
             pluginResult.setKeepCallbackAsBool(true)
             commandDelegate.sendPluginResult(pluginResult, callbackId: command.callbackId)
         }
