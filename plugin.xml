@@ -65,6 +65,8 @@
         <source-file src="src/android/CDVMFPRequest.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         <source-file src="src/android/CDVMFPLogger.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         <source-file src="src/android/CDVMFPAnalytics.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVAuthorizationManager.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVAuthenticationContext.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         
     </platform>
 
@@ -107,6 +109,7 @@
         <source-file src="src/ios/CDVMFPLogger.swift" />
         <source-file src="src/ios/CDVMFPAnalytics.swift" />
 		<source-file src="src/ios/CDVAuthorizationManager.swift" />
+        <source-file src="src/ios/CDVAuthenticationContext.swift" />
     </platform>
 
 </plugin>
