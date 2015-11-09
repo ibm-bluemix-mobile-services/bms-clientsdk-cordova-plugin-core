@@ -137,10 +137,7 @@ public class CDVMFPRequest extends CordovaPlugin {
         if (response != null)
             return packJavaResponseToJSON(response);
         if (extendedInfo != null){
-<<<<<<< HEAD
-=======
             //extendedinfo contains errorCode and msg, converting that into errorCode and errorDescription according to the format we use.
->>>>>>> feature-mca-android
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("errorCode", extendedInfo.get("errorCode"));
             jsonResponse.put("errorDescription",extendedInfo.get("msg"));

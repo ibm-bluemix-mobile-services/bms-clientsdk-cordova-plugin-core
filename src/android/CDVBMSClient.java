@@ -133,11 +133,6 @@ public class CDVBMSClient extends CordovaPlugin {
         });
     }
 
-<<<<<<< HEAD
-    private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
-=======
->>>>>>> feature-mca-android
-
     private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
