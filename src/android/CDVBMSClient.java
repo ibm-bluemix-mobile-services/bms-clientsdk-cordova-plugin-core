@@ -31,6 +31,7 @@ public class CDVBMSClient extends CordovaPlugin {
     private String errorEmptyArg = "Expected non-empty string argument.";
     private static final Logger bmsLogger = Logger.getInstance("CDVBMSClient");
     private HashMap<String, CallbackContext> challengeHandlersMap = new HashMap<String, CallbackContext>();
+    static HashMap<String, AuthenticationContext> authContexsMap  = new HashMap<String, AuthenticationContext>();
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -120,6 +121,7 @@ public class CDVBMSClient extends CordovaPlugin {
                         result.setKeepCallback(false);
                         challengeHandlersMap.get(realm).sendPluginResult(result);
                         challengeHandlersMap.remove(realm);
+                        authContexsMap.remove(realm);
                         callbackContext.success(realm);
                     } else {
                         bmsLogger.error(errorEmptyArg);
@@ -176,6 +178,7 @@ public class CDVBMSClient extends CordovaPlugin {
             } catch (JSONException e) {
                 bmsLogger.debug("onAuthenticationChallengeReceived :: failed to generate JSON response");
             }
+            authContexsMap.put(realm,authContext);
             PluginResult result = new PluginResult(PluginResult.Status.OK, responseObj);
             result.setKeepCallback(true);
             challengeHandlersMap.get(realm).sendPluginResult(result);

@@ -61,12 +61,12 @@
 
         <config-file parent="/*" target="AndroidManifest.xml"/>
 
-        <source-file src="src/android/CDVBMSClient.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPRequest.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPLogger.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPAnalytics.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVAuthorizationManager.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVAuthenticationContext.java" target-dir="src/main/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVBMSClient.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPLogger.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPAnalytics.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVAuthorizationManager.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVAuthenticationContext.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         
     </platform>
 
