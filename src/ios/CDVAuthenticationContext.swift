@@ -18,15 +18,23 @@ import IMFCore
             let realm = command.argumentAtIndex(1) as! String
             let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
             context.submitAuthenticationChallengeAnswer(answer as! [NSObject : AnyObject])
-            
         })
     }
     
     func submitAuthenticationSuccess(command: CDVInvokedUrlCommand) {
-        
+        self.commandDelegate!.runInBackground({
+            let realm = command.argumentAtIndex(0) as! String
+            let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
+            context.submitAuthenticationSuccess()
+        })
     }
     
     func submitAuthenticationFailure(command: CDVInvokedUrlCommand) {
-        
+        self.commandDelegate!.runInBackground({
+            let info = command.argumentAtIndex(0) as! [NSObject : AnyObject]
+            let realm = command.argumentAtIndex(1) as! String
+            let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
+            context.submitAuthenticationFailure(info)
+        })
     }
 }

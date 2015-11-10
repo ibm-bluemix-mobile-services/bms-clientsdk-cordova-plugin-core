@@ -9,12 +9,13 @@
 import Foundation
 import IMFCore
 
+enum PersistencePolicy: String {
+    case PersistencePolicyAlways = "ALWAYS"
+    case PersistencePolicyNever = "NEVER"
+    case PersistencePolicyTouchBiometrics = "BIOMETRICS"
+}
+
 @objc(CDVAuthorizationManager) class CDVAuthorizationManager : CDVPlugin {
-    
-    enum CDVAuthManagerErrors : ErrorType {
-        case InvalidParameterCount
-        case InvalidParameterType
-    }
     
     func obtainAuthorizationHeader(command: CDVInvokedUrlCommand) {
         let authManager = IMFAuthorizationManager.sharedInstance();
@@ -36,12 +37,8 @@ import IMFCore
                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: responseString)
                         self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                     }
-                
-                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: responseString)
-                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 } catch {
-                    responseString = "Error Parsing JSON response."
-                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: responseString)
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: CustomErrorMessages.errorParsingJSONResponse)
                     self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 }
             }
@@ -84,28 +81,105 @@ import IMFCore
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:authHeader)
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
             } else {
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "There is no cached authorization header.")
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: CustomErrorMessages.noCachedAuthorizationHeader)
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
             }
         })
     }
     
+    func getUserIdentity(command: CDVInvokedUrlCommand) {
+        self.commandDelegate!.runInBackground({
+            let authManager = IMFAuthorizationManager.sharedInstance()
+            var pluginResult: CDVPluginResult? = nil
+    
+            do {
+                let userIdentity: String = try self.stringifyResponse(authManager.userIdentity)
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:userIdentity)
+            } catch {
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainUserIdentity)
+            }
+            
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
+    }
+    
+    func getAppIdentity(command: CDVInvokedUrlCommand) {
+        self.commandDelegate!.runInBackground({
+            let authManager = IMFAuthorizationManager.sharedInstance()
+            var pluginResult: CDVPluginResult? = nil
+            
+            do {
+                let appIdentity: String = try self.stringifyResponse(authManager.appIdentity)
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:appIdentity)
+            } catch {
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainAppIdentity)
+            }
+            
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
+    }
+    
+    func getDeviceIdentity(command: CDVInvokedUrlCommand) {
+        self.commandDelegate!.runInBackground({
+            let authManager = IMFAuthorizationManager.sharedInstance()
+            var pluginResult: CDVPluginResult? = nil
+            
+            do {
+                let deviceIdentity: String = try self.stringifyResponse(authManager.deviceIdentity)
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:deviceIdentity)
+            } catch {
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainDeviceIdentity)
+            }
+            
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
+    }
+    
+    func getAuthorizationPersistencePolicy(command: CDVInvokedUrlCommand) {
+        self.commandDelegate!.runInBackground({
+            //let authManager = IMFAuthorizationManager.sharedInstance()
+        })
+    }
+    
+    func setAuthorizationPersistencePolicy(command: CDVInvokedUrlCommand) {
+        self.commandDelegate!.runInBackground({
+            let authManager = IMFAuthorizationManager.sharedInstance()
+            guard let policy: String = command.arguments[0] as? String else {
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.invalidPolicySpecified)
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+            
+            switch policy {
+            case "ALWAYS":
+                authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.Always)
+            case "NEVER":
+                authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.Never)
+            case "BIOMETRICS":
+                 authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.Never)
+            default:
+                authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.WithTouchBiometrics)
+            }
+            
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
+    }
+    
     func unpackIsAuthorizationRequiredParams(command: CDVInvokedUrlCommand) throws -> (statusCode: Int32, authorizationHeaderValue: String) {
         if (command.arguments.count < 2) {
-            throw CDVAuthManagerErrors.InvalidParameterCount
+            throw CustomErrors.InvalidParameterCount(expected: 2, actual: command.arguments.count)
         }
         
-        let param0 = command.argumentAtIndex(0)
-        let param1 = command.argumentAtIndex(1)
-        
-        if !(param0 is NSNumber) || !(param1 is NSString) {
-            throw CDVAuthManagerErrors.InvalidParameterType
+        guard let param0 = command.argumentAtIndex(0) as? NSNumber else {
+            throw CustomErrors.InvalidParameterType(expected: "NSNumber", actual: command.argumentAtIndex(1))
         }
         
-        let statusValue: NSNumber = param0 as! NSNumber
-        let authHeader: String = String(param1)
+        guard let param1: NSString = command.argumentAtIndex(1) as? NSString else {
+            throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argumentAtIndex(1))
+        }
         
-        return (statusCode: statusValue.intValue, authorizationHeaderValue: authHeader)
+        return (statusCode: param0.intValue, authorizationHeaderValue: param1 as String)
     }
     
     func packResponse(response: IMFResponse!,error:NSError?=nil) throws -> String {
@@ -115,6 +189,7 @@ import IMFCore
         if error != nil {
             jsonResponse.setObject(Int((error!.code)), forKey: "errorCode")
             jsonResponse.setObject((error!.localizedDescription), forKey: "errorDescription")
+            jsonResponse.setObject((error!.userInfo), forKey: "userInfo")
         }
         else {
             jsonResponse.setObject(Int((0)), forKey: "errorCode")
@@ -139,8 +214,9 @@ import IMFCore
             }
             
             jsonResponse.setObject(Int(response.httpStatus), forKey:"status")
-            responseString = try self.stringifyResponse(jsonResponse);
         }
+        
+        responseString = try self.stringifyResponse(jsonResponse);
         return responseString as String
     }
     

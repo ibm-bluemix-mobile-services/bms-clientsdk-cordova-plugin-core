@@ -78,6 +78,7 @@ import IMFCore
         if error != nil {
             jsonResponse.setObject(Int((error!.code)), forKey: "errorCode")
             jsonResponse.setObject((error!.localizedDescription), forKey: "errorDescription")
+            jsonResponse.setObject((error!.userInfo), forKey: "userInfo")
         }
         else {
             jsonResponse.setObject(Int((0)), forKey: "errorCode")
@@ -102,8 +103,9 @@ import IMFCore
             }
             
             jsonResponse.setObject(Int(response.httpStatus), forKey:"status")
-            responseString = try self.stringifyResponse(jsonResponse);
         }
+        
+        responseString = try self.stringifyResponse(jsonResponse);
         return responseString as String
     }
     
