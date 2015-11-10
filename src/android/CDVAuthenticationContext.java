@@ -2,6 +2,7 @@ package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.BMSClient;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.Logger;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -47,7 +48,7 @@ public class CDVAuthenticationContext extends CordovaPlugin {
                     String realm = args.getString(1);
                     acLogger.debug("Called submitAuthenticationChallengeAnswer");
                     callbackContext.success("submitAuthenticationChallengeAnswer called");
-                    BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationChallengeAnswer(answer);
+                    CDVBMSClient.authContexsMap.get(realm).submitAuthenticationChallengeAnswer(answer);
                 } catch (JSONException e) {
                     acLogger.error("submitAuthenticationChallengeAnswer :: " + errorEmptyArg);
                     callbackContext.error(e.getMessage());
@@ -69,7 +70,7 @@ public class CDVAuthenticationContext extends CordovaPlugin {
                     realm = args.getString(0);
                     acLogger.debug("Called submitAuthenticationSuccess");
                     callbackContext.success("submitAuthenticationSuccess called");
-                    BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationSuccess();
+                    CDVBMSClient.authContexsMap.get(realm).submitAuthenticationSuccess();
                 } catch (JSONException e) {
                     acLogger.error("submitAuthenticationSuccess :: " + errorEmptyArg);
                     callbackContext.error(e.getMessage());
@@ -92,7 +93,7 @@ public class CDVAuthenticationContext extends CordovaPlugin {
                     String realm = args.getString(1);
                     callbackContext.success("submitAuthenticationFailure called");
                     acLogger.debug("Called submitAuthenticationFailure");
-                    BMSClient.getInstance().getChallengeHandler(realm).submitAuthenticationFailure(info);
+                    CDVBMSClient.authContexsMap.get(realm).submitAuthenticationFailure(info);
                 } catch (JSONException e) {
                     acLogger.error("submitAuthenticationFailure :: " + errorEmptyArg);
                     callbackContext.error(e.getMessage());
