@@ -117,12 +117,9 @@ public class CDVBMSClient extends CordovaPlugin {
                     if (realm != null && realm.length() > 0) {
                         BMSClient.getInstance().unregisterAuthenticationListener(realm);
                         bmsLogger.debug("Called unregisterAuthenticationListener");
-                        PluginResult result = new PluginResult(PluginResult.Status.OK, new JSONObject());
-                        result.setKeepCallback(false);
-                        challengeHandlersMap.get(realm).sendPluginResult(result);
                         challengeHandlersMap.remove(realm);
                         authContexsMap.remove(realm);
-                        callbackContext.success(realm);
+                        callbackContext.success("unregister realm: " + realm);
                     } else {
                         bmsLogger.error(errorEmptyArg);
                         callbackContext.error(errorEmptyArg);
@@ -134,6 +131,7 @@ public class CDVBMSClient extends CordovaPlugin {
             }
         });
     }
+
 
     private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
