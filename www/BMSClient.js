@@ -1,3 +1,4 @@
+cordova.define("ibm-mfp-core.BMSClient", function(require, exports, module) {
 /*
     Copyright 2015 IBM Corp.
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +14,6 @@
 var exec = require("cordova/exec");
 
 var BMSClient = function() {
-    this._backendRoute = "";
-    this._backendGuid = "";
-    this._challengeHandlers = {};
     var BMSClientString = "BMSClient";
     var AuthContextString = "AuthenticationContext";
     var success = function(message) {
@@ -34,8 +32,6 @@ var BMSClient = function() {
      * @param {string} backendGuid Specifies the GUID of the application
      */
     this.initialize = function(backendRoute, backendGuid) {
-        this._backendRoute = backendRoute;
-        this._backendGuid = backendGuid;
         cordova.exec(success, failure, BMSClientString, "initialize", [backendRoute, backendGuid]);
     };
 
@@ -89,6 +85,7 @@ var BMSClient = function() {
         // register an callback Handler function
         addCallbackHandler(realm, challengeHandler);
         cordova.exec(success, failure, BMSClientString, "registerAuthenticationListener", [realm]);
+
     };
 
     /**
@@ -104,7 +101,7 @@ var BMSClient = function() {
      * @return backendRoute
      */
     this.getBluemixAppRoute = function(callback) {
-        return this._backendRoute;
+        cordova.exec(callback, failure, BMSClientString, "getBluemixAppRoute", []);
     };
 
     /**
@@ -112,7 +109,7 @@ var BMSClient = function() {
      * @return backendGUID
      */
     this.getBluemixAppGUID = function(callback) {
-        return this._backendGuid;
+        cordova.exec(callback, failure, BMSClientString, "getBluemixAppGUID", []);
     };
 
 
@@ -130,3 +127,4 @@ var BMSClient = function() {
 
 //Return singleton instance
 module.exports = new BMSClient();
+});

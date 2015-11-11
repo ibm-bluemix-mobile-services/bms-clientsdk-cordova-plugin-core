@@ -1,3 +1,4 @@
+cordova.define("ibm-mfp-core.AuthorizationManager", function(require, exports, module) {
 /*
     Copyright 2015 IBM Corp.
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,7 +74,7 @@ var AuthorizationManager = function() {
      * Change the sate of the current authorization persistence policy
      * @param policy new policy to use
      */
-    this.setAuthorizationPersistencePolicy = function(policy){
+    this.setAuthorizationPersistencePolicy = function(success, failure, policy){
         cordova.exec(success, failure, AuthorizationManagerString, "setAuthorizationPersistencePolicy", [policy]);
     };
 
@@ -107,3 +108,4 @@ var AuthorizationManager = function() {
 
 //Return singleton instance
 module.exports = new AuthorizationManager();
+});

@@ -13,16 +13,20 @@
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import android.content.Context;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
 import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationListener;
+
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.net.MalformedURLException;
 import java.util.HashMap;
 
@@ -31,7 +35,7 @@ public class CDVBMSClient extends CordovaPlugin {
     private String errorEmptyArg = "Expected non-empty string argument.";
     private static final Logger bmsLogger = Logger.getInstance("CDVBMSClient");
     private HashMap<String, CallbackContext> challengeHandlersMap = new HashMap<String, CallbackContext>();
-    static HashMap<String, AuthenticationContext> authContexsMap  = new HashMap<String, AuthenticationContext>();
+    static HashMap<String, AuthenticationContext> authContexsMap = new HashMap<String, AuthenticationContext>();
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -44,7 +48,11 @@ public class CDVBMSClient extends CordovaPlugin {
             this.unregisterAuthenticationListener(args, callbackContext);
         } else if ("addCallbackHandler".equals(action)) {
             this.doAddCallbackHandler(args, callbackContext);
-        }else {
+        } else if ("getBluemixAppRoute".equals(action)) {
+            this.getBluemixAppRoute(callbackContext);
+        } else if ("getBluemixAppGUID".equals(action)) {
+            this.getBluemixAppGUID(callbackContext);
+        } else {
             ans = false;
         }
         return ans;
@@ -117,12 +125,9 @@ public class CDVBMSClient extends CordovaPlugin {
                     if (realm != null && realm.length() > 0) {
                         BMSClient.getInstance().unregisterAuthenticationListener(realm);
                         bmsLogger.debug("Called unregisterAuthenticationListener");
-                        PluginResult result = new PluginResult(PluginResult.Status.OK, new JSONObject());
-                        result.setKeepCallback(false);
-                        challengeHandlersMap.get(realm).sendPluginResult(result);
                         challengeHandlersMap.remove(realm);
                         authContexsMap.remove(realm);
-                        callbackContext.success(realm);
+                        callbackContext.success("unregister realm: " + realm);
                     } else {
                         bmsLogger.error(errorEmptyArg);
                         callbackContext.error(errorEmptyArg);
@@ -135,6 +140,7 @@ public class CDVBMSClient extends CordovaPlugin {
         });
     }
 
+
     private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -143,8 +149,8 @@ public class CDVBMSClient extends CordovaPlugin {
                     final String realm = args.getString(0);
                     if (realm != null && realm.length() > 0) {
                         bmsLogger.debug("realm: " + realm);
-                        challengeHandlersMap.put(realm, callbackContext);}
-                    else{
+                        challengeHandlersMap.put(realm, callbackContext);
+                    } else {
                         bmsLogger.error(errorEmptyArg);
                         callbackContext.error(errorEmptyArg);
                     }
@@ -156,7 +162,23 @@ public class CDVBMSClient extends CordovaPlugin {
         });
     }
 
+    private void getBluemixAppRoute(final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                String bluemixAppRoute = BMSClient.getInstance().getBluemixAppRoute();
+                callbackContext.success(bluemixAppRoute);
+            }
+        });
+    }
 
+    private void getBluemixAppGUID(final CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                String bluemixAppGUID = BMSClient.getInstance().getBluemixAppGUID();
+                callbackContext.success(bluemixAppGUID);
+            }
+        });
+    }
 
 
     //AuthenticationListener class that handles the challenges from the server
@@ -178,7 +200,7 @@ public class CDVBMSClient extends CordovaPlugin {
             } catch (JSONException e) {
                 bmsLogger.debug("onAuthenticationChallengeReceived :: failed to generate JSON response");
             }
-            authContexsMap.put(realm,authContext);
+            authContexsMap.put(realm, authContext);
             PluginResult result = new PluginResult(PluginResult.Status.OK, responseObj);
             result.setKeepCallback(true);
             challengeHandlersMap.get(realm).sendPluginResult(result);
