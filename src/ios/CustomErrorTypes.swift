@@ -31,4 +31,5 @@ class CustomErrorMessages {
     static let errorObtainAppIdentity = "Failed to obtain application identity."
     static let errorObtainDeviceIdentity = "Failed to obtain device identity."
     static let invalidPolicySpecified = "Invalid presistence policy specified."
+    static let invalidPolicyType = "Invalid presistence policy returned from native code."
 }

@@ -12,7 +12,6 @@ import IMFCore
 enum PersistencePolicy: String {
     case PersistencePolicyAlways = "ALWAYS"
     case PersistencePolicyNever = "NEVER"
-    case PersistencePolicyTouchBiometrics = "BIOMETRICS"
 }
 
 @objc(CDVAuthorizationManager) class CDVAuthorizationManager : CDVPlugin {
@@ -67,9 +66,10 @@ enum PersistencePolicy: String {
     
     func clearAuthorizationData(command: CDVInvokedUrlCommand) {
         self.commandDelegate!.runInBackground({
-            //let authManager = IMFAuthorizationManager.sharedInstance()
-            
-            //authManager.cl
+            let authManager = IMFAuthorizationManager.sharedInstance()
+            authManager.clearAuthorizationData()
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
         })
     }
     
@@ -137,7 +137,20 @@ enum PersistencePolicy: String {
     
     func getAuthorizationPersistencePolicy(command: CDVInvokedUrlCommand) {
         self.commandDelegate!.runInBackground({
-            //let authManager = IMFAuthorizationManager.sharedInstance()
+            let authManager = IMFAuthorizationManager.sharedInstance()
+            let policy: IMFAuthorizationPerisistencePolicy = authManager.getAuthorizationPersistensePolicy()
+            var pluginResult: CDVPluginResult? = nil
+            
+            switch policy {
+            case IMFAuthorizationPerisistencePolicy.Always:
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:PersistencePolicy.PersistencePolicyAlways.rawValue)
+            case IMFAuthorizationPerisistencePolicy.Never:
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:PersistencePolicy.PersistencePolicyNever.rawValue)
+            default:
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.invalidPolicyType)
+            }
+            
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
         })
     }
     
@@ -151,14 +164,12 @@ enum PersistencePolicy: String {
             }
             
             switch policy {
-            case "ALWAYS":
+            case PersistencePolicy.PersistencePolicyAlways.rawValue:
                 authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.Always)
-            case "NEVER":
+            case PersistencePolicy.PersistencePolicyNever.rawValue:
                 authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.Never)
-            case "BIOMETRICS":
-                 authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.Never)
             default:
-                authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.WithTouchBiometrics)
+                authManager.setAuthorizationPersistencePolicy(IMFAuthorizationPerisistencePolicy.Never)
             }
             
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)

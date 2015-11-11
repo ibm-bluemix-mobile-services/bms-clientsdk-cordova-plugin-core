@@ -110,6 +110,7 @@
         <source-file src="src/ios/CDVMFPAnalytics.swift" />
 		<source-file src="src/ios/CDVAuthorizationManager.swift" />
         <source-file src="src/ios/CDVAuthenticationContext.swift" />
+        <source-file src="src/ios/CustomErrorTypes.swift" />
     </platform>
 
 </plugin>
