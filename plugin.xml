@@ -101,6 +101,8 @@
             
         </config-file>
 
+        <framework src="src/ios/Frameworks/IMFCore.framework" custom="true" />
+
         <header-file src="src/ios/Bridging-Header.h" />
         <header-file src="src/ios/IMFClient+initializeException.h" />
         <source-file src="src/ios/IMFClient+initializeException.m" />
