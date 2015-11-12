@@ -11,4 +11,4 @@
 //uncomment the following lines to enable push
 //#import <IMFPush/IMFPush.h>
 //#import <IMFPush/IMFPushClient.h>
-//#import <IMFResponse+IMFPushCategory.h>
+//#import <IMFPush/IMFResponse+IMFPushCategory.h>
