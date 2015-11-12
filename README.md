@@ -44,21 +44,20 @@ You can check if the plugin installed successfully by running the following comm
 
 - In Xcode, open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova
 
-- Change the iOS deployment target to at least 7.0,which is required for using Swift
-
-- Include the IMFCore framework:
-    <ol>
-        <li>In [your-app-name]/platforms/ios add a folder named "Frameworks"</li>
-        <li>Download IMFCore.framework from the <a target="_blank" href="https://hub.jazz.net/project/bluemixmobilesdk/imf-ios-sdk/overview#https://hub.jazz.net/git/bluemixmobilesdk%252Fimf-ios-sdk/list/master/Frameworks/IMFCore.framework">SDK repository</a> and copy it to the Frameworks folder</li>
-    </ol>
+- Change the minimum iOS deployment target to at least 7.0, which is required for using Swift
+  - Optionally, in your Cordova app you can modify your config.xml:
+    - Open your config.xml file and look for the section:
+      - `<platform name="ios">`
+    - Add the following:
+      - `<preference name="deployment-target" value="7.0" />`
 
 - Configuring your project in Xcode:
 <ol>
     <li>Click your app name in the project directory and go to Build Phases > Link Library with Libraries</li>
 
-    <li>Make sure the IMFCore.framework is added</li>
+    <li>Verify that the IMFCore.framework has been added</li>
 
-    <li>Go to Build Settings > Search Paths > Framework Search Paths and add the following parameters:</li>
+    <li>Go to Build Settings > Search Paths > Framework Search Paths and verify that the following parameters were added:</li>
     <ul>
         <li type=circle><code>$(inherited)</code></li>
         <li type=circle><code>$(PROJECT_DIR)/Frameworks</code></li>
