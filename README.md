@@ -60,7 +60,7 @@ You can check if the plugin installed successfully by running the following comm
     <li>Go to Build Settings > Search Paths > Framework Search Paths and verify that the following parameters were added:</li>
     <ul>
         <li type=circle><code>$(inherited)</code></li>
-        <li type=circle><code>$(PROJECT_DIR)/Frameworks</code></li>
+        <li type=circle><code>"[your-app-name]/Plugins/ibm-mfp-core"</code></li>
     </ul>
 
     <li>Go to Build settings and search for “bridging” > Objective-C Bridging Header and add the following path:</li>
