@@ -194,37 +194,55 @@ enum PersistencePolicy: String {
     }
     
     func packResponse(response: IMFResponse!,error:NSError?=nil) throws -> String {
-        let jsonResponse:NSMutableDictionary = [:]
+        var jsonResponse = [String:AnyObject]()
         var responseString: NSString = ""
         
         if error != nil {
-            jsonResponse.setObject(Int((error!.code)), forKey: "errorCode")
-            jsonResponse.setObject((error!.localizedDescription), forKey: "errorDescription")
-            jsonResponse.setObject((error!.userInfo), forKey: "userInfo")
+            jsonResponse["errorCode"] = Int((error!.code))
+            jsonResponse["errorDescription"] = (error!.localizedDescription)
+            
+            if let userInfo = error?.userInfo {
+                var validUserInfo = [String:AnyObject]()
+                for (key, value) in userInfo {
+                    if let k = key as? String  {
+                        var actualValue = value
+                        if let url = value as? NSURL {
+                            actualValue = url.absoluteString
+                        }
+                        let tempValue:[String:AnyObject] = [key as! String: actualValue]
+                        
+                        if NSJSONSerialization.isValidJSONObject(tempValue) {
+                            validUserInfo[k] = actualValue
+                        }
+                    }
+                }
+                
+                jsonResponse["userInfo"] = validUserInfo
+            }
         }
         else {
-            jsonResponse.setObject(Int((0)), forKey: "errorCode")
-            jsonResponse.setObject("", forKey: "errorDescription")
+            jsonResponse["errorCode"] = Int((0))
+            jsonResponse["errorDescription"] = ""
         }
         
-        if (response == nil)
-        {
-            jsonResponse.setObject("", forKey: "responseText")
-            jsonResponse.setObject([], forKey:"headers")
-            jsonResponse.setObject(Int(0), forKey:"status")
-        }
-        else {
+        if (response == nil) {
+            jsonResponse["responseText"] = ""
+            jsonResponse["headers"] = []
+            jsonResponse["status"] = Int((0))
+            
+        } else {
             let responseText: String = (response.responseText != nil)    ? response.responseText : ""
-            jsonResponse.setObject(responseText, forKey: "responseText")
+            jsonResponse["responseText"] = responseText
+            
             
             if response.responseHeaders != nil {
-                jsonResponse.setObject(response.responseHeaders, forKey:"headers")
+                jsonResponse["headers"] = response.responseHeaders
             }
             else {
-                jsonResponse.setObject([], forKey:"headers")
+                jsonResponse["headers"] = []
             }
             
-            jsonResponse.setObject(Int(response.httpStatus), forKey:"status")
+            jsonResponse["status"] = Int(response.httpStatus)
         }
         
         responseString = try self.stringifyResponse(jsonResponse);
