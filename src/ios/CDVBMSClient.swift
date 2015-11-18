@@ -48,7 +48,7 @@ import IMFCore
         })
     }
     
-    func backendRoute(command: CDVInvokedUrlCommand) {
+    func getBluemixAppRoute(command: CDVInvokedUrlCommand) {
         
         self.commandDelegate!.runInBackground({
 
@@ -60,7 +60,7 @@ import IMFCore
         })
     }
     
-    func backendGUID(command: CDVInvokedUrlCommand) {
+    func getBluemixAppGUID(command: CDVInvokedUrlCommand) {
         
         self.commandDelegate!.runInBackground({
 

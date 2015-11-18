@@ -40,7 +40,7 @@ You can check if the plugin installed successfully by running the following comm
 <h2 id="configuration">Configuration</h2>
 
 <h3 id="configure-ios">Configure Your iOS Development Environment</h3>
-- Make sure your Xcode version is at least 8.0
+- Make sure to use the latest Xcode version.
 
 - In Xcode, open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova
 
