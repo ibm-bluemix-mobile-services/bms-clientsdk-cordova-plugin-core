@@ -57,7 +57,7 @@ You can check if the plugin installed successfully by running the following comm
 
     <li>Verify that the IMFCore.framework has been added</li>
 
-    <li>Go to Build Settings > Search Paths > Framework Search Paths and verify that the following parameters were added:</li>
+    <li>Go to Build Settings > Search Paths > Framework Search Paths and verify that the following parameters were added in your app's Target:</li>
     <ul>
         <li type=circle><code>$(inherited)</code></li>
         <li type=circle><code>"[your-app-name]/Plugins/ibm-mfp-core"</code></li>
