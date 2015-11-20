@@ -65,7 +65,7 @@ You can check if the plugin installed successfully by running the following comm
 
     <li>Go to Build settings and search for “bridging” > Objective-C Bridging Header and add the following path:</li>
     <ul>
-        <li type=circle>[your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h</li>
+        <li type=circle><code>[your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h</code></li>
     </ul>
     
     <li>Go to Build Settings > Linking > Runpath Search Paths and add the following parameter:</li>
