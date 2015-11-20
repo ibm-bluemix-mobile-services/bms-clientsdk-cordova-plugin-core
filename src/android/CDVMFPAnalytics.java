@@ -27,10 +27,13 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 public class CDVMFPAnalytics extends CordovaPlugin {
-    private static final String TAG = "CDVMFPAnalytics";
+
+    private static final Logger analyticsLogger = Logger.getInstance("CDVMFPAnalytics");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        analyticsLogger.debug("execute() : action = " + action);
+
         if("enable".equals(action)) {
             Logger.setAnalyticsCapture(true);
             MFPAnalytics.enable();
