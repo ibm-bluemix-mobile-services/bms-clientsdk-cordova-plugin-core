@@ -57,7 +57,7 @@ import IMFCore
         nativeRequest.setTimeoutInterval(NSTimeInterval( timeout  ) )
         
         // process the body
-        let canSendBody = true //method?.compare("GET", options: NSStringCompareOptions.CaseInsensitiveSearch) != NSComparisonResult.OrderedSame
+        let canSendBody = method?.compare("GET", options: NSStringCompareOptions.CaseInsensitiveSearch) != NSComparisonResult.OrderedSame
         
         if (canSendBody) {
             if let body = requestDict.objectForKey("body") as? String {
