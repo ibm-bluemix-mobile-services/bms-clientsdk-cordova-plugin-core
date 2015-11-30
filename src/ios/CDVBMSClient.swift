@@ -133,9 +133,11 @@ import IMFCore
                 CDVBMSClient.jsChallengeHandlers.setValue(command, forKey: realm)
                 
                 defer {
-                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: errorText)
-                    pluginResult.setKeepCallbackAsBool(true)
-                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    if (!errorText.isEmpty) {
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: errorText)
+                        pluginResult.setKeepCallbackAsBool(true)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    }
                 }
                 
             } catch CustomErrors.InvalidParameterType(let expected, let actual) {

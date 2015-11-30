@@ -24,14 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CDVMFPLogger extends CordovaPlugin {
-    private static final String TAG = "CDVMFPLogger";
 
     private static final Logger mfpLogger = Logger.getInstance("CDVMFPLogger");
 
@@ -53,12 +53,12 @@ public class CDVMFPLogger extends CordovaPlugin {
 
 
         } else if("getFilters".equals(action)) {
-            JSONObject filters = Logger.HashMapToJSONObject(Logger.getFilters());
+            JSONObject filters = HashMapToJSONObject(Logger.getFilters());
             callbackContext.success(filters);
         } else if("setFilters".equals(action)) {
             String myarg = args.getString(0);
             JSONObject filtersAsJSON = new JSONObject(args.getString(0));
-            HashMap<String, LEVEL> newFilters = Logger.JSONObjectToHashMap(filtersAsJSON);
+            HashMap<String, LEVEL> newFilters = JSONObjectToHashMap(filtersAsJSON);
             Logger.setFilters(newFilters);
             callbackContext.success();
             return true;
@@ -165,6 +165,42 @@ public class CDVMFPLogger extends CordovaPlugin {
                 });
             }
         });
+    }
+
+
+    public static JSONObject HashMapToJSONObject(HashMap<String, LEVEL> pairs) {
+        if(pairs == null){
+            return new JSONObject();
+        }
+
+        Set<String> set = pairs.keySet();
+        JSONObject jsonObj = new JSONObject();
+        @SuppressWarnings("rawtypes")
+        Iterator it = set.iterator();
+        while (it.hasNext()) {
+            String n = (String) it.next();
+            try {
+                jsonObj.put(n, pairs.get(n).toString());
+            } catch (JSONException e) {
+                // not possible
+            }
+        }
+        return jsonObj;
+    }
+
+    public static HashMap<String, LEVEL> JSONObjectToHashMap(JSONObject object) {
+        HashMap<String, LEVEL> pairs = new HashMap<String, LEVEL>();
+        @SuppressWarnings("rawtypes")
+        Iterator it = object.keys();
+        while (it.hasNext()) {
+            String n = (String) it.next();
+            try {
+                pairs.put(n, LEVEL.valueOf(object.getString(n).toUpperCase()));
+            } catch (JSONException e) {
+                // not possible
+            }
+        }
+        return pairs;
     }
 
 }
