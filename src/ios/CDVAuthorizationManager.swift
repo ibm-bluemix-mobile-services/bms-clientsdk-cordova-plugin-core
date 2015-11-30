@@ -27,12 +27,12 @@ enum PersistencePolicy: String {
                 do {
                     if (error != nil) {
                         // process the error
-                        try responseString = self.packResponse(response, error: error)
+                        try responseString = Utils.packResponse(response, error: error)
                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: responseString)
                         self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                     } else {
                         // process success
-                        try responseString = self.packResponse(response)
+                        try responseString = Utils.packResponse(response)
                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: responseString)
                         self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                     }
@@ -93,7 +93,7 @@ enum PersistencePolicy: String {
             var pluginResult: CDVPluginResult? = nil
     
             do {
-                let userIdentity: String = try self.stringifyResponse(authManager.userIdentity)
+                let userIdentity: String = try Utils.stringifyResponse(authManager.userIdentity)
                 pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:userIdentity)
             } catch {
                 pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainUserIdentity)
@@ -109,7 +109,7 @@ enum PersistencePolicy: String {
             var pluginResult: CDVPluginResult? = nil
             
             do {
-                let appIdentity: String = try self.stringifyResponse(authManager.appIdentity)
+                let appIdentity: String = try Utils.stringifyResponse(authManager.appIdentity)
                 pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:appIdentity)
             } catch {
                 pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainAppIdentity)
@@ -125,7 +125,7 @@ enum PersistencePolicy: String {
             var pluginResult: CDVPluginResult? = nil
             
             do {
-                let deviceIdentity: String = try self.stringifyResponse(authManager.deviceIdentity)
+                let deviceIdentity: String = try Utils.stringifyResponse(authManager.deviceIdentity)
                 pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:deviceIdentity)
             } catch {
                 pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainDeviceIdentity)
@@ -192,72 +192,4 @@ enum PersistencePolicy: String {
         
         return (statusCode: param0.intValue, authorizationHeaderValue: param1 as String)
     }
-    
-    func packResponse(response: IMFResponse!,error:NSError?=nil) throws -> String {
-        var jsonResponse = [String:AnyObject]()
-        var responseString: NSString = ""
-        
-        if error != nil {
-            jsonResponse["errorCode"] = Int((error!.code))
-            jsonResponse["errorDescription"] = (error!.localizedDescription)
-            
-            if let userInfo = error?.userInfo {
-                var validUserInfo = [String:AnyObject]()
-                for (key, value) in userInfo {
-                    if let k = key as? String  {
-                        var actualValue = value
-                        if let url = value as? NSURL {
-                            actualValue = url.absoluteString
-                        }
-                        let tempValue:[String:AnyObject] = [key as! String: actualValue]
-                        
-                        if NSJSONSerialization.isValidJSONObject(tempValue) {
-                            validUserInfo[k] = actualValue
-                        }
-                    }
-                }
-                
-                jsonResponse["userInfo"] = validUserInfo
-            }
-        }
-        else {
-            jsonResponse["errorCode"] = Int((0))
-            jsonResponse["errorDescription"] = ""
-        }
-        
-        if (response == nil) {
-            jsonResponse["responseText"] = ""
-            jsonResponse["headers"] = []
-            jsonResponse["status"] = Int((0))
-            
-        } else {
-            let responseText: String = (response.responseText != nil)    ? response.responseText : ""
-            jsonResponse["responseText"] = responseText
-            
-            
-            if response.responseHeaders != nil {
-                jsonResponse["headers"] = response.responseHeaders
-            }
-            else {
-                jsonResponse["headers"] = []
-            }
-            
-            jsonResponse["status"] = Int(response.httpStatus)
-        }
-        
-        responseString = try self.stringifyResponse(jsonResponse);
-        return responseString as String
-    }
-    
-    func stringifyResponse(value: AnyObject,prettyPrinted:Bool = false) throws -> String {
-        let options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions(rawValue: 0)
-        var jsonString : String? = ""
-        
-        if NSJSONSerialization.isValidJSONObject(value) {
-            let data = try NSJSONSerialization.dataWithJSONObject(value, options: options)
-            jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
-        }
-        return jsonString!
-    }
-    
 }

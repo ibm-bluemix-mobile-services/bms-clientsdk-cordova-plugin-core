@@ -13,29 +13,30 @@ import IMFCore
     
     func send(command: CDVInvokedUrlCommand) {
         let nativeRequest = unPackRequest(command.arguments[0] as! NSDictionary)
-        
-        nativeRequest.sendWithCompletionHandler { (response: IMFResponse!, error: NSError!) -> Void in
-            var responseString: String?
-            do {
-                
-                if (error != nil) {
-                    // process the error
-                    try responseString = self.packResponse(response,error: error)
+        //dispatch_async(dispatch_get_main_queue()) {
+            nativeRequest.sendWithCompletionHandler { (response: IMFResponse!, error: NSError!) -> Void in
+                var responseString: String?
+                do {
+                    
+                    if (error != nil) {
+                        // process the error
+                        try responseString = Utils.packResponse(response,error: error)
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: responseString)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    } else {
+                        // process success
+                        try responseString = Utils.packResponse(response)
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: responseString)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    }
+                }
+                catch {
+                    responseString = "Error Parsing JSON response."
                     let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: responseString)
-                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-                } else {
-                    // process success
-                    try responseString = self.packResponse(response)
-                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: responseString)
                     self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 }
             }
-            catch {
-                responseString = "Error Parsing JSON response."
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: responseString)
-                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-            }
-        }
+        //}
     }
     
     func unPackRequest(requestDict:NSDictionary) -> IMFResourceRequest {
@@ -56,9 +57,13 @@ import IMFCore
         nativeRequest.setTimeoutInterval(NSTimeInterval( timeout  ) )
         
         // process the body
-        if let body = requestDict.objectForKey("body") as? String {
-            let bodyData = body.dataUsingEncoding(NSUTF8StringEncoding)
-            nativeRequest.setHTTPBody(bodyData)
+        let canSendBody = true //method?.compare("GET", options: NSStringCompareOptions.CaseInsensitiveSearch) != NSComparisonResult.OrderedSame
+        
+        if (canSendBody) {
+            if let body = requestDict.objectForKey("body") as? String {
+                let bodyData = body.dataUsingEncoding(NSUTF8StringEncoding)
+                nativeRequest.setHTTPBody(bodyData)
+            }
         }
         
         // get the headers
@@ -69,54 +74,5 @@ import IMFCore
             nativeRequest.setValue(requestHeaderDict[ name ]!, forHTTPHeaderField: name)
         }
         return nativeRequest
-    }
-    
-    func packResponse(response: IMFResponse!,error:NSError?=nil) throws -> String {
-        let jsonResponse:NSMutableDictionary = [:]
-        var responseString: NSString = ""
-        
-        if error != nil {
-            jsonResponse.setObject(Int((error!.code)), forKey: "errorCode")
-            jsonResponse.setObject((error!.localizedDescription), forKey: "errorDescription")
-            jsonResponse.setObject((error!.userInfo), forKey: "userInfo")
-        }
-        else {
-            jsonResponse.setObject(Int((0)), forKey: "errorCode")
-            jsonResponse.setObject("", forKey: "errorDescription")
-        }
-        
-        if (response == nil)
-        {
-            jsonResponse.setObject("", forKey: "responseText")
-            jsonResponse.setObject([], forKey:"headers")
-            jsonResponse.setObject(Int(0), forKey:"status")
-        }
-        else {
-            let responseText: String = (response.responseText != nil)    ? response.responseText : ""
-            jsonResponse.setObject(responseText, forKey: "responseText")
-            
-            if response.responseHeaders != nil {
-                jsonResponse.setObject(response.responseHeaders, forKey:"headers")
-            }
-            else {
-                jsonResponse.setObject([], forKey:"headers")
-            }
-            
-            jsonResponse.setObject(Int(response.httpStatus), forKey:"status")
-        }
-        
-        responseString = try self.stringifyResponse(jsonResponse);
-        return responseString as String
-    }
-    
-    func stringifyResponse(value: AnyObject,prettyPrinted:Bool = false) throws -> String {
-        let options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions(rawValue: 0)
-        var jsonString : String? = ""
-        
-        if NSJSONSerialization.isValidJSONObject(value) {
-            let data = try NSJSONSerialization.dataWithJSONObject(value, options: options)
-            jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
-        }
-        return jsonString!
     }
 }
