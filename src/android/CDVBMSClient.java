@@ -31,7 +31,6 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 
 public class CDVBMSClient extends CordovaPlugin {
-    private static final String TAG = "CDVBMSClient";
     private String errorEmptyArg = "Expected non-empty string argument.";
     private static final Logger bmsLogger = Logger.getInstance("CDVBMSClient");
     private HashMap<String, CallbackContext> challengeHandlersMap = new HashMap<String, CallbackContext>();

@@ -42,7 +42,7 @@ You can check if the plugin installed successfully by running the following comm
 <h3 id="configure-ios">Configure Your iOS Development Environment</h3>
 - Make sure to use the latest Xcode version.
 
-- In Xcode, open HelloCordova.xcworkspace from [your-app-name]/platforms/ios/HelloCordova
+- Open your Xcode .xcodeproj file in [your-app-name]/platforms/ios
 
 - Change the minimum iOS deployment target to at least 8.0.
   - Optionally, in your Cordova app you can modify your config.xml:
@@ -57,7 +57,7 @@ You can check if the plugin installed successfully by running the following comm
 
     <li>Verify that the IMFCore.framework has been added</li>
 
-    <li>Go to Build Settings > Search Paths > Framework Search Paths and verify that the following parameters were added:</li>
+    <li>Go to Build Settings > Search Paths > Framework Search Paths and verify that the following parameters were added in your app's Target:</li>
     <ul>
         <li type=circle><code>$(inherited)</code></li>
         <li type=circle><code>"[your-app-name]/Plugins/ibm-mfp-core"</code></li>
@@ -65,7 +65,7 @@ You can check if the plugin installed successfully by running the following comm
 
     <li>Go to Build settings and search for “bridging” > Objective-C Bridging Header and add the following path:</li>
     <ul>
-        <li type=circle>[your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h</li>
+        <li type=circle><code>[your-app-name]/Plugins/ibm-mfp-core/Bridging-Header.h</code></li>
     </ul>
     
     <li>Go to Build Settings > Linking > Runpath Search Paths and add the following parameter:</li>
