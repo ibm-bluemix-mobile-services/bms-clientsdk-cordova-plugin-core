@@ -133,7 +133,7 @@ import IMFCore
                 CDVBMSClient.jsChallengeHandlers.setValue(command, forKey: realm)
                 
                 defer {
-                    if (errorText.isEmpty) {
+                    if (!errorText.isEmpty) {
                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: errorText)
                         pluginResult.setKeepCallbackAsBool(true)
                         self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
