@@ -20,8 +20,23 @@
   ],
   "author": "IBM Bluemix Mobile Services",
   "license": "Apache version 2.0",
+  "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core/issues"
   },
-  "homepage": "https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core#readme"
+  "homepage": "https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core#readme",
+  "contributors" : [
+    {
+      "name" : "Larry Nickerson",
+      "email" : "lnickers@us.ibm.com"
+    },
+    {
+      "name" : "Sergio Escoto",
+      "email" : "escotos@us.ibm.com"
+    },
+    {
+      "name" : " Matthew Parangot",
+      "email" : ""
+    }
+  ]
 }
