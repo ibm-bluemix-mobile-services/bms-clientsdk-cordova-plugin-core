@@ -19,8 +19,8 @@
         <clobbers target="MFPAnalytics"/>
     </js-module>
 	
-    <js-module name="AuthorizationManager" src="www/AuthorizationManager.js">
-        <clobbers target="AuthorizationManager"/>
+    <js-module name="MFPAuthorizationManager" src="www/MFPAuthorizationManager.js">
+        <clobbers target="MFPAuthorizationManager"/>
     </js-module>
 
     <platform name="android">
@@ -49,11 +49,11 @@
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAnalytics"/>
             </feature>
             
-            <feature name="AuthorizationManager">
+            <feature name="MFPAuthorizationManager">
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVAuthorizationManager" />
             </feature>
             
-            <feature name="AuthenticationContext">
+            <feature name="MFPAuthenticationContext">
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVAuthenticationContext" />
             </feature>
             
@@ -91,11 +91,11 @@
                 <param name="ios-package" value="CDVMFPAnalytics"/>
             </feature>
 			
-            <feature name="AuthorizationManager">
+            <feature name="MFPAuthorizationManager">
                 <param name="ios-package" value="CDVAuthorizationManager"/>
             </feature>
             
-            <feature name="AuthenticationContext">
+            <feature name="MFPAuthenticationContext">
                 <param name="ios-package" value="CDVAuthenticationContext"/>
             </feature>
             
