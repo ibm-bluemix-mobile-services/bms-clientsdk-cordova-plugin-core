@@ -30,7 +30,7 @@ The Cordova library is also required to use this plugin. You can find instructio
 
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
 
-    $ cordova plugin install ibm-mfp-core
+    $ cordova plugin add ibm-mfp-core
 
 You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
 
