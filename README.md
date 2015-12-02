@@ -43,13 +43,14 @@ You can check if the plugin installed successfully by running the following comm
 - Make sure to use the latest Xcode version.
 
 - Open your Xcode .xcodeproj file in [your-app-name]/platforms/ios
+    - If prompted to convert to latest swift syntax, click Cancel. 
 
 - Change the minimum iOS deployment target to at least 8.0.
-  - Optionally, in your Cordova app you can modify your config.xml:
-    - Open your config.xml file and look for the section:
-      - `<platform name="ios">`
-    - Add the following:
-      - `<preference name="deployment-target" value="8.0" />`
+    - Optionally, in your Cordova app you can modify your config.xml:
+        - Open your config.xml file and look for the section:
+            - `<platform name="ios">`
+        - Add the following:
+            - `<preference name="deployment-target" value="8.0" />`
 
 - Configuring your project in Xcode:
 <ol>
