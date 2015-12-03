@@ -50,11 +50,11 @@
             </feature>
             
             <feature name="MFPAuthorizationManager">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVAuthorizationManager" />
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAuthorizationManager" />
             </feature>
             
             <feature name="MFPAuthenticationContext">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVAuthenticationContext" />
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAuthenticationContext" />
             </feature>
             
         </config-file>
@@ -65,14 +65,13 @@
         <source-file src="src/android/CDVMFPRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         <source-file src="src/android/CDVMFPLogger.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         <source-file src="src/android/CDVMFPAnalytics.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVAuthorizationManager.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVAuthenticationContext.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPAuthorizationManager.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVMFPAuthenticationContext.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         
     </platform>
 
     <!-- ios -->
     <platform name="ios">
-
         <config-file parent="/*" target="config.xml">
 
             <feature name="BMSClient">
