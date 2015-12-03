@@ -21,7 +21,7 @@ The Cordova library is also required to use this plugin. You can find instructio
 
 1. Continue editing `config.xml`. Update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
 
-	```
+	```XML
 	<platform name="ios">
 		<preference name="deployment-target" value="8.0" />
 		// other properties
@@ -30,7 +30,7 @@ The Cordova library is also required to use this plugin. You can find instructio
 	
 1. Continue editing `config.xml`. Update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
 
-	```
+	```XML
 	<platform name="android">
 		<preference name="android-minSdkVersion" value="15" />
 		<preference name="android-targetSdkVersion" value="23" />
@@ -46,18 +46,25 @@ The Cordova library is also required to use this plugin. You can find instructio
 
 Run the following commands according to which platform you want to add to your Cordova application
 
-	$ cordova platform add ios
-	$ cordova platform add android
+```Bash
+cordova platform add ios
+
+cordova platform add android
+```
 
 ### Adding Cordova plugin
 
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
 
-    $ cordova plugin add ibm-mfp-core
+```Bash
+cordova plugin add ibm-mfp-core
+```
 
 You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
 
-    $ cordova plugin list
+```Bash
+cordova plugin list
+```
 
 ## Configuration
 
@@ -106,7 +113,7 @@ Android development environement does not require any additional configuration.
 
 Example:
 
-```
+```JavaScript
 BMSClient.initialize("appRoute", "appGUID");
 ```
 
@@ -115,7 +122,7 @@ BMSClient.initialize("appRoute", "appGUID");
 ### API reference
 
 Function | Use
-|:----|:----|
+|----|----|
 initialize(bluemixAppRoute, bluemixAppGUID) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
 getBluemixAppRoute(callback) | Return the Bluemix app route.
 getBluemixAppGUID(callback) | Return the Bluemix app GUID.
@@ -128,13 +135,13 @@ After initializing the client you may create a new MFPRequest instance, used to 
 
 You can specify a path relative to your Bluemix app route
 
-```
+```JavaScript
 var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
 ```
 
 or you can specify a full URL path:
 
-```
+```JavaScript
 var request = new MFPRequest("http://www.example.com", MFPRequest.GET);
 ```
 
@@ -183,13 +190,13 @@ See the Examples section for more samples how to use BMSClient and MFPRequest.
 
 You can create an instance of MFPLogger using:
 
-```
+```JavaScript
 MFPLogger.getInstance("myLogger");
 ```
 
 Example of sending a specific log message using your logger instance:
 
-```
+```JavaScript
 myLogger.debug(message);
 ```
 
@@ -254,20 +261,20 @@ See below for Examples of how to use MFPAnalytics.
 
 The following JavaScript code is your entry point to the Bluemix Mobile Services. This method should be called before making a request. Your appRoute and appGUID can be found by going to your app's dashboard on Bluemix and clicking on "Mobile Options".
 
-```
+```JavaScript
 BMSClient.initialize("appRoute", "appGUID");
 ```
 
 #### Creating a request 
 After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
 
-```
+```JavaScript
 var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
 ```
 
 #### Setting  headers for your request 
 
-```
+```JavaScript
 var headers = {
 	header1: "val1",
 	header2: "val2"
@@ -278,7 +285,7 @@ request.setHeaders(headers);
 
 #### Setting your MFPRequest's query parameters
 
-```
+```JavaScript
 var queryParams = {
 	param1: "val1",
 	param2: "val2
@@ -290,7 +297,7 @@ The query parameters are parameters that are added to the request URL.
 
 #### Sending the request
 
-```
+```JavaScript
 request.send("some body",
 	function(successResponse){
 		console.log("text :: " + successResponse.text);
@@ -307,7 +314,7 @@ request.send("some body",
 
 The successResponse and failureResponse parameters are JSON objects that will be passed to your callbacks with the following fields:
 
-```
+```JavaScript
 response.status  =>  Integer
 response.responseText  =>  Undefined or String
 response.headers  =>  JSON object with key:value pairs of headers
@@ -319,7 +326,7 @@ response.errorDescription  =>  Undefined or String
 
 Below are some examples of how to use the MFPLogger class.
 
-```
+```JavaScript
 var myPackageLogger = MFPLogger.getInstance("myPackage");
 
 // Persist logs to a file
@@ -343,7 +350,7 @@ MFPLogger.send();
 
 Below are some examples of how to use the MFPAnalytics class.
 
-```
+```JavaScript
 // Enable analytics logging
 MFPAnalytics.enable();
 
