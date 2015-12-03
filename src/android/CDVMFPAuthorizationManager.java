@@ -32,10 +32,9 @@ import org.json.JSONObject;
 /**
  * Created by rotembr on 10/22/15.
  */
-public class CDVAuthorizationManager extends CordovaPlugin {
+public class CDVMFPAuthorizationManager extends CordovaPlugin {
 
-    private static final String TAG = "CDVAuthorizationManager";
-    private static final Logger amLogger = Logger.getInstance("CDVAuthorizationManager");
+    private static final Logger amLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPAuthorizationManager");
 
     private static final String PersistencePolicyAlways = "ALWAYS";
     private static final String PersistencePolicyNever = "NEVER";
