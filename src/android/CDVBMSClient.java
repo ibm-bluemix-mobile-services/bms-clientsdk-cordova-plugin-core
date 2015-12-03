@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 public class CDVBMSClient extends CordovaPlugin {
     private String errorEmptyArg = "Expected non-empty string argument.";
-    private static final Logger bmsLogger = Logger.getInstance("CDVBMSClient");
+    private static final Logger bmsLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVBMSClient");
     private HashMap<String, CallbackContext> challengeHandlersMap = new HashMap<String, CallbackContext>();
     static HashMap<String, AuthenticationContext> authContexsMap = new HashMap<String, AuthenticationContext>();
 

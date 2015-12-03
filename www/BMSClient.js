@@ -14,7 +14,7 @@ var exec = require("cordova/exec");
 
 var BMSClient = function() {
     var BMSClientString = "BMSClient";
-    var AuthContextString = "AuthenticationContext";
+    var AuthContextString = "MFPAuthenticationContext";
     var success = function(message) {
         console.log(BMSClientString + ": Success: " + message);
     };
