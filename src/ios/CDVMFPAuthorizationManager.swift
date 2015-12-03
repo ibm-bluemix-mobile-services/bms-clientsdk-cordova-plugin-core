@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  CDVMFPAuthorizationManager.swift
 //  HelloCordova
 //
 //  Created by Vitaly Meytin on 10/21/15.
@@ -14,7 +14,7 @@ enum PersistencePolicy: String {
     case PersistencePolicyNever = "NEVER"
 }
 
-@objc(CDVAuthorizationManager) class CDVAuthorizationManager : CDVPlugin {
+@objc(CDVMFPAuthorizationManager) class CDVMFPAuthorizationManager : CDVPlugin {
     
     func obtainAuthorizationHeader(command: CDVInvokedUrlCommand) {
         let authManager = IMFAuthorizationManager.sharedInstance();
