@@ -1,6 +1,6 @@
 {
   "name": "ibm-mfp-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cordova Plugin for IBM Bluemix Mobile Services Core SDK",
   "cordova": {
     "id": "ibm-mfp-core",
@@ -25,18 +25,18 @@
     "url": "https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core/issues"
   },
   "homepage": "https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core#readme",
-  "contributors" : [
+  "contributors": [
     {
-      "name" : "Larry Nickerson",
-      "email" : "lnickers@us.ibm.com"
+      "name": "Larry Nickerson",
+      "email": "lnickers@us.ibm.com"
     },
     {
-      "name" : "Sergio Escoto",
-      "email" : "escotos@us.ibm.com"
+      "name": "Sergio Escoto",
+      "email": "escotos@us.ibm.com"
     },
     {
-      "name" : " Matthew Parangot",
-      "email" : ""
+      "name": " Matthew Parangot",
+      "email": ""
     }
   ]
 }
