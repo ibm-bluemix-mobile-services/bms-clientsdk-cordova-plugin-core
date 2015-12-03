@@ -115,7 +115,7 @@ BMSClient.initialize("appRoute", "appGUID");
 ### API reference
 
 Function | Use
---- | ---
+|:----|:----|
 initialize(bluemixAppRoute, bluemixAppGUID) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
 getBluemixAppRoute(callback) | Return the Bluemix app route.
 getBluemixAppGUID(callback) | Return the Bluemix app GUID.
