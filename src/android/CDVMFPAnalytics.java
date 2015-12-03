@@ -28,7 +28,7 @@ import org.json.JSONException;
 
 public class CDVMFPAnalytics extends CordovaPlugin {
 
-    private static final Logger analyticsLogger = Logger.getInstance("CDVMFPAnalytics");
+    private static final Logger analyticsLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPAnalytics");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
