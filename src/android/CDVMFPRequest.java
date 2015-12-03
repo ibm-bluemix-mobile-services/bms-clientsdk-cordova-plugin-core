@@ -33,7 +33,7 @@ import java.util.Iterator;
 
 public class CDVMFPRequest extends CordovaPlugin {
 
-    private static final Logger mfpRequestLogger = Logger.getInstance("CDVMFPRequest");
+    private static final Logger mfpRequestLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPRequest");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
