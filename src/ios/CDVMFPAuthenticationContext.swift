@@ -1,5 +1,5 @@
 //
-//  CDVAuthenticationContext.swift
+//  CDVMFPAuthenticationContext.swift
 //  HelloCordova
 //
 //  Created by Vitaly Meytin on 11/9/15.
@@ -9,7 +9,7 @@
 import Foundation
 import IMFCore
 
-@objc(CDVAuthenticationContext) class CDVAuthenticationContext : CDVPlugin {
+@objc(CDVMFPAuthenticationContext) class CDVMFPAuthenticationContext : CDVPlugin {
     
     func submitAuthenticationChallengeAnswer(command: CDVInvokedUrlCommand) {
     
