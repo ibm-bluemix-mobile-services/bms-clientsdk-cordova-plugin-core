@@ -41,7 +41,13 @@ import IMFCore
     
     func unPackRequest(requestDict:NSDictionary) -> IMFResourceRequest {
         // create a native request
-        let url     = requestDict.objectForKey("url") as! String
+        var url     = requestDict.objectForKey("url") as! String
+
+        // Detect if url is relative and convert to absolute
+        if((url ?? "").isEmpty == false && url[url.startIndex] == "/") {
+            url = convertRelativeURLToBluemixAbsolute(url)
+        }
+
         let nativeRequest = IMFResourceRequest(path: url)
         
         // method
@@ -75,4 +81,21 @@ import IMFCore
         }
         return nativeRequest
     }
+
+    func convertRelativeURLToBluemixAbsolute(url:String) -> String {
+        let client = IMFClient.sharedInstance()
+        let backendRoute: String = client.backendRoute
+        
+        //do Trim first
+        var appRoute = backendRoute.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet());
+
+        // Remove trailing slashes
+        if(appRoute.characters.last! == "/") {
+            appRoute = appRoute.substringToIndex(appRoute.endIndex.predecessor())
+        }
+        appRoute = appRoute + url
+        
+        return appRoute
+    }
+
 }
