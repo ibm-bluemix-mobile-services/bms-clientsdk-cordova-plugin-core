@@ -255,6 +255,27 @@ send(success, failure) | Send the analytics log file when the log store exists a
 
 See below for Examples of how to use MFPAnalytics.
 
+### MFPAuthorizationManager
+
+MFPAuthorizationManager is used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities. 
+
+Method | Use
+--- | ---
+obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access ServiceclearAuthorizationData() | Clears the locally persisted authorization datagetCachedAuthorizationHeader(success, failure) | Returns the locally persisted authorization header or null if it wasn't obtained yetgetAuthorizationPersistencePolicy(success, failure) | Returns current authorization persistence policysetAuthorizationPersistencePolicy(policy) | Changes the state of the current authorization persistence policygetUserIdentity(success, failure) | Return JSON object with authorized user identitygetAppIdentity(success, failure) | Return JSON object with application identitygetDeviceIdentity(success, failure) | Return JSON object with device identity
+### MFPAuthenticationListener interface
+
+Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows.Developer implementing Authentication Listener is expected to add three below methods that will be called in different phases of an authentication process.
+
+Method | Use
+--- | ---
+onAuthenticationChallengeReceived(authContext, challenge) | Triggered when authentication challenge was receivedonAuthenticationSuccess(info) | Triggered when authentication succeededonAuthenticationFailure(info) | Triggered when authentication failed### MFPAuthenticationContext 
+
+authenticationContext is supplied as an argument to the onAuthenticationChallengeReceived method of a custom Authentication Listener. It is developer's responsibility to collect credentials and use authenticationContext methods to either return credentials to Mobile Client Access Client SDK or report a failure. Use one of the below methods.
+
+Method | Use
+--- | ---
+submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge responsesubmitAuthenticationFailure(info) | Informs client about failed authentication
+
 ## Examples
 
 ### Using BMSClient and MFPRequest
@@ -359,6 +380,50 @@ MFPAnalytics.enable();
 // Send the analytics log to the server 
 MFPAnalytics.send();
 ```
+
+### Custom Authentication
+
+```JavaScript
+var customAuthenticationListener = {
+    onAuthenticationChallengeReceived: function(authenticationContext, challenge) {
+        console.log("onAuthenticationChallengeReceived :: ", challenge);
+
+        // In this sample the Authentication Listener immediatelly returns a hardcoded
+        // set of credentials. In a real life scenario this is where developer would
+        // show a login screen, collect credentials and invoke 
+        // authenticationContext.submitAuthenticationChallengeAnswer() API
+
+        var challengeResponse = {
+            username: "john.lennon",
+            password: "12345"
+        }
+
+        authenticationContext.submitAuthenticationChallengeAnswer(challengeResponse);
+
+        // In case there was a failure collecting credentials you need to report
+        // it back to the authenticationContext. Otherwise Mobile Client 
+        // Access Client SDK will remain in a waiting-for-credentials state
+        // forever
+
+    },
+
+    onAuthenticationSuccess: function(info){
+        console.log("onAuthenticationSuccess :: ", info);
+    },
+
+    onAuthenticationFailure: function(info){
+        console.log("onAuthenticationFailure :: ", info);
+    }
+}
+
+// Once you create a custom Authentication Listener you need to register it 
+// with BMSClient before you can start using it. 
+// Use realmName you've specified when configuring custom authentication
+// in Mobile Client Access Dashboard
+
+BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
+```
+
 
 ## Release Notes
 
