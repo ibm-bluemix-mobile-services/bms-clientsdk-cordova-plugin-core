@@ -225,7 +225,7 @@ public class CDVMFPRequest extends CordovaPlugin {
         Iterator<?> keys = originalJSON.keys();
         while (keys.hasNext()) {
             String key = (String) keys.next();
-            // Handle "key" => [array of Strings]
+            // Detects "key" : [array of Strings]
             if (originalJSON.get(key) instanceof JSONArray) {
                 JSONArray headerValues = originalJSON.getJSONArray(key);
 
@@ -235,9 +235,13 @@ public class CDVMFPRequest extends CordovaPlugin {
                 }
                 convertedMap.put(key, listedHeaderValues);
             }
-            // Handle "key" => "value (string)"
+            // Detects "key" : "value (string)"
             else if (originalJSON.get(key) instanceof String) {
-                convertedMap.put(key, originalJSON.getString(key));
+                // We will wrap the string value in an arraylist 
+                // since the Android SDK takes in a <String, List<String>> to set its headers.
+                ArrayList<String> headerValue = new ArrayList<String>();
+                headerValue.add(originalJSON.getString(key));
+                convertedMap.put(key, headerValue);
             }
         }
         return convertedMap;
