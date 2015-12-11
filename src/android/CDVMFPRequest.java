@@ -106,10 +106,10 @@ public class CDVMFPRequest extends CordovaPlugin {
         Map<String, String> queryParameters = null;
 
         if (jsRequest.has("headers") && !jsRequest.isNull("headers")) {
-            headers = convertJSONtoHashMap(jsRequest.getJSONObject("headers"));
+            headers = convertJSONtoHashMap(jsRequest.getJSONObject("headers"), true);
         }
         if (jsRequest.has("queryParameters") && !jsRequest.isNull("queryParameters")) {
-            queryParameters = convertJSONtoHashMap(jsRequest.getJSONObject("queryParameters"));
+            queryParameters = convertJSONtoHashMap(jsRequest.getJSONObject("queryParameters"), false);
         }
 
         //Build request using the native Android SDK
@@ -219,32 +219,25 @@ public class CDVMFPRequest extends CordovaPlugin {
      * @param originalJSON A JSONObject that will be converted to a Hashmap
      * @return convertedMap The converted HashMap
      */
-    private static Map convertJSONtoHashMap(JSONObject originalJSON) throws JSONException {
+    private static Map convertJSONtoHashMap(JSONObject originalJSON, boolean wrapInList) throws JSONException {
         Map<String, Object> convertedMap = new HashMap<String, Object>();
 
         Iterator<?> keys = originalJSON.keys();
         while (keys.hasNext()) {
             String key = (String) keys.next();
-            // Detects "key" : [array of Strings]
-            if (originalJSON.get(key) instanceof JSONArray) {
-                JSONArray headerValues = originalJSON.getJSONArray(key);
-
-                ArrayList<String> listedHeaderValues = new ArrayList<String>();
-                for (int i = 0; i < headerValues.length(); i++) {
-                    listedHeaderValues.add(headerValues.getString(i));
+            // Detects String => [List of Strings]
+            if (originalJSON.get(key) instanceof String) {
+                if(wrapInList) {
+                    // For headers, we will wrap the string value in an arraylist
+                    // since the Android SDK takes in a <String, List<String>> to set its headers.
+                    ArrayList<String> headerValue = new ArrayList<String>();
+                    headerValue.add(originalJSON.getString(key));
+                    convertedMap.put(key, headerValue);
+                } else {
+                    convertedMap.put(key, originalJSON.getString(key));
                 }
-                convertedMap.put(key, listedHeaderValues);
-            }
-            // Detects "key" : "value (string)"
-            else if (originalJSON.get(key) instanceof String) {
-                // We will wrap the string value in an arraylist 
-                // since the Android SDK takes in a <String, List<String>> to set its headers.
-                ArrayList<String> headerValue = new ArrayList<String>();
-                headerValue.add(originalJSON.getString(key));
-                convertedMap.put(key, headerValue);
             }
         }
         return convertedMap;
     }
-
 }
