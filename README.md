@@ -76,6 +76,7 @@ cordova plugin list
 
 1. Open your `[your-app-name].xcodeproj` file in `[your-app-name]/platforms/ios` directory with Xcode
 
+> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
 
 1. Add the Bridging Header. Go to `Build settings` > `Swift Compiler - Code Generation` > `Objective-C Bridging Header` and add the following path:
 
@@ -270,20 +271,35 @@ MFPAuthorizationManager is used for obtaining authorization tokens from Mobile C
 
 Method | Use
 --- | ---
-obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access ServiceclearAuthorizationData() | Clears the locally persisted authorization datagetCachedAuthorizationHeader(success, failure) | Returns the locally persisted authorization header or null if it wasn't obtained yetgetAuthorizationPersistencePolicy(success, failure) | Returns current authorization persistence policysetAuthorizationPersistencePolicy(policy) | Changes the state of the current authorization persistence policygetUserIdentity(success, failure) | Return JSON object with authorized user identitygetAppIdentity(success, failure) | Return JSON object with application identitygetDeviceIdentity(success, failure) | Return JSON object with device identity
-### MFPAuthenticationListener interface
+obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. 
+isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access Service
+clearAuthorizationData() | Clears the locally persisted authorization data
+getCachedAuthorizationHeader(success, failure) | Returns the locally persisted authorization header or null if it wasn't obtained yet
+getAuthorizationPersistencePolicy(success, failure) | Returns current authorization persistence policy
+setAuthorizationPersistencePolicy(policy) | Changes the state of the current authorization persistence policy
+getUserIdentity(success, failure) | Return JSON object with authorized user identity
+getAppIdentity(success, failure) | Return JSON object with application identity
+getDeviceIdentity(success, failure) | Return JSON object with device identity
+
+### MFPAuthenticationListener interface
 
 Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows.Developer implementing Authentication Listener is expected to add three below methods that will be called in different phases of an authentication process.
 
 Method | Use
 --- | ---
-onAuthenticationChallengeReceived(authContext, challenge) | Triggered when authentication challenge was receivedonAuthenticationSuccess(info) | Triggered when authentication succeededonAuthenticationFailure(info) | Triggered when authentication failed### MFPAuthenticationContext 
+onAuthenticationChallengeReceived(authContext, challenge) | Triggered when authentication challenge was received
+onAuthenticationSuccess(info) | Triggered when authentication succeeded
+onAuthenticationFailure(info) | Triggered when authentication failed
+
+### MFPAuthenticationContext 
 
 authenticationContext is supplied as an argument to the onAuthenticationChallengeReceived method of a custom Authentication Listener. It is developer's responsibility to collect credentials and use authenticationContext methods to either return credentials to Mobile Client Access Client SDK or report a failure. Use one of the below methods.
 
 Method | Use
 --- | ---
-submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge responsesubmitAuthenticationFailure(info) | Informs client about failed authentication
+submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge response
+submitAuthenticationFailure(info) | Informs client about failed authentication
+
 
 ## Examples
 
