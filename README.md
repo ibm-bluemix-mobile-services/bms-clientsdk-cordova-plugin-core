@@ -76,7 +76,7 @@ cordova plugin list
 
 1. Open your `[your-app-name].xcodeproj` file in `[your-app-name]/platforms/ios` directory with Xcode
 
-> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
+	> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
 
 1. Add the Bridging Header. Go to `Build settings` > `Swift Compiler - Code Generation` > `Objective-C Bridging Header` and add the following path:
 
