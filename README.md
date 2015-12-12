@@ -21,7 +21,9 @@ The Cordova library is also required to use this plugin. You can find instructio
 	
 1. Edit `config.xml` file and set the desired application name in the `<name>` element instead of a default HelloCordova.
 
-1. Continue editing `config.xml`. Update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
+1. Continue editing `config.xml`. 
+##### iOS
+  For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
 
 	```XML
 	<platform name="ios">
@@ -29,8 +31,8 @@ The Cordova library is also required to use this plugin. You can find instructio
 		<!-- add deployment target declaration -->
 	</platform>
 	```
-	
-1. Continue editing `config.xml`. Update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
+##### Android
+  For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
 
 	```XML
 	<platform name="android">
