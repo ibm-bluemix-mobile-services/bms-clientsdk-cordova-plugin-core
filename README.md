@@ -140,8 +140,6 @@ cordoba build android
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
 
-cordova build android
-
 ## Usage
 
 ### BMSClient
