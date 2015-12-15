@@ -230,7 +230,7 @@ See the Examples section for more samples how to use BMSClient and MFPRequest.
 
 ### MFPLogger
 
-`MFPLogger` is a used for logging messages. In addition to printing log messages to respective log console it can persist logs to file. When you call the send() function it will send the persisted logs to the Mobile Client Access Service.
+`MFPLogger` is used for logging messages. In addition to printing log messages to respective log console it can persist logs to file. When you call the send() function it will send the persisted logs to the Mobile Client Access Service.
 
 You can create an instance of MFPLogger using:
 
