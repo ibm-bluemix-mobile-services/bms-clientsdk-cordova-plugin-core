@@ -4,7 +4,7 @@
 ## Before you begin
 
 
-Make sure you install the following tools and libaries.
+Make sure you install the following tools and libraries.
 
 * You should already have Node.js/npm and the Cordova package installed. If you don't, you can download and install Node from [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
@@ -132,10 +132,10 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 
 ### Building Your Android Project
 
-1. Build the Android project by issuing the following command:
+1. Build your Android project by issuing the following command:
 
 ```Bash
-cordoba build android
+cordova build android
 ```
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
