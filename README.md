@@ -135,7 +135,7 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 1. Build the Android project by issuing the following command:
 
 ```Bash
-cordoba build android
+cordova build android
 ```
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
