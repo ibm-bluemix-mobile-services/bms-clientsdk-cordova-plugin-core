@@ -29,6 +29,11 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET" />
+
+            <!-- For MCA Authentication -->
+            <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+            <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+        
         </config-file>
 
         <config-file parent="/*" target="res/xml/config.xml">
