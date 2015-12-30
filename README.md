@@ -127,7 +127,7 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 	$(inherited)	
 	"[your-project-name]/Plugins/ibm-mfp-core"
 	```
---->
+!-->
 
 
 ### Building Your Android Project
@@ -165,8 +165,8 @@ onDeviceReady: function() {
 
 ### API reference
 
-Javascript Function | Description
-|----|----|
+| Javascript Function | Description |
+| :---|:---|
 initialize(bluemixRoute, bluemixAppGUID) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
 getBluemixAppRoute(callback) | Return the Bluemix app route.
 getBluemixAppGUID(callback) | Return the Bluemix app GUID.
@@ -191,8 +191,8 @@ var request = new MFPRequest("http://www.example.com", MFPRequest.GET);
 
 Following HTTP verbs are supported by MFPRequest
 
-Method |
---- |
+| Method |
+|:---|
 MFPRequest.GET |
 MFPRequest.PUT |
 MFPRequest.POST |
@@ -203,8 +203,8 @@ MFPRequest.OPTIONS |
 
 Following methods are available for MFPRequest objects
 
-Javascript Function | Description
---- | ---
+| Javascript Function | Description |
+|:---|:---|
 setHeaders(jsonObj) | Set the headers for the request object in JSON format.
 getHeaders | Return the headers object for the request object.
 getUrl | Return the url for this request.
@@ -218,8 +218,8 @@ send(json, success, failure) | With optional JSON object parameter.
 
 Success and failure callbacks of the MFPRequest.send() receive a response object as an argument (see Examples section). The following properties are available for the response object:
 
-Property | Info
---- | ---
+| Property | Info |
+|:---|:---|
 status | The response status as an integer.
 responseText | Return response text as null or string.
 headers | Return response headers in JSON format.
@@ -246,8 +246,8 @@ myLogger.debug(message);
 
 Following static methods are exposed by the MFPLogger 
 
-Javascript Function | Description
---- | ---
+| Javascript Function | Description |
+|:---|:---|
 getInstance(name) | Return a named logger instance.
 getCapture(success, failure) | Get the current setting for determining if log data should be saved persistently.
 setCapture(enabled) | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
@@ -262,8 +262,8 @@ send(success, failure) | Send the log file when the log store exists and is not 
 
 Log levels available:
 
-Level |
---- |
+| Level |
+|:---|
 FATAL |
 ERROR |
 WARN |
@@ -272,8 +272,8 @@ DEBUG |
 
 The following instance methods are available for the logger instances to send a specific log message:
 
-Function |
---- |
+| Function |
+|:---|
 debug(message) |
 info(message) |
 warn(message) | 
@@ -288,8 +288,8 @@ MFPAnalytics is used for sending operational analytics information to the Mobile
 
 MFPAnalytics methods:
 
-Javascript Function | Description
---- | ---
+| Javascript Function | Description |
+|:---|:---|
 enable() | Turn on the global setting for persisting of the analytics data.
 disable() | Turn off the global setting for persisting of the analytics data.
 isEnabled(success, failure) | Get the current setting for determining if log data should be saved persistently.
@@ -301,8 +301,8 @@ See below for Examples of how to use MFPAnalytics.
 
 MFPAuthorizationManager is used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities. 
 
-Javascript Function | Description
---- | ---
+| Javascript Function | Description |
+|:---|:---|
 obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. 
 isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access Service
 clearAuthorizationData() | Clears the locally persisted authorization data
@@ -317,8 +317,8 @@ getDeviceIdentity(success, failure) | Return JSON object with device identity
 
 Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows.Developer implementing Authentication Listener is expected to add three below methods that will be called in different phases of an authentication process.
 
-Method | Use
---- | ---
+| Method | Use |
+|:---|:---|
 onAuthenticationChallengeReceived(authContext, challenge) | Triggered when authentication challenge was received
 onAuthenticationSuccess(info) | Triggered when authentication succeeded
 onAuthenticationFailure(info) | Triggered when authentication failed
@@ -327,8 +327,8 @@ onAuthenticationFailure(info) | Triggered when authentication failed
 
 authenticationContext is supplied as an argument to the onAuthenticationChallengeReceived method of a custom Authentication Listener. It is developer's responsibility to collect credentials and use authenticationContext methods to either return credentials to Mobile Client Access Client SDK or report a failure. Use one of the below methods.
 
-Method | Use
---- | ---
+| Method | Use |
+|:---|:---|
 submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge response
 submitAuthenticationFailure(info) | Informs client about failed authentication
 
