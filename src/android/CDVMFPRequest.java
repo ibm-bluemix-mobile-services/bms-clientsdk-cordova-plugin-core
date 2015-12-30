@@ -96,30 +96,25 @@ public class CDVMFPRequest extends CordovaPlugin {
      * @param jsRequest JSON request that will be converted to a native Bluemix Request Object
      * @return nativeRequest The converted Bluemix Request Object
      */
+    @SuppressWarnings("unchecked")
     private Request unpackJSONRequest(JSONObject jsRequest) throws JSONException {
         //Parse request from Javascript
         String url = jsRequest.getString("url");
         String method = jsRequest.getString("method");
         int timeout = jsRequest.optInt("timeout", Request.DEFAULT_TIMEOUT);
 
-        Map<String, List<String>> headers = null;
-        Map<String, String> queryParameters = null;
-
-        if (jsRequest.has("headers") && !jsRequest.isNull("headers")) {
-            headers = convertJSONtoHashMap(jsRequest.getJSONObject("headers"), true);
-        }
-        if (jsRequest.has("queryParameters") && !jsRequest.isNull("queryParameters")) {
-            queryParameters = convertJSONtoHashMap(jsRequest.getJSONObject("queryParameters"), false);
-        }
-
         //Build request using the native Android SDK
         Request nativeRequest = new Request(url, method, timeout);
-        if (headers != null) {
+
+        if (jsRequest.has("headers") && !jsRequest.isNull("headers")) {
+            Map<String, List<String>> headers = convertJSONtoHashMap(jsRequest.getJSONObject("headers"), true);
             nativeRequest.setHeaders(headers);
         }
-        if (queryParameters != null) {
+        if (jsRequest.has("queryParameters") && !jsRequest.isNull("queryParameters")) {
+            Map<String, String> queryParameters = convertJSONtoHashMap(jsRequest.getJSONObject("queryParameters"), false);
             nativeRequest.setQueryParameters(queryParameters);
         }
+
         return nativeRequest;
     }
 
@@ -201,11 +196,11 @@ public class CDVMFPRequest extends CordovaPlugin {
      */
     private static JSONObject convertHashMaptoJSON(Map<String, List<String>> originalMap) throws JSONException {
         JSONObject convertedJSON = new JSONObject();
-        Iterator it = originalMap.entrySet().iterator();
+        Iterator<Map.Entry<String, List<String>>> it = originalMap.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            String key = (String) pair.getKey();
-            List<String> headerValuesList = (List<String>) pair.getValue();
+            Map.Entry<String, List<String>> pair = it.next();
+            String key = pair.getKey();
+            List<String> headerValuesList = pair.getValue();
             for (String headerValue : headerValuesList) {
                 convertedJSON.put(key, headerValue);
             }
