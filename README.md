@@ -3,7 +3,6 @@
 
 ## Before you begin
 
-
 Make sure you install the following tools and libraries.
 
 * You should already have Node.js/npm and the Cordova package installed. If you don't, you can download and install Node from [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
@@ -12,17 +11,26 @@ Make sure you install the following tools and libraries.
 
 To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK:
 
-<!-- 
-Matt, please add links to these sections)
--->
-
 1. Create a Cordova application
 1. Add Cordova platforms
 1. Add Cordova plugin
 1. Configure your platform 
 
+## Video tutorials 
 
-## 1. Creating a Cordova application
+Below videos demonstrate how to install and use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK in iOS and Android applications. 
+
+<a href="https://www.youtube.com/watch?v=AbUpUjP9wmQ" target="_blank">
+<img src="ios-video.png"/>
+</a>
+<a href="https://www.youtube.com/watch?v=kQLA8AYYSoA" target="_blank">
+<img src="android-video.png"/>
+</a>
+
+
+## Installing the Cordova Plugin for Bluemix Mobile Services Core SDK
+
+### 1. Creating a Cordova application
 
 1. Run the following commands to create a new Cordova application. Alternatively you can use an existing application as well. 
 
@@ -58,7 +66,7 @@ Matt, please add links to these sections)
 	
 	> The targetSdkVersion should always reflect the latest Android SDK available from Google.
 
-## 2. Adding Cordova platforms
+### 2. Adding Cordova platforms
 
 Run the following commands for the platforms that you want to add to your Cordova application
 
@@ -68,7 +76,7 @@ cordova platform add ios
 cordova platform add android
 ```
 
-## 3. Adding Cordova plugin
+### 3. Adding Cordova plugin
 
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
 
@@ -82,12 +90,12 @@ You can check if the plugin installed successfully by running the following comm
 cordova plugin list
 ```
 
-## 4.Configuring your platform
+### 4.Configuring your platform
 
 Configure your platform (iOS, Android, or both).
  
 
-### Configuring Your iOS Development Environment
+#### Configuring Your iOS Development Environment
 
 **Note**: Before you begin, make sure that you are using the latest version of Xcode.
 
@@ -130,7 +138,7 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 !-->
 
 
-### Building Your Android Project
+#### Building Your Android Project
 
 1. Build your Android project by issuing the following command:
 
@@ -140,7 +148,7 @@ cordova build android
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
 
-## Usage
+## Using the Cordova Plugin
 
 ### BMSClient
 
@@ -163,7 +171,7 @@ onDeviceReady: function() {
 * Modify the code snippet to use your Bluemix Route and appGUID parameters. To get these parameters, click the **Mobile Options** link in your Bluemix Application Dashboard to get the application route and application GUID. Use the Route and App GUID values as your parameters in your BMSClient.initialize code snippet.
 
 
-### API reference
+## API reference
 
 | Javascript Function | Description |
 | :---|:---|
