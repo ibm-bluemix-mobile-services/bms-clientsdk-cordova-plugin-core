@@ -18,7 +18,7 @@ To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobi
 
 ## Video tutorials 
 
-Below videos demonstrate how to install and use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK in iOS and Android applications. 
+The following videos demonstrate how to install and use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK in iOS and Android applications. 
 
 <a href="https://www.youtube.com/watch?v=AbUpUjP9wmQ" target="_blank">
 <img src="ios-video.png"/>
@@ -90,10 +90,7 @@ You can check if the plugin installed successfully by running the following comm
 cordova plugin list
 ```
 
-### 4.Configuring your platform
-
-Configure your platform (iOS, Android, or both).
- 
+### 4. Configuring your platform
 
 #### Configuring Your iOS Development Environment
 
