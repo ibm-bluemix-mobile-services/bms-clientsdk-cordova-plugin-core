@@ -92,7 +92,7 @@ cordova plugin list
 
 ### 4. Configuring your platform
 
-#### Configuring Your iOS Development Environment
+#### Configuring Your iOS Environment
 
 **Note**: Before you begin, make sure that you are using the latest version of Xcode.
 
@@ -135,7 +135,7 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 !-->
 
 
-#### Building Your Android Project
+#### Configuring Your Android Environment
 
 1. Build your Android project by issuing the following command:
 
