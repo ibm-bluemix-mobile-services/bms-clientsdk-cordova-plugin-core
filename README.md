@@ -112,7 +112,11 @@ cordova plugin list
 	@executable_path/Frameworks
 	```
 
-1. Build and run your application with Xcode. 
+1. Build and run your application with Xcode or by running the following command:
+
+```Bash
+cordova build ios
+``` 
 
 
 <!---
@@ -137,7 +141,7 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 
 #### Configuring Your Android Environment
 
-1. Build your Android project by issuing the following command:
+1. Build your Android project by running the following command:
 
 ```Bash
 cordova build android
