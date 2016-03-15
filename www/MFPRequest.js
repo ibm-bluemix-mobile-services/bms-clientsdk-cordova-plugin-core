@@ -121,7 +121,7 @@ MFPRequest.prototype = function () {
      */
     var callbackWrap = function (callback, jsonResponse) {
         var response = JSON.parse(jsonResponse);
-        callback(response);
+        callback && callback(response);
     };
 
     var buildJSONRequest = function (body) {
