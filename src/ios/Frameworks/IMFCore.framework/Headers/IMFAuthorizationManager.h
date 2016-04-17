@@ -125,5 +125,10 @@ typedef NS_ENUM(NSInteger, IMFAuthorizationPerisistencePolicy) {
  * a protected resource next time.
  */
 - (void) clearAuthorizationData;
-
+/**
+*  Logs out current logged in user.
+*  
+*  @param completionHandler - completion handler to be called after request is complete.
+*/
+- (void) logout:(void(^) (IMFResponse* response, NSError* error))completionHandler;
 @end

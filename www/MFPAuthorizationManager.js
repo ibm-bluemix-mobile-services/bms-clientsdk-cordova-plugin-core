@@ -29,9 +29,24 @@ var MFPAuthorizationManager = function() {
      * @param failure The failure callback that was supplied
      */
 	this.obtainAuthorizationHeader = function(success, failure) {
-		cordova.exec(success, failure, AuthorizationManagerString, "obtainAuthorizationHeader", []);
+        var cbSuccess = callbackWrap.bind(this, success);
+        var cbFailure = callbackWrap.bind(this, failure);
+		cordova.exec(cbSuccess, cbFailure, AuthorizationManagerString, "obtainAuthorizationHeader", []);
 	};
-
+    
+    /**
+     *
+     * @param callback The Success or Failure callback
+     * @param jsonResponse string : The string-form JSON response coming from theNative SDK.
+     */
+    var callbackWrap = function (callback, jsonResponse) {
+        var response = "";
+        if(jsonResponse !== ""){
+            response = JSON.parse(jsonResponse);
+        }
+        callback(response);
+    };
+    
     /**
      * Check if the params came from response that requires authorization
      * @param {statusCode} of the response
@@ -102,6 +117,17 @@ var MFPAuthorizationManager = function() {
      */
     this.getDeviceIdentity = function(success, failure){
         cordova.exec(success, failure, AuthorizationManagerString, "getDeviceIdentity", []);
+    };
+    
+    /**
+     * Invoke process to logout
+     * @param success The success callback that was supplied
+     * @param failure The failure callback that was supplied
+     */
+    this.logout = function(success, failure) {
+        var cbSuccess = callbackWrap.bind(this, success);
+        var cbFailure = callbackWrap.bind(this, failure);
+        cordova.exec(cbSuccess, cbFailure, AuthorizationManagerString, "logout", []);
     };
 };
 

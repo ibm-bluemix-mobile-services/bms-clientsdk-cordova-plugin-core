@@ -177,6 +177,32 @@ enum PersistencePolicy: String {
         })
     }
     
+    func logout(command: CDVInvokedUrlCommand) {
+        self.commandDelegate!.runInBackground({
+            let authManager = IMFAuthorizationManager.sharedInstance();
+            authManager.logout{ (response: IMFResponse!, error: NSError!) -> Void in
+                var responseString: String?
+                do {
+                    if (error != nil) {
+                        // process the error
+                        try responseString = Utils.packResponse(response, error: error)
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: responseString)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    } else {
+                        // process success
+                        try responseString = Utils.packResponse(response)
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: responseString)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    }
+                } catch {
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: CustomErrorMessages.errorParsingJSONResponse)
+                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                }
+            }
+            
+        });
+    }
+    
     func unpackIsAuthorizationRequiredParams(command: CDVInvokedUrlCommand) throws -> (statusCode: Int32, authorizationHeaderValue: String) {
         if (command.arguments.count < 2) {
             throw CustomErrors.InvalidParameterCount(expected: 2, actual: command.arguments.count)
@@ -192,4 +218,5 @@ enum PersistencePolicy: String {
         
         return (statusCode: param0.intValue, authorizationHeaderValue: param1 as String)
     }
+    
 }
