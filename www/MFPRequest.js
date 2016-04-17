@@ -120,7 +120,10 @@ MFPRequest.prototype = function () {
      * @param jsonResponse string : The string-form JSON response coming from the Native SDK.
      */
     var callbackWrap = function (callback, jsonResponse) {
-        var response = JSON.parse(jsonResponse);
+        var response = "";
+        if(jsonResponse !== ""){
+            response = JSON.parse(jsonResponse);
+        }
         callback && callback(response);
     };
 

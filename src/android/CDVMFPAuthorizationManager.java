@@ -60,12 +60,16 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
             this.getAppIdentity(callbackContext);
         } else if ("getDeviceIdentity".equals(action)) {
             this.getDeviceIdentity(callbackContext);
-        }else {
+        }else if ("logout".equals(action)) {
+            this.logout(callbackContext);
+        } else {
             ans = false;
         }
         return ans;
     }
 
+    
+   
     /**
      * Use the native SDK API to invoke process for obtaining authorization header.
      * @param callbackContext Callback that will indicate whether the request succeeded or failed
@@ -250,5 +254,45 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                 callbackContext.success(deviceIdentity.toString());
             }
         });
+    }
+    
+    /**
+     * Use the native SDK API to invoke process to logout.
+     * @param callbackContext Callback that will indicate whether the request succeeded or failed
+     */
+    private void logout(final CallbackContext callbackContext) throws JSONException {
+        
+        final Context currentContext = this.cordova.getActivity();
+        
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                
+                AuthorizationManager.getInstance().logout(currentContext, new ResponseListener() {
+                    @Override
+                    public void onSuccess(Response response) {
+                        try {
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, CDVMFPRequest.packJavaResponseToJSON(response));
+                            amLogger.debug("Logout: request successful.");
+                            callbackContext.sendPluginResult(result);
+                        } catch (JSONException e) {
+                            callbackContext.error(e.getMessage());
+                        }
+                    }
+                    
+                    @Override
+                    public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
+                        try {
+                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVMFPRequest.packJavaResponseToJSON(failResponse));
+                            amLogger.error("Failed to logout.");
+                            callbackContext.sendPluginResult(result);
+                        } catch (JSONException e) {
+                            callbackContext.error(e.getMessage());
+                        }
+                    }
+                });
+                
+            }
+        });
+        
     }
 }
