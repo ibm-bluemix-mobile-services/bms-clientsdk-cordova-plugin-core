@@ -1,7 +1,0 @@
-dependencies {
-	compile group: 'com.ibm.mobilefirstplatform.clientsdk.android',
-        name: 'core',
-        version: '1.+',
-        ext: 'aar',
-        transitive: true
-}
