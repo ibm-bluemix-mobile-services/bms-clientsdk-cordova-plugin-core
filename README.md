@@ -58,7 +58,7 @@ cordova plugin list
 
 **Note**: Before you begin, make sure that you are using the latest version of Xcode.
 
-1. Open your `[your-app-name].xcodeproj` file in `[your-app-name]/platforms/ios` directory with Xcode
+1. Open your `[your-app-name].xcodeproj` file in the `[your-app-name]/platforms/ios` directory with Xcode
 
 	> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
 
@@ -89,6 +89,13 @@ cordova build ios
 ``` 
 
 #### Configuring Your Android Environment
+
+1. Open your `AndroidManifest.xml` file in the `[your-app-name]/platforms/android` directory.
+
+1. Add the following property inside the `<manifest>` tag:
+
+	* `<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23" />`
+
 
 1. Build your Android project by running the following command:
 
