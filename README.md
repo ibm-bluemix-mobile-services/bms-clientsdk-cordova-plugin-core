@@ -74,7 +74,7 @@ cordova plugin list
 
 1. Create a Run Script in which you specify your shell (/bin/sh) and add the following to the script area below the shell:
 
-`/usr/local/bin/carthage copy-frameworks`
+	* `/usr/local/bin/carthage copy-frameworks`
 
 1. Add the paths to the frameworks under “Input Files”:
 
