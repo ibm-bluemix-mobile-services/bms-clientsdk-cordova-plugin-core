@@ -92,7 +92,7 @@ cordova build ios
 
 1. Open your `AndroidManifest.xml` file in the `[your-app-name]/platforms/android` directory.
 
-1. Change the `android:minSdkVersion` to **15**
+1. Set the `android:minSdkVersion` to **15**
 
 1. Build your Android project by running the following command:
 
