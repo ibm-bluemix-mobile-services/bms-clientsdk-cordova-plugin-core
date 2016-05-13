@@ -1,0 +1,34 @@
+{
+  "name": "ibm-bms-core",
+  "version": "0.0.1",
+  "description": "Cordova Plugin for IBM Bluemix Mobile Services Core SDK",
+  "cordova": {
+    "id": "ibm-bms-core",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    //"url": "git+https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "IBM Bluemix Mobile Services",
+  "license": "Apache version 2.0",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core/issues"
+  },
+  "homepage": "https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core#readme",
+  "contributors": [
+    {
+      "name": "Matthew Parangot",
+      "email": "mparang@us.ibm.com"
+    }
+  ]
+}

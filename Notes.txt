@@ -1,0 +1,66 @@
+===
+iOS
+===
+
+From terminal:
+> (sudo) brew install carthage
+> (sudo) npm install -g cordova
+> cordova platform add ios/android
+> cordova plugin add ibm-bms-core
+> cordova build ios
+
+*** There should be build errors ***
+
+****************************************
+
+WITHOUT HOOK SCRIPT (hook.js does this for user):
+
+	Create Cartfile (file named "Cartfile")
+
+	Add to Cartfile:
+	github "ibm-bluemix-mobile-services/bms-clientsdk-swift-core" ~> 1.0
+
+	From terminal:
+	> carthage update
+	or
+	> carthage update --no-use-binaries
+	https://github.com/Carthage/Carthage/issues/545
+
+****************************************
+
+Open Xcode project at platforms/ios
+
+On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each of the following frameworks from the platforms/ios/Carthage/Build/iOS folder on disk:
+- BMSCore.framework
+- BMSAnalyticsAPI.framework
+- BMSSecurity.framework
+
+On your application targets click the “Build Phases” settings tab
+
+Click the top left “+” icon and choose “New Run Script Phase”. 
+
+Create a Run Script in which you specify your shell (/bin/sh) and add the following to the script area below the shell:
+/usr/local/bin/carthage copy-frameworks
+
+Add the paths to the frameworks you want to use under “Input Files”:
+$(SRCROOT)/Carthage/Build/iOS/BMSCore.framework
+$(SRCROOT)/Carthage/Build/iOS/BMSAnalytics.framework
+$(SRCROOT)/Carthage/Build/iOS/BMSAnalyticsAPI.framework
+
+---------------------------------------------------------------------------------------------------------------
+
+=======
+Android
+=======
+
+Update the following in "AndroidManifest.xml" to use minSdkVersion 15:
+<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23"/>
+
+---------------------------------------------------------------------------------------------------------------
+
+=========
+Questions
+=========
+
+- Which functions need to be thread-safe?
+- How is timeout measured?

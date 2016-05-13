@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="ibm-bms-core" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <name>BMSCore</name>
+    
+    <js-module name="BMSClient" src="www/BMSClient.js">
+        <clobbers target="BMSClient"/>
+    </js-module>
+
+    <js-module name="BMSRequest" src="www/BMSRequest.js">
+        <clobbers target="BMSRequest"/>
+    </js-module>
+
+    <js-module name="BMSLogger" src="www/BMSLogger.js">
+        <clobbers target="BMSLogger"/>
+    </js-module>
+
+    <js-module name="BMSAnalytics" src="www/BMSAnalytics.js">
+        <clobbers target="BMSAnalytics"/>
+    </js-module>
+
+    <!--<hook type="after_plugin_add" src="scripts/hook.js"/>-->
+
+    <!-- iOS -->
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+
+            <feature name="BMSClient">
+                <param name="ios-package" value="CDVBMSClient"/>
+            </feature>
+
+            <feature name="BMSRequest">
+                <param name="ios-package" value="CDVBMSRequest"/>
+            </feature>
+
+            <feature name="BMSLogger">
+                <param name="ios-package" value="CDVBMSLogger"/>
+            </feature>
+
+            <feature name="BMSAnalytics">
+                <param name="ios-package" value="CDVBMSAnalytics"/>
+            </feature>
+            
+        </config-file>
+
+        <source-file src="src/ios/CDVBMSClient.swift"/>
+        <source-file src="src/ios/CDVBMSRequest.swift"/>
+        <source-file src="src/ios/CDVBMSLogger.swift"/>
+        <source-file src="src/ios/CDVBMSAnalytics.swift"/>
+    </platform>
+
+    <!-- Android -->
+    <platform name="android">
+        <!-- Include Android BMS SDK -->
+        <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference"/>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+              <uses-permission android:name="android.permission.INTERNET"/>        
+        </config-file>
+
+        <config-file parent="/*" target="res/xml/config.xml">
+            
+            <feature name="BMSClient">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSClient"/>
+            </feature>
+
+            <feature name="BMSRequest">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSRequest"/>
+            </feature>
+
+            <feature name="BMSLogger">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSLogger"/>
+            </feature>
+
+            <feature name="BMSAnalytics">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAnalytics"/>
+            </feature>
+        </config-file>
+
+        <config-file parent="/*" target="AndroidManifest.xml"/>
+
+        <source-file src="src/android/CDVBMSClient.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
+        <source-file src="src/android/CDVBMSRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
+        <source-file src="src/android/CDVBMSLogger.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
+        <source-file src="src/android/CDVBMSAnalytics.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
+    </platform>
+
+</plugin>
