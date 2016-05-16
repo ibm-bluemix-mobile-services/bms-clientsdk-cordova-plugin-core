@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 public class CDVBMSAnalytics extends CordovaPlugin {
 
-    private static final Logger bmsLogger = Logger.getLogger("CDVBMSAnalytics");
+    private static final Logger bmsLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVBMSAnalytics");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
