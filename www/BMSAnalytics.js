@@ -31,9 +31,10 @@ var BMSAnalytics = function() {
      * 
      * @param  {String} appName - The application name. Should be consistent across platforms (e.g. Android and iOS).
      * @param  {String} apiKey - A unique ID used to authenticate with the Bluemix analytics service
+     * @param  {[String]} deviceEvents - Array of device events as Strings
      */
-    this.initialize = function(appName, apiKey) {
-    	cordova.exec(success, failure, "BMSAnalytics", "initialize", [appName, apiKey]);
+    this.initialize = function(appName, apiKey, deviceEvents) {
+    	cordova.exec(success, failure, "BMSAnalytics", "initialize", [appName, apiKey, deviceEvents]);
     }
 
     /**
@@ -86,6 +87,12 @@ var BMSAnalytics = function() {
     this.send = function(callback) {
     	cordova.exec(callback, failure, "BMSAnalytics", "send", []);
     }
+};
+
+DeviceEvents = {
+    LIFECYCLE: "LIFECYCLE",
+    ALL: "ALL",
+    NONE: "NONE"
 };
 
 module.exports = new BMSAnalytics();

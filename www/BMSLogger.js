@@ -226,12 +226,10 @@ var BMSLogger = (function() {
     }
 })();
 
-BMSLogger.ANALYTICS = "ANALYTICS";
 BMSLogger.FATAL = "FATAL";
 BMSLogger.ERROR = "ERROR";
 BMSLogger.WARN = "WARN";
 BMSLogger.INFO = "INFO";
 BMSLogger.DEBUG = "DEBUG";
-BMSLogger.NONE = "NONE";
 
 module.exports = BMSLogger;

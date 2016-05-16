@@ -59,6 +59,8 @@ public class CDVBMSClient extends CordovaPlugin {
             @Override
             public void run() {
                 try {
+                    //TODO: Check for num of params = 3
+
                     if (!(args.get(0) instanceof String)) {
                         String message = "Unable to initialize BMSClient. Invalid route";
                         bmsLogger.debug(message);

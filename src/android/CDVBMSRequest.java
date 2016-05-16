@@ -37,7 +37,7 @@ public class CDVBMSRequest extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
 
-        if (action.equals("initialize")) {
+        if (action.equals("send")) {
             this.send(args, callbackContext);
         }
         else {
@@ -120,7 +120,6 @@ public class CDVBMSRequest extends CordovaPlugin {
         Request nativeRequest = new Request(url, method, timeout);
 
         // Headers
-        // TODO: Discuss this at code review
         if (requestDict.has("headers") && !requestDict.isNull("headers")) {
 
             JSONObject headers = requestDict.getJSONObject("headers");
@@ -133,7 +132,6 @@ public class CDVBMSRequest extends CordovaPlugin {
         }
 
         // Query parameters
-        // TODO: Discuss this at code review
         if (requestDict.has("queryParameters") && !requestDict.isNull("queryParameters")) {
 
             JSONObject queryParameters = requestDict.getJSONObject("queryParameters");
@@ -163,9 +161,7 @@ public class CDVBMSRequest extends CordovaPlugin {
         jsonResponse.put("statusCode", response.getStatus());
 
         // Pack error
-        // TODO: How to get error code?
         if (t != null) {
-            //jsonResponse.put("errorCode", );
             jsonResponse.put("errorDescription", t.getLocalizedMessage());
         }
 

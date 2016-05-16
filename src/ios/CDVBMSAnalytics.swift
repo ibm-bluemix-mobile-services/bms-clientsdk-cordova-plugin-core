@@ -31,7 +31,7 @@ import BMSAnalyticsAPI
                 return
             }
             
-            guard let apiKey = command.arguments[0] as? String else {
+            guard let apiKey = command.arguments[1] as? String else {
                 let message = "Unable to initialize. API key parameter is invalid"
                 CDVBMSAnalytics.bmsLogger.debug(message)
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
@@ -39,13 +39,52 @@ import BMSAnalyticsAPI
                 return
             }
             
+            guard let jsDeviceEvents = command.arguments[2] as? [String] else {
+                let message = "Unable to initialize. Device events parameter is invalid"
+                CDVBMSAnalytics.bmsLogger.debug(message)
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+                return
+            }
+            
+            var deviceEvents = [DeviceEvent]()
+            for event in jsDeviceEvents {
+                if (self.validDeviceEvent(event)) {
+                    deviceEvents.append(self.getDeviceEvent(event))
+                }
+            }
+            
             Analytics.initializeWithAppName(appName, apiKey: apiKey, deviceEvents: DeviceEvent.LIFECYCLE)
             
-            let message = "Initialized app with name " + appName
+            let message = "Initialized app with name \(appName)"
             CDVBMSAnalytics.bmsLogger.debug(message)
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
         })
+    }
+    
+    private func validDeviceEvent(event: String) -> Bool {
+        switch event {
+        case "LIFECYCLE":
+            return true
+        case "ALL":
+            return true
+        case "NONE":
+            return true
+        default:
+            return false
+        }
+    }
+    
+    private func getDeviceEvent(event: String) -> DeviceEvent {
+        
+        // TODO: Add new cases for ALL and NONE
+        switch event {
+        case "LIFECYCLE":
+            return DeviceEvent.LIFECYCLE
+        default:
+            return DeviceEvent.LIFECYCLE
+        }
     }
     
     func enable(command: CDVInvokedUrlCommand) {
@@ -99,7 +138,7 @@ import BMSAnalyticsAPI
             
             Analytics.userIdentity = identity
             
-            let message = "User identity is set to " + identity;
+            let message = "User identity is set to \(identity)"
             CDVBMSAnalytics.bmsLogger.debug(message)
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
@@ -120,7 +159,7 @@ import BMSAnalyticsAPI
             
             Analytics.log(jsonObj);
             
-            let message = "Logged data"
+            let message = "Logged Analytics data"
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
         })
@@ -146,6 +185,5 @@ import BMSAnalyticsAPI
                 }
             })
         })
-    }
-    
+    }   
 }

@@ -62,7 +62,7 @@ import BMSAnalyticsAPI
                 return
             }
             
-            let message = "Logged " + String(level) + " level message"
+            let message = "Logged \(level) level message"
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
             return
@@ -127,7 +127,10 @@ import BMSAnalyticsAPI
             case "NONE":
                 levelFilter = LogLevel.None
             default:
-                levelFilter = LogLevel.Debug
+                let message = "Unable to set log level filter. Level parameter is invalid. Use one of the BMSLogger.Level constants"
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+                return
             }
             
             Logger.logLevelFilter = levelFilter
@@ -162,7 +165,7 @@ import BMSAnalyticsAPI
             
             Logger.sdkDebugLoggingEnabled = value
             
-            let message = "SDK debug logging is set to " + String(value)
+            let message = "SDK debug logging is set to \(value)"
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
         })
@@ -191,7 +194,7 @@ import BMSAnalyticsAPI
 
             Logger.logStoreEnabled = value;
             
-            let message = "Log store is set to " + String(value)
+            let message = "Log store is set to \(value)"
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
         })
@@ -202,7 +205,7 @@ import BMSAnalyticsAPI
         self.commandDelegate!.runInBackground({
             
             let maxLogStoreSize = Logger.maxLogStoreSize
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsNSInteger: Int(maxLogStoreSize))
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsInt: Int32(maxLogStoreSize))
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
         })
     }
@@ -217,10 +220,17 @@ import BMSAnalyticsAPI
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
                 return
             }
+
+            if (maxLogStoreSize < 0) {
+                let message = "Unable to set log store. Parameter must be an integer value greater than or equal to 0"
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+                return
+            }
             
             Logger.maxLogStoreSize = UInt64(maxLogStoreSize)
             
-            let message = "Max log store size is set to " + String(Logger.maxLogStoreSize)
+            let message = "Max log store size is set to \(Logger.maxLogStoreSize)"
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
         })

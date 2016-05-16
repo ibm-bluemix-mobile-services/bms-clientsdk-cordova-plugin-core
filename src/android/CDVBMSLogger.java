@@ -69,6 +69,7 @@ public class CDVBMSLogger extends CordovaPlugin {
             @Override
             public void run() {
                 try {
+                    // TODO: Check for null or missing param
                     if (!(args.get(0) instanceof String)) {
                         callbackContext.error("Unable to log message. Logger name parameter is invalid");
                         return;
@@ -119,28 +120,7 @@ public class CDVBMSLogger extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
-                String level = null;
-
-                switch (Logger.getLogLevel()) {
-                    case ANALYTICS:
-                        level = "ANALYTICS";
-                        break;
-                    case FATAL:
-                        level = "FATAL";
-                        break;
-                    case ERROR:
-                        level = "ERROR";
-                        break;
-                    case WARN:
-                        level = "WARN";
-                        break;
-                    case INFO:
-                        level = "INFO";
-                        break;
-                    case DEBUG:
-                        level = "DEBUG";
-                }
-
+                String level = Logger.getLogLevel().name();
                 callbackContext.success(level);
             }
         });
@@ -159,7 +139,7 @@ public class CDVBMSLogger extends CordovaPlugin {
                     }
                     final String level = args.getString(0);
 
-                    Logger.LEVEL levelFilter = getLevelFilter(level);
+                    Logger.LEVEL levelFilter = Logger.LEVEL.fromString(level);
 
                     if (levelFilter == null) {
                         String message = "Unable to set log level filter. Level parameter is invalid. Use one of the BMSLogger.Level constants";
@@ -278,6 +258,12 @@ public class CDVBMSLogger extends CordovaPlugin {
                     }
                     final int size = args.getInt(0);
 
+                    if (size < 0) {
+                        String message = "Unable to set log store. Parameter must be an integer value greater than or equal to 0";
+                        callbackContext.error(message);
+                        return;
+                    }
+
                     Logger.setMaxLogStoreSize(size);
 
                     String message = "Max log store size is set to " + size + " bytes";
@@ -300,34 +286,5 @@ public class CDVBMSLogger extends CordovaPlugin {
                 callbackContext.sendPluginResult(result);
             }
         });
-    }
-
-    private Logger.LEVEL getLevelFilter(String level) {
-
-        Logger.LEVEL levelFilter;
-
-        if (level.equals("ANALYTICS")) {
-            levelFilter = Logger.LEVEL.ANALYTICS;
-        }
-        else if (level.equals("FATAL")) {
-            levelFilter = Logger.LEVEL.FATAL;
-        }
-        else if (level.equals("ERROR")) {
-            levelFilter = Logger.LEVEL.ERROR;
-        }
-        else if (level.equals("WARN")) {
-            levelFilter = Logger.LEVEL.WARN;
-        }
-        else if (level.equals("INFO")) {
-            levelFilter = Logger.LEVEL.INFO;
-        }
-        else if (level.equals("DEBUG")) {
-            levelFilter = Logger.LEVEL.DEBUG;
-        }
-        else {
-            levelFilter = null;
-        }
-
-        return levelFilter;
     }
 }
