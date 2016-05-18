@@ -1,4 +1,7 @@
 language: android
+branches:
+  only:
+    - v2
 sudo: required
 before_script:
   - npm install -g cordova
