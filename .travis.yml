@@ -14,12 +14,5 @@ script:
   - cd testApp
   - cordova platform add android
   - cordova plugin add ../ibm-bms-core-clone
-  - cd platforms
-  - pwd
-  - ls
-  - cd android
-  - pwd
-  - ls
-  - sed
-  - sed -i 's/minSdkVersion="14"/minSdkVersion="15"/' AndroidManifest.xml
+  - sed -i s/minSdkVersion="14"/minSdkVersion="15"/' platforms/android/AndroidManifest.xml
   - cordova build android
