@@ -91,7 +91,7 @@ cordova build ios
 
 #### Configuring Your Android Environment
 
-1. Build your Android project by running the following command:
+Build your Android project by running the following command:
 
 ```Bash
 cordova build android
