@@ -19,6 +19,7 @@ module.exports = function(context) {
 
 	if (directoryExists("platforms/android")) {
 		
+		console.log("Updating AndroidManifest.xml to minSdkVersion=15");
 		var sedCmd = "cd platforms/android; sed -i '' 's/android:minSdkVersion=\"14\"/android:minSdkVersion=\"15\"/' AndroidManifest.xml; cd ../../";
 		var sedProcess = exec(sedCmd);
 	}
