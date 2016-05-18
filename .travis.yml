@@ -14,3 +14,4 @@ script:
   - cd testApp
   - cordova platform add android
   - cordova plugin add ../bms-clientsdk-cordova-plugin-core
+  - cordova build android
