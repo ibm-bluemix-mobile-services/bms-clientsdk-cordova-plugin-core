@@ -1,0 +1,12 @@
+language: android
+sudo: required
+before_script:
+  - npm install -g cordova
+android:
+  components:
+  - android-23
+script:
+  - cordova create testApp
+  - cd testApp
+  - cordova platform add android
+  - cordova plugin add https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core/tree/v2

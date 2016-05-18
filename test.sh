@@ -1,6 +1,4 @@
 #!/bin/bash
-while :
-do
-	echo "Press [CTRL+C] to stop.."
-	sleep 1
-done
+cd platforms/ios
+carthage update --no-use-binaries
+cd ../../

@@ -19,10 +19,6 @@
         <clobbers target="BMSAnalytics"/>
     </js-module>
 
-    <js-module name="BMSSecurity" src="www/BMSSecurity.js">
-        <clobbers target="BMSSecurity"/>
-    </js-module>
-
     <hook type="after_plugin_add" src="scripts/hook.js"/>
 
     <!-- iOS -->
@@ -44,10 +40,6 @@
             <feature name="BMSAnalytics">
                 <param name="ios-package" value="CDVBMSAnalytics"/>
             </feature>
-
-            <feature name="BMSSecurity">
-                <param name="ios-package" value="CDVBMSSecurity"/>
-            </feature>
             
         </config-file>
 
@@ -55,7 +47,6 @@
         <source-file src="src/ios/CDVBMSRequest.swift"/>
         <source-file src="src/ios/CDVBMSLogger.swift"/>
         <source-file src="src/ios/CDVBMSAnalytics.swift"/>
-        <source-file src="src/ios/CDVBMSSecurity.swift"/>
     </platform>
 
     <!-- Android -->
@@ -85,9 +76,6 @@
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAnalytics"/>
             </feature>
 
-            <feature name="BMSSecurity">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSSecurity"/>
-            </feature>
         </config-file>
 
         <config-file parent="/*" target="AndroidManifest.xml"/>
@@ -96,7 +84,6 @@
         <source-file src="src/android/CDVBMSRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
         <source-file src="src/android/CDVBMSLogger.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
         <source-file src="src/android/CDVBMSAnalytics.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
-        <source-file src="src/android/CDVBMSSecurity.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core"/>
     </platform>
 
 </plugin>
