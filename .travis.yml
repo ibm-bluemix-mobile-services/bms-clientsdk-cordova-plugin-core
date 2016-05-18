@@ -11,14 +11,14 @@ android:
 script:
   - cordova create testApp
   - git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core -b v2
-  - pwd
-  - ls
   - cd testApp
   - cordova platform add android
-  - pwd
-  - ls
   - cordova plugin add ../bms-clientsdk-cordova-plugin-core
+  - cd platforms
   - pwd
   - ls
-  - sed -i '' 's/minSdkVersion="14"/minSdkVersion="15"/' platforms/android/AndroidManifest.xml
+  - cd android
+  - pwd
+  - ls
+  - sed -i '' 's/minSdkVersion="14"/minSdkVersion="15"/' AndroidManifest.xml
   - cordova build android
