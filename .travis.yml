@@ -20,5 +20,6 @@ script:
   - cd android
   - pwd
   - ls
+  - sed
   - sed -i 's/minSdkVersion="14"/minSdkVersion="15"/' AndroidManifest.xml
   - cordova build android
