@@ -1,0 +1,5 @@
+# Core SDK
+github "ibm-bluemix-mobile-services/bms-clientsdk-swift-core"
+
+# Analytics SDK
+github "ibm-bluemix-mobile-services/bms-clientsdk-swift-analytics"

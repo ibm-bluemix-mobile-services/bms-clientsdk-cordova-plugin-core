@@ -1,11 +1,13 @@
+From terminal:
+> npm install -g cordova
+> cordova platform add ios
+> cordova platform add android
+
 ===
 iOS
 ===
 
-From terminal:
-> (sudo) brew install carthage
-> (sudo) npm install -g cordova
-> cordova platform add ios/android
+> brew install carthage
 > cordova plugin add ibm-bms-core
 > cordova build ios
 
@@ -56,6 +58,9 @@ Android
 Update the following in "AndroidManifest.xml" to use minSdkVersion 15:
 <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23"/>
 
+From terminal:
+> cordova build android
+
 ---------------------------------------------------------------------------------------------------------------
 
 =========
@@ -63,4 +68,7 @@ Questions
 =========
 
 - Which functions need to be thread-safe?
+All of them
+
 - How is timeout measured?
+seconds

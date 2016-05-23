@@ -4,24 +4,23 @@ const spawn = require('child_process').spawn;
 
 module.exports = function(context) {
 
+	var scriptsDir = "plugins/ibm-bms-core/scripts";
+
 	if (directoryExists("platforms/ios")) {
 
-		var carthage = 'github "ibm-bluemix-mobile-services/bms-clientsdk-swift-core"\n\n';
-		carthage += 'github "ibm-bluemix-mobile-services/bms-clientsdk-swift-analytics"\n\n';
-		carthage += 'github "ibm-bluemix-mobile-services/bms-clientsdk-swift-security"'
+		var stream = fs.createReadStream('plugins/ibm-bms-core/scripts/Cartfile').pipe(fs.createWriteStream('platforms/ios/Cartfile'));
+		
+		stream.on('finish', function() {
 
-		fs.writeFile('platforms/ios/Cartfile', carthage, function() {
-			
-			var carthageCmd = 'echo Fetching and building frameworks for ios.; cd platforms/ios; carthage update --no-use-binaries; cd ../../;';
-			var carthageProcess = exec(carthageCmd).stdout.pipe(process.stdout);
+			var iosCmd = "sh plugins/ibm-bms-core/scripts/ios.sh";
+			var carthageProcess = exec(iosCmd).stdout.pipe(process.stdout);
 		});
 	}
 
 	if (directoryExists("platforms/android")) {
 		
-		console.log("Updating AndroidManifest.xml to minSdkVersion=15");
-		var sedCmd = "cd platforms/android; sed -i '' 's/android:minSdkVersion=\"14\"/android:minSdkVersion=\"15\"/' AndroidManifest.xml; cd ../../";
-		var sedProcess = exec(sedCmd);
+		var droidCmd = "sh plugins/ibm-bms-core/scripts/android.sh";
+		var sedProcess = exec(droidCmd).stdout.pipe(process.stdout);
 	}
 };
 
