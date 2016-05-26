@@ -1,6 +1,6 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
-var replace = require('./replacements');
+var pbx = require('./pbxSettings');
 
 module.exports = function(context) {
 
@@ -54,14 +54,10 @@ function addFrameworksToXcode() {
 
 		var file = "platforms/ios/HelloCordova.xcodeproj/project.pbxproj";
 
-		var message = "Removing all whitespace";
-		replaceText(file, />\s*</g, "><", message, function(result) {
+		replaceText(file, />\s*</g, "><", function(result) {
 
-			console.log("Configuring Xcode to use SDK Frameworks");
-
-			for (i = 0; i < replace.oldText.length; i++) {
-
-				result = result.replace(replace.oldText[i], replace.newText[i]);
+			for (i = 0; i < pbx.oldText.length; i++) {
+				result = result.replace(pbx.oldText[i], pbx.newText[i]);
 			}
 
 			saveToFile(file, result);
@@ -76,7 +72,7 @@ function addFrameworksToXcode() {
  * @param  {String} newText - The new text to replace with
  * @param  {String} message - Debug message
  */
-function replaceText(file, oldText, newText, message, callback) {
+function replaceText(file, oldText, newText, callback) {
 
 	fs.readFile(file, 'utf8', function(err, data) {
 
@@ -88,7 +84,6 @@ function replaceText(file, oldText, newText, message, callback) {
 				console.log("Error: " + err);
 			}
 			else {
-				console.log(message);
 				callback && callback(result);
 			}
 		});
