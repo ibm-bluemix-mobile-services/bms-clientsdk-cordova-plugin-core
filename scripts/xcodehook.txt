@@ -1,0 +1,180 @@
+> plutil -convert xml1 -o platforms/ios/*proj/project.pbxproj platforms/ios/*proj/project.pbxproj
+
+==================================================================
+Drag and drop Framework files into Linked Frameworks and Libraries
+==================================================================
+
+Replace:
+
+	</array>
+	<key>isa</key>
+	<string>PBXFrameworksBuildPhase</string>
+
+With:
+
+		<string>FE997D7D1CF3616100F4EDDB</string>
+		<string>FE997D7E1CF3616100F4EDDB</string>
+		<string>FE997D7F1CF3616100F4EDDB</string>
+	</array>
+	<key>isa</key>
+	<string>PBXFrameworksBuildPhase</string>
+
+* Choose unique key strings for each framework using Hex values
+
+-----------------------------------------------------------------
+
+After each instance of:
+
+	<key>COPY_PHASE_STRIP</key>
+	<string>NO</string>
+
+	And
+
+	<key>COPY_PHASE_STRIP</key>
+	<string>YES</string>
+
+Add:
+	
+	<key>FRAMEWORK_SEARCH_PATHS</key>
+	<array>
+		<string>$(inherited)</string>
+		<string>$(PROJECT_DIR)/Carthage/Build/iOS</string>
+	</array>
+
+-----------------------------------------------------------------
+
+Replace:
+
+	<key>LastUpgradeCheck</key>
+	<string>510</string>
+
+With:
+
+	<key>LastSwiftUpdateCheck</key>
+	<string>0720</string>
+	<key>LastUpgradeCheck</key>
+	<string>510</string>
+
+* Might not have to do this
+
+-----------------------------------------------------------------
+
+Replace:
+
+	<string>PBXProject</string>
+
+Add:
+
+	<string>PBXProject</string>
+	<key>knownRegions</key>
+	<array>
+		<string>en</string>
+	</array>
+
+-----------------------------------------------------------------
+
+Replace:
+
+	<array/>
+	<key>isa</key>
+	<string>PBXGroup</string>
+	<key>name</key>
+	<string>Frameworks</string>
+
+With:
+
+	<array>
+		<string>FE997D7A1CF3616100F4EDDB</string>
+		<string>FE997D7B1CF3616100F4EDDB</string>
+		<string>FE997D7C1CF3616100F4EDDB</string>
+	</array>
+	<key>isa</key>
+	<string>PBXGroup</string>
+	<key>name</key>
+	<string>Frameworks</string>
+
+* Match unique key strings defined above
+
+-----------------------------------------------------------------
+
+Remove:
+
+	<key>name</key>
+	<string>Bridging-Header.h</string>
+
+-----------------------------------------------------------------
+
+After:
+		
+		...
+		<string>ibm-bms-core/CDVBMSLogger.swift</string>
+		<key>sourceTree</key>
+		<string>&lt;group&gt;</string>
+	</dict>
+
+Add:
+
+	<key>FE997D7A1CF3616100F4EDDB</key>
+	<dict>
+		<key>isa</key>
+		<string>PBXFileReference</string>
+		<key>lastKnownFileType</key>
+		<string>wrapper.framework</string>
+		<key>name</key>
+		<string>BMSAnalytics.framework</string>
+		<key>path</key>
+		<string>Carthage/Build/iOS/BMSAnalytics.framework</string>
+		<key>sourceTree</key>
+		<string>&lt;group&gt;</string>
+	</dict>
+	<key>FE997D7B1CF3616100F4EDDB</key>
+	<dict>
+		<key>isa</key>
+		<string>PBXFileReference</string>
+		<key>lastKnownFileType</key>
+		<string>wrapper.framework</string>
+		<key>name</key>
+		<string>BMSAnalyticsAPI.framework</string>
+		<key>path</key>
+		<string>Carthage/Build/iOS/BMSAnalyticsAPI.framework</string>
+		<key>sourceTree</key>
+		<string>&lt;group&gt;</string>
+	</dict>
+	<key>FE997D7C1CF3616100F4EDDB</key>
+	<dict>
+		<key>isa</key>
+		<string>PBXFileReference</string>
+		<key>lastKnownFileType</key>
+		<string>wrapper.framework</string>
+		<key>name</key>
+		<string>BMSCore.framework</string>
+		<key>path</key>
+		<string>Carthage/Build/iOS/BMSCore.framework</string>
+		<key>sourceTree</key>
+		<string>&lt;group&gt;</string>
+	</dict>
+	<key>FE997D7D1CF3616100F4EDDB</key>
+	<dict>
+		<key>fileRef</key>
+		<string>FE997D7A1CF3616100F4EDDB</string>
+		<key>isa</key>
+		<string>PBXBuildFile</string>
+	</dict>
+	<key>FE997D7E1CF3616100F4EDDB</key>
+	<dict>
+		<key>fileRef</key>
+		<string>FE997D7B1CF3616100F4EDDB</string>
+		<key>isa</key>
+		<string>PBXBuildFile</string>
+	</dict>
+	<key>FE997D7F1CF3616100F4EDDB</key>
+	<dict>
+		<key>fileRef</key>
+		<string>FE997D7C1CF3616100F4EDDB</string>
+		<key>isa</key>
+		<string>PBXBuildFile</string>
+	</dict>
+
+* Make sure to match with defined key strings
+
+
