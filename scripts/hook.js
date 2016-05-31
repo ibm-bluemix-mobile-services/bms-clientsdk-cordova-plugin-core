@@ -8,6 +8,8 @@ module.exports = function(context) {
 
 	if (context["opts"]["cordova"]["platforms"].indexOf("ios") != -1) {
 
+		console.log("Configuring iOS");
+
 		var stream = fs.createReadStream('plugins/ibm-bms-core/scripts/Cartfile').pipe(fs.createWriteStream('platforms/ios/Cartfile'));
 		
 		stream.on('finish', function() {
@@ -22,6 +24,8 @@ module.exports = function(context) {
 	}
 
 	if (context["opts"]["cordova"]["platforms"].indexOf("android") != -1) {
+
+		console.log("Configuring Android");
 		
 		var droidCmd = "sh plugins/ibm-bms-core/scripts/android.sh";
 		var sedProcess = exec(droidCmd).stdout.pipe(process.stdout);
