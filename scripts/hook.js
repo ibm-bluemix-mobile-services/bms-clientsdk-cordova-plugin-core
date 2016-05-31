@@ -6,7 +6,7 @@ module.exports = function(context) {
 
 	var scriptsDir = "plugins/ibm-bms-core/scripts";
 
-	if (directoryExists("platforms/ios")) {
+	if (context["opts"]["cordova"]["platforms"].indexOf("ios") != -1) {
 
 		var stream = fs.createReadStream('plugins/ibm-bms-core/scripts/Cartfile').pipe(fs.createWriteStream('platforms/ios/Cartfile'));
 		
@@ -21,7 +21,7 @@ module.exports = function(context) {
 		});
 	}
 
-	if (directoryExists("platforms/android")) {
+	if (context["opts"]["cordova"]["platforms"].indexOf("android") != -1) {
 		
 		var droidCmd = "sh plugins/ibm-bms-core/scripts/android.sh";
 		var sedProcess = exec(droidCmd).stdout.pipe(process.stdout);
