@@ -20,10 +20,10 @@ script:
   - cordova platform add android
   - cordova plugin add ../ibm-bms-core-clone
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      echo "Building Android"
-      cordova build android
+      echo "Building Android";
+      cordova build android;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      echo "Building iOS"
-      cordova build ios
+      echo "Building iOS";
+      cordova build ios;
     fi
