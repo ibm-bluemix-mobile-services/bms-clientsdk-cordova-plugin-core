@@ -13,13 +13,17 @@ android:
   components:
   - android-23
 script:
-  - echo "Building Android"
-  - cordova create testApp
-  - git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core ibm-bms-core-clone -b v2
-  - cd testApp
-  - cordova platform add ios
-  - cordova platform add android
-  - cordova plugin add ../ibm-bms-core-clone
-  - cordova build android
-  - echo "Building iOS"
-  - cordova build ios
+  - if [[ "$TRAVIS_OS_NAME" == "linux"]]; then
+      echo "Building Android"
+      cordova create testApp
+      git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core ibm-bms-core-clone -b v2
+      cd testApp
+      cordova platform add ios
+      cordova platform add android
+      cordova plugin add ../ibm-bms-core-clone
+      cordova build android
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"]]; then
+      echo "Building iOS"
+      cordova build ios
+    fi
