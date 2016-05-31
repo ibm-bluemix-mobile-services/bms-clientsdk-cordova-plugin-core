@@ -1,7 +1,10 @@
-language: android
 branches:
   only:
     - v2
+os:
+  - linux
+  - osx
+language: generic
 sudo: required
 before_script:
   - npm install -g cordova
@@ -18,6 +21,5 @@ script:
   - cordova platform add android
   - cordova plugin add ../ibm-bms-core-clone
   - cordova build android
-  - clear
   - echo "Building iOS"
   - cordova build ios
