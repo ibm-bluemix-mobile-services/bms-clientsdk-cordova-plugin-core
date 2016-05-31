@@ -18,5 +18,5 @@ script:
   - cordova plugin add ../ibm-bms-core-clone
  # - sed -i 's/minSdkVersion="14"/minSdkVersion="15"/' platforms/android/AndroidManifest.xml
   - cordova build android
-  - cls
+  - clear
   - echo "Building iOS"
