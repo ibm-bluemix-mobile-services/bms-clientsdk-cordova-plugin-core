@@ -52,6 +52,8 @@ function addFrameworksToXcode() {
 
 	exec(cmd, function() {
 
+		// TODO: find name of xcode proj file dynamically
+
 		var file = "platforms/ios/HelloCordova.xcodeproj/project.pbxproj";
 
 		replaceText(file, />\s*</g, "><", function(result) {

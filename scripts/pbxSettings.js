@@ -1,6 +1,8 @@
 var oldText = [];
 var newText = [];
 
+// TODO: use variables for hex IDs
+
 oldText.push("</array><key>isa</key><string>PBXFrameworksBuildPhase</string>");
 newText.push("<string>FE997D931CF7802600F4EDDB</string><string>FE997D941CF7802600F4EDDB</string><string>FE997D951CF7802600F4EDDB</string></array><key>isa</key><string>PBXFrameworksBuildPhase</string>");
 
