@@ -12,9 +12,6 @@ before_script:
       gem install homebrew;
       brew install carthage;
     fi
-android:
-  components:
-  - android-23
 script:
   - cordova create testApp
   - git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core ibm-bms-core-clone -b v2
