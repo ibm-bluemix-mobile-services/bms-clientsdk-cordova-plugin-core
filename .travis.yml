@@ -14,9 +14,10 @@ script:
   - cordova create testApp
   - git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core ibm-bms-core-clone -b v2
   - cd testApp
+  - cordova platform add ios
   - cordova platform add android
   - cordova plugin add ../ibm-bms-core-clone
-  - sed -i 's/minSdkVersion="14"/minSdkVersion="15"/' platforms/android/AndroidManifest.xml
   - cordova build android
   - clear
   - echo "Building iOS"
+  - cordova build ios
