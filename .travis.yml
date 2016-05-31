@@ -8,7 +8,10 @@ language: generic
 sudo: required
 before_script:
   - npm install -g cordova
-  - npm install -g xcodebuild
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      npm install -g xcodebuild
+      brew install carthage;
+    fi
 android:
   components:
   - android-23
@@ -16,14 +19,15 @@ script:
   - cordova create testApp
   - git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core ibm-bms-core-clone -b v2
   - cd testApp
-  - cordova platform add ios
-  - cordova platform add android
-  - cordova plugin add ../ibm-bms-core-clone
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       echo "Building Android";
+      cordova platform add android;
+      cordova plugin add ../ibm-bms-core-clone; 
       cordova build android;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       echo "Building iOS";
+      cordova platform add ios;
+      cordova plugin add ../ibm-bms-core-clone; 
       cordova build ios;
     fi
