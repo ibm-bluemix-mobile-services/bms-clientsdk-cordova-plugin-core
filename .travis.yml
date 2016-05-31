@@ -5,7 +5,7 @@ branches:
 sudo: required
 before_script:
   - npm install -g cordova
-  - npm install -g fs
+  - npm install -g xcodebuild
 android:
   components:
   - android-23
