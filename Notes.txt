@@ -7,6 +7,7 @@ From terminal:
 iOS
 ===
 
+> Install homebrew if you don't have it
 > brew install carthage
 > cordova plugin add ibm-bms-core
 > cordova build ios
@@ -20,13 +21,19 @@ WITHOUT HOOK SCRIPT (hook.js does this for user):
 	Create Cartfile (file named "Cartfile")
 
 	Add to Cartfile:
-	github "ibm-bluemix-mobile-services/bms-clientsdk-swift-core" ~> 1.0
+
+		# Core SDK
+		github "ibm-bluemix-mobile-services/bms-clientsdk-swift-core"
+
+		# Analytics SDK
+		github "ibm-bluemix-mobile-services/bms-clientsdk-swift-analytics"
 
 	From terminal:
-	> carthage update
-	or
-	> carthage update --no-use-binaries
-	https://github.com/Carthage/Carthage/issues/545
+	
+		> carthage update
+		or
+		> carthage update --no-use-binaries
+		https://github.com/Carthage/Carthage/issues/545
 
 ****************************************
 
