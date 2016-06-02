@@ -69,7 +69,6 @@ public class CDVBMSLogger extends CordovaPlugin {
             @Override
             public void run() {
                 try {
-                    // TODO: Check for null or missing param
                     if (!(args.get(0) instanceof String)) {
                         callbackContext.error("Unable to log message. Logger name parameter is invalid");
                         return;

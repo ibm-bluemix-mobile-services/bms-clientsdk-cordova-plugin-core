@@ -3,8 +3,16 @@ var newText = [];
 
 // TODO: use variables for hex IDs
 
+var fileRef1 = "A00000000000000000000001";
+var fileRef2 = "A00000000000000000000002";
+var fileRef3 = "A00000000000000000000003";
+
+var fm1 = "B00000000000000000000001";
+var fm2 = "B00000000000000000000002";
+var fm3 = "B00000000000000000000003";
+
 oldText.push("</array><key>isa</key><string>PBXFrameworksBuildPhase</string>");
-newText.push("<string>FE997D931CF7802600F4EDDB</string><string>FE997D941CF7802600F4EDDB</string><string>FE997D951CF7802600F4EDDB</string></array><key>isa</key><string>PBXFrameworksBuildPhase</string>");
+newText.push("<string>"+fileRef1+"</string><string>"+fileRef2+"</string><string>"+fileRef3+"</string></array><key>isa</key><string>PBXFrameworksBuildPhase</string>");
 
 oldText.push("<key>COPY_PHASE_STRIP</key><string>NO</string>");
 newText.push("<key>COPY_PHASE_STRIP</key><string>NO</string><key>FRAMEWORK_SEARCH_PATHS</key><array><string>$(inherited)</string><string>$(PROJECT_DIR)/Carthage/Build/iOS</string></array>");
@@ -19,14 +27,14 @@ oldText.push("<string>PBXProject</string>");
 newText.push("<string>PBXProject</string><key>knownRegions</key><array><string>en</string></array>");
 
 oldText.push("<array/><key>isa</key><string>PBXGroup</string><key>name</key><string>Frameworks</string>");
-newText.push("<array><string>FE997D901CF7802600F4EDDB</string><string>FE997D911CF7802600F4EDDB</string><string>FE997D921CF7802600F4EDDB</string></array><key>isa</key><string>PBXGroup</string><key>name</key><string>Frameworks</string>");
+newText.push("<array><string>"+fm1+"</string><string>"+fm2+"</string><string>"+fm3+"</string></array><key>isa</key><string>PBXGroup</string><key>name</key><string>Frameworks</string>");
 
 oldText.push("<key>name</key><string>Bridging-Header.h</string>");
 newText.push("");
 
 oldText.push("<string>ibm-bms-core/CDVBMSLogger.swift</string><key>sourceTree</key><string>&lt;group&gt;</string></dict>");
 newText.push("<string>ibm-bms-core/CDVBMSLogger.swift</string><key>sourceTree</key><string>&lt;group&gt;</string></dict>\
-		<key>FE997D901CF7802600F4EDDB</key>\
+		<key>"+fm1+"</key>\
 		<dict>\
 			<key>isa</key>\
 			<string>PBXFileReference</string>\
@@ -39,7 +47,7 @@ newText.push("<string>ibm-bms-core/CDVBMSLogger.swift</string><key>sourceTree</k
 			<key>sourceTree</key>\
 			<string>&lt;group&gt;</string>\
 		</dict>\
-		<key>FE997D911CF7802600F4EDDB</key>\
+		<key>"+fm2+"</key>\
 		<dict>\
 			<key>isa</key>\
 			<string>PBXFileReference</string>\
@@ -52,7 +60,7 @@ newText.push("<string>ibm-bms-core/CDVBMSLogger.swift</string><key>sourceTree</k
 			<key>sourceTree</key>\
 			<string>&lt;group&gt;</string>\
 		</dict>\
-		<key>FE997D921CF7802600F4EDDB</key>\
+		<key>"+fm3+"</key>\
 		<dict>\
 			<key>isa</key>\
 			<string>PBXFileReference</string>\
@@ -65,24 +73,24 @@ newText.push("<string>ibm-bms-core/CDVBMSLogger.swift</string><key>sourceTree</k
 			<key>sourceTree</key>\
 			<string>&lt;group&gt;</string>\
 		</dict>\
-		<key>FE997D931CF7802600F4EDDB</key>\
+		<key>"+fileRef1+"</key>\
 		<dict>\
 			<key>fileRef</key>\
-			<string>FE997D901CF7802600F4EDDB</string>\
+			<string>"+fm1+"</string>\
 			<key>isa</key>\
 			<string>PBXBuildFile</string>\
 		</dict>\
-		<key>FE997D941CF7802600F4EDDB</key>\
+		<key>"+fileRef2+"</key>\
 		<dict>\
 			<key>fileRef</key>\
-			<string>FE997D911CF7802600F4EDDB</string>\
+			<string>"+fm2+"</string>\
 			<key>isa</key>\
 			<string>PBXBuildFile</string>\
 		</dict>\
-		<key>FE997D951CF7802600F4EDDB</key>\
+		<key>"+fileRef3+"</key>\
 		<dict>\
 			<key>fileRef</key>\
-			<string>FE997D921CF7802600F4EDDB</string>\
+			<string>"+fm3+"</string>\
 			<key>isa</key>\
 			<string>PBXBuildFile</string>\
 		</dict>\

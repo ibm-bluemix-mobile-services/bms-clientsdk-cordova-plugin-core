@@ -4,8 +4,6 @@ var pbx = require('./pbxSettings');
 
 module.exports = function(context) {
 
-	var scriptsDir = "plugins/ibm-bms-core/scripts";
-
 	if (context["opts"]["cordova"]["platforms"].indexOf("ios") != -1) {
 
 		var stream = fs.createReadStream('plugins/ibm-bms-core/scripts/Cartfile').pipe(fs.createWriteStream('platforms/ios/Cartfile'));
@@ -29,42 +27,36 @@ module.exports = function(context) {
 };
 
 /**
- * Check if directory exists
- * 
- * @param  {String} directory - The directory to check whether valid
- */
-function directoryExists(directory) {
-	try {
-		fs.statSync(directory);
-		return true;
-	} 
-	catch(e) {
-		return false;
-	}
-}
-
-/**
  * Add SDK frameworks from Carthage to Xcode projct
  */
 function addFrameworksToXcode() {
 
-	var cmd = "plutil -convert xml1 -o platforms/ios/*proj/project.pbxproj platforms/ios/*proj/project.pbxproj";
+	var xcodeproj;
 
-	exec(cmd, function() {
-
-		// TODO: find name of xcode proj file dynamically
-
-		var file = "platforms/ios/HelloCordova.xcodeproj/project.pbxproj";
-
-		replaceText(file, />\s*</g, "><", function(result) {
-
-			for (i = 0; i < pbx.oldText.length; i++) {
-				result = result.replace(pbx.oldText[i], pbx.newText[i]);
+	fs.readdir("platforms/ios", function(err, files) {
+		
+		for (i in files) {
+			if (files[i].includes(".xcodeproj")) {
+				xcodeproj = files[i];
 			}
+		};
 
-			saveToFile(file, result);
+		var cmd = "plutil -convert xml1 -o platforms/ios/*proj/project.pbxproj platforms/ios/*proj/project.pbxproj";
+
+		var fmProcess = exec(cmd, function() {
+
+			var file = "platforms/ios/" + xcodeproj + "/project.pbxproj";
+
+			replaceText(file, />\s*</g, "><", function(result) {
+
+				for (i = 0; i < pbx.oldText.length; i++) {
+					result = result.replace(pbx.oldText[i], pbx.newText[i]);
+				}
+
+				saveToFile(file, result);
+			});
 		});
-	});
+	})
 }
 
 /**
@@ -100,7 +92,6 @@ function replaceText(file, oldText, newText, callback) {
 function saveToFile(file, text) {
 
 	fs.writeFile(file, text, 'utf8', function(err) {
-
 		if (err) {
 			console.log("Error: " + err);
 		}
