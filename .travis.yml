@@ -1,4 +1,7 @@
 language: objective-c
+os:
+  - linux
+  - osx
 branches:
   only:
     - v2
@@ -6,10 +9,19 @@ sudo: required
 before_script:
   - npm install -g cordova
 osx_image: xcode7.3
+android:
+  components:
+    - android-23
 script:
   - cordova create testApp
   - git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core ibm-bms-core-clone -b v2
   - cd testApp
-  - cordova platform add ios
-  - cordova plugin add ../ibm-bms-core-clone
-  - cordova build ios
+  - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
+    cordova platform add ios;
+    cordova plugin add ../ibm-bms-core-clone;
+    cordova build ios;
+  fi
+  - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then
+    cordova platform add android;
+    cordova plugin add ../ibm-bms-core-clone;
+    cordova build android;
