@@ -1,6 +1,7 @@
 var fs = require('fs');
 var exec = require('child_process').exec;
 var pbx = require('./pbxSettings');
+var spawn = require('child_process').spawn;
 
 module.exports = function(context) {
 

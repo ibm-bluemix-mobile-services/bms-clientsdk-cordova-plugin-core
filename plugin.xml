@@ -19,6 +19,7 @@
         <clobbers target="BMSAnalytics"/>
     </js-module>
 
+    <hook type="after_platform_add" src="scripts/hook.js"/>
     <hook type="after_plugin_add" src="scripts/hook.js"/>
 
     <!-- iOS -->
