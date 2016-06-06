@@ -14,7 +14,7 @@ module.exports = function(context) {
 			var iosCmd = "sh plugins/ibm-bms-core/scripts/ios.sh";
 			var carthageProcess = exec(iosCmd, function() {
 
-				addFrameworksToXcode();
+				//addFrameworksToXcode();
 
 			}).stdout.pipe(process.stdout);
 		});

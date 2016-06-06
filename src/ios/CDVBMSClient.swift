@@ -15,6 +15,7 @@ import Foundation
 import BMSCore
 import BMSAnalytics
 import BMSAnalyticsAPI
+import BMSSecurity
 
 @objc(CDVBMSClient) class CDVBMSClient : CDVPlugin {
     
@@ -49,6 +50,8 @@ import BMSAnalyticsAPI
             }
             
             BMSClient.sharedInstance.initializeWithBluemixAppRoute(route, bluemixAppGUID: guid, bluemixRegion: region)
+
+            BMSClient.sharedInstance.authorizationManager = MCAAuthorizationManager.sharedInstance
             
             let message = "Initialized BMSClient"
             CDVBMSClient.bmsLogger.debug(message);

@@ -41,8 +41,10 @@ Open Xcode project at platforms/ios
 
 On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each of the following frameworks from the platforms/ios/Carthage/Build/iOS folder on disk:
 - BMSCore.framework
+- BMSAnalytics.framework
 - BMSAnalyticsAPI.framework
 - BMSSecurity.framework
+- RNCryptor.framework
 
 On your application targets click the “Build Phases” settings tab
 
@@ -55,6 +57,8 @@ Add the paths to the frameworks you want to use under “Input Files”:
 $(SRCROOT)/Carthage/Build/iOS/BMSCore.framework
 $(SRCROOT)/Carthage/Build/iOS/BMSAnalytics.framework
 $(SRCROOT)/Carthage/Build/iOS/BMSAnalyticsAPI.framework
+$(SRCROOT)/Carthage/Build/iOS/BMSSecurity.framework
+$(SRCROOT)/Carthage/Build/iOS/RNCryptor.framework
 
 ---------------------------------------------------------------------------------------------------------------
 
