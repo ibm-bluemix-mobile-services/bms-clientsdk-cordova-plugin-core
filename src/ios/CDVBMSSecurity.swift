@@ -14,6 +14,7 @@
 import Foundation
 import BMSCore
 import BMSSecurity
+import RNCryptor
 
 enum PersistencePolicy: String {
     case PersistencePolicyAlways = "ALWAYS"
@@ -70,9 +71,9 @@ enum PersistencePolicy: String {
             
             let mcaAuthManager = MCAAuthorizationManager.sharedInstance
             
-            let req = mcaAuthManager.isAuthorizationRequired(forStatusCode: statusCode, httpResponseAuthorizationHeader: httpHeader)
+            let required = mcaAuthManager.isAuthorizationRequired(forStatusCode: statusCode, httpResponseAuthorizationHeader: httpHeader)
             
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: req)
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: required)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
         })
     }
@@ -218,7 +219,9 @@ enum PersistencePolicy: String {
             let mcaAuthManager = MCAAuthorizationManager.sharedInstance;
             
             mcaAuthManager.logout({ (response, error) -> Void in
+                
                 let message = Utils.packResponse(response!, error: error)
+                
                 if (error != nil) {
                     let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsDictionary: message)
                     self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
@@ -234,6 +237,7 @@ enum PersistencePolicy: String {
     func registerAuthenticationListener(command: CDVInvokedUrlCommand) {
         
         self.commandDelegate!.runInBackground({
+            
             var errorText: String = ""
             
             do {
@@ -241,13 +245,39 @@ enum PersistencePolicy: String {
                 let mcaAuthManager = MCAAuthorizationManager.sharedInstance
                 let delegate = InternalAuthenticationDelegate(realm: realm, commandDelegate: self.commandDelegate!)
                 
-               mcaAuthManager.registerAuthenticationDelegate(delegate, realm: realm)
+                mcaAuthManager.registerAuthenticationDelegate(delegate, realm: realm)
                 
                 defer {
                     let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: errorText)
                     self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 }
                 
+            } catch CustomErrors.InvalidParameterType(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
+            } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
+            } catch {
+                errorText = CustomErrorMessages.unexpectedError
+            }
+        })
+    }
+    
+    func unregisterAuthenticationListener(command: CDVInvokedUrlCommand) {
+        
+        self.commandDelegate!.runInBackground({
+            
+            var errorText: String = ""
+            
+            do {
+                let realm = try self.unpackRealm(command)
+                let mcaAuthManager = MCAAuthorizationManager.sharedInstance
+                
+                mcaAuthManager.unregisterAuthenticationDelegate(realm)
+                
+                defer {
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: errorText)
+                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                }
             } catch CustomErrors.InvalidParameterType(let expected, let actual) {
                 errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
             } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
@@ -311,7 +341,7 @@ enum PersistencePolicy: String {
         internal func onAuthenticationChallengeReceived(authContext: AuthenticationContext, challenge: AnyObject) {
             
             let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm]!
-            let jsonResponse: [NSString: AnyObject] = ["action": "onAuthenticationChallengeReceived", "challenge": challenge];
+            let jsonResponse: [String: AnyObject] = ["action": "onAuthenticationChallengeReceived", "challenge": challenge];
             
             CDVBMSSecurity.authenticationContexts[realm] = authContext
             
@@ -323,16 +353,17 @@ enum PersistencePolicy: String {
         internal func onAuthenticationSuccess(info: AnyObject?) {
 
             let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm]!
-            let jsonResponse: [NSString: AnyObject] = ["action": "onAuthenticationSuccess", "info": info!];
+            let jsonResponse: [String: AnyObject] = ["action": "onAuthenticationSuccess", "info": info!];
             
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse)
+            pluginResult.setKeepCallbackAsBool(true)
             commandDelegate.sendPluginResult(pluginResult, callbackId: command.callbackId)
         }
         
         internal func onAuthenticationFailure(info: AnyObject?) {
             
             let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm]!
-            let jsonResponse: [NSString: AnyObject] = ["action": "onAuthenticationFailure", "info": info!];
+            let jsonResponse: [String: AnyObject] = ["action": "onAuthenticationFailure", "info": info!];
             
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse)
             pluginResult.setKeepCallbackAsBool(true)
