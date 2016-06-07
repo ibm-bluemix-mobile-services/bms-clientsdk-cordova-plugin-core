@@ -48,6 +48,10 @@
             <feature name="BMSSecurity">
                 <param name="ios-package" value="CDVBMSSecurity"/>
             </feature>
+
+            <feature name="BMSAuthenticationContext">
+                <param name="ios-package" value="CDVBMSAuthenticationContext"/>
+            </feature>
         </config-file>
 
         <source-file src="src/ios/CDVBMSClient.swift"/>
@@ -55,7 +59,9 @@
         <source-file src="src/ios/CDVBMSLogger.swift"/>
         <source-file src="src/ios/CDVBMSAnalytics.swift"/>
         <source-file src="src/ios/CDVBMSSecurity.swift"/>
+        <source-file src="src/ios/CDVBMSAuthenticationContext.swift"/>
         <source-file src="src/ios/Utils.swift"/>
+        <source-file src="src/ios/CustomErrorTypes.swift"/>
     </platform>
 
     <!-- Android -->
