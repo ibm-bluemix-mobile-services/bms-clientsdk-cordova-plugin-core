@@ -33,7 +33,7 @@ import BMSSecurity
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 return
             }
-            let context = CDVBMSSecurity.authenticationContexts[realm] as! AuthenticationContext
+            let context = CDVBMSAuthorizationManager.authenticationContexts[realm] as! AuthenticationContext
             context.submitAuthenticationChallengeAnswer(answer)
         })
     }
@@ -49,7 +49,7 @@ import BMSSecurity
                 return
             }
             
-            let context = CDVBMSSecurity.authenticationContexts[realm] as! AuthenticationContext
+            let context = CDVBMSAuthorizationManager.authenticationContexts[realm] as! AuthenticationContext
             context.submitAuthenticationSuccess()
         })
     }
@@ -71,7 +71,7 @@ import BMSSecurity
                 return
             }
             
-            let context = CDVBMSSecurity.authenticationContexts[realm] as! AuthenticationContext
+            let context = CDVBMSAuthorizationManager.authenticationContexts[realm] as! AuthenticationContext
             context.submitAuthenticationFailure(info)
         })
     }

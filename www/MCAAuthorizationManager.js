@@ -16,13 +16,13 @@ var exec = require('cordova/exec');
 /**
  * The security component of the Swift SDK
  */
-var BMSSecurity = function() {
+var MCAAuthorizationManager = function() {
 
     var success = function(message) {
-        console.log("AuthorizationManager" + ": Success: " + message);
+        console.log("MCAAuthorizationManager" + ": Success: " + message);
     };
     var failure = function(message) {
-        console.log("AuthorizationManager" + ": Failure: " + message);
+        console.log("MCAAuthorizationManager" + ": Failure: " + message);
     };
 
     /**
@@ -34,7 +34,7 @@ var BMSSecurity = function() {
 	this.obtainAuthorizationHeader = function(success, failure) {
 		var cbSuccess = callbackWrap.bind(this, success);
 		var cbFailure = callbackWrap.bind(this, failure);
-		cordova.exec(callback, failure, "BMSSecurity", "obtainAuthorizationHeader", []);
+		cordova.exec(callback, failure, "MCAAuthorizationManager", "obtainAuthorizationHeader", []);
 	}
 
 	/**
@@ -46,14 +46,14 @@ var BMSSecurity = function() {
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
 	this.isAuthorizationRequired = function(statusCode, header, success, failure) {
-		cordova.exec(success, failure, "BMSSecurity", "isAuthorizationRequired", [statusCode, header]);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "isAuthorizationRequired", [statusCode, header]);
 	}
 
 	/**
 	 * Clear the local stored authorization data
 	 */
 	this.clearAuthorizationData = function() {
-		cordova.exec(success, failure, "BMSSecurity", "clearAuthorizationData", []);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "clearAuthorizationData", []);
 	}
 
 	/**
@@ -63,7 +63,7 @@ var BMSSecurity = function() {
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
 	this.getCachedAuthorizationHeader = function(success, failure) {
-		cordova.exec(success, failure, "BMSSecurity", "getCachedAuthorizationHeader", []);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "getCachedAuthorizationHeader", []);
 	}
 
 	/**
@@ -73,7 +73,7 @@ var BMSSecurity = function() {
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
 	this.getUserIdentity = function(success, failure) {
-		cordova.exec(success, failure, "BMSSecurity", "getUserIdentity", []);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "getUserIdentity", []);
 	}
 
 	/**
@@ -83,7 +83,7 @@ var BMSSecurity = function() {
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
 	this.getAppIdentity = function(success, failure) {
-		cordova.exec(success, failure, "BMSSecurity", "getAppIdentity", []);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "getAppIdentity", []);
 	}
 
 	/**
@@ -93,7 +93,7 @@ var BMSSecurity = function() {
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
 	this.getDeviceIdentity = function(success) {
-		cordova.exec(success, failure, "BMSSecurity", "getDeviceIdentity", []);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "getDeviceIdentity", []);
 	}
 
 	/**
@@ -103,18 +103,18 @@ var BMSSecurity = function() {
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
 	this.getAuthorizationPersistencePolicy = function(success, failure) {
-		cordova.exec(success, failure, "BMSSecurity", "getAuthorizationPersistencePolicy", []);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "getAuthorizationPersistencePolicy", []);
 	}
 
 	/**
 	 * Sets the persistence policy
 	 * 
-	 * @param {String} policy - The peristence policy to set. Use one of the BMSSecurity.Policy constants
+	 * @param {String} policy - The peristence policy to set. Use one of the MCAAuthorizationManager.Policy constants
 	 * @param  {Function} success - Success callback function whose first parameter is the returned success String
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned failure String
 	 */
 	this.setAuthorizationPersistencePolicy = function(policy, success, failure) {
-		cordova.exec(success, failure, "BMSSecurity", "setAuthorizationPersistencePolicy", [policy]);
+		cordova.exec(success, failure, "MCAAuthorizationManager", "setAuthorizationPersistencePolicy", [policy]);
 	}
 
 	/**
@@ -126,7 +126,7 @@ var BMSSecurity = function() {
 	this.logout = function(cbSuccess, cbFailure) {
 		var cbSuccess = callbackWrap.bind(this, success);
 		var cbFailure = callbackWrap.bind(this, failure);
-		cordova.exec(cbSuccess, cbFailure, "BMSSecurity", "logout", []);
+		cordova.exec(cbSuccess, cbFailure, "MCAAuthorizationManager", "logout", []);
 	}
 
 	/**
@@ -174,7 +174,7 @@ var BMSSecurity = function() {
 
         // Register a callback Handler function
         addCallbackHandler(realm, challengeHandler);
-        cordova.exec(success, failure, "BMSSecurity", "registerAuthenticationListener", [realm]);
+        cordova.exec(success, failure, "MCAAuthorizationManager", "registerAuthenticationListener", [realm]);
 	}
 
 	/**
@@ -183,13 +183,13 @@ var BMSSecurity = function() {
      * @param {String} realm - Authentication realm
      */
     this.unregisterAuthenticationListener = function(realm) {
-        cordova.exec(success, failure, "BMSSecurity", "unregisterAuthenticationListener", [realm]);
+        cordova.exec(success, failure, "MCAAuthorizationManager", "unregisterAuthenticationListener", [realm]);
     };
 
     var addCallbackHandler = function(realm, challengeHandler) {
         var cbSuccess = callbackWrap.bind(this, challengeHandler);
         var cbFailure = function(message) { console.log("Error: addCallbackHandler failed: " + message); };
-        cordova.exec(cbSuccess, cbFailure, "BMSSecurity", "addCallbackHandler", [realm]);
+        cordova.exec(cbSuccess, cbFailure, "MCAAuthorizationManager", "addCallbackHandler", [realm]);
      };
 
      var callbackWrap = function(callback, response) {
@@ -197,7 +197,7 @@ var BMSSecurity = function() {
      };
 };
 
-BMSSecurity.ALWAYS = "ALWAYS";
-BMSSecurity.NEVER = "NEVER";
+MCAAuthorizationManager.ALWAYS = "ALWAYS";
+MCAAuthorizationManager.NEVER = "NEVER";
 
-module.exports = new BMSSecurity();
+module.exports = new MCAAuthorizationManager();

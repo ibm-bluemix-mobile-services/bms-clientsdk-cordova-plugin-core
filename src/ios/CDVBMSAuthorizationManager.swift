@@ -21,7 +21,7 @@ enum PersistencePolicy: String {
     case PersistencePolicyNever = "NEVER"
 }
 
-@objc(CDVBMSSecurity) class CDVBMSSecurity : CDVPlugin {
+@objc(CDVBMSAuthorizationManager) class CDVBMSAuthorizationManager: CDVPlugin {
     
     static var jsChallengeHandlers: [String:CDVInvokedUrlCommand] = [:]
     static var authenticationContexts: [String:Any] = [:]
@@ -296,7 +296,7 @@ enum PersistencePolicy: String {
             
             do {
                 let realm = try self.unpackRealm(command)
-                CDVBMSSecurity.jsChallengeHandlers[realm] = command
+                CDVBMSAuthorizationManager.jsChallengeHandlers[realm] = command
                 
                 defer {
                     if (!errorText.isEmpty) {
@@ -343,7 +343,7 @@ enum PersistencePolicy: String {
             let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm]!
             let jsonResponse: [String: AnyObject] = ["action": "onAuthenticationChallengeReceived", "challenge": challenge];
             
-            CDVBMSSecurity.authenticationContexts[realm] = authContext
+            CDVBMSAuthorizationManager.authenticationContexts[realm] = authContext
             
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse)
             pluginResult.setKeepCallbackAsBool(true)
