@@ -145,6 +145,16 @@ setMaxLogStoreSize(size:int) | Sets the maximum file size (in bytes) for log sto
 isUncaughtExceptionDetected(callback:function) | Returns if the app crashed recently due to an uncaught exception. This property will be set back to false if the logs are sent to the server.
 send(callback:function) | Send the logs to the Analytics server.
 
+The following log level constants are available:
+
+| Level |
+| :---|
+BMSLogger.FATAL |
+BMSLogger.ERROR |
+BMSLogger.WARN |
+BMSLogger.INFO |
+BMSLogger.DEBUG |
+
 ## Release Notes
 
 
