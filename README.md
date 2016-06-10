@@ -103,9 +103,13 @@ cordova build android
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
 
-## Using the Cordova Plugin
+## API Reference
 
+### BMSClient
 
+| Javascript Function | Description |
+| :---|:---|
+initialize | test
 
 ## Release Notes
 
