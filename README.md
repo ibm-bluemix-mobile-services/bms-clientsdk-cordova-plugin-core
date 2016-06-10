@@ -107,6 +107,8 @@ cordova build android
 
 ### BMSClient
 
+The `BMSClient` class is a singleton that serves as an entry point to Bluemix client-server communication.
+
 | Javascript Function | Description |
 | :---|:---|
 initialize(bluemixAppRoute:string, bluemixAppGUID:string, bluemixRegion:string) | Sets the base URL for the authorization server. For the region use one of the BMSClient.REGION constants.
@@ -116,6 +118,8 @@ getDefaultTimeoutRequest(callback:function) | Returns the default timeout (in se
 setDefaultTimeoutRequest(timeout:int) | Sets the default timeout (in seconds) for all BMS network requests.
 registerAuthenticationListener(realm:string, userAuthenticationListener:Object) | Registers a delegate that will handle authentication for the specified realm.
 unregisterAuthenticationListener(realm:string) | Unregisters the authentication callback for the specified realm.
+
+The following constants are available:
 
 | Regions |
 | :---|
