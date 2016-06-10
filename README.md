@@ -127,6 +127,24 @@ BMSClient.REGION_US_SOUTH |
 BMSClient.REGION_UK |
 BMSClient.REGION_SYDNEY |
 
+### BMSLogger
+
+The `BMSLogger` class provides a wrapper to the native platform Logger.
+
+| Javascript Function | Description |
+| :---|:---|
+getLogger(name:string) |
+getLogLevelFilter(callback:function) |
+setLogLevelFilter(level:string) | 
+sdkDebugLoggingEnabled(callback:function) |
+setSDKDebugLogging(value:boolean) |
+getStoreLogs(callback:function) |
+setStoreLogs(value:boolean) |
+getMaxLogStoreSize(callback:function) |
+setMaxLogStoreSize(size:int) |
+isUncaughtExceptionDetected(callback:function) |
+send(callback:function) |
+
 ## Release Notes
 
 
