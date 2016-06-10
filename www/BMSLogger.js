@@ -122,7 +122,7 @@ var BMSLogger = (function() {
     }
 
     /**
-     * Retrieve the current log level filter
+     * Returns the current log level filter
      * 
      * @param {Function} callback - Callback function whose first parameter is current log level
      */
@@ -140,7 +140,7 @@ var BMSLogger = (function() {
     }
 
     /**
-     * Retrieve the current log level filter
+     * Returns whether the native SDK debug logging is enabled
      * 
      * @param {Function} callback - Callback function whose first parameter is the returned boolean value
      */
@@ -158,9 +158,9 @@ var BMSLogger = (function() {
     }
 
     /**
-     * Whether logs get written to file on the client device
+     * Returns whether logs get written to file on the client device
      * 
-     * @param {Function} callback - Callback function whose first parameter is a returned boolean value
+     * @param {Function} callback - Callback function whose first parameter is the returned boolean value
      */
     function getStoreLogs(callback) {
         cordova.exec(callback, failure, "BMSLogger", "getStoreLogs", []);
@@ -176,9 +176,9 @@ var BMSLogger = (function() {
     }
 
     /**
-     * Retrieves the maximum file size (in bytes) for log storage
+     * Returns the maximum file size (in bytes) for log storage
      * 
-     * @param {Function} callback - Callback function whose first parameter is a returned store size value
+     * @param {Function} callback - Callback function whose first parameter is the returned store size value
      */
     function getMaxLogStoreSize(callback) {
         cordova.exec(callback, failure, "BMSLogger", "getMaxLogStoreSize", []);
@@ -194,7 +194,7 @@ var BMSLogger = (function() {
     }
 
     /**
-     * Retrieves if the app crashed recently due to an uncaught exception. This property will be set back to false if the logs are sent to the server.
+     * Returns if the app crashed recently due to an uncaught exception. This property will be set back to false if the logs are sent to the server.
      * 
      * @param  {Function} callback - Callback function whose first parameter is the returned boolean value
      */

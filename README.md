@@ -133,17 +133,17 @@ The `BMSLogger` class provides a wrapper to the native platform Logger.
 
 | Javascript Function | Description |
 | :---|:---|
-getLogger(name:string) |
-getLogLevelFilter(callback:function) |
-setLogLevelFilter(level:string) | 
-sdkDebugLoggingEnabled(callback:function) |
-setSDKDebugLogging(value:boolean) |
-getStoreLogs(callback:function) |
-setStoreLogs(value:boolean) |
-getMaxLogStoreSize(callback:function) |
-setMaxLogStoreSize(size:int) |
-isUncaughtExceptionDetected(callback:function) |
-send(callback:function) |
+getLogger(name:string) | Creates a Logger instance.
+getLogLevelFilter(callback:function) | Returns the current log level filter. The first parameter of the callback is current log level.
+setLogLevelFilter(level:string) | Only logs that are at or above this level will be output to the console. Use one of the the appropriate BMSLogger.Level constants.
+sdkDebugLoggingEnabled(callback:function) | Returns whether the native SDK debug logging is enabled. The first parameter of the callback is the returned boolean value.
+setSDKDebugLogging(value:boolean) | Enable or disable the native SDK debug logging.
+getStoreLogs(callback:function) | Returns whether logs get written to file on the client device. The first parameter of the callback is the returned boolean value.
+setStoreLogs(value:boolean) | Enable or disable storing logs.
+getMaxLogStoreSize(callback:function) | Returns the maximum file size (in bytes) for log storage. The first parameter of the callback is the returned store size value.
+setMaxLogStoreSize(size:int) | Sets the maximum file size (in bytes) for log storage. Both the Analytics and Logger log files are limited by maxLogStoreSize.
+isUncaughtExceptionDetected(callback:function) | Returns if the app crashed recently due to an uncaught exception. This property will be set back to false if the logs are sent to the server.
+send(callback:function) | Send the logs to the Analytics server.
 
 ## Release Notes
 
