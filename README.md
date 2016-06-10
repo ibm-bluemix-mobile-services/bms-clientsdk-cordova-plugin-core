@@ -109,13 +109,13 @@ cordova build android
 
 | Javascript Function | Description |
 | :---|:---|
-initialize(bluemixAppRoute:string, bluemixAppGUID:string, bluemixRegion:string) | Sets the base URL for the authorization server. For the region use one of the BMSClient.REGION constants.
-getBluemixAppRoute(callback:function) | Returns the base URL for the authorization server. The first parameter of the callback is the returned Bluemix app route.
-getBluemixAppGUID(callback:function) |  Returns the backend application id. The first parameter of the callback is the returned Bluemix app GUID.
-getDefaultTimeoutRequest(callback:function) | Returns the default timeout (in seconds) for all BMS network requests. The first parameter of the callback is the returned default timeout.
-setDefaultTimeoutRequest(timeout:int) | Sets the default timeout (in seconds) for all BMS network requests.
-registerAuthenticationListener(realm:string, userAuthenticationListener:object) | Registers a delegate that will handle authentication for the specified realm.
-unregisterAuthenticationListener(realm:string) | Unregisters the authentication callback for the specified realm.
+**initialize(bluemixAppRoute:string, bluemixAppGUID:string, bluemixRegion:string)** | Sets the base URL for the authorization server. For the region use one of the BMSClient.REGION constants.
+**getBluemixAppRoute(callback:function)** | Returns the base URL for the authorization server. The first parameter of the callback is the returned Bluemix app route.
+**getBluemixAppGUID(callback:function)** |  Returns the backend application id. The first parameter of the callback is the returned Bluemix app GUID.
+**getDefaultTimeoutRequest(callback:function)** | Returns the default timeout (in seconds) for all BMS network requests. The first parameter of the callback is the returned default timeout.
+**setDefaultTimeoutRequest(timeout:int)** | Sets the default timeout (in seconds) for all BMS network requests.
+**registerAuthenticationListener(realm:string, userAuthenticationListener:Object)** | Registers a delegate that will handle authentication for the specified realm.
+**unregisterAuthenticationListener(realm:string)** | Unregisters the authentication callback for the specified realm.
 
 ## Release Notes
 
