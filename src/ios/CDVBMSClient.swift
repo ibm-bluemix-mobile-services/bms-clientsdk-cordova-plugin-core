@@ -21,6 +21,9 @@ import BMSSecurity
     
     static let bmsLogger = Logger.logger(forName: Logger.bmsLoggerPrefix + "CDVBMSClient")
     
+    static var jsChallengeHandlers: [String:CDVInvokedUrlCommand] = [:]
+    static var authenticationContexts: [String:Any] = [:]
+    
     func initialize(command: CDVInvokedUrlCommand) {
 
         self.commandDelegate!.runInBackground({
@@ -111,5 +114,142 @@ import BMSSecurity
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
         })
+    }
+    
+    func registerAuthenticationListener(command: CDVInvokedUrlCommand) {
+        
+        self.commandDelegate!.runInBackground({
+            
+            var errorText: String = "Registered authentication listener"
+            
+            do {
+                let realm = try self.unpackRealm(command);
+                let mcaAuthManager = MCAAuthorizationManager.sharedInstance
+                let delegate = InternalAuthenticationDelegate(realm: realm, commandDelegate: self.commandDelegate!)
+                
+                mcaAuthManager.registerAuthenticationDelegate(delegate, realm: realm)
+                
+                defer {
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: errorText)
+                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                }
+                
+            } catch CustomErrors.InvalidParameterType(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
+            } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
+            } catch {
+                errorText = CustomErrorMessages.unexpectedError
+            }
+        })
+    }
+    
+    func unregisterAuthenticationListener(command: CDVInvokedUrlCommand) {
+        
+        self.commandDelegate!.runInBackground({
+            
+            var errorText: String = "Unregistered authentication listener"
+            
+            do {
+                let realm = try self.unpackRealm(command)
+                let mcaAuthManager = MCAAuthorizationManager.sharedInstance
+                
+                mcaAuthManager.unregisterAuthenticationDelegate(realm)
+                
+                defer {
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: errorText)
+                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                }
+            } catch CustomErrors.InvalidParameterType(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
+            } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
+            } catch {
+                errorText = CustomErrorMessages.unexpectedError
+            }
+        })
+    }
+    
+    func addCallbackHandler(command: CDVInvokedUrlCommand) {
+        
+        self.commandDelegate!.runInBackground({
+            
+            var errorText: String = ""
+            
+            do {
+                let realm = try self.unpackRealm(command)
+                CDVBMSClient.jsChallengeHandlers[realm] = command
+                
+                defer {
+                    if (!errorText.isEmpty) {
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: errorText)
+                        pluginResult.setKeepCallbackAsBool(true)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    }
+                }
+                
+            } catch CustomErrors.InvalidParameterType(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
+            } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
+                errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
+            } catch {
+                errorText = CustomErrorMessages.unexpectedError
+            }
+        })
+    }
+    
+    private func unpackRealm(command: CDVInvokedUrlCommand) throws -> String {
+        if (command.arguments.count < 1) {
+            throw CustomErrors.InvalidParameterCount(expected: 1, actual: 0)
+        }
+        
+        guard let realm = command.argumentAtIndex(0) as? String else {
+            throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argumentAtIndex(0))
+        }
+        
+        return realm
+    }
+    
+    internal class InternalAuthenticationDelegate: AuthenticationDelegate {
+        
+        var realm: String
+        var commandDelegate: CDVCommandDelegate
+        
+        init(realm: String, commandDelegate: CDVCommandDelegate) {
+            self.realm = realm
+            self.commandDelegate = commandDelegate
+        }
+        
+        internal func onAuthenticationChallengeReceived(authContext: AuthenticationContext, challenge: AnyObject) {
+            
+            let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm]!
+            let jsonResponse: [String: AnyObject] = ["action": "onAuthenticationChallengeReceived", "challenge": challenge];
+            
+            CDVBMSClient.authenticationContexts[realm] = authContext
+            
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse)
+            pluginResult.setKeepCallbackAsBool(true)
+            commandDelegate.sendPluginResult(pluginResult, callbackId: command.callbackId)
+        }
+        
+        internal func onAuthenticationSuccess(info: AnyObject?) {
+            
+            let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm]!
+            let jsonResponse: [String: AnyObject] = ["action": "onAuthenticationSuccess", "info": info!];
+            
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse)
+            pluginResult.setKeepCallbackAsBool(true)
+            commandDelegate.sendPluginResult(pluginResult, callbackId: command.callbackId)
+        }
+        
+        internal func onAuthenticationFailure(info: AnyObject?) {
+            
+            let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm]!
+            let jsonResponse: [String: AnyObject] = ["action": "onAuthenticationFailure", "info": info!];
+            
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse)
+            pluginResult.setKeepCallbackAsBool(true)
+            commandDelegate.sendPluginResult(pluginResult, callbackId: command.callbackId)
+        }
     }
 }

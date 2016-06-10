@@ -14,6 +14,7 @@
 import Foundation
 import BMSCore
 import BMSSecurity
+import RNCryptor
 
 @objc(CDVBMSAuthenticationContext) class CDVBMSAuthenticationContext : CDVPlugin {
     
@@ -33,7 +34,7 @@ import BMSSecurity
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 return
             }
-            let context = CDVBMSAuthorizationManager.authenticationContexts[realm] as! AuthenticationContext
+            let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
             context.submitAuthenticationChallengeAnswer(answer)
         })
     }
@@ -49,7 +50,7 @@ import BMSSecurity
                 return
             }
             
-            let context = CDVBMSAuthorizationManager.authenticationContexts[realm] as! AuthenticationContext
+            let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
             context.submitAuthenticationSuccess()
         })
     }
@@ -71,7 +72,7 @@ import BMSSecurity
                 return
             }
             
-            let context = CDVBMSAuthorizationManager.authenticationContexts[realm] as! AuthenticationContext
+            let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
             context.submitAuthenticationFailure(info)
         })
     }

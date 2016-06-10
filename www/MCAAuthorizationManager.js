@@ -34,7 +34,7 @@ var MCAAuthorizationManager = function() {
 	this.obtainAuthorizationHeader = function(success, failure) {
 		var cbSuccess = callbackWrap.bind(this, success);
 		var cbFailure = callbackWrap.bind(this, failure);
-		cordova.exec(callback, failure, "MCAAuthorizationManager", "obtainAuthorizationHeader", []);
+		cordova.exec(cbSuccess, cbFailure, "MCAAuthorizationManager", "obtainAuthorizationHeader", []);
 	}
 
 	/**
@@ -123,81 +123,17 @@ var MCAAuthorizationManager = function() {
 	 * @param  {[type]} success - Success callback function
 	 * @param  {[type]} failure - Failure callback function
 	 */
-	this.logout = function(cbSuccess, cbFailure) {
+	this.logout = function(success, failure) {
 		var cbSuccess = callbackWrap.bind(this, success);
 		var cbFailure = callbackWrap.bind(this, failure);
 		cordova.exec(cbSuccess, cbFailure, "MCAAuthorizationManager", "logout", []);
 	}
 
-	/**
-	 * Registers a delegate that will handle authentication for the specified realm.
-	 * 
-	 * @param  {[type]} realm - The realm name
-	 * @param  {[type]} userAuthenicationListener - The listener that will handle authentication challenges 
-	 */
-	this.registerAuthenticationListener = function(userAuthenicationListener, realm) {
-
-		var AuthenticationContext = {
-			submitAuthenticationChallengeAnswer: function(answer) {
-	            cordova.exec(success, failure, "BMSAuthenticationContext", "submitAuthenticationChallengeAnswer", [answer, realm]);
-	        },
-	        submitAuthenticationSuccess: function(info) {
-	            cordova.exec(success, failure, "BMSAuthenticationContext", "submitAuthenticationSuccess", [realm]);
-	        },
-	        submitAuthenticationFailure: function(info) {
-	            cordova.exec(success, failure, "BMSAuthenticationContext", "submitAuthenticationFailure", [info, realm]);
-	        }
-		};
-
-		// Callback Challenge Handler function definition
-        var challengeHandler = function(received)
-        {
-			if (received.action === "onAuthenticationChallengeReceived")
-			{
-				console.log("challengeHandler: onAuthenticationChallengeReceived");
-				userAuthenticationListener.onAuthenticationChallengeReceived(AuthenticationContext, received.challenge);
-			}
-			else if (received.action === "onAuthenticationSuccess")
-			{
-				console.log("challengeHandler: onAuthenticationSuccess");
-				userAuthenticationListener.onAuthenticationSuccess(received.info);
-			}
-			else if (received.action === "onAuthenticationFailure")
-			{
-				console.log("challengeHandler: onAuthenticationFailure");
-				userAuthenticationListener.onAuthenticationFailure(received.info);
-			}
-			else {
-				console.log("Failure in challengeHandler: action not recognize");
-			}
-        };
-
-        // Register a callback Handler function
-        addCallbackHandler(realm, challengeHandler);
-        cordova.exec(success, failure, "MCAAuthorizationManager", "registerAuthenticationListener", [realm]);
-	}
-
-	/**
-     * Unregisters the authentication callback for the specified realm.
-     * 
-     * @param {String} realm - Authentication realm
-     */
-    this.unregisterAuthenticationListener = function(realm) {
-        cordova.exec(success, failure, "MCAAuthorizationManager", "unregisterAuthenticationListener", [realm]);
+    var callbackWrap = function(callback, response) {
+        callback(response);
     };
-
-    var addCallbackHandler = function(realm, challengeHandler) {
-        var cbSuccess = callbackWrap.bind(this, challengeHandler);
-        var cbFailure = function(message) { console.log("Error: addCallbackHandler failed: " + message); };
-        cordova.exec(cbSuccess, cbFailure, "MCAAuthorizationManager", "addCallbackHandler", [realm]);
-     };
-
-     var callbackWrap = function(callback, response) {
-         callback(response);
-     };
 };
 
-MCAAuthorizationManager.ALWAYS = "ALWAYS";
-MCAAuthorizationManager.NEVER = "NEVER";
+
 
 module.exports = new MCAAuthorizationManager();

@@ -23,8 +23,8 @@
         <clobbers target="MCAAuthorizationManager"/>
     </js-module>
 
-    <!--<hook type="after_platform_add" src="scripts/hook.js"/>
-    <hook type="after_plugin_add" src="scripts/hook.js"/>-->
+    <hook type="after_platform_add" src="scripts/hook.js"/>
+    <hook type="after_plugin_add" src="scripts/hook.js"/>
 
     <!-- iOS -->
     <platform name="ios">
@@ -44,13 +44,13 @@
             <feature name="BMSAnalytics">
                 <param name="ios-package" value="CDVBMSAnalytics"/>
             </feature>
-            
-            <feature name="MCAAuthorizationManager">
-                <param name="ios-package" value="CDVBMSAuthorizationManager"/>
-            </feature>
 
             <feature name="BMSAuthenticationContext">
                 <param name="ios-package" value="CDVBMSAuthenticationContext"/>
+            </feature>
+
+            <feature name="MCAAuthorizationManager">
+                <param name="ios-package" value="CDVMCAAuthorizationManager"/>
             </feature>
         </config-file>
 
@@ -58,8 +58,8 @@
         <source-file src="src/ios/CDVBMSRequest.swift"/>
         <source-file src="src/ios/CDVBMSLogger.swift"/>
         <source-file src="src/ios/CDVBMSAnalytics.swift"/>
-        <source-file src="src/ios/CDVBMSAuthorizationManager.swift"/>
         <source-file src="src/ios/CDVBMSAuthenticationContext.swift"/>
+        <source-file src="src/ios/CDVMCAAuthorizationManager.swift"/>
         <source-file src="src/ios/Utils.swift"/>
         <source-file src="src/ios/CustomErrorTypes.swift"/>
     </platform>

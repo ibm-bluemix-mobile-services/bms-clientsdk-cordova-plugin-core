@@ -16,7 +16,7 @@ import BMSCore
 
 class Utils {
 
-	static func unpackRequest(requestDict: NSDictionary) -> Request {
+    static func unpackRequest(requestDict: NSDictionary) -> Request {
         
         // URL
         let url = requestDict.objectForKey("url") as! String
@@ -47,7 +47,7 @@ class Utils {
         return request
     }
 
-	static func getHTTPMethod(method: String) -> HttpMethod {
+    static func getHTTPMethod(method: String) -> HttpMethod {
         
         switch method {
         case "GET":
@@ -73,18 +73,21 @@ class Utils {
         }
     }
 
-	static func packResponse(response: Response, error: NSError?=nil) -> [String : AnyObject]? {
+    static func packResponse(response: Response?, error: NSError?=nil) -> [String : AnyObject]? {
         
         var jsonResponse: [String : AnyObject] = [:]
         
-        jsonResponse["responseText"] = response.responseText
-        jsonResponse["headers"] = response.headers
-        jsonResponse["statusCode"] = response.statusCode
+        // Pack response
+        if (response != nil) {
+            jsonResponse["responseText"] = response!.responseText
+            jsonResponse["headers"] = response!.headers
+            jsonResponse["statusCode"] = response!.statusCode
+        }
         
         // Pack error
         if (error != nil) {
             jsonResponse["errorCode"] = error!.code
-            jsonResponse["errorDescription"] = error!.localizedDescription
+            jsonResponse["errorDescription"] = error!.description
         }
         
         return jsonResponse

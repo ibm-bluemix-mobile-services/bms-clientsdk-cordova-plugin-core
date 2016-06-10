@@ -89,6 +89,73 @@ var BMSClient = function() {
 	this.setDefaultRequestTimeout = function(timeout) {
 		cordova.exec(success, failure, "BMSClient", "setDefaultRequestTimeout", [timeout]);
 	}
+
+		/**
+	 * Registers a delegate that will handle authentication for the specified realm.
+	 * 
+	 * @param  {[type]} realm - The realm name
+	 * @param  {[type]} userAuthenticationListener - The listener that will handle authentication challenges 
+	 */
+	this.registerAuthenticationListener = function(realm, userAuthenticationListener) {
+
+		var AuthenticationContext = {
+			submitAuthenticationChallengeAnswer: function(answer) {
+	            cordova.exec(success, failure, "BMSAuthenticationContext", "submitAuthenticationChallengeAnswer", [answer, realm]);
+	        },
+	        submitAuthenticationSuccess: function(info) {
+	            cordova.exec(success, failure, "BMSAuthenticationContext", "submitAuthenticationSuccess", [realm]);
+	        },
+	        submitAuthenticationFailure: function(info) {
+	            cordova.exec(success, failure, "BMSAuthenticationContext", "submitAuthenticationFailure", [info, realm]);
+	        }
+		};
+
+		// Callback Challenge Handler function definition
+        var challengeHandler = function(received)
+        {
+			if (received.action === "onAuthenticationChallengeReceived")
+			{
+				console.log("challengeHandler: onAuthenticationChallengeReceived");
+				userAuthenticationListener.onAuthenticationChallengeReceived(AuthenticationContext, received.challenge);
+			}
+			else if (received.action === "onAuthenticationSuccess")
+			{
+				console.log("challengeHandler: onAuthenticationSuccess");
+				userAuthenticationListener.onAuthenticationSuccess(received.info);
+			}
+			else if (received.action === "onAuthenticationFailure")
+			{
+				console.log("challengeHandler: onAuthenticationFailure");
+				userAuthenticationListener.onAuthenticationFailure(received.info);
+			}
+			else {
+				console.log("Failure in challengeHandler: action not recognize");
+			}
+        };
+
+        // Register a callback Handler function
+        addCallbackHandler(realm, challengeHandler);
+        cordova.exec(success, failure, "BMSClient", "registerAuthenticationListener", [realm]);
+	}
+
+	/**
+     * Unregisters the authentication callback for the specified realm.
+     * 
+     * @param {String} realm - Authentication realm
+     */
+    this.unregisterAuthenticationListener = function(realm) {
+        cordova.exec(success, failure, "BMSClient", "unregisterAuthenticationListener", [realm]);
+    };
+
+    var addCallbackHandler = function(realm, challengeHandler) {
+	    var cbSuccess = callbackWrap.bind(this, challengeHandler);
+	    var cbFailure = function(message) { console.log("Error: addCallbackHandler failed: " + message); };
+	    cordova.exec(cbSuccess, cbFailure, "BMSClient", "addCallbackHandler", [realm]);
+	};
+
+	var callbackWrap = function(callback, response) {
+	    callback(response);
+	};
 };
 
 module.exports = new BMSClient();
