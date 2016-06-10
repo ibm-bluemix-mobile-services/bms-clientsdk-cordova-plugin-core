@@ -109,7 +109,13 @@ cordova build android
 
 | Javascript Function | Description |
 | :---|:---|
-initialize | test
+initialize(blumiexAppRoute, bluemixAppGUID, bluemixRegion) | Sets the base URL for the authorization server. For the region use one of the BMSClient.REGION constants.
+getBluemixAppRoute(callback) | Returns the base URL for the authorization server. The first parameter of the callback is the returned Bluemix app route.
+getBluemixAppGUID(callback) |  Returns the backend application id. The first parameter of the callback is the returned Bluemix app GUID.
+getDefaultTimeoutRequest(callback) | Returns the default timeout (in seconds) for all BMS network requests. The first parameter of the callback is the returned default timeout.
+setDefaultTimeoutRequest(timeout) | Sets the default timeout (in seconds) for all BMS network requests.
+registerAuthenticationListener(realm, userAuthenticationListener) | Registers a delegate that will handle authentication for the specified realm.
+unregisterAuthenticationListener(realm) | Unregisters the authentication callback for the specified realm.
 
 ## Release Notes
 
