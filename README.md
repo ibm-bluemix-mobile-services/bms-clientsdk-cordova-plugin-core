@@ -68,6 +68,8 @@ cordova plugin list
 	* `BMSCore.framework`
 	* `BMSAnalytics.framework`
 	* `BMSAnalyticsAPI.framework`
+	* `BMSSecurity.framework`
+	* `RNCryptor.framework`
 	
 1. Click on your application target click the “Build Phases” settings tab
 
@@ -82,6 +84,8 @@ cordova plugin list
 	* `$(SRCROOT)/Carthage/Build/iOS/BMSCore.framework`
 	* `$(SRCROOT)/Carthage/Build/iOS/BMSAnalytics.framework`
 	* `$(SRCROOT)/Carthage/Build/iOS/BMSAnalyticsAPI.framework`
+	* `$(SRCROOT)/Carthage/Build/iOS/BMSSecurity.framework`
+	* `$(SRCROOT)/Carthage/Build/iOS/RNCryptor.framework`
 
 1. Build and run your application with Xcode or by running the following command:
 
@@ -109,7 +113,7 @@ cordova build android
 
 ## Copyrights
 
-Copyright 2015 IBM Corp.
+Copyright 2016 IBM Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
