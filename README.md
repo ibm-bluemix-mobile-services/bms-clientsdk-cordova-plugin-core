@@ -239,7 +239,7 @@ submitAuthenticationFailure(info) | Informs client about a failed authentication
 
 The `BMSClient class` allows you to initialize the SDK. By initializing the SDK, you can connect to the server app that you created in the Bluemix dashboard. Initializing the BMSClient instance is required before sending requests.
 
-#### Initialzing BMSClient
+#### Initializing BMSClient
 
 Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file.
 
@@ -255,7 +255,7 @@ onDeviceReady: function() {
 }
 ```
 
-### Get functions
+#### Get functions
 
 ```Javascript
 BMSClient.getDefaultRequestTimeout(function(timeout) {
