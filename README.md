@@ -244,14 +244,14 @@ The `BMSClient class` allows you to initialize the SDK. By initializing the SDK,
 Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file.
 
 ```Javascript
-BMSClient.initialize("appRoute", "appGUID", BMSClient.REGION_US_SOUTH);
+BMSClient.initialize("http://example.mybluemix.net", "appGUID", BMSClient.REGION_US_SOUTH);
 ```
 
 **Note**: If you have created a Cordova app using the cordova CLI, for example, using the `cordova create app-name` command with the Cordova command-line, put this Javascript code in the index.js file, within the onDeviceReady function to initialize the BMS client.
 
 ```Javascript
 onDeviceReady: function() {
-    BMSClient.initialize("Route", "appGUID", BMSClient.REGION_US_SOUTH);
+    BMSClient.initialize("http://example.mybluemix.net", "appGUID", BMSClient.REGION_US_SOUTH);
 }
 ```
 
@@ -265,7 +265,66 @@ BMSClient.getDefaultRequestTimeout(function(timeout) {
 
 ### Using BMSRequest
 
+#### Creating a request
 
+After initializing the BMSClient you may create a new BMSRequest instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
+
+```Javascript
+// Specific URL
+var request = new BMSRequest("http://example.mybluemix.net", BMSRequest.GET, 200);
+
+// Relative endpoint
+var request = new BMSRequest("myapp/API/action", BMSRequest.POST, 200);
+```
+
+#### Setting the headers
+
+```Javascript
+var headers = {
+    header1: "val1",
+    header2: "val2"
+};
+request.setHeaders(headers);
+```
+
+#### Setting the query parameters
+
+```Javascript
+var queryParams = {
+    param1: "val1",
+    param2: "val2"
+};
+request.setQueryParameters(queryParams);
+```
+
+The query parameters are parameters that are added to the request URL.
+
+#### Sending the request
+
+```Javascript
+request.send("some body",
+    function(successResponse){
+        console.log("text :: " + successResponse.text);
+        console.log("status :: " + successResponse.status);
+        console.log("headers :: " + successResponse.headers);
+    }, 
+    function (failureResponse){
+        console.log("text :: " + failureResponse.text);
+        console.log("errorCode:: " + failureResponse.errorCode);
+        console.log("errorDescription :: " + failureResponse.errorDescription);
+    }
+);
+```
+
+The response parameters are JSON objects that will be passed to your callbacks with the following fields:
+
+```Javascript
+response.status  =>  Integer
+response.responseText  =>  Undefined or String
+response.headers  =>  JSON object with key:value pairs of headers
+response.errorCode  =>  Undefined or Integer 
+response.errorDescription  =>  Undefined or String
+```
 
 ## Release Notes
 
