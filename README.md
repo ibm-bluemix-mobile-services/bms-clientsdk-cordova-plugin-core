@@ -242,7 +242,7 @@ The `BMSClient class` allows you to initialize the SDK. By initializing the SDK,
 Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file.
 
 ```Javascript
-BMSClient.initialize("appRoute", "appGUID, BMSClient.REGION_US_SOUTH);
+BMSClient.initialize("appRoute", "appGUID", BMSClient.REGION_US_SOUTH);
 ```
 
 **Note**: If you have created a Cordova app using the cordova CLI, for example, using the `cordova create app-name` command with the Cordova command-line, put this Javascript code in the index.js file, within the onDeviceReady function to initialize the BMS client.
