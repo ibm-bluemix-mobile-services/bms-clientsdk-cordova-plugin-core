@@ -133,19 +133,19 @@ The `BMSRequest` class is used to build and send HTTP network requests.
 
 | Javascript Function | Description |
 | :---|:---|
-getHeaders |
-setHeaders(headers:Object) |
-getQueryParameters() |
-setQueryParameters(queryParameters:Object) |
-getURL() |
-getMethod() |
-getTimeout() |
-setTimeout(timeout:int) |
-send(body:Object, success:function, failure:function) |
+getHeaders | Returns the headers for the request
+setHeaders(headers:Object) | Sets the headers for the request
+getQueryParameters() | Returns the query parameters for the request
+setQueryParameters(queryParameters:Object) | Sets the query parameters for the request
+getURL() | Returns the URL of the request
+getMethod() | Returns the HTTP method of the request
+getTimeout() | Returns the timeout of the request in ms
+setTimeout(timeout:int) | Sets the timeout of the request in ms
+send(body:Object, success:function, failure:function) | Sends the request asynchronously. The body parameter is optional
 
 ### BMSLogger
 
-The `BMSLogger` class provides a wrapper to the native platform Logger.
+The `BMSLogger` class is a singleton that provides a wrapper to the native platform Logger.
 
 | Javascript Function | Description |
 | :---|:---|
