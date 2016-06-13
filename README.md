@@ -326,6 +326,36 @@ response.errorCode  =>  Undefined or Integer
 response.errorDescription  =>  Undefined or String
 ```
 
+### Using BMSLogger
+
+Below are some examples of how to use the BMSLogger class.
+
+```Javascript
+var myLogger = BMSLogger.getLogger("myLogger");
+
+// Enable native SDK debug logging
+BMSLogger.setSDKDebugLogging(true);
+
+// Globally set the logging level
+BMSLogger.setLogLevelFilter(BMSLogger.WARN);
+
+// Log a message at FATAL level
+myLogger.fatal("Fatal level message");
+
+// Get the maximum file size for log storage
+BMSLogger.getMaxLogStoreSize(function(size) {
+	console.log(size);
+});
+
+// Send the logs to the server
+BMSLogger.send();
+
+// Send the logs with a callback
+BMSLogger.send(function(message) {
+	console.log(message);
+})
+```
+
 ## Release Notes
 
 ## Copyrights
