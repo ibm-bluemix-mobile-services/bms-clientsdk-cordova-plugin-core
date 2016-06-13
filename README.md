@@ -339,13 +339,13 @@ BMSLogger.setSDKDebugLogging(true);
 // Globally set the logging level
 BMSLogger.setLogLevelFilter(BMSLogger.WARN);
 
-// Log a message at FATAL level
-myLogger.fatal("Fatal level message");
-
 // Get the maximum file size for log storage
 BMSLogger.getMaxLogStoreSize(function(size) {
 	console.log(size);
 });
+
+// Log a message at FATAL level
+myLogger.fatal("Fatal level message");
 
 // Send the logs to the server
 BMSLogger.send();
