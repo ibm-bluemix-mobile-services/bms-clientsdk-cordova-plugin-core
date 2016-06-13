@@ -116,8 +116,8 @@ getBluemixAppRoute(callback:function) | Returns the base URL for the authorizati
 getBluemixAppGUID(callback:function) |  Returns the backend application id. The first parameter of the callback is the returned Bluemix app GUID.
 getDefaultTimeoutRequest(callback:function) | Returns the default timeout (in seconds) for all BMS network requests. The first parameter of the callback is the returned default timeout.
 setDefaultTimeoutRequest(timeout:int) | Sets the default timeout (in seconds) for all BMS network requests.
-registerAuthenticationListener(realm:string, userAuthenticationListener:Object) | Registers a delegate that will handle authentication for the specified realm.
-unregisterAuthenticationListener(realm:string) | Unregisters the authentication callback for the specified realm.
+registerAuthenticationListener(realm:string, userAuthenticationListener:Object) | Registers a delegate that will handle authentication for the specified realm. See below for how to create the authentication listener.
+unregisterAuthenticationListener(realm:string) | Unregisters the authentication callback for the specified realm. 
 
 The following constants are available:
 
@@ -158,7 +158,7 @@ getStoreLogs(callback:function) | Returns whether logs get written to file on th
 setStoreLogs(value:boolean) | Enable or disable storing logs.
 getMaxLogStoreSize(callback:function) | Returns the maximum file size (in bytes) for log storage. The first parameter of the callback is the returned store size value.
 setMaxLogStoreSize(size:int) | Sets the maximum file size (in bytes) for log storage. Both the Analytics and Logger log files are limited by maxLogStoreSize.
-isUncaughtExceptionDetected(callback:function) | Returns if the app crashed recently due to an uncaught exception. This property will be set back to false if the logs are sent to the server.
+isUncaughtExceptionDetected(callback:function) | Returns if the app crashed recently due to an uncaught exception. This property will be set back to false if the logs are sent to the server. The first parameter of the callback is the returned boolean value.
 send(callback:function) | Send the logs to the Analytics server.
 
 The following log level constants are available:
@@ -188,13 +188,13 @@ The `BMSAnalytics` class is a singleton that serves as an entry point to Bluemix
 
 | Function | Description |
 | :---|:---|
-initialize(appName:string, apiKey:string, deviceEvents:string) | The required initializer for the BMSAnalytics class when communicating with a Bluemix analytics service. This method must be called after the BMSClient.initializeWithBluemixAppRoute() method and before calling BMSAnalytics.send() or BMSLogger.send()
+initialize(appName:string, apiKey:string, deviceEvents:string) | The required initializer for the BMSAnalytics class when communicating with a Bluemix analytics service. This method must be called after the BMSClient.initialize() method and before calling BMSAnalytics.send() or BMSLogger.send()
 enable() | Enable analytics logging.
 disable() | Disable analytics logging.
 isEnabled(callback:function) | Returns whether or not analytics logging is enabled. The first parameter of the callback function is the returned boolean value.
 setUserIdentity(identity:string) | Identifies the current application user. To reset the userId, set the value to null.
 log(eventMetadata:Object) | Write analytics data to file.
-send(callback:function) | Send the accumulated analytics logs to the Bluemix server. Analytics logs can only be sent if the BMSClient was initialized via the initializeWithBluemixAppRoute() method.
+send(callback:function) | Send the accumulated analytics logs to the Bluemix server. Analytics logs can only be sent after calling the BMSClient.initialize() method.
 
 ### MCAAuthorizationManager
 
@@ -202,7 +202,7 @@ The `MCAAuthorizationManager` class is used for obtaining authorization tokens f
 
 | Function | Description |
 | :---|:---|
-obtainAuthorizationHeader(success:function, failure:function) | The first parameter of both callback functions is the returned JSON.
+obtainAuthorizationHeader(success:function, failure:function) | Invoke process for obtaining authorization header. The first parameter of both callback functions is the returned JSON.
 isAuthorizationRequired(statusCode:int, header:string, success:function, failure:function) | Check if the params came from response that requires authorization. The first parameter of the success callback is the returned boolean. The first parameter of the failure callback is the returned error string.
 clearAuthorizationData() | Clear the local stored authorization data.
 getCachedAuthorizationHeader(success:function, failure:function) | Returns the locally stored authorization header or null if the value does not exist. The first parameter of the success callback is the returned string.
