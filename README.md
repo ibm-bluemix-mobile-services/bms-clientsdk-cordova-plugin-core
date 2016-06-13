@@ -188,13 +188,21 @@ The `BMSAnalytics` class is a singleton that serves as an entry point to Bluemix
 
 | Function | Description |
 | :---|:---|
-initialize(appName:string, apiKey:string, deviceEvents:string) | The required initializer for the BMSAnalytics class when communicating with a Bluemix analytics service. This method must be called after the BMSClient.initialize() method and before calling BMSAnalytics.send() or BMSLogger.send()
+initialize(appName:string, apiKey:string, deviceEvents:array[string]) | The required initializer for the BMSAnalytics class when communicating with a Bluemix analytics service. This method must be called after the BMSClient.initialize() method and before calling BMSAnalytics.send() or BMSLogger.send(). Use one of the DeviceEvents constants in an array for the parameter.
 enable() | Enable analytics logging.
 disable() | Disable analytics logging.
 isEnabled(callback:function) | Returns whether or not analytics logging is enabled. The first parameter of the callback function is the returned boolean value.
 setUserIdentity(identity:string) | Identifies the current application user. To reset the userId, set the value to null.
 log(eventMetadata:Object) | Write analytics data to file.
 send(callback:function) | Send the accumulated analytics logs to the Bluemix server. Analytics logs can only be sent after calling the BMSClient.initialize() method.
+
+The following DeviceEvent constants are available:
+
+| DeviceEvent |
+| :---|
+DeviceEvents.LIFECYCLE |
+DeviceEvents.ALL |
+DeviceEvents.NONE |
 
 ### MCAAuthorizationManager
 
@@ -354,6 +362,31 @@ BMSLogger.send();
 BMSLogger.send(function(message) {
 	console.log(message);
 })
+```
+
+### Using BMSAnalytics
+
+Below are some examples of how to use the BMSAnalytics class.
+
+```Javascript
+// Initialize analytics logging
+BMSAnalytics.initialize("appName", "appGUID", [DeviceEvents.LIFECYCLE]);
+
+// Enable analytics logging
+BMSAnalytcs.enable();
+
+// Set user identity
+BMSAnalytics.setUserIdentity("myIdentity");
+
+// Log analytics data
+var eventMetadata = {
+	data1: "val1",
+	data2: "val2"
+}
+BMSAnalytics.log(eventMetadata);
+
+// Send the analytics log to the server 
+BMSAnalytics.send();
 ```
 
 ## Release Notes
