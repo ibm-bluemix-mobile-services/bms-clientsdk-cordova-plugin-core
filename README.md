@@ -133,15 +133,15 @@ The `BMSRequest` class is used to build and send HTTP network requests.
 
 | Javascript Function | Description |
 | :---|:---|
-getHeaders | Returns the headers for the request
-setHeaders(headers:Object) | Sets the headers for the request
-getQueryParameters() | Returns the query parameters for the request
-setQueryParameters(queryParameters:Object) | Sets the query parameters for the request
-getURL() | Returns the URL of the request
-getMethod() | Returns the HTTP method of the request
-getTimeout() | Returns the timeout of the request in ms
-setTimeout(timeout:int) | Sets the timeout of the request in ms
-send(body:Object, success:function, failure:function) | Sends the request asynchronously. The body parameter is optional
+getHeaders | Returns the headers for the request.
+setHeaders(headers:Object) | Sets the headers for the request.
+getQueryParameters() | Returns the query parameters for the request.
+setQueryParameters(queryParameters:Object) | Sets the query parameters for the request.
+getURL() | Returns the URL of the request.
+getMethod() | Returns the HTTP method of the request.
+getTimeout() | Returns the timeout of the request in ms.
+setTimeout(timeout:int) | Sets the timeout of the request in ms.
+send(body:Object, success:function, failure:function) | Sends the request asynchronously. The body parameter is optional.
 
 ### BMSLogger
 
@@ -175,12 +175,26 @@ The following methods are available for an instance of BMSLogger:
 
 | Function | Description |
 | :---|:---|
-debug(message:string) | Log at the Debug log level
-info(message:string) | Log at the Info log level
-error(message:string) | Log at the Error log level
-warn(message:string) | Log at the Warn log level
-fatal(message:string) | Log at the Fatal log level
-getName() | Return the name that identifies the logger instance
+debug(message:string) | Log at the Debug log level.
+info(message:string) | Log at the Info log level.
+error(message:string) | Log at the Error log level.
+warn(message:string) | Log at the Warn log level.
+fatal(message:string) | Log at the Fatal log level.
+getName() | Return the name that identifies the logger instance.
+
+### BMSAnalytics
+
+The `BMSAnalytics` class is a singleton that serves as an entry point to Bluemix client-server communication.
+
+| Function | Description |
+| :---|:---|
+initialize(appName:string, apiKey:string, deviceEvents:string) | The required initializer for the BMSAnalytics class when communicating with a Bluemix analytics service. This method must be called after the BMSClient.initializeWithBluemixAppRoute() method and before calling BMSAnalytics.send() or BMSLogger.send()
+enable() | Enable analytics logging.
+disable() | Disable analytics logging.
+isEnabled(callback:function) | Returns whether or not analytics logging is enabled. The first parameter of the callback function is the returned boolean value.
+setUserIdentity(identity:string) | Identifies the current application user. To reset the userId, set the value to null.
+log(eventMetadata:Object) | Write analytics data to file.
+send(callback:function) | Send the accumulated analytics logs to the Bluemix server. Analytics logs can only be sent if the BMSClient was initialized via the initializeWithBluemixAppRoute() method.
 
 ## Release Notes
 
