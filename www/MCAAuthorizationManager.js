@@ -14,7 +14,7 @@
 var exec = require('cordova/exec');
 
 /**
- * The security component of the Swift SDK
+ * The security component of the Swift SDK used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities. 
  */
 var MCAAuthorizationManager = function() {
 
@@ -57,7 +57,7 @@ var MCAAuthorizationManager = function() {
 	}
 
 	/**
-	 * The locally stored authorization header or null if the value does not exist.
+	 * Returns he locally stored authorization header or null if the value does not exist.
 	 * 
 	 * @param  {Function} success - Success callback function whose first parameter is the returned String
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
@@ -72,7 +72,7 @@ var MCAAuthorizationManager = function() {
 	 * @param  {Function} success - Success callback function whose first parameter is the returned JSON
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
-	this.getUserIdentity = function(success, failure) {
+	this.getUserIdentity = function(success) {
 		cordova.exec(success, failure, "MCAAuthorizationManager", "getUserIdentity", []);
 	}
 
@@ -82,7 +82,7 @@ var MCAAuthorizationManager = function() {
 	 * @param  {Function} success - Success callback function whose first parameter is the returned JSON
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
-	this.getAppIdentity = function(success, failure) {
+	this.getAppIdentity = function(success) {
 		cordova.exec(success, failure, "MCAAuthorizationManager", "getAppIdentity", []);
 	}
 
@@ -102,7 +102,7 @@ var MCAAuthorizationManager = function() {
 	 * @param  {Function} success - Success callback function whose first parameter is the returned String
 	 * @param  {Function} failure - Failure callback function whose first parameter is the returned error String
 	 */
-	this.getAuthorizationPersistencePolicy = function(success, failure) {
+	this.getAuthorizationPersistencePolicy = function(success) {
 		cordova.exec(success, failure, "MCAAuthorizationManager", "getAuthorizationPersistencePolicy", []);
 	}
 

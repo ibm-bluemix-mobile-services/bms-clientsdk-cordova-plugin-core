@@ -196,6 +196,24 @@ setUserIdentity(identity:string) | Identifies the current application user. To r
 log(eventMetadata:Object) | Write analytics data to file.
 send(callback:function) | Send the accumulated analytics logs to the Bluemix server. Analytics logs can only be sent if the BMSClient was initialized via the initializeWithBluemixAppRoute() method.
 
+### MCAAuthorizationManager
+
+The `MCAAuthorizationManager` class is used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities.
+
+| Function | Description |
+| :---|:---|
+obtainAuthorizationHeader(success:function, failure:function) | The first parameter of both callback functions is the returned JSON.
+isAuthorizationRequired(statusCode:int, header:string, success:function, failure:function) | Check if the params came from response that requires authorization. The first parameter of the success callback is the returned boolean. The first parameter of the failure callback is the returned error string.
+clearAuthorizationData() | Clear the local stored authorization data.
+getCachedAuthorizationHeader(success:function, failure:function) | Returns the locally stored authorization header or null if the value does not exist. The first parameter of the success callback is the returned string.
+getUserIdentity(callback:function) | Returns the user identity. The first parameter of the callback is the returned user identity.
+getAppIdentity(callback:function) | Returns the app identity. The first parameter of the callback is the returned app identity.
+getDeviceIdentity(callback:function) | Returns the user identity. The first parameter of the callback is the returned device identity.
+getAuthorizationPersistencePolicy(callback:function) | Returns the current persistence policy. The first parameter of the callback is the returned policy.
+setAuthorizationPersistencePolicy(policy:string, success:function, failure:function) | Sets the persistence policy.
+logout(success:function, failure:function) | Logs out user from MCA. The first paramter of both callback functions is a returned JSON response.
+
+
 ## Release Notes
 
 
