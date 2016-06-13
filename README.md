@@ -2,6 +2,19 @@
 
 [![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.svg?branch=v2)](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core)
 
+## Contents
+
+[Installation](#installing-the-cordova-plugin-for-bluemix-mobile-services-core-sdk)
+	- Configuring iOS
+	- Congiuring Android
+API Reference
+	- 
+Examples
+	- 
+	-
+	-
+	-
+
 ## Before you begin
 
 Make sure you install the following tools and libraries.
