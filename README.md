@@ -233,6 +233,30 @@ submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge r
 submitAuthenticationSuccess(info) | Informs client about a successful authentication.
 submitAuthenticationFailure(info) | Informs client about a failed authentication.
 
+## Examples
+
+### Using BMSClient
+
+The `BMSClient class` allows you to initialize the SDK. By initializing the SDK, you can connect to the server app that you created in the Bluemix dashboard. Initializing the BMSClient instance is required before sending requests.
+
+Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file.
+
+```Javascript
+BMSClient.initialize("appRoute", "appGUID, BMSClient.REGION_US_SOUTH);
+```
+
+**Note**: If you have created a Cordova app using the cordova CLI, for example, using the `cordova create app-name` command with the Cordova command-line, put this Javascript code in the index.js file, within the onDeviceReady function to initialize the BMS client.
+
+```Javascript
+onDeviceReady: function() {
+    BMSClient.initialize("Route", "appGUID");
+}
+```
+
+### Using BMSRequest
+
+
+
 ## Release Notes
 
 ## Copyrights
