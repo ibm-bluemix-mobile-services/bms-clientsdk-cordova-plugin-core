@@ -171,6 +171,17 @@ BMSLogger.WARN |
 BMSLogger.INFO |
 BMSLogger.DEBUG |
 
+The following methods are available for an instance of BMSLogger:
+
+| Function | Description |
+| :---|:---|
+debug(message:string) | Log at the Debug log level
+info(message:string) | Log at the Info log level
+error(message:string) | Log at the Error log level
+warn(message:string) | Log at the Warn log level
+fatal(message:string) | Log at the Fatal log level
+getName() | Return the name that identifies the logger instance
+
 ## Release Notes
 
 
