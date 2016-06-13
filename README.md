@@ -5,17 +5,22 @@
 ## Contents
 
 * [Installation](#installing-the-cordova-plugin-for-bluemix-mobile-services-core-sdk)
-..* (Configuring iOS)[#configuring-your-ios-environment]
-..* (Congiuring Android)[#configuring-your-android-environment]
+	* [Configuring iOS](#configuring-your-ios-environment)
+	* [Congiuring Android](#configuring-your-android-environment)
 * [API Reference](#api-reference)
-..* [BMSClient](#bmsclient)
-..* [BMSRequest](#bmsrequest)
-..* [BMSLogger](#bmslogger)
-..* [BMSAnalytics](#bmsanalytics)
-..* [MCAAuthorizationManager](#mcaauthorizationmanager)
-..* [AuthenticationListener](#authenticationlistener-interface)
-..* [AuthenticationContext](#authenticationcontext)
+	* [BMSClient](#bmsclient)
+	* [BMSRequest](#bmsrequest)
+	* [BMSLogger](#bmslogger)
+	* [BMSAnalytics](#bmsanalytics)
+	* [MCAAuthorizationManager](#mcaauthorizationmanager)
+	* [AuthenticationListener](#authenticationlistener-interface)
+	* [AuthenticationContext](#authenticationcontext)
 * [Examples](#examples)
+	* [Using BMSClient](#using-bmsclient)
+	* [Using BMSRequest](#using-bmsrequest)
+	* [Using BMSLogger](#using-bmslogger)
+	* [Using BMSAnalytics](#using-bmsanalytics)
+	* [Custom Authentication](#custom-authentication)
 
 ## Before you begin
 
