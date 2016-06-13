@@ -127,6 +127,22 @@ BMSClient.REGION_US_SOUTH |
 BMSClient.REGION_UK |
 BMSClient.REGION_SYDNEY |
 
+### BMSRequest
+
+The `BMSRequest` class is used to build and send HTTP network requests.
+
+| Javascript Function | Description |
+| :---|:---|
+getHeaders |
+setHeaders(headers:Object) |
+getQueryParameters() |
+setQueryParameters(queryParameters:Object) |
+getURL() |
+getMethod() |
+getTimeout() |
+setTimeout(timeout:int) |
+send(body:Object, success:function, failure:function) |
+
 ### BMSLogger
 
 The `BMSLogger` class provides a wrapper to the native platform Logger.
