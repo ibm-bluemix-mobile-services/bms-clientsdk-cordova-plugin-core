@@ -389,6 +389,47 @@ BMSAnalytics.log(eventMetadata);
 BMSAnalytics.send();
 ```
 
+### Custom Authentication
+
+```Javascript
+var customAuthenticationListener = {
+    onAuthenticationChallengeReceived: function(authenticationContext, challenge) {
+        console.log("onAuthenticationChallengeReceived :: ", challenge);
+
+        // In this sample the Authentication Listener immediatelly returns a hardcoded
+        // set of credentials. In a real life scenario this is where developer would
+        // show a login screen, collect credentials and invoke 
+        // authenticationContext.submitAuthenticationChallengeAnswer()
+
+        var challengeResponse = {
+            username: "john.lennon",
+            password: "12345"
+        }
+
+        authenticationContext.submitAuthenticationChallengeAnswer(challengeResponse);
+
+        // In case there was a failure collecting credentials you need to report
+        // it back to the authenticationContext. Otherwise Mobile Client 
+        // Access Client SDK will remain in a waiting-for-credentials state forever
+    },
+
+    onAuthenticationSuccess: function(info){
+        console.log("onAuthenticationSuccess :: ", info);
+    },
+
+    onAuthenticationFailure: function(info){
+        console.log("onAuthenticationFailure :: ", info);
+    }
+};
+
+// Once you create a custom Authentication Listener you need to register it 
+// with BMSClient before you can start using it. 
+// Use realmName you've specified when configuring custom authentication
+// in Mobile Client Access Dashboard
+
+BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
+```
+
 ## Release Notes
 
 ## Copyrights
