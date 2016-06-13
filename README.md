@@ -213,10 +213,27 @@ getAuthorizationPersistencePolicy(callback:function) | Returns the current persi
 setAuthorizationPersistencePolicy(policy:string, success:function, failure:function) | Sets the persistence policy.
 logout(success:function, failure:function) | Logs out user from MCA. The first paramter of both callback functions is a returned JSON response.
 
+### AuthenticationListener interface
+
+Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows. A developer implementing Authentication Listener is expected to add the three below methods that will be called in different phases of an authentication process.
+
+| Function | Description |
+| :---|:---|
+onAuthenticationChallengeReceived(authContext, challenge) | Triggered when authentication challenge was received.
+onAuthenticationSuccess(info) | Triggered when authentication succeeded.
+onAuthenticationFailure(info) | Triggered when authentication failed.
+
+### AuthenticationContext
+
+authenticationContext is supplied as an argument to the onAuthenticationChallengeReceived method of a custom Authentication Listener. It is developer's responsibility to collect credentials and use authenticationContext methods to either return credentials to Mobile Client Access Client SDK or report a failure. Use one of the below methods.
+
+| Function | Description |
+| :---|:---|
+submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge response.
+submitAuthenticationSuccess(info) | Informs client about a successful authentication.
+submitAuthenticationFailure(info) | Informs client about a failed authentication.
 
 ## Release Notes
-
-
 
 ## Copyrights
 
