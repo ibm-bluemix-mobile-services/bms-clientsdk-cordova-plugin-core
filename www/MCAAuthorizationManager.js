@@ -26,7 +26,7 @@ var MCAAuthorizationManager = function() {
     };
 
     /**
-     * Invoke process for obtaining authorization header.
+     * Invokes the process for obtaining authorization header.
      * 
      * @param  {Function} success - Success callback function whose first parameter is the returned JSON
      * @param  {Function} failure - Failure callback function whose first parameter is the returned JSON

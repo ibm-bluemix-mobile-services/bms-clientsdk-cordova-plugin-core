@@ -202,7 +202,7 @@ The `MCAAuthorizationManager` class is used for obtaining authorization tokens f
 
 | Function | Description |
 | :---|:---|
-obtainAuthorizationHeader(success:function, failure:function) | Invoke process for obtaining authorization header. The first parameter of both callback functions is the returned JSON.
+obtainAuthorizationHeader(success:function, failure:function) | Invokes the process for obtaining authorization header. The first parameter of both callback functions is the returned JSON.
 isAuthorizationRequired(statusCode:int, header:string, success:function, failure:function) | Check if the params came from response that requires authorization. The first parameter of the success callback is the returned boolean. The first parameter of the failure callback is the returned error string.
 clearAuthorizationData() | Clear the local stored authorization data.
 getCachedAuthorizationHeader(success:function, failure:function) | Returns the locally stored authorization header or null if the value does not exist. The first parameter of the success callback is the returned string.
