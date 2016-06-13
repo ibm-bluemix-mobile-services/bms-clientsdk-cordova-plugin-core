@@ -318,7 +318,7 @@ request.send("some body",
 
 The response parameters are JSON objects that will be passed to your callbacks with the following fields:
 
-```Javascript
+```
 response.status  =>  Integer
 response.responseText  =>  Undefined or String
 response.headers  =>  JSON object with key:value pairs of headers
