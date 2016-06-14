@@ -6,7 +6,7 @@
 
 * [Installation](#installing-the-cordova-plugin-for-bluemix-mobile-services-core-sdk)
 	* [Configuring iOS](#configuring-your-ios-environment)
-	* [Congiuring Android](#configuring-your-android-environment)
+	* [Configuring Android](#configuring-your-android-environment)
 * [API Reference](#api-reference)
 	* [BMSClient](#bmsclient)
 	* [BMSRequest](#bmsrequest)
