@@ -1,6 +1,6 @@
 {
   "name": "ibm-mfp-core",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Cordova Plugin for IBM Bluemix Mobile Services Core SDK",
   "cordova": {
     "id": "ibm-mfp-core",
