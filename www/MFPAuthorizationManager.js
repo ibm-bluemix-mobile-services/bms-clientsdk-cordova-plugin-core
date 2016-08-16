@@ -24,6 +24,15 @@ var MFPAuthorizationManager = function() {
     var failure = function() { console.log("AuthorizationManager Error: default failure is called"); };
 
     /**
+     * The intializer for the AuthorizationManager
+     * @param {string} tenantId Specifies the tenant id of the MCA service.
+     * @param {string} bluemixRegion Specifies the Bluemix deployment to use. Use values in BMSClient.REGION* static props
+     */
+    this.initialize = function(tenantId, bluemixRegion) {
+        cordova.exec(success, failure, AuthorizationManagerString, "initialize", [tenantId, bluemixRegion]);
+    };
+    
+    /**
      * Invoke process for obtaining authorization header. during this process
      * @param success The success callback that was supplied
      * @param failure The failure callback that was supplied

@@ -18,7 +18,7 @@
 		</data>
 		<key>Headers/IMFAuthorizationManager.h</key>
 		<data>
-		1XV2zq0i8KASvSxMB6lCQD08cyU=
+		C+Qbtvf5JMtuFeqz2vmq98Qqv9U=
 		</data>
 		<key>Headers/IMFClient.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/IMFLogger.h</key>
 		<data>
-		AMdbZSuyMmcxJPz2pu9KFH5MsCA=
+		4KQyMF2UEOUMUsHQDSHec7pYghE=
 		</data>
 		<key>Headers/IMFLoggerMacros.h</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		k5DJKr329izrF7E2qOhA4sjKAr8=
+		560VnqOK6FRdAeWGHPkebwyre3M=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -64,57 +64,148 @@
 	<key>files2</key>
 	<dict>
 		<key>Headers/IMFAnalytics.h</key>
-		<data>
-		NiVgujBiwthJsSpk1+18ydbjINg=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			NiVgujBiwthJsSpk1+18ydbjINg=
+			</data>
+			<key>hash2</key>
+			<data>
+			ELkWRAo5y4G2VilZbZrZjgexdYgncrB4q7YjR4zXWJk=
+			</data>
+		</dict>
 		<key>Headers/IMFAuthenticationContext.h</key>
-		<data>
-		Apt2bveqBjxGXasUBkDS+6vKqqc=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			Apt2bveqBjxGXasUBkDS+6vKqqc=
+			</data>
+			<key>hash2</key>
+			<data>
+			wXBLXjwVC90vhx9hzUPO2+uiqDfVTB0xx9RfsOFxjlo=
+			</data>
+		</dict>
 		<key>Headers/IMFAuthenticationDelegate.h</key>
-		<data>
-		6LAjoVvUbBKRbAAkpYjKo5VWeXU=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			6LAjoVvUbBKRbAAkpYjKo5VWeXU=
+			</data>
+			<key>hash2</key>
+			<data>
+			OK/DT1W9FHu/nTcxu2G8VMCHH1MqMcoMQg9E2PakHSs=
+			</data>
+		</dict>
 		<key>Headers/IMFAuthorizationManager.h</key>
-		<data>
-		1XV2zq0i8KASvSxMB6lCQD08cyU=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			C+Qbtvf5JMtuFeqz2vmq98Qqv9U=
+			</data>
+			<key>hash2</key>
+			<data>
+			Un1UhKvQ0ujH+r1+LJhWY20EDY64n0lvxXIDm9bt4Uw=
+			</data>
+		</dict>
 		<key>Headers/IMFClient.h</key>
-		<data>
-		BZtw+g3UaSiQo8d9CpwQUeykwdc=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			BZtw+g3UaSiQo8d9CpwQUeykwdc=
+			</data>
+			<key>hash2</key>
+			<data>
+			bn289HXfaUwoAKBORxtF0d123629lQUG7YRjX6ZKdPQ=
+			</data>
+		</dict>
 		<key>Headers/IMFCore.h</key>
-		<data>
-		3EJeEdVfqCkalXHxlGdt6adDxw0=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			3EJeEdVfqCkalXHxlGdt6adDxw0=
+			</data>
+			<key>hash2</key>
+			<data>
+			4faa8cIp1FEU+7HOKs+5Ku+sUx/sez4zw7rLTriCt4U=
+			</data>
+		</dict>
 		<key>Headers/IMFLogger.h</key>
-		<data>
-		AMdbZSuyMmcxJPz2pu9KFH5MsCA=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			4KQyMF2UEOUMUsHQDSHec7pYghE=
+			</data>
+			<key>hash2</key>
+			<data>
+			uUWcIpiBaLQDvLlxBoducsBGqd7ABubhZ+n088HdWYY=
+			</data>
+		</dict>
 		<key>Headers/IMFLoggerMacros.h</key>
-		<data>
-		PE1NSlGibhxlqWZUdv2TSme2+8w=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			PE1NSlGibhxlqWZUdv2TSme2+8w=
+			</data>
+			<key>hash2</key>
+			<data>
+			m35928TxrvundQVYWoOHkxjy6ZlaY+1PkOlg6kC2P4A=
+			</data>
+		</dict>
 		<key>Headers/IMFResourceRequest.h</key>
-		<data>
-		ToYERdoxcndEohXgn1ljadzvPBQ=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			ToYERdoxcndEohXgn1ljadzvPBQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			tDwRjKRck3He3ecwUM1fwjeGbO1+YSf4yN3E56pUkG8=
+			</data>
+		</dict>
 		<key>Headers/IMFResponse.h</key>
-		<data>
-		9N11JV9ZxvMhn5V0TCYDgpAvfIM=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			9N11JV9ZxvMhn5V0TCYDgpAvfIM=
+			</data>
+			<key>hash2</key>
+			<data>
+			Fgty1nvwxm9UWkmXlHm73a6iNtx4INcFnKgF4mNnHUc=
+			</data>
+		</dict>
 		<key>Headers/OCLogger+Constants.h</key>
-		<data>
-		j83PMVY3pO1UCDDNZVmknVdK/sA=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			j83PMVY3pO1UCDDNZVmknVdK/sA=
+			</data>
+			<key>hash2</key>
+			<data>
+			aG8itEoTs7lKmXBokTFTOIvGbUM6P/Kg75SdY8bSg7c=
+			</data>
+		</dict>
 		<key>Headers/WLTouchIdSecurityUtils.h</key>
-		<data>
-		ZHUMyPQq5NVnZ9qmQOYVpjVMjFo=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZHUMyPQq5NVnZ9qmQOYVpjVMjFo=
+			</data>
+			<key>hash2</key>
+			<data>
+			BW+2R+0L+Q2jyZ8R4hD0rhkdLwNYWiyC79qS/LlwB5Q=
+			</data>
+		</dict>
 		<key>Modules/module.modulemap</key>
-		<data>
-		p1Tre7RQ9mFkqv4WiXcabzBkZxk=
-		</data>
+		<dict>
+			<key>hash</key>
+			<data>
+			p1Tre7RQ9mFkqv4WiXcabzBkZxk=
+			</data>
+			<key>hash2</key>
+			<data>
+			USth6+zdnyMpnsO5MQtxYuXbyXSWI3CGnVCgLfvQ83g=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
