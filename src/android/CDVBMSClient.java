@@ -1,15 +1,15 @@
 /*
-    Copyright 2015 IBM Corp.
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-        http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ Copyright 2015 IBM Corp.
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import android.content.Context;
@@ -19,8 +19,9 @@ import org.apache.cordova.CallbackContext;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationListener;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.mca.api.AuthenticationContext;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.mca.api.AuthenticationListener;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.mca.api.MCAAuthorizationManager;
 
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
@@ -32,10 +33,10 @@ import java.util.HashMap;
 
 public class CDVBMSClient extends CordovaPlugin {
     private String errorEmptyArg = "Expected non-empty string argument.";
-    private static final Logger bmsLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVBMSClient");
+    private static final Logger bmsLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVBMSClient");
     private HashMap<String, CallbackContext> challengeHandlersMap = new HashMap<String, CallbackContext>();
     static HashMap<String, AuthenticationContext> authContexsMap = new HashMap<String, AuthenticationContext>();
-
+    
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         boolean ans = true;
@@ -56,8 +57,8 @@ public class CDVBMSClient extends CordovaPlugin {
         }
         return ans;
     }
-
-
+    
+    
     /**
      * Use the native SDK API to set the base URL for the authorization server.
      *
@@ -67,9 +68,10 @@ public class CDVBMSClient extends CordovaPlugin {
     public void initialize(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String backendRoute = args.getString(0);
         String backendGUID = args.getString(1);
-        if (backendRoute != null && backendRoute.length() > 0 && backendGUID != null && backendGUID.length() > 0) {
+        String bluemixRegion = args.getString(2);
+        if (backendRoute != null && backendRoute.length() > 0 && backendGUID != null && backendGUID.length() > 0 && bluemixRegion != null && bluemixRegion.length() > 0) {
             try {
-                BMSClient.getInstance().initialize(this.cordova.getActivity().getApplicationContext(), backendRoute, backendGUID);
+                BMSClient.getInstance().initialize(this.cordova.getActivity().getApplicationContext(), backendRoute, backendGUID, bluemixRegion);
             } catch (MalformedURLException e) {
                 callbackContext.error(e.getMessage());
             }
@@ -80,7 +82,7 @@ public class CDVBMSClient extends CordovaPlugin {
             callbackContext.error(errorEmptyArg);
         }
     }
-
+    
     /**
      * Use the native SDK API to registers authentication listener for specified realm.
      *
@@ -88,13 +90,16 @@ public class CDVBMSClient extends CordovaPlugin {
      * @param callbackContext
      */
     public void registerAuthenticationListener(final JSONArray args, final CallbackContext callbackContext) {
+        final Context currentContext = this.cordova.getActivity();
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 final String realm;
                 try {
                     realm = args.getString(0);
                     if (realm != null && realm.length() > 0) {
-                        BMSClient.getInstance().registerAuthenticationListener(realm, new InternalAuthenticationListener(realm));
+                        MCAAuthorizationManager mcaAuthorizationManager = MCAAuthorizationManager.createInstance(currentContext);
+                        mcaAuthorizationManager.registerAuthenticationListener(realm, new InternalAuthenticationListener(realm));
+                        BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager);
                         bmsLogger.debug("Called registerAuthenticationListener");
                         callbackContext.success(realm);
                     } else {
@@ -108,7 +113,7 @@ public class CDVBMSClient extends CordovaPlugin {
             }
         });
     }
-
+    
     /**
      * Use the native SDK API to unregisters authentication listener
      *
@@ -122,7 +127,7 @@ public class CDVBMSClient extends CordovaPlugin {
                 try {
                     realm = args.getString(0);
                     if (realm != null && realm.length() > 0) {
-                        BMSClient.getInstance().unregisterAuthenticationListener(realm);
+                        MCAAuthorizationManager.getInstance().unregisterAuthenticationListener(realm);
                         bmsLogger.debug("Called unregisterAuthenticationListener");
                         challengeHandlersMap.remove(realm);
                         authContexsMap.remove(realm);
@@ -138,8 +143,8 @@ public class CDVBMSClient extends CordovaPlugin {
             }
         });
     }
-
-
+    
+    
     private void doAddCallbackHandler(final JSONArray args, final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -160,7 +165,7 @@ public class CDVBMSClient extends CordovaPlugin {
             }
         });
     }
-
+    
     private void getBluemixAppRoute(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -169,7 +174,7 @@ public class CDVBMSClient extends CordovaPlugin {
             }
         });
     }
-
+    
     private void getBluemixAppGUID(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -178,17 +183,17 @@ public class CDVBMSClient extends CordovaPlugin {
             }
         });
     }
-
-
+    
+    
     //AuthenticationListener class that handles the challenges from the server
     private class InternalAuthenticationListener implements AuthenticationListener {
-
+        
         private final String realm;
-
+        
         private InternalAuthenticationListener(String realm) {
             this.realm = realm;
         }
-
+        
         @Override
         public void onAuthenticationChallengeReceived(final AuthenticationContext authContext, final JSONObject challenge, Context context) {
             bmsLogger.debug("onAuthenticationChallengeReceived called , data :: " + authContext.toString() + "challenge :: " + challenge.toString());
@@ -205,19 +210,19 @@ public class CDVBMSClient extends CordovaPlugin {
             challengeHandlersMap.get(realm).sendPluginResult(result);
             bmsLogger.debug("onAuthenticationChallengeReceived :: sent to JS");
         }
-
+        
         @Override
         public void onAuthenticationSuccess(final Context context, final JSONObject info) {
             onAuthhenticationSuccessOrFailure(info, "onAuthenticationSuccess");
         }
-
+        
         @Override
         public void onAuthenticationFailure(Context context, final JSONObject info) {
             onAuthhenticationSuccessOrFailure(info, "onAuthenticationFailure");
         }
-
+        
         private void onAuthhenticationSuccessOrFailure(final JSONObject info, final String msg) {
-
+            
             bmsLogger.debug(msg + " called");
             JSONObject responseObj = new JSONObject();
             try {
@@ -231,6 +236,6 @@ public class CDVBMSClient extends CordovaPlugin {
             challengeHandlersMap.get(realm).sendPluginResult(result);
             bmsLogger.debug(msg + " :: sent to JS");
         }
-
+        
     }
 }
