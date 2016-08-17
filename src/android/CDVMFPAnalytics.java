@@ -66,7 +66,18 @@ public class CDVMFPAnalytics extends CordovaPlugin {
     public void send(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                Logger.send();
+                Analytics.send(new ResponseListener() {
+                    @Override
+                    public void onSuccess(Response response) {
+                        callbackContext.success();
+                    }
+                    
+                    @Override
+                    public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
+                        callbackContext.error(failResponse.toString());
+                    }
+                    
+                });
             }
         });
         
