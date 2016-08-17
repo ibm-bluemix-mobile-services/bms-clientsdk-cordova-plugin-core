@@ -21,7 +21,11 @@ var BMSClient = function() {
     var failure = function(message) {
         console.log(BMSClientString + ": Failure: " + message);
     };
-
+    
+    this.REGION_US_SOUTH = ".ng.bluemix.net";
+    this.REGION_UK = ".eu-gb.bluemix.net";
+    this.REGION_SYDNEY = ".au-syd.bluemix.net";
+    
     /**
      * Sets the base URL for the authorization server.
      * <p>
@@ -29,9 +33,10 @@ var BMSClient = function() {
      * </p>
      * @param {string} backendRoute Specifies the base URL for the authorization server
      * @param {string} backendGuid Specifies the GUID of the application
+     * @param {string} bluemixRegion Specifies the Bluemix deployment to use. Use values in BMSClient.REGION* static props
      */
-    this.initialize = function(backendRoute, backendGuid) {
-        cordova.exec(success, failure, BMSClientString, "initialize", [backendRoute, backendGuid]);
+    this.initialize = function(backendRoute, backendGuid, bluemixRegion) {
+        cordova.exec(success, failure, BMSClientString, "initialize", [backendRoute, backendGuid, bluemixRegion]);
     };
 
     /**
