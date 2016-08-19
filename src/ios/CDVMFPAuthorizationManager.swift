@@ -16,24 +16,6 @@ enum PersistencePolicy: String {
 
 @objc(CDVMFPAuthorizationManager) class CDVMFPAuthorizationManager : CDVPlugin {
     
-    func initialize(command: CDVInvokedUrlCommand) {
-        
-        self.commandDelegate!.runInBackground({
-            
-            guard let tenantId = command.arguments[0] as? String else {
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: CustomErrorMessages.invalidTenantId)
-                // call failure callback
-                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-                return
-            }
-            
-            let authManager = IMFAuthorizationManager.sharedInstance()
-            authManager.initializeWithTenantId(tenantId)
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
-            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-        });
-    }
-    
     func obtainAuthorizationHeader(command: CDVInvokedUrlCommand) {
         let authManager = IMFAuthorizationManager.sharedInstance();
         

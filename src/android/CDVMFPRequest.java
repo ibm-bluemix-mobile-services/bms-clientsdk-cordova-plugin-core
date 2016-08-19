@@ -1,15 +1,15 @@
 /*
- Copyright 2015 IBM Corp.
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- http://www.apache.org/licenses/LICENSE-2.0
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- */
+    Copyright 2015 IBM Corp.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import org.apache.cordova.CordovaPlugin;
@@ -32,9 +32,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class CDVMFPRequest extends CordovaPlugin {
-    
-    private static final Logger mfpRequestLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPRequest");
-    
+
+    private static final Logger mfpRequestLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPRequest");
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("send".equals(action)) {
@@ -43,7 +43,7 @@ public class CDVMFPRequest extends CordovaPlugin {
         }
         return false;
     }
-    
+
     /**
      * Responsible for converting a JSON request to a Bluemix Request, sending the request, receiving a Response, and converting it to a
      * JSON object that is sent back to the Javascript layer.
@@ -53,14 +53,14 @@ public class CDVMFPRequest extends CordovaPlugin {
      */
     public void send(JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject myrequest = args.getJSONObject(0);
-        
+
         final Context currentContext = this.cordova.getActivity();
         final Request nativeRequest = unpackJSONRequest(myrequest);
         final String bodyText = myrequest.optString("body", "");
-        
+
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                
+
                 nativeRequest.send(currentContext, bodyText, new ResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
@@ -72,7 +72,7 @@ public class CDVMFPRequest extends CordovaPlugin {
                             callbackContext.error(e.getMessage());
                         }
                     }
-                    
+
                     @Override
                     public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                         try {
@@ -84,12 +84,12 @@ public class CDVMFPRequest extends CordovaPlugin {
                         }
                     }
                 });
-                
+
             }
         });
     }
-    
-    
+
+
     /**
      * Unpacks a JSONObject to create a native Bluemix Request
      *
@@ -102,10 +102,10 @@ public class CDVMFPRequest extends CordovaPlugin {
         String url = jsRequest.getString("url");
         String method = jsRequest.getString("method");
         int timeout = jsRequest.optInt("timeout", Request.DEFAULT_TIMEOUT);
-        
+
         //Build request using the native Android SDK
         Request nativeRequest = new Request(url, method, timeout);
-        
+
         if (jsRequest.has("headers") && !jsRequest.isNull("headers")) {
             Map<String, List<String>> headers = convertJSONtoHashMap(jsRequest.getJSONObject("headers"), true);
             nativeRequest.setHeaders(headers);
@@ -114,10 +114,10 @@ public class CDVMFPRequest extends CordovaPlugin {
             Map<String, String> queryParameters = convertJSONtoHashMap(jsRequest.getJSONObject("queryParameters"), false);
             nativeRequest.setQueryParameters(queryParameters);
         }
-        
+
         return nativeRequest;
     }
-    
+
     /**
      * Overloading, Handles the case of a failure and response is null.
      *
@@ -126,7 +126,7 @@ public class CDVMFPRequest extends CordovaPlugin {
      * @param extendedInfo Contains details regarding operational failure. null if no operational failure occurred.
      * @return The String representation of the JSONObject
      */
-    
+
     private String packJavaResponseToJSON(Response response, Throwable t, JSONObject extendedInfo) throws JSONException {
         if (response != null)
             return packJavaResponseToJSON(response);
@@ -155,10 +155,10 @@ public class CDVMFPRequest extends CordovaPlugin {
             jsonException.put("errorDescription", t.getMessage());
         else
             jsonException.put("errorDescription",t.toString());
-        
+
         return jsonException.toString();
     }
-    
+
     /**
      * Packs a Bluemix Response object into a JSONObject
      *
@@ -169,11 +169,11 @@ public class CDVMFPRequest extends CordovaPlugin {
         mfpRequestLogger.debug("packJavaResponseToJSON");
         if (response != null) {
             JSONObject jsonResponse = new JSONObject();
-            
+
             int status = (response.getStatus() != 0) ? response.getStatus() : 0;
             String responseText = (response.getResponseText() != null) ? response.getResponseText() : "";
             JSONObject responseHeaders = (response.getHeaders() != null) ? convertHashMaptoJSON(response.getHeaders()) : null;
-            
+
             if (response.getStatus() == 0 || response.getStatus() >= 400) {
                 jsonResponse.put("errorCode", status);
                 jsonResponse.put("errorDescription", responseText);
@@ -187,7 +187,7 @@ public class CDVMFPRequest extends CordovaPlugin {
             return null;
         }
     }
-    
+
     /**
      * Converts a HashMap<String, List<String>> to a JSONObject
      *
@@ -207,7 +207,7 @@ public class CDVMFPRequest extends CordovaPlugin {
         }
         return convertedJSON;
     }
-    
+
     /**
      * Converts a JSONObject to a HashMap
      *
@@ -216,7 +216,7 @@ public class CDVMFPRequest extends CordovaPlugin {
      */
     private static Map convertJSONtoHashMap(JSONObject originalJSON, boolean wrapInList) throws JSONException {
         Map<String, Object> convertedMap = new HashMap<String, Object>();
-        
+
         Iterator<?> keys = originalJSON.keys();
         while (keys.hasNext()) {
             String key = (String) keys.next();

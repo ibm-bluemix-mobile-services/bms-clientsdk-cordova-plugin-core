@@ -2,7 +2,7 @@ package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.BMSClient;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.Logger;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.mca.api.AuthenticationContext;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -16,8 +16,8 @@ import org.json.JSONObject;
  */
 public class CDVMFPAuthenticationContext extends CordovaPlugin {
     private String errorEmptyArg = "Expected non-empty string argument.";
-    private static final Logger acLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAuthContext");
-    
+    private static final Logger acLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPAuthContext");
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         boolean ans = true;
@@ -31,9 +31,9 @@ public class CDVMFPAuthenticationContext extends CordovaPlugin {
             ans = false;
         }
         return ans;
-        
+
     }
-    
+
     /**
      * Use the native SDK API to submits authentication challenge response.
      *
@@ -57,7 +57,7 @@ public class CDVMFPAuthenticationContext extends CordovaPlugin {
             }
         });
     }
-    
+
     /**
      * Use the native SDK API to informs about authentication success.
      *
@@ -80,7 +80,7 @@ public class CDVMFPAuthenticationContext extends CordovaPlugin {
             }
         });
     }
-    
+
     /**
      * Use the native SDK API to informs about authentication failure.
      *
@@ -104,5 +104,5 @@ public class CDVMFPAuthenticationContext extends CordovaPlugin {
             }
         });
     }
-    
+
 }
