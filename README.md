@@ -158,26 +158,25 @@ The `BMSClient` class allows you to initialize the SDK. By initializing the SDK,
 * Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file.
 
 ```JavaScript
-BMSClient.initialize("Route", "appGUID", BMSClient.REGION_US_SOUTH);
+BMSClient.initialize("Route", "appGUID");
 ```
 
 **Note**: If you have created a Cordova app using the cordova CLI, for example, `cordova create app-name` command with the Cordova command-line, put this Javascript code in the **index.js** file, within the `onDeviceReady` function to initialize the BMS client.
 
 ```JavaScript
 onDeviceReady: function() {
-    BMSClient.initialize("Route", "appGUID", BMSClient.REGION_US_SOUTH);
+    BMSClient.initialize("Route", "appGUID");
 },
 ```
 
 * Modify the code snippet to use your Bluemix Route and appGUID parameters. To get these parameters, click the **Mobile Options** link in your Bluemix Application Dashboard to get the application route and application GUID. Use the Route and App GUID values as your parameters in your BMSClient.initialize code snippet.
-    Replace the BMSClient.REGION_US_SOUTH with the appropriate region.
 
 
 ## API reference
 
 | Javascript Function | Description |
 | :---|:---|
-initialize(bluemixRoute, bluemixAppGUID, bluemixAppRegion) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
+initialize(bluemixRoute, bluemixAppGUID) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
 getBluemixAppRoute(callback) | Return the Bluemix app route.
 getBluemixAppGUID(callback) | Return the Bluemix app GUID.
 registerAuthenticationListener(realm, authenticationListener) | Registers authentication callback for the specified realm.
@@ -259,8 +258,10 @@ Following static methods are exposed by the MFPLogger
 | Javascript Function | Description |
 |:---|:---|
 getInstance(name) | Return a named logger instance.
-isStoringLogs(success, failure) | Get the current setting for determining if log data should be saved persistently.
-storeLogs(enabled) | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
+getCapture(success, failure) | Get the current setting for determining if log data should be saved persistently.
+setCapture(enabled) | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
+getFilters(success, failure) | Retrieve the filters that are used to determine which log messages are persisted.
+setFilters(filters) | Set the filters that are used to determine which log messages are persisted. Each key defines a name and each value defines a logging level.
 getMaxStoreSize(success, failure) | Gets the current setting for the maximum storage size threshold.
 setMaxStoreSize(size) | Set the maximum size of the local persistent storage for queuing log data. When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
 getLevel(success, failure) | Get the currently configured Log Level.
@@ -311,7 +312,6 @@ MFPAuthorizationManager is used for obtaining authorization tokens from Mobile C
 
 | Javascript Function | Description |
 |:---|:---|
-initialize(tenantId, bluemixRegion) | Sets the base URL for the authorization server to use the MCA service tenantId. This method should be called before you send the first request that requires authorization.  
 obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. 
 isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access Service
 clearAuthorizationData() | Clears the locally persisted authorization data
@@ -344,24 +344,14 @@ submitAuthenticationFailure(info) | Informs client about failed authentication
 
 ## Examples
 
-### Using BMSClient, MFPAuthorizationManager and MFPRequest
+### Using BMSClient and MFPRequest
 
 #### Initializing BMSClient
 
 The following JavaScript code is your entry point to the Bluemix Mobile Services. This method should be called before making a request. Your appRoute and appGUID can be found by going to your app's dashboard on Bluemix and clicking on "Mobile Options".
-    Replace the BMSClient.REGION_US_SOUTH with the appropriate region. To view your Bluemix region, click the Avatar icon in the menu bar to open the Account and Support widget. 
 
 ```JavaScript
-BMSClient.initialize("appRoute", "appGUID", BMSClient.REGION_US_SOUTH);
-```
-
-#### Initializing MFPAuthorizationManager
-
-The following JavaScript code initialize the MFPAuthorizationManager with the MCA service tenantId and the bluemix app region, the tenantId can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
-    The region parameter is optional, if you already called the BMSClient.initialize.
-
-```JavaScript
-MFPAuthorizationManager.initialize("MCATenantId", BMSClient.REGION_US_SOUTH);
+BMSClient.initialize("appRoute", "appGUID");
 ```
 
 #### Creating a request 
@@ -429,13 +419,17 @@ Below are some examples of how to use the MFPLogger class.
 var myPackageLogger = MFPLogger.getInstance("myPackage");
 
 // Persist logs to a file
-MFPLogger.storeLogs(true);
+MFPLogger.setCapture(true);
 
 // Globally set the logging level
 MFPLogger.setLevel(MFPLogger.WARN);
 
 // Log a message at FATAL level
 myPackageLogger.fatal("Fatal level message");
+
+// Only use the logger specified here. 
+// All others will be ignored, including Analytics.
+MFPLogger.setFilters( { "myPackage": MFPLogger.WARN} );
 
 // Send the logs to the server
 MFPLogger.send();
