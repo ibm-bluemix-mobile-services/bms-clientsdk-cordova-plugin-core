@@ -38,28 +38,28 @@ public class CDVMFPLogger extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         mfpLogger.debug("execute :: action = " + action);
-        if("isStoringLogs".equals(action)) {
+        if("getCapture".equals(action)) {
             this.isStoringLogs(callbackContext);
             return true;
-        } else if("storeLogs".equals(action)) {
+        } else if("setCapture".equals(action)) {
             Boolean captureFlag = args.getBoolean(0);
             Logger.storeLogs(captureFlag);
             callbackContext.success();
             return true;
-        } else if ("getMaxLogStoreSize".equals(action)) {
+        } else if ("getMaxStoreSize".equals(action)) {
             this.getMaxStoreSize(callbackContext);
             callbackContext.success(Logger.getMaxLogStoreSize());
             return true;
-        } else if("setMaxLogStoreSize".equals(action)) {
+        } else if("setMaxStoreSize".equals(action)) {
             int newStoreSize = args.getInt(0);
             Logger.setMaxLogStoreSize(newStoreSize);
             callbackContext.success();
             return true;
             
-        } else if("getLogLevel".equals(action)) {
+        } else if("getLevel".equals(action)) {
             this.getLogLevel(callbackContext);
             return true;
-        } else if("setLogLevel".equals(action)) {
+        } else if("setLevel".equals(action)) {
             LEVEL newLevel = LEVEL.fromString(args.getString(0));
             Logger.setLogLevel(newLevel);
             callbackContext.success();

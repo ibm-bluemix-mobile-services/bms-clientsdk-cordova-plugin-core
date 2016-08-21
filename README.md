@@ -259,8 +259,8 @@ Following static methods are exposed by the MFPLogger
 | Javascript Function | Description |
 |:---|:---|
 getInstance(name) | Return a named logger instance.
-isStoringLogs(success, failure) | Get the current setting for determining if log data should be saved persistently.
-storeLogs(enabled) | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
+getCapture(success, failure) | Get the current setting for determining if log data should be saved persistently.
+setCapture(enabled) | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
 getMaxStoreSize(success, failure) | Gets the current setting for the maximum storage size threshold.
 setMaxStoreSize(size) | Set the maximum size of the local persistent storage for queuing log data. When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
 getLevel(success, failure) | Get the currently configured Log Level.
@@ -429,7 +429,7 @@ Below are some examples of how to use the MFPLogger class.
 var myPackageLogger = MFPLogger.getInstance("myPackage");
 
 // Persist logs to a file
-MFPLogger.storeLogs(true);
+MFPLogger.setCapture(true);
 
 // Globally set the logging level
 MFPLogger.setLevel(MFPLogger.WARN);

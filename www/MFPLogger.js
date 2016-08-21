@@ -124,15 +124,15 @@ var MFPLogger = (function () {
          * @param success callback takes single boolean parameter which indicates whether capture is set
          * @param failure callback
          */
-        isStoringLogs : function (success, failure) {
-            cordova.exec(boolWrap.bind(null, success), failure, "MFPLogger", "isStoringLogs", []);
+        getCapture : function (success, failure) {
+            cordova.exec(boolWrap.bind(null, success), failure, "MFPLogger", "getCapture", []);
         },
         /**
          * Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class
          * @param {Boolean} enabled - Boolean used to indicate whether the log data must be saved persistently
          */
-        storeLogs : function (enabled) {
-            cordova.exec(success , failure, "MFPLogger", "storeLogs", [enabled]);
+        setCapture : function (enabled) {
+            cordova.exec(success , failure, "MFPLogger", "setCapture", [enabled]);
         },
         /**
          * Gets the current setting for the maximum storage size threshold
@@ -140,7 +140,7 @@ var MFPLogger = (function () {
          * @param failure
          */
         getMaxStoreSize : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "getMaxLogStoreSize", []);
+            cordova.exec(success , failure, "MFPLogger", "getMaxStoreSize", []);
         },
         /**
          * Sets the maximum size of the local persistent storage for queuing log data.
@@ -148,7 +148,7 @@ var MFPLogger = (function () {
          * @param {integer} intSize
          */
         setMaxStoreSize : function (intSize) {
-            cordova.exec(success , failure, "MFPLogger", "setMaxLogStoreSize", [intSize]);
+            cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", [intSize]);
         },
         /**
          * Gets the currently configured Log Level
