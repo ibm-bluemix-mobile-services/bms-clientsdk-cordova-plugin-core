@@ -277,6 +277,7 @@ typedef NS_ENUM(NSInteger, IMFLogLevel) {
  Enables <em>IMFLogger</em> to capture all uncaught exceptions.
  This method does not override, but works in conjunction with,
  previous implementations of <em>NSSetUncaughtExceptionHandler()</em>.
+ If you want to set your own <em>NSUncaughtExceptionHandler</em>, do so before calling this method.
  */
 +(void) captureUncaughtExceptions;
 
