@@ -42,7 +42,9 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         boolean ans = true;
-        if ("obtainAuthorizationHeader".equals(action)) {
+        if ("initialize".equals(action)) {
+            this.initialize(args, callbackContext);
+        } else if ("obtainAuthorizationHeader".equals(action)) {
             this.obtainAuthorizationHeader(callbackContext);
         } else if ("clearAuthorizationData".equals(action)) {
             this.clearAuthorizationData(callbackContext);
@@ -68,7 +70,30 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
         return ans;
     }
 
-    
+    /**
+     * Use the native SDK API to initialize the authorization manager with tenantId.
+     *
+     * @param args            JSONArray that contains the MCA service tenantId.
+     * @param callbackContext
+     */
+    private void initialize(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        final Context currentContext = this.cordova.getActivity();
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                String tenantId = null;
+                try {
+                    tenantId = args.getString(0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    amLogger.error("Error in parsing the tenantId");
+                    callbackContext.error("The specified tenantId cant be parse as String.");
+                }
+                AuthorizationManager.createInstance(currentContext, tenantId);
+                amLogger.debug("Authorization Manager initialize with tenantId: " + tenantId.toString());
+                callbackContext.success();
+            }
+        });
+    }
    
     /**
      * Use the native SDK API to invoke process for obtaining authorization header.

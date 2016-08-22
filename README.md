@@ -312,6 +312,7 @@ MFPAuthorizationManager is used for obtaining authorization tokens from Mobile C
 
 | Javascript Function | Description |
 |:---|:---|
+initialize(tenantId) | Sets the base URL for the authorization server to use the MCA service tenantId. This method should be called before you send the first request that requires authorization.
 obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. 
 isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access Service
 clearAuthorizationData() | Clears the locally persisted authorization data
@@ -344,7 +345,7 @@ submitAuthenticationFailure(info) | Informs client about failed authentication
 
 ## Examples
 
-### Using BMSClient and MFPRequest
+### Using BMSClient, MFPAuthorizationManager and MFPRequest
 
 #### Initializing BMSClient
 
@@ -352,6 +353,14 @@ The following JavaScript code is your entry point to the Bluemix Mobile Services
 
 ```JavaScript
 BMSClient.initialize("appRoute", "appGUID");
+```
+
+#### Initializing MFPAuthorizationManager
+
+The following JavaScript code initialize the MFPAuthorizationManager with the MCA service tenantId, the tenantId can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
+
+```JavaScript
+MFPAuthorizationManager.initialize("tenantId");
 ```
 
 #### Creating a request 
