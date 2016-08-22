@@ -34,37 +34,37 @@ The following videos demonstrate how to install and use the Cordova Plugin for t
 
 1. Run the following commands to create a new Cordova application. Alternatively you can use an existing application as well. 
 
-```
-$ cordova create {appName}
-$ cd {appName}
-```
-
+	```
+	$ cordova create {appName}
+	$ cd {appName}
+	```
+	
 1. Edit `config.xml` file and set the desired application name in the `<name>` element instead of a default HelloCordova.
 
 1. Continue editing `config.xml`. 
 ##### iOS
-For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
+  For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
 
-```XML
-<platform name="ios">
-<preference name="deployment-target" value="8.0" />
-<!-- add deployment target declaration -->
-</platform>
-```
+	```XML
+	<platform name="ios">
+		<preference name="deployment-target" value="8.0" />
+		<!-- add deployment target declaration -->
+	</platform>
+	```
 ##### Android
-For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
+  For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
 
-```XML
-<platform name="android">
-<preference name="android-minSdkVersion" value="15" />
-<preference name="android-targetSdkVersion" value="23" />
-<!-- add minimum and target Android API level declaration -->
-</platform>
-```
+	```XML
+	<platform name="android">
+		<preference name="android-minSdkVersion" value="15" />
+		<preference name="android-targetSdkVersion" value="23" />
+		<!-- add minimum and target Android API level declaration -->
+	</platform>
+	```
 
-> The minSdkVersion should be above 15.
-
-> The targetSdkVersion should always reflect the latest Android SDK available from Google.
+	> The minSdkVersion should be above 15.
+	
+	> The targetSdkVersion should always reflect the latest Android SDK available from Google.
 
 ### 2. Adding Cordova platforms
 
@@ -98,19 +98,19 @@ cordova plugin list
 
 1. Open your `[your-app-name].xcodeproj` file in `[your-app-name]/platforms/ios` directory with Xcode
 
-> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
+	> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
 
 1. Add the Bridging Header. Go to `Build settings` > `Swift Compiler - Code Generation` > `Objective-C Bridging Header` and add the following path:
 
-```
-[your-project-name]/Plugins/ibm-mfp-core/Bridging-Header.h
-```
-
+	```
+	[your-project-name]/Plugins/ibm-mfp-core/Bridging-Header.h
+	```
+	
 1. Add the Frameworks parameter. Go to `Build Settings` > `Linking` > `Runpath Search Paths` and add the following parameter
-
-```
-@executable_path/Frameworks
-```
+	
+	```
+	@executable_path/Frameworks
+	```
 
 1. Build and run your application with Xcode or by running the following command:
 
@@ -122,20 +122,20 @@ cordova build ios
 <!---
 Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK bundled with the  Plugin.
 
-Verification Steps:
-
-> If you get a prompt asking whether you want to convert Swift code to the latest version click Cancel
+	Verification Steps:
+	
+	> If you get a prompt asking whether you want to convert Swift code to the latest version click Cancel
 
 1. Click your project name in the project directory and go to `Build Phases` > `Link Library with Libraries`
 
 1. Verify that the `IMFCore.framework` is present in the linked libraries list
 
 1. Go to `Build Settings` > `Search Paths` > `Framework Search Paths` and verify that the following parameters are included in the Target field for your project.
-
-```
-$(inherited)	
-"[your-project-name]/Plugins/ibm-mfp-core"
-```
+	
+	```
+	$(inherited)	
+	"[your-project-name]/Plugins/ibm-mfp-core"
+	```
 !-->
 
 
@@ -165,7 +165,7 @@ BMSClient.initialize("Route", "appGUID");
 
 ```JavaScript
 onDeviceReady: function() {
-BMSClient.initialize("Route", "appGUID");
+    BMSClient.initialize("Route", "appGUID");
 },
 ```
 
@@ -365,8 +365,8 @@ var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
 
 ```JavaScript
 var headers = {
-header1: "val1",
-header2: "val2"
+	header1: "val1",
+	header2: "val2"
 };
 request.setHeaders(headers);
 ```
@@ -376,8 +376,8 @@ request.setHeaders(headers);
 
 ```JavaScript
 var queryParams = {
-param1: "val1",
-param2: "val2"
+	param1: "val1",
+	param2: "val2"
 };
 request.setQueryParameters(queryParams);
 ```
@@ -388,16 +388,16 @@ The query parameters are parameters that are added to the request URL.
 
 ```JavaScript
 request.send("some body",
-function(successResponse){
-console.log("text :: " + successResponse.text);
-console.log("status :: " + successResponse.status);
-console.log("headers :: " + successResponse.headers);
-}, 
-function (failureResponse){
-console.log("text :: " + failureResponse.text);
-console.log("errorCode:: " + failureResponse.errorCode);
-console.log("errorDescription :: " + failureResponse.errorDescription);
-}
+	function(successResponse){
+		console.log("text :: " + successResponse.text);
+		console.log("status :: " + successResponse.status);
+		console.log("headers :: " + successResponse.headers);
+	}, 
+	function (failureResponse){
+		console.log("text :: " + failureResponse.text);
+		console.log("errorCode:: " + failureResponse.errorCode);
+		console.log("errorDescription :: " + failureResponse.errorDescription);
+	}
 );
 ```
 
@@ -451,35 +451,35 @@ MFPAnalytics.send();
 
 ```JavaScript
 var customAuthenticationListener = {
-onAuthenticationChallengeReceived: function(authenticationContext, challenge) {
-console.log("onAuthenticationChallengeReceived :: ", challenge);
+    onAuthenticationChallengeReceived: function(authenticationContext, challenge) {
+        console.log("onAuthenticationChallengeReceived :: ", challenge);
 
-// In this sample the Authentication Listener immediatelly returns a hardcoded
-// set of credentials. In a real life scenario this is where developer would
-// show a login screen, collect credentials and invoke 
-// authenticationContext.submitAuthenticationChallengeAnswer() API
+        // In this sample the Authentication Listener immediatelly returns a hardcoded
+        // set of credentials. In a real life scenario this is where developer would
+        // show a login screen, collect credentials and invoke 
+        // authenticationContext.submitAuthenticationChallengeAnswer() API
 
-var challengeResponse = {
-username: "john.lennon",
-password: "12345"
-}
+        var challengeResponse = {
+            username: "john.lennon",
+            password: "12345"
+        }
 
-authenticationContext.submitAuthenticationChallengeAnswer(challengeResponse);
+        authenticationContext.submitAuthenticationChallengeAnswer(challengeResponse);
 
-// In case there was a failure collecting credentials you need to report
-// it back to the authenticationContext. Otherwise Mobile Client 
-// Access Client SDK will remain in a waiting-for-credentials state
-// forever
+        // In case there was a failure collecting credentials you need to report
+        // it back to the authenticationContext. Otherwise Mobile Client 
+        // Access Client SDK will remain in a waiting-for-credentials state
+        // forever
 
-},
+    },
 
-onAuthenticationSuccess: function(info){
-console.log("onAuthenticationSuccess :: ", info);
-},
+    onAuthenticationSuccess: function(info){
+        console.log("onAuthenticationSuccess :: ", info);
+    },
 
-onAuthenticationFailure: function(info){
-console.log("onAuthenticationFailure :: ", info);
-}
+    onAuthenticationFailure: function(info){
+        console.log("onAuthenticationFailure :: ", info);
+    }
 }
 
 // Once you create a custom Authentication Listener you need to register it 
