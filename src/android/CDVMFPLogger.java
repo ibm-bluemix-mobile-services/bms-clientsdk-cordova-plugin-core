@@ -33,35 +33,50 @@ import java.util.Set;
 
 public class CDVMFPLogger extends CordovaPlugin {
     
-    private static final Logger mfpLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPLogger");
+    private static final Logger mfpLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPLogger");
     
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         mfpLogger.debug("execute :: action = " + action);
         if("getCapture".equals(action)) {
-            this.isStoringLogs(callbackContext);
+            this.getCapture(callbackContext);
+            
             return true;
         } else if("setCapture".equals(action)) {
             Boolean captureFlag = args.getBoolean(0);
-            Logger.storeLogs(captureFlag);
+            Logger.setCapture(captureFlag);
             callbackContext.success();
             return true;
-        } else if ("getMaxStoreSize".equals(action)) {
+            
+        } else if("getFilters".equals(action)) {
+            this.getFilters(callbackContext);
+            
+        } else if("setFilters".equals(action)) {
+            String myarg = args.getString(0);
+            JSONObject filtersAsJSON = new JSONObject(args.getString(0));
+            HashMap<String, LEVEL> newFilters = JSONObjectToHashMap(filtersAsJSON);
+            Logger.setFilters(newFilters);
+            callbackContext.success();
+            return true;
+            
+            
+        } else if("getMaxStoreSize".equals(action)) {
             this.getMaxStoreSize(callbackContext);
-            callbackContext.success(Logger.getMaxLogStoreSize());
+            callbackContext.success(Logger.getMaxStoreSize());
+            
             return true;
         } else if("setMaxStoreSize".equals(action)) {
             int newStoreSize = args.getInt(0);
-            Logger.setMaxLogStoreSize(newStoreSize);
+            Logger.setMaxStoreSize(newStoreSize);
             callbackContext.success();
             return true;
             
         } else if("getLevel".equals(action)) {
-            this.getLogLevel(callbackContext);
+            this.getLevel(callbackContext);
             return true;
         } else if("setLevel".equals(action)) {
             LEVEL newLevel = LEVEL.fromString(args.getString(0));
-            Logger.setLogLevel(newLevel);
+            Logger.setLevel(newLevel);
             callbackContext.success();
             return true;
             
@@ -78,7 +93,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             String packageName = args.getString(0);
             String message = args.getString(1);
             
-            Logger instance = Logger.getLogger(packageName);
+            Logger instance = Logger.getInstance(packageName);
             instance.fatal(message);
             
             callbackContext.success();
@@ -87,7 +102,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             String packageName = args.getString(0);
             String message = args.getString(1);
             
-            Logger instance = Logger.getLogger(packageName);
+            Logger instance = Logger.getInstance(packageName);
             instance.error(message);
             
             callbackContext.success();
@@ -96,7 +111,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             String packageName = args.getString(0);
             String message = args.getString(1);
             
-            Logger instance = Logger.getLogger(packageName);
+            Logger instance = Logger.getInstance(packageName);
             instance.warn(message);
             
             callbackContext.success();
@@ -105,7 +120,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             String packageName = args.getString(0);
             String message = args.getString(1);
             
-            Logger instance = Logger.getLogger(packageName);
+            Logger instance = Logger.getInstance(packageName);
             instance.info(message);
             
             callbackContext.success();
@@ -114,7 +129,7 @@ public class CDVMFPLogger extends CordovaPlugin {
             String packageName = args.getString(0);
             String message = args.getString(1);
             
-            Logger instance = Logger.getLogger(packageName);
+            Logger instance = Logger.getInstance(packageName);
             instance.debug(message);
             
             callbackContext.success();
@@ -124,8 +139,8 @@ public class CDVMFPLogger extends CordovaPlugin {
     }
     
     
-    public void isStoringLogs(final CallbackContext callbackContext) {
-        final String captureFlag = String.valueOf(Logger.isStoringLogs());
+    public void getCapture(final CallbackContext callbackContext) {
+        final String captureFlag = String.valueOf(Logger.getCapture());
         
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -134,8 +149,18 @@ public class CDVMFPLogger extends CordovaPlugin {
         });
     }
     
+    public void getFilters(final CallbackContext callbackContext) {
+        final JSONObject filters = HashMapToJSONObject(Logger.getFilters());
+        
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                callbackContext.success(filters);
+            }
+        });
+    }
+    
     public void getMaxStoreSize(final CallbackContext callbackContext) {
-        final int maxStoreSize = Logger.getMaxLogStoreSize();
+        final int maxStoreSize = Logger.getMaxStoreSize();
         
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -144,8 +169,8 @@ public class CDVMFPLogger extends CordovaPlugin {
         });
     }
     
-    public void getLogLevel(final CallbackContext callbackContext) {
-        final String currentLevel = String.valueOf(Logger.getLogLevel());
+    public void getLevel(final CallbackContext callbackContext) {
+        final String currentLevel = String.valueOf(Logger.getLevel());
         
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
@@ -210,5 +235,5 @@ public class CDVMFPLogger extends CordovaPlugin {
         }
         return pairs;
     }
+    
 }
-
