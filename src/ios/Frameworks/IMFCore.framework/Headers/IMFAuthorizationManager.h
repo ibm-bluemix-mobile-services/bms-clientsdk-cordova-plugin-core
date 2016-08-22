@@ -32,6 +32,10 @@ typedef NS_ENUM(NSInteger, IMFAuthorizationPerisistencePolicy) {
 
 @property (nonatomic, readonly) NSDictionary *appIdentity;
 
+/**
+ * Specifies the MCA service tenant id.
+ */
+@property (readonly) NSString* tenantId;
 
 /**
  *  Gets IMFAuthorizationManager shared instance
@@ -40,6 +44,13 @@ typedef NS_ENUM(NSInteger, IMFAuthorizationPerisistencePolicy) {
  */
 + (IMFAuthorizationManager *) sharedInstance;
  
+/**
+ *  The intializer for the `IMFAuthorizationManager` class.
+ *  @param tenantId: The tenant id of the MCA service instance.
+ *
+ */
+- (void) initializeWithTenantId: (NSString*)tenantId;
+
 /**
  *  Obtains access token
  *
