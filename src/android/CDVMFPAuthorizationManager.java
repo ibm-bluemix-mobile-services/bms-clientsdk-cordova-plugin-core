@@ -109,8 +109,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-
-                MCAAuthorizationManager.getInstance().obtainAuthorizationHeader(currentContext, new ResponseListener() {
+                MCAAuthorizationManager.getInstance().obtainAuthorization(currentContext, new ResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
                         try {
@@ -123,9 +122,9 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                     }
 
                     @Override
-                    public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
+                    public void onFailure(Response response, Throwable t, JSONObject extendedInfo) {
                         try {
-                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVMFPRequest.packJavaResponseToJSON(failResponse));
+                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVMFPRequest.packJavaResponseToJSON(response));
                             amLogger.error("Failed to send request obtainAuthorizationHeader.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
