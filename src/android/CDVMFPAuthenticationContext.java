@@ -1,8 +1,8 @@
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
-import com.ibm.mobilefirstplatform.clientsdk.android.core.api.BMSClient;
+
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.Logger;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthenticationContext;
+
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -11,12 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-/**
- * Created by rotembr on 11/6/15.
- */
 public class CDVMFPAuthenticationContext extends CordovaPlugin {
     private String errorEmptyArg = "Expected non-empty string argument.";
-    private static final Logger acLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPAuthContext");
+    private static final Logger acLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAuthContext");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {

@@ -28,20 +28,18 @@ import org.json.JSONException;
 
 public class CDVMFPAnalytics extends CordovaPlugin {
 
-    private static final Logger analyticsLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPAnalytics");
+    private static final Logger analyticsLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAnalytics");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         analyticsLogger.debug("execute() : action = " + action);
 
         if("enable".equals(action)) {
-            Logger.setAnalyticsCapture(true);
-            MFPAnalytics.enable();
+            Analytics.enable();
             callbackContext.success();
             return true;
         } else if("disable".equals(action)) {
-            Logger.setAnalyticsCapture(false);
-            MFPAnalytics.disable();
+            Analytics.disable();
             callbackContext.success();
             return true;
         } else if("isEnabled".equals(action)) {
@@ -66,7 +64,7 @@ public class CDVMFPAnalytics extends CordovaPlugin {
     public void send(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                Logger.sendAnalytics(new ResponseListener() {
+                Analytics.send(new ResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
                         callbackContext.success();
