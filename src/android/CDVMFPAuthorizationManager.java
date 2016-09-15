@@ -17,10 +17,10 @@ import android.content.Context;
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
 
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AuthorizationManager;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.identity.AppIdentity;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.identity.DeviceIdentity;
-import com.ibm.mobilefirstplatform.clientsdk.android.security.api.identity.UserIdentity;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.api.AppIdentity;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.api.DeviceIdentity;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.api.UserIdentity;
+import com.ibm.mobilefirstplatform.clientsdk.android.security.mca.api.MCAAuthorizationManager;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -29,15 +29,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by rotembr on 10/22/15.
- */
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+
+
 public class CDVMFPAuthorizationManager extends CordovaPlugin {
 
-    private static final Logger amLogger = Logger.getInstance(Logger.INTERNAL_PREFIX + "CDVMFPAuthorizationManager");
+    private static final Logger amLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAuthorizationManager");
 
     private static final String PersistencePolicyAlways = "ALWAYS";
     private static final String PersistencePolicyNever = "NEVER";
+    private static final String WWW_AUTHENTICATE_HEADER_NAME = "Www-Authenticate";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -88,13 +92,13 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                     amLogger.error("Error in parsing the tenantId");
                     callbackContext.error("The specified tenantId cant be parse as String.");
                 }
-                AuthorizationManager.createInstance(currentContext, tenantId);
+                MCAAuthorizationManager.createInstance(currentContext, tenantId);
                 amLogger.debug("Authorization Manager initialize with tenantId: " + tenantId.toString());
                 callbackContext.success();
             }
         });
     }
-   
+
     /**
      * Use the native SDK API to invoke process for obtaining authorization header.
      * @param callbackContext Callback that will indicate whether the request succeeded or failed
@@ -106,7 +110,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
 
-                AuthorizationManager.getInstance().obtainAuthorizationHeader(currentContext, new ResponseListener() {
+                MCAAuthorizationManager.getInstance().obtainAuthorizationHeader(currentContext, new ResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
                         try {
@@ -141,7 +145,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
     private void clearAuthorizationData(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                AuthorizationManager.getInstance().clearAuthorizationData();
+                MCAAuthorizationManager.getInstance().clearAuthorizationData();
                 amLogger.debug("Authorization data cleared.");
                 callbackContext.success();
             }
@@ -160,8 +164,11 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
             public void run() {
                 try {
                     int statusCode = args.getInt(0);
-                    String responseAuthorizationHeader = args.getString(1);
-                    boolean answer = AuthorizationManager.getInstance().isAuthorizationRequired(statusCode, responseAuthorizationHeader);
+                    ArrayList<String> headers = new ArrayList<String>();
+                    headers.add(args.getString(1));
+                    Map<String, List<String>> responseAuthorizationHeader = new HashMap<String, List<String>>();
+                    responseAuthorizationHeader.put(WWW_AUTHENTICATE_HEADER_NAME, headers);
+                    boolean answer = MCAAuthorizationManager.getInstance().isAuthorizationRequired(statusCode, responseAuthorizationHeader);
                     amLogger.debug("isAuthorizationRequired return " + answer);
                     callbackContext.success(String.valueOf(answer));
                 } catch (JSONException e) {
@@ -180,7 +187,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
     private void getCachedAuthorizationHeader(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                String header = AuthorizationManager.getInstance().getCachedAuthorizationHeader();
+                String header = MCAAuthorizationManager.getInstance().getCachedAuthorizationHeader();
                 amLogger.debug("Cached authorization header: " + header);
                 callbackContext.success(header);
             }
@@ -195,7 +202,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
     private void getAuthorizationPersistencePolicy(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                AuthorizationManager.PersistencePolicy policy = AuthorizationManager.getInstance().getAuthorizationPersistencePolicy();
+                MCAAuthorizationManager.PersistencePolicy policy = MCAAuthorizationManager.getInstance().getAuthorizationPersistencePolicy();
                 amLogger.debug("PersistencePolicy:" + policy.toString());
                 callbackContext.success(policy.toString());
             }
@@ -219,9 +226,9 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                 }
                 boolean success = true;
                 if (newPolicy.equals(PersistencePolicyNever)) {
-                    AuthorizationManager.getInstance().setAuthorizationPersistencePolicy(AuthorizationManager.PersistencePolicy.NEVER);
+                    MCAAuthorizationManager.getInstance().setAuthorizationPersistencePolicy(MCAAuthorizationManager.PersistencePolicy.NEVER);
                 } else if (newPolicy.equals(PersistencePolicyAlways)) {
-                    AuthorizationManager.getInstance().setAuthorizationPersistencePolicy(AuthorizationManager.PersistencePolicy.ALWAYS);
+                    MCAAuthorizationManager.getInstance().setAuthorizationPersistencePolicy(MCAAuthorizationManager.PersistencePolicy.ALWAYS);
                 } else {
                     success = false;
                     amLogger.debug("Policy cann't be recognized:" + newPolicy.toString());
@@ -244,7 +251,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
     private void getUserIdentity(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                UserIdentity userIdentity = AuthorizationManager.getInstance().getUserIdentity();
+                UserIdentity userIdentity = MCAAuthorizationManager.getInstance().getUserIdentity();
                 amLogger.debug("userIdentity: " + userIdentity.toString());
                 callbackContext.success(userIdentity.toString());
             }
@@ -259,7 +266,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
     private void getAppIdentity(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                AppIdentity appIdentity = AuthorizationManager.getInstance().getAppIdentity();
+                AppIdentity appIdentity = MCAAuthorizationManager.getInstance().getAppIdentity();
                 amLogger.debug("appIdentity: " + appIdentity.toString());
                 callbackContext.success(appIdentity.toString());
             }
@@ -274,25 +281,25 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
     private void getDeviceIdentity(final CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                DeviceIdentity deviceIdentity = AuthorizationManager.getInstance().getDeviceIdentity();
+                DeviceIdentity deviceIdentity = MCAAuthorizationManager.getInstance().getDeviceIdentity();
                 amLogger.debug("deviceIdentity: " + deviceIdentity.toString());
                 callbackContext.success(deviceIdentity.toString());
             }
         });
     }
-    
+
     /**
      * Use the native SDK API to invoke process to logout.
      * @param callbackContext Callback that will indicate whether the request succeeded or failed
      */
     private void logout(final CallbackContext callbackContext) throws JSONException {
-        
+
         final Context currentContext = this.cordova.getActivity();
-        
+
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                
-                AuthorizationManager.getInstance().logout(currentContext, new ResponseListener() {
+
+                MCAAuthorizationManager.getInstance().logout(currentContext, new ResponseListener() {
                     @Override
                     public void onSuccess(Response response) {
                         try {
@@ -303,7 +310,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                             callbackContext.error(e.getMessage());
                         }
                     }
-                    
+
                     @Override
                     public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                         try {
@@ -315,9 +322,9 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                         }
                     }
                 });
-                
+
             }
         });
-        
+
     }
 }
