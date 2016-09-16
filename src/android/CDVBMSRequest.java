@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class CDVMFPRequest extends CordovaPlugin {
+public class CDVBMSRequest extends CordovaPlugin {
 
     private static final Logger mfpRequestLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPRequest");
 

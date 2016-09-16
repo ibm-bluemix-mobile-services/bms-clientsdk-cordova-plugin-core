@@ -14,11 +14,11 @@ var exec = require("cordova/exec");
 
 
 
-var MFPAuthorizationManager = function() {
+var BMSAuthorizationManager = function() {
 	this.PersistencePolicyAlways = "ALWAYS";
 	this.PersistencePolicyNever = "NEVER";
 
-    var AuthorizationManagerString = "MFPAuthorizationManager";
+    var AuthorizationManagerString = "BMSAuthorizationManager";
 
 	var success = function() { console.log("AuthorizationManager Success: default success is called"); };
     var failure = function() { console.log("AuthorizationManager Error: default failure is called"); };
@@ -140,4 +140,4 @@ var MFPAuthorizationManager = function() {
 };
 
 //Return singleton instance
-module.exports = new MFPAuthorizationManager();
+module.exports = new BMSAuthorizationManager();

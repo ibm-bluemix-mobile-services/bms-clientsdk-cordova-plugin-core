@@ -26,7 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-public class CDVMFPAnalytics extends CordovaPlugin {
+public class CDVBMSAnalytics extends CordovaPlugin {
 
     private static final Logger analyticsLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAnalytics");
 

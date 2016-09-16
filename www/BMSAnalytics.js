@@ -12,22 +12,22 @@
 */
 var exec = require("cordova/exec");
 
-var success = function() { console.log("Success: MFPAnalytics "); };
-var failure = function() { console.log("Error: MFPAnalytics"); };
+var success = function() { console.log("Success: BMSAnalytics "); };
+var failure = function() { console.log("Error: BMSAnalytics"); };
 
-var MFPAnalytics = {
+var BMSAnalytics = {
 
     /**
      * Turns on the global setting for persisting of the analytics data.
      */
     enable: function () {
-        cordova.exec(success , failure, "MFPAnalytics", "enable", []);
+        cordova.exec(success , failure, "BMSAnalytics", "enable", []);
     },
     /**
      * Turns off the global setting for persisting of the analytics data.
      */
     disable: function () {
-        cordova.exec(success , failure, "MFPAnalytics", "disable", []);
+        cordova.exec(success , failure, "BMSAnalytics", "disable", []);
     },
     /**
      * Gets the current setting for determining if log data should be saved persistently.
@@ -35,7 +35,7 @@ var MFPAnalytics = {
      * @param failure
      */
     isEnabled: function (success, failure) {
-        cordova.exec(success , failure, "MFPAnalytics", "isEnabled", []);
+        cordova.exec(success , failure, "BMSAnalytics", "isEnabled", []);
     },
     /**
      * Sends the analytics log file when the log store exists and is not empty
@@ -44,8 +44,8 @@ var MFPAnalytics = {
      * @param failure  callback (android only)
      */
     send: function (success, failure) {
-        cordova.exec(success , failure, "MFPAnalytics", "send", []);
+        cordova.exec(success , failure, "BMSAnalytics", "send", []);
     }
 };
 
-module.exports = MFPAnalytics;
+module.exports = BMSAnalytics;

@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.HashMap;
 
 
-public class CDVMFPAuthorizationManager extends CordovaPlugin {
+public class CDVBMSAuthorizationManager extends CordovaPlugin {
 
     private static final Logger amLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAuthorizationManager");
 
@@ -113,7 +113,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                     @Override
                     public void onSuccess(Response response) {
                         try {
-                            PluginResult result = new PluginResult(PluginResult.Status.OK, CDVMFPRequest.packJavaResponseToJSON(response));
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, CDVBMSRequest.packJavaResponseToJSON(response));
                             amLogger.debug("ObtainAuthorizationHeader: request successful.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
@@ -124,7 +124,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                     @Override
                     public void onFailure(Response response, Throwable t, JSONObject extendedInfo) {
                         try {
-                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVMFPRequest.packJavaResponseToJSON(response));
+                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVBMSRequest.packJavaResponseToJSON(response));
                             amLogger.error("Failed to send request obtainAuthorizationHeader.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
@@ -302,7 +302,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                     @Override
                     public void onSuccess(Response response) {
                         try {
-                            PluginResult result = new PluginResult(PluginResult.Status.OK, CDVMFPRequest.packJavaResponseToJSON(response));
+                            PluginResult result = new PluginResult(PluginResult.Status.OK, CDVBMSRequest.packJavaResponseToJSON(response));
                             amLogger.debug("Logout: request successful.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {
@@ -313,7 +313,7 @@ public class CDVMFPAuthorizationManager extends CordovaPlugin {
                     @Override
                     public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
                         try {
-                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVMFPRequest.packJavaResponseToJSON(failResponse));
+                            PluginResult result = new PluginResult(PluginResult.Status.ERROR, CDVBMSRequest.packJavaResponseToJSON(failResponse));
                             amLogger.error("Failed to logout.");
                             callbackContext.sendPluginResult(result);
                         } catch (JSONException e) {

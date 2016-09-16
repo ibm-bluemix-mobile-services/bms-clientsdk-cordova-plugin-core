@@ -1,26 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="ibm-mfp-core" version="1.0.11" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+<plugin id="bms-core" version="1.0.11" xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
-    <name>MFPCore</name>
+    <name>BMSCore</name>
 
     <js-module name="BMSClient" src="www/BMSClient.js">
         <clobbers target="BMSClient"/>
     </js-module>
 
-    <js-module name="MFPRequest" src="www/MFPRequest.js">
-        <clobbers target="MFPRequest"/>
+    <js-module name="BMSRequest" src="www/BMSRequest.js">
+        <clobbers target="BMSRequest"/>
     </js-module>
 
-    <js-module name="MFPLogger" src="www/MFPLogger.js">
-        <clobbers target="MFPLogger"/>
+    <js-module name="BMSLogger" src="www/BMSLogger.js">
+        <clobbers target="BMSLogger"/>
     </js-module>
 
-    <js-module name="MFPAnalytics" src="www/MFPAnalytics.js">
-        <clobbers target="MFPAnalytics"/>
+    <js-module name="BMSAnalytics" src="www/BMSAnalytics.js">
+        <clobbers target="BMSAnalytics"/>
     </js-module>
-	
-    <js-module name="MFPAuthorizationManager" src="www/MFPAuthorizationManager.js">
-        <clobbers target="MFPAuthorizationManager"/>
+
+    <js-module name="BMSAuthorizationManager" src="www/BMSAuthorizationManager.js">
+        <clobbers target="BMSAuthorizationManager"/>
     </js-module>
 
     <platform name="android">
@@ -33,46 +33,46 @@
             <!-- For MCA Authentication -->
             <uses-permission android:name="android.permission.GET_ACCOUNTS" />
             <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-        
+
         </config-file>
 
         <config-file parent="/*" target="res/xml/config.xml">
-            
+
             <feature name="BMSClient">
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSClient"/>
             </feature>
 
-            <feature name="MFPRequest">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPRequest"/>
+            <feature name="BMSRequest">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSRequest"/>
             </feature>
 
-            <feature name="MFPLogger">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPLogger"/>
+            <feature name="BMSLogger">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSLogger"/>
             </feature>
 
-            <feature name="MFPAnalytics">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAnalytics"/>
+            <feature name="BMSAnalytics">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAnalytics"/>
             </feature>
-            
-            <feature name="MFPAuthorizationManager">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAuthorizationManager" />
+
+            <feature name="BMSAuthorizationManager">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAuthorizationManager" />
             </feature>
-            
-            <feature name="MFPAuthenticationContext">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVMFPAuthenticationContext" />
+
+            <feature name="BMSAuthenticationContext">
+                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAuthenticationContext" />
             </feature>
-            
+
         </config-file>
 
         <config-file parent="/*" target="AndroidManifest.xml"/>
 
         <source-file src="src/android/CDVBMSClient.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPLogger.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPAnalytics.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPAuthorizationManager.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVMFPAuthenticationContext.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        
+        <source-file src="src/android/CDVBMSRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVBMSLogger.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVBMSAnalytics.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVBMSAuthorizationManager.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+        <source-file src="src/android/CDVBMSAuthenticationContext.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
+
     </platform>
 
     <!-- ios -->
@@ -94,15 +94,15 @@
             <feature name="MFPAnalytics">
                 <param name="ios-package" value="CDVMFPAnalytics"/>
             </feature>
-			
+
             <feature name="MFPAuthorizationManager">
                 <param name="ios-package" value="CDVMFPAuthorizationManager"/>
             </feature>
-            
+
             <feature name="MFPAuthenticationContext">
                 <param name="ios-package" value="CDVMFPAuthenticationContext"/>
             </feature>
-            
+
         </config-file>
 
         <framework src="src/ios/Frameworks/IMFCore.framework" custom="true" />

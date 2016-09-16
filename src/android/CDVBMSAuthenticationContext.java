@@ -11,9 +11,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class CDVMFPAuthenticationContext extends CordovaPlugin {
+public class CDVBMSAuthenticationContext extends CordovaPlugin {
     private String errorEmptyArg = "Expected non-empty string argument.";
-    private static final Logger acLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAuthContext");
+    private static final Logger acLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVBMSAuthContext");
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {

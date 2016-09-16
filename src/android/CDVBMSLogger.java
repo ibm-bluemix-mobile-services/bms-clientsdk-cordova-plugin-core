@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CDVMFPLogger extends CordovaPlugin {
+public class CDVBMSLogger extends CordovaPlugin {
 
     private static final Logger mfpLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPLogger");
 

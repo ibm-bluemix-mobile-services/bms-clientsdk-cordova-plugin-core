@@ -12,7 +12,7 @@
 */
 var exec = require("cordova/exec");
 
-var MFPRequest = function (url, method, timeout) {    
+var BMSRequest = function (url, method, timeout) {    
     this._headers = {};
     this._queryParameters = {};
     this._url = url;
@@ -20,15 +20,15 @@ var MFPRequest = function (url, method, timeout) {
     this._timeout = timeout || 30000;
 };
 
-MFPRequest.GET = "GET";
-MFPRequest.PUT = "PUT";
-MFPRequest.POST = "POST";
-MFPRequest.DELETE = "DELETE";
-MFPRequest.TRACE = "TRACE";
-MFPRequest.HEAD = "HEAD";
-MFPRequest.OPTIONS = "OPTIONS";
+BMSRequest.GET = "GET";
+BMSRequest.PUT = "PUT";
+BMSRequest.POST = "POST";
+BMSRequest.DELETE = "DELETE";
+BMSRequest.TRACE = "TRACE";
+BMSRequest.HEAD = "HEAD";
+BMSRequest.OPTIONS = "OPTIONS";
 
-MFPRequest.prototype = function () {
+BMSRequest.prototype = function () {
 
     /**
      * Set the headers for the request object
@@ -103,13 +103,13 @@ MFPRequest.prototype = function () {
             var cbSuccess = callbackWrap.bind(this, arguments[0]);
             var cbFailure = callbackWrap.bind(this, arguments[1]);
 
-            cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest()]);
+            cordova.exec(cbSuccess, cbFailure, "BMSRequest", "send", [buildRequest()]);
         } else if(arguments.length >= 3) {
             // Non-empty Body 
             if(typeof arguments[0] == "string" || typeof arguments[0] == "object") {
                 var cbSuccess = callbackWrap.bind(this, arguments[1]);
                 var cbFailure = callbackWrap.bind(this, arguments[2]);
-                cordova.exec(cbSuccess, cbFailure, "MFPRequest", "send", [buildRequest(arguments[0])]);
+                cordova.exec(cbSuccess, cbFailure, "BMSRequest", "send", [buildRequest(arguments[0])]);
             }
         }
     };
@@ -163,4 +163,4 @@ MFPRequest.prototype = function () {
     }
 }();
 
-module.exports = MFPRequest;
+module.exports = BMSRequest;

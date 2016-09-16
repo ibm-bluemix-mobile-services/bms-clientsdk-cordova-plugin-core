@@ -13,10 +13,10 @@
 var exec = require("cordova/exec");
 
 var success = function(message) {
-    console.log("MFPLogger: Success: " + message);
+    console.log("BMSLogger: Success: " + message);
 };
 var failure = function(message) {
-    console.log("MFPLogger: Failure: " + message);
+    console.log("BMSLogger: Failure: " + message);
 };
 
 /**
@@ -34,35 +34,35 @@ Logger.prototype = function(){
      * @param message
      */
     var debug = function (message) {
-        cordova.exec(success, failure, "MFPLogger", "debug", [this.name, message]);
+        cordova.exec(success, failure, "BMSLogger", "debug", [this.name, message]);
     };
     /**
      *
      * @param message
      */
     var info = function (message) {
-        cordova.exec(success, failure, "MFPLogger", "info", [this.name, message]);
+        cordova.exec(success, failure, "BMSLogger", "info", [this.name, message]);
     };
     /**
      *
      * @param message
      */
     var error = function (message) {
-        cordova.exec(success, failure, "MFPLogger", "error", [this.name, message]);
+        cordova.exec(success, failure, "BMSLogger", "error", [this.name, message]);
     };
     /**
      *
      * @param message
      */
     var fatal = function (message) {
-        cordova.exec(success, failure, "MFPLogger", "fatal", [this.name, message]);
+        cordova.exec(success, failure, "BMSLogger", "fatal", [this.name, message]);
     };
     /**
      *
      * @param message
      */
     var warn = function (message) {
-        cordova.exec(success, failure, "MFPLogger", "warn", [this.name, message]);
+        cordova.exec(success, failure, "BMSLogger", "warn", [this.name, message]);
     };
     /**
      *
@@ -82,7 +82,7 @@ Logger.prototype = function(){
     };
 }();
 
-var MFPLogger = (function () {
+var BMSLogger = (function () {
     var instances = {};
 
     /**
@@ -124,7 +124,7 @@ var MFPLogger = (function () {
          * @param {Boolean} enabled - Boolean used to indicate whether the log data must be saved persistently
          */
         storeLogs : function (enabled) {
-            cordova.exec(boolWrap.bind(null, success), failure, "MFPLogger", "storeLogs", [enabled]);
+            cordova.exec(boolWrap.bind(null, success), failure, "BMSLogger", "storeLogs", [enabled]);
         },
         /**
          * Gets the current setting for the maximum storage size threshold
@@ -132,7 +132,7 @@ var MFPLogger = (function () {
          * @param failure
          */
         getMaxLogStoreSize : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "getMaxLogStoreSize", []);
+            cordova.exec(success , failure, "BMSLogger", "getMaxLogStoreSize", []);
         },
         /**
          * Sets the maximum size of the local persistent storage for queuing log data.
@@ -140,28 +140,28 @@ var MFPLogger = (function () {
          * @param {integer} intSize
          */
         setMaxLogStoreSize : function (intSize) {
-            cordova.exec(success , failure, "MFPLogger", "setMaxLogStoreSize", [intSize]);
+            cordova.exec(success , failure, "BMSLogger", "setMaxLogStoreSize", [intSize]);
         },
         /** Determines if logs are currently being store
          * @param success - single parameter receives Integer indicating the maximum storage size threshold
          * @param failure
          */
         isStoringLogs : function(success, failure){
-            cordova.exec(success , failure, "MFPLogger", "isStoringLogs", []);
+            cordova.exec(success , failure, "BMSLogger", "isStoringLogs", []);
         },
         /**
          * Enable displaying all Bluemix Mobile Services SDK debug logs in Logcat. By default, no debug messages are displayed.
          * @param enabled Determines whether to display Bluemix Mobile Services SDK debug logs in Logcat.
          */
         setSDKDebugLoggingEnabled : function (enabled) {
-            cordova.exec(boolWrap(null, success), failure, "MFPLogger", "setSDKDebugLoggingEnabled", [enabled]);
+            cordova.exec(boolWrap(null, success), failure, "BMSLogger", "setSDKDebugLoggingEnabled", [enabled]);
         },
         /** Check if displaying all Bluemix Mobile Services SDK debug logs in Logcat is enabled.
          * @param success - single parameter receives Integer indicating the maximum storage size threshold
          * @param failure
          */
         isSDKDebugLoggingEnabled : function (success, failure ) {
-            cordova.exec(success , failure, "MFPLogger", "isSDKDebugLoggingEnabled", []);
+            cordova.exec(success , failure, "BMSLogger", "isSDKDebugLoggingEnabled", []);
         },
         /**
          * Gets the currently configured Log Level
@@ -169,16 +169,16 @@ var MFPLogger = (function () {
          * @param failure
          */
         getLogLevel : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "getLogLevel", []);
+            cordova.exec(success , failure, "BMSLogger", "getLogLevel", []);
         },
         /**
          * Sets the level from which log messages must be saved and printed.
-         * For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
+         * For example, passing BMSLogger.INFO logs INFO, WARN, and ERROR.
 
          * @param { integer or symbolic level definde below} logLevel
          */
         setLogLevel : function (logLevel) {
-            cordova.exec(success , failure, "MFPLogger", "setLogLevel", [logLevel]);
+            cordova.exec(success , failure, "BMSLogger", "setLogLevel", [logLevel]);
         },
         /**
          * Indicates that an uncaught exception was detected.
@@ -187,7 +187,7 @@ var MFPLogger = (function () {
          * @param failure
          */
         isUncaughtExceptionDetected : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "isUncaughtExceptionDetected", []);
+            cordova.exec(success , failure, "BMSLogger", "isUncaughtExceptionDetected", []);
         },
         /**
          * Sends the log file when the log store exists and is not empty.
@@ -196,16 +196,16 @@ var MFPLogger = (function () {
          * @param failure callback
          */
         send : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "send", []);
+            cordova.exec(success , failure, "BMSLogger", "send", []);
         }
     };
 })();
 
 /** Trace level */
-MFPLogger.FATAL = "FATAL";
-MFPLogger.ERROR = "ERROR";
-MFPLogger.WARN  = "WARN";
-MFPLogger.INFO  = "INFO";
-MFPLogger.DEBUG = "DEBUG";
+BMSLogger.FATAL = "FATAL";
+BMSLogger.ERROR = "ERROR";
+BMSLogger.WARN  = "WARN";
+BMSLogger.INFO  = "INFO";
+BMSLogger.DEBUG = "DEBUG";
 
-module.exports = MFPLogger;
+module.exports = BMSLogger;
