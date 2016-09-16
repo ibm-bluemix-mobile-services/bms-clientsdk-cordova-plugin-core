@@ -23,6 +23,16 @@ var BMSClient = function() {
     };
 
     /**
+     *  Define region constants
+     * @type {string}
+     */
+    this.REGION_US_SOUTH = ".ng.bluemix.net";
+    this.REGION_UK = ".eu-gb.bluemix.net";
+    this.REGION_SYDNEY = ".au-syd.bluemix.net";
+
+
+
+    /**
      * Sets the base URL for the authorization server.
      * <p>
      * This method should be called before you send the first request that requires authorization.
