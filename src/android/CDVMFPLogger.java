@@ -77,16 +77,6 @@ public class CDVMFPLogger extends CordovaPlugin {
             this.send(callbackContext);
             return true;
 
-        } else if("analytics".equals(action)) {
-            String packageName = args.getString(0);
-            String message = args.getString(1);
-            JSONObject meta = args.getJSONObject(2);
-
-            Logger instance = Logger.getLogger(packageName);
-            instance.analytics(message, meta);
-
-            callbackContext.success();
-            return true;
         } else if("fatal".equals(action)) {
             String packageName = args.getString(0);
             String message = args.getString(1);
