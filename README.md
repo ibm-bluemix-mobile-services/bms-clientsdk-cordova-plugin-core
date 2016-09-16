@@ -103,7 +103,7 @@ cordova plugin list
 1. Add the Bridging Header. Go to `Build settings` > `Swift Compiler - Code Generation` > `Objective-C Bridging Header` and add the following path:
 
 	```
-	[your-project-name]/Plugins/ibm-mfp-core/Bridging-Header.h
+	[your-project-name]/Plugins/ibm-mfp-core/src/ios/Bridging-Header.h
 	```
 	
 1. Add the Frameworks parameter. Go to `Build Settings` > `Linking` > `Runpath Search Paths` and add the following parameter
@@ -182,35 +182,35 @@ getBluemixAppGUID(callback) | Return the Bluemix app GUID.
 registerAuthenticationListener(realm, authenticationListener) | Registers authentication callback for the specified realm.
 unregisterAuthenticationListener(realm) | Unregisters the authentication callback for the specified realm.
 
-### MFPRequest
+### BMSRequest
 
-After initializing the client you may create a new MFPRequest instance, used to send a request to a specified URL.
+After initializing the client you may create a new BMSRequest instance, used to send a request to a specified URL.
 
 You can specify a path relative to your Bluemix app route
 
 ```JavaScript
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
+var request = new BMSRequest("/myapp/API/action", BMSRequest.GET);
 ```
 
 or you can specify a full URL path:
 
 ```JavaScript
-var request = new MFPRequest("http://www.example.com", MFPRequest.GET);
+var request = new BMSRequest("http://www.example.com", BMSRequest.GET);
 ```
 
 Following HTTP verbs are supported by MFPRequest
 
 | Method |
 |:---|
-MFPRequest.GET |
+BMSRequest.GET |
 MFPRequest.PUT |
-MFPRequest.POST |
+BMSRequest.POST |
 MFPRequest.DELETE |
-MFPRequest.TRACE |
+BMSRequest.TRACE |
 MFPRequest.HEAD |
-MFPRequest.OPTIONS |
+BMSRequest.OPTIONS |
 
-Following methods are available for MFPRequest objects
+Following methods are available for BMSRequest objects
 
 | Javascript Function | Description |
 |:---|:---|
@@ -225,7 +225,7 @@ send(success, failure) | Send this resource request asynchronously. You must sup
 send(body, success, failure) | With optional body text parameter.
 send(json, success, failure) | With optional JSON object parameter.
 
-Success and failure callbacks of the MFPRequest.send() receive a response object as an argument (see Examples section). The following properties are available for the response object:
+Success and failure callbacks of the BMSRequest.send() receive a response object as an argument (see Examples section). The following properties are available for the response object:
 
 | Property | Info |
 |:---|:---|
