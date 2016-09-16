@@ -121,58 +121,55 @@ var MFPLogger = (function () {
         },
         /**
          *  Gets the current setting for determining if log data should be saved persistently
-         * @param success callback takes single boolean parameter which indicates whether capture is set
-         * @param failure callback
-         */
-        getCapture : function (success, failure) {
-            cordova.exec(boolWrap.bind(null, success), failure, "MFPLogger", "getCapture", []);
-        },
-        /**
-         * Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class
          * @param {Boolean} enabled - Boolean used to indicate whether the log data must be saved persistently
          */
-        setCapture : function (enabled) {
-            cordova.exec(success , failure, "MFPLogger", "setCapture", [enabled]);
-        },
-        /**
-         * Retrieves the filters that are used to determine which log messages are persisted
-         * @param success callback - single parameter receives json object defining the logging filters
-         * @param failure callback
-         */
-        getFilters : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "getFilters", []);
-        },
-        /**
-         * Sets the filters that are used to determine which log messages are persisted.
-         * Each key defines a name and each value defines a logging level.
-         * @param {jsonObj} filters
-         */
-        setFilters : function (filters) {
-            cordova.exec(success , failure, "MFPLogger", "setFilters", [filters]);
+        storeLogs : function (enabled) {
+            cordova.exec(boolWrap.bind(null, success), failure, "MFPLogger", "storeLogs", [enabled]);
         },
         /**
          * Gets the current setting for the maximum storage size threshold
          * @param success - single parameter receives Integer indicating the maximum storage size threshold
          * @param failure
          */
-        getMaxStoreSize : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "getMaxStoreSize", []);
+        getMaxLogStoreSize : function (success, failure) {
+            cordova.exec(success , failure, "MFPLogger", "getMaxLogStoreSize", []);
         },
         /**
          * Sets the maximum size of the local persistent storage for queuing log data.
          * When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
          * @param {integer} intSize
          */
-        setMaxStoreSize : function (intSize) {
-            cordova.exec(success , failure, "MFPLogger", "setMaxStoreSize", [intSize]);
+        setMaxLogStoreSize : function (intSize) {
+            cordova.exec(success , failure, "MFPLogger", "setMaxLogStoreSize", [intSize]);
+        },
+        /** Determines if logs are currently being store
+         * @param success - single parameter receives Integer indicating the maximum storage size threshold
+         * @param failure
+         */
+        isStoringLogs : function(success, failure){
+            cordova.exec(success , failure, "MFPLogger", "isStoringLogs", []);
+        },
+        /**
+         * Enable displaying all Bluemix Mobile Services SDK debug logs in Logcat. By default, no debug messages are displayed.
+         * @param enabled Determines whether to display Bluemix Mobile Services SDK debug logs in Logcat.
+         */
+        setSDKDebugLoggingEnabled : function (enabled) {
+            cordova.exec(boolWrap(null, success), failure, "MFPLogger", "setSDKDebugLoggingEnabled", [enabled]);
+        },
+        /** Check if displaying all Bluemix Mobile Services SDK debug logs in Logcat is enabled.
+         * @param success - single parameter receives Integer indicating the maximum storage size threshold
+         * @param failure
+         */
+        isSDKDebugLoggingEnabled : function (success, failure ) {
+            cordova.exec(success , failure, "MFPLogger", "isSDKDebugLoggingEnabled", []);
         },
         /**
          * Gets the currently configured Log Level
          * @param success callback receives  {integer} indicating Log Level
          * @param failure
          */
-        getLevel : function (success, failure) {
-            cordova.exec(success , failure, "MFPLogger", "getLevel", []);
+        getLogLevel : function (success, failure) {
+            cordova.exec(success , failure, "MFPLogger", "getLogLevel", []);
         },
         /**
          * Sets the level from which log messages must be saved and printed.
@@ -180,8 +177,8 @@ var MFPLogger = (function () {
 
          * @param { integer or symbolic level definde below} logLevel
          */
-        setLevel : function (logLevel) {
-            cordova.exec(success , failure, "MFPLogger", "setLevel", [logLevel]);
+        setLogLevel : function (logLevel) {
+            cordova.exec(success , failure, "MFPLogger", "setLogLevel", [logLevel]);
         },
         /**
          * Indicates that an uncaught exception was detected.
