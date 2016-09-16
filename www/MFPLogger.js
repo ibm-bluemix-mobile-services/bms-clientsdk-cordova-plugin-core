@@ -120,7 +120,7 @@ var MFPLogger = (function () {
             return instances[name];
         },
         /**
-         *  Gets the current setting for determining if log data should be saved persistently
+         * Gets the current setting for determining if log data should be saved persistently
          * @param {Boolean} enabled - Boolean used to indicate whether the log data must be saved persistently
          */
         storeLogs : function (enabled) {

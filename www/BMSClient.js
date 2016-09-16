@@ -132,7 +132,7 @@ var BMSClient = function() {
          callback(action);
      };
 
-};
+    };
 
 //Return singleton instance
 module.exports = new BMSClient();

@@ -155,17 +155,17 @@ cordova build android
 
 The `BMSClient` class allows you to initialize the SDK. By initializing the SDK, you can connect to the server app that you created in the Bluemix dashboard. Initializing the `BMSClient` instance is required before sending requests.
 
-* Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file.
+* Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file. If your app in a different region the following constants are available: `BMSClient.REGION_UK`, `BMSClient.REGION_UK`, and `BMSClient.REGION_SYDNEY`
 
 ```JavaScript
-BMSClient.initialize("Route", "appGUID");
+BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 ```
 
 **Note**: If you have created a Cordova app using the cordova CLI, for example, `cordova create app-name` command with the Cordova command-line, put this Javascript code in the **index.js** file, within the `onDeviceReady` function to initialize the BMS client.
 
 ```JavaScript
 onDeviceReady: function() {
-    BMSClient.initialize("Route", "appGUID");
+    BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 },
 ```
 
@@ -176,7 +176,7 @@ onDeviceReady: function() {
 
 | Javascript Function | Description |
 | :---|:---|
-initialize(bluemixRoute, bluemixAppGUID) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
+initialize(bluemixRegion) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
 getBluemixAppRoute(callback) | Return the Bluemix app route.
 getBluemixAppGUID(callback) | Return the Bluemix app GUID.
 registerAuthenticationListener(realm, authenticationListener) | Registers authentication callback for the specified realm.
@@ -258,16 +258,16 @@ Following static methods are exposed by the MFPLogger
 | Javascript Function | Description |
 |:---|:---|
 getInstance(name) | Return a named logger instance.
-getCapture(success, failure) | Get the current setting for determining if log data should be saved persistently.
-setCapture(enabled) | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
-getFilters(success, failure) | Retrieve the filters that are used to determine which log messages are persisted.
-setFilters(filters) | Set the filters that are used to determine which log messages are persisted. Each key defines a name and each value defines a logging level.
-getMaxStoreSize(success, failure) | Gets the current setting for the maximum storage size threshold.
-setMaxStoreSize(size) | Set the maximum size of the local persistent storage for queuing log data. When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
-getLevel(success, failure) | Get the currently configured Log Level.
-setLevel(logLevel) | Set the level from which log messages must be saved and printed. For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
+getMaxLogStoreSize(success, failure) | Gets the current setting for the maximum storage size threshold.
+getLogLevel(success, failure) | Get the currently configured Log Level.
+setLogLevel(logLevel) | Set the level from which log messages must be saved and printed. For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
+setLogMaxStoreSize(size) | Set the maximum size of the local persistent storage for queuing log data. When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
 isUncaughtExceptionDetected(success, failure) | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
 send(success, failure) | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
+storeLogs(enabled) | Gets the current setting for determining if log data should be saved persistently
+isStoringLogs(success, failure) | Determines if logs are currently being store
+setSDKDebugLoggingEnabled(enabled) | Enable displaying all Bluemix Mobile Services SDK debug logs in Logcat. By default, no debug messages are displayed.
+isSDKDebugLoggingEnabled(enabled) | Check if displaying all Bluemix Mobile Services SDK debug logs in Logcat is enabled.
 
 Log levels available:
 
@@ -349,10 +349,16 @@ submitAuthenticationFailure(info) | Informs client about failed authentication
 
 #### Initializing BMSClient
 
-The following JavaScript code is your entry point to the Bluemix Mobile Services. This method should be called before making a request. Your appRoute and appGUID can be found by going to your app's dashboard on Bluemix and clicking on "Mobile Options".
+The following JavaScript code is your entry point to the Bluemix Mobile Services. This method should be called before making a request. You will need to pass in the region for your application. The following constants are provided: 
 
 ```JavaScript
-BMSClient.initialize("appRoute", "appGUID");
+ REGION_US_SOUTH // ".ng.bluemix.net";
+ REGION_UK //".eu-gb.bluemix.net";
+ REGION_SYDNEY // ".au-syd.bluemix.net";
+```
+
+```JavaScript
+BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 ```
 
 #### Initializing MFPAuthorizationManager
@@ -422,26 +428,21 @@ response.errorDescription  =>  Undefined or String
 
 ### Using MFPLogger
 
-Below are some examples of how to use the MFPLogger class.
+Below are some examples of how to use the Logger class.
 
 ```JavaScript
-var myPackageLogger = MFPLogger.getInstance("myPackage");
+var myPackageLogger = Logger.getLogger("myPackage");
 
-// Persist logs to a file
-MFPLogger.setCapture(true);
 
 // Globally set the logging level
-MFPLogger.setLevel(MFPLogger.WARN);
+Logger.setLogLevel(Logger.WARN);
 
 // Log a message at FATAL level
 myPackageLogger.fatal("Fatal level message");
 
-// Only use the logger specified here. 
-// All others will be ignored, including Analytics.
-MFPLogger.setFilters( { "myPackage": MFPLogger.WARN} );
 
 // Send the logs to the server
-MFPLogger.send();
+Logger.send();
 ```
 
 ### Using MFPAnalytics
@@ -504,7 +505,7 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 
 
 ## Copyrights
-Copyright 2015 IBM Corp.
+Copyright 2016 IBM Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
