@@ -198,16 +198,16 @@ or you can specify a full URL path:
 var request = new BMSRequest("http://www.example.com", BMSRequest.GET);
 ```
 
-Following HTTP verbs are supported by MFPRequest
+Following HTTP verbs are supported by BMSRequest
 
 | Method |
 |:---|
 BMSRequest.GET |
-MFPRequest.PUT |
+BMSRequest.PUT |
 BMSRequest.POST |
-MFPRequest.DELETE |
+BMSRequest.DELETE |
 BMSRequest.TRACE |
-MFPRequest.HEAD |
+BMSRequest.HEAD |
 BMSRequest.OPTIONS |
 
 Following methods are available for BMSRequest objects
@@ -237,14 +237,14 @@ errorDescription | Return response error description as null or string.
 
 See the Examples section for more samples how to use BMSClient and MFPRequest.
 
-### MFPLogger
+### BMSLogger
 
-`MFPLogger` is used for logging messages. In addition to printing log messages to respective log console it can persist logs to file. When you call the send() function it will send the persisted logs to the Mobile Client Access Service.
+`BMSLogger` is used for logging messages. In addition to printing log messages to respective log console it can persist logs to file. When you call the send() function it will send the persisted logs to the Mobile Client Access Service.
 
 You can create an instance of MFPLogger using:
 
 ```JavaScript
-MFPLogger.getInstance("myLogger");
+BMSLogger.getInstance("myLogger");
 ```
 
 Example of sending a specific log message using your logger instance:
@@ -291,11 +291,11 @@ fatal(message) |
 
 See below for more Examples of how to use MFPLogger.
 
-### MFPAnalytics
+### BMSAnalytics
 
-MFPAnalytics is used for sending operational analytics information to the Mobile Client Access Service.
+BMSAnalytics is used for sending operational analytics information to the Mobile Client Access Service.
 
-MFPAnalytics methods:
+BMSAnalytics methods:
 
 | Javascript Function | Description |
 |:---|:---|
@@ -306,9 +306,9 @@ send(success, failure) | Send the analytics log file when the log store exists a
 
 See below for Examples of how to use MFPAnalytics.
 
-### MFPAuthorizationManager
+### BMSAuthorizationManager
 
-MFPAuthorizationManager is used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities. 
+BMSAuthorizationManager is used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities. 
 
 | Javascript Function | Description |
 |:---|:---|
@@ -325,7 +325,7 @@ getDeviceIdentity(success, failure) | Return JSON object with device identity
 
 ### MFPAuthenticationListener interface
 
-Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows.Developer implementing Authentication Listener is expected to add three below methods that will be called in different phases of an authentication process.
+Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows. Developer implementing Authentication Listener is expected to add three below methods that will be called in different phases of an authentication process.
 
 | Method | Use |
 |:---|:---|
@@ -345,7 +345,7 @@ submitAuthenticationFailure(info) | Informs client about failed authentication
 
 ## Examples
 
-### Using BMSClient, MFPAuthorizationManager and MFPRequest
+### Using BMSClient, BMSAuthorizationManager and BMSRequest
 
 #### Initializing BMSClient
 
@@ -361,19 +361,19 @@ The following JavaScript code is your entry point to the Bluemix Mobile Services
 BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 ```
 
-#### Initializing MFPAuthorizationManager
+#### Initializing BMSAuthorizationManager
 
-The following JavaScript code initialize the MFPAuthorizationManager with the MCA service tenantId, the tenantId can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
+The following JavaScript code initialize the BMSAuthorizationManager with the MCA service tenantId, the tenantId can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
 
 ```JavaScript
-MFPAuthorizationManager.initialize("tenantId");
+BMSAuthorizationManager.initialize("tenantId");
 ```
 
 #### Creating a request 
-After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
+After initializing the client you may create a new BMSRequest instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
 
 ```JavaScript
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
+var request = new BMSRequest("/myapp/API/action", BMSRequest.GET, 20000);
 ```
 
 #### Setting headers for your request 
@@ -426,7 +426,7 @@ response.errorCode  =>  Integer
 response.errorDescription  =>  Undefined or String
 ```
 
-### Using MFPLogger
+### Using BMSLogger
 
 Below are some examples of how to use the Logger class.
 
@@ -445,16 +445,16 @@ myPackageLogger.fatal("Fatal level message");
 Logger.send();
 ```
 
-### Using MFPAnalytics
+### Using BMSAnalytics
 
 Below are some examples of how to use the MFPAnalytics class.
 
 ```JavaScript
 // Enable analytics logging
-MFPAnalytics.enable();
+BMSAnalytics.enable();
 
 // Send the analytics log to the server 
-MFPAnalytics.send();
+BMSAnalytics.send();
 ```
 
 ### Custom Authentication
