@@ -306,9 +306,9 @@ var customAuthenticationListener = {
 BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
 ```
 
- ## Change log
+## Change log
  
- ##### 2.0.0
+##### 2.0.0
  * Changed JS API signatures  
 
 ## Release Notes
