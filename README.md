@@ -1,3 +1,5 @@
+[![npm package](https://nodei.co/npm/ibm-mfp-core.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ibm-mfp-core/)
+
 # Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 
 
@@ -172,177 +174,6 @@ onDeviceReady: function() {
 * Modify the code snippet to use your Bluemix Route and appGUID parameters. To get these parameters, click the **Mobile Options** link in your Bluemix Application Dashboard to get the application route and application GUID. Use the Route and App GUID values as your parameters in your BMSClient.initialize code snippet.
 
 
-## API reference
-
-| Javascript Function | Description |
-| :---|:---|
-initialize(bluemixRegion) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
-getBluemixAppRoute(callback) | Return the Bluemix app route.
-getBluemixAppGUID(callback) | Return the Bluemix app GUID.
-registerAuthenticationListener(realm, authenticationListener) | Registers authentication callback for the specified realm.
-unregisterAuthenticationListener(realm) | Unregisters the authentication callback for the specified realm.
-
-### BMSRequest
-
-After initializing the client you may create a new BMSRequest instance, used to send a request to a specified URL.
-
-You can specify a path relative to your Bluemix app route
-
-```JavaScript
-var request = new BMSRequest("/myapp/API/action", BMSRequest.GET);
-```
-
-or you can specify a full URL path:
-
-```JavaScript
-var request = new BMSRequest("http://www.example.com", BMSRequest.GET);
-```
-
-Following HTTP verbs are supported by BMSRequest
-
-| Method |
-|:---|
-BMSRequest.GET |
-BMSRequest.PUT |
-BMSRequest.POST |
-BMSRequest.DELETE |
-BMSRequest.TRACE |
-BMSRequest.HEAD |
-BMSRequest.OPTIONS |
-
-Following methods are available for BMSRequest objects
-
-| Javascript Function | Description |
-|:---|:---|
-setHeaders(jsonObj) | Set the headers for the request object in JSON format.
-getHeaders | Return the headers object for the request object.
-getUrl | Return the url for this request.
-getMethod | Return the HTTP method for this request.
-getTimeout | Return the timeout (in ms) for this request.
-setQueryParameters(jsonObj) | Return the queryParameters object for this request.
-getQueryParameters | Set the Query Parameters for the request object in JSON format.
-send(success, failure) | Send this resource request asynchronously. You must supply success and failure callback functions, and optionally a body parameter.
-send(body, success, failure) | With optional body text parameter.
-send(json, success, failure) | With optional JSON object parameter.
-
-Success and failure callbacks of the BMSRequest.send() receive a response object as an argument (see Examples section). The following properties are available for the response object:
-
-| Property | Info |
-|:---|:---|
-status | The response status as an integer.
-responseText | Return response text as null or string.
-headers | Return response headers in JSON format.
-errorCode | Return response error code as integer. 
-errorDescription | Return response error description as null or string.
-
-See the Examples section for more samples how to use BMSClient and MFPRequest.
-
-### BMSLogger
-
-`BMSLogger` is used for logging messages. In addition to printing log messages to respective log console it can persist logs to file. When you call the send() function it will send the persisted logs to the Mobile Client Access Service.
-
-You can create an instance of MFPLogger using:
-
-```JavaScript
-BMSLogger.getInstance("myLogger");
-```
-
-Example of sending a specific log message using your logger instance:
-
-```JavaScript
-myLogger.debug(message);
-```
-
-Following static methods are exposed by the MFPLogger 
-
-| Javascript Function | Description |
-|:---|:---|
-getInstance(name) | Return a named logger instance.
-getMaxLogStoreSize(success, failure) | Gets the current setting for the maximum storage size threshold.
-getLogLevel(success, failure) | Get the currently configured Log Level.
-setLogLevel(logLevel) | Set the level from which log messages must be saved and printed. For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
-setLogMaxStoreSize(size) | Set the maximum size of the local persistent storage for queuing log data. When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
-isUncaughtExceptionDetected(success, failure) | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
-send(success, failure) | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
-storeLogs(enabled) | Gets the current setting for determining if log data should be saved persistently
-isStoringLogs(success, failure) | Determines if logs are currently being store
-setSDKDebugLoggingEnabled(enabled) | Enable displaying all Bluemix Mobile Services SDK debug logs in Logcat. By default, no debug messages are displayed.
-isSDKDebugLoggingEnabled(enabled) | Check if displaying all Bluemix Mobile Services SDK debug logs in Logcat is enabled.
-
-Log levels available:
-
-| Level |
-|:---|
-FATAL |
-ERROR |
-WARN |
-INFO |
-DEBUG |
-
-The following instance methods are available for the logger instances to send a specific log message:
-
-| Function |
-|:---|
-debug(message) |
-info(message) |
-warn(message) | 
-error(message) |
-fatal(message) |
-
-See below for more Examples of how to use MFPLogger.
-
-### BMSAnalytics
-
-BMSAnalytics is used for sending operational analytics information to the Mobile Client Access Service.
-
-BMSAnalytics methods:
-
-| Javascript Function | Description |
-|:---|:---|
-enable() | Turn on the global setting for persisting of the analytics data.
-disable() | Turn off the global setting for persisting of the analytics data.
-isEnabled(success, failure) | Get the current setting for determining if log data should be saved persistently.
-send(success, failure) | Send the analytics log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
-
-See below for Examples of how to use MFPAnalytics.
-
-### BMSAuthorizationManager
-
-BMSAuthorizationManager is used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities. 
-
-| Javascript Function | Description |
-|:---|:---|
-initialize(tenantId) | Sets the base URL for the authorization server to use the MCA service tenantId. This method should be called before you send the first request that requires authorization.
-obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. 
-isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access Service
-clearAuthorizationData() | Clears the locally persisted authorization data
-getCachedAuthorizationHeader(success, failure) | Returns the locally persisted authorization header or null if it wasn't obtained yet
-getAuthorizationPersistencePolicy(success, failure) | Returns current authorization persistence policy
-setAuthorizationPersistencePolicy(policy) | Changes the state of the current authorization persistence policy
-getUserIdentity(success, failure) | Return JSON object with authorized user identity
-getAppIdentity(success, failure) | Return JSON object with application identity
-getDeviceIdentity(success, failure) | Return JSON object with device identity
-
-### MFPAuthenticationListener interface
-
-Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows. Developer implementing Authentication Listener is expected to add three below methods that will be called in different phases of an authentication process.
-
-| Method | Use |
-|:---|:---|
-onAuthenticationChallengeReceived(authContext, challenge) | Triggered when authentication challenge was received
-onAuthenticationSuccess(info) | Triggered when authentication succeeded
-onAuthenticationFailure(info) | Triggered when authentication failed
-
-### MFPAuthenticationContext 
-
-authenticationContext is supplied as an argument to the onAuthenticationChallengeReceived method of a custom Authentication Listener. It is developer's responsibility to collect credentials and use authenticationContext methods to either return credentials to Mobile Client Access Client SDK or report a failure. Use one of the below methods.
-
-| Method | Use |
-|:---|:---|
-submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge response
-submitAuthenticationFailure(info) | Informs client about failed authentication
-
-
 ## Examples
 
 ### Using BMSClient, BMSAuthorizationManager and BMSRequest
@@ -500,6 +331,10 @@ var customAuthenticationListener = {
 BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
 ```
 
+ ## Change log
+ 
+ ##### 2.0.0
+ * Changed JS API signatures  
 
 ## Release Notes
 
