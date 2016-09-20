@@ -37,11 +37,10 @@ var BMSClient = function() {
      * <p>
      * This method should be called before you send the first request that requires authorization.
      * </p>
-     * @param {string} backendRoute Specifies the base URL for the authorization server
-     * @param {string} backendGuid Specifies the GUID of the application
+     * @param {string} bluemixRegion Specifies the region of the application
      */
-    this.initialize = function(backendRoute, backendGuid) {
-        cordova.exec(success, failure, BMSClientString, "initialize", [backendRoute, backendGuid]);
+    this.initialize = function(bluemixRegion) {
+        cordova.exec(success, failure, BMSClientString, "initialize", [bluemixRegion]);
     };
 
     /**
