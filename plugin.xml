@@ -3,6 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>BMSCore</name>
 
+    <dependency id="cordova-plugin-add-swift-support"/>
+
     <js-module name="BMSClient" src="www/BMSClient.js">
         <clobbers target="BMSClient"/>
     </js-module>
@@ -22,6 +24,12 @@
     <js-module name="BMSAuthorizationManager" src="www/BMSAuthorizationManager.js">
         <clobbers target="BMSAuthorizationManager"/>
     </js-module>
+
+
+    <dependency id="cordova-plugin-cocoapod-support"/>
+
+
+
 
     <platform name="android">
         <!-- Include Android BMS SDK -->
@@ -77,45 +85,45 @@
 
     <!-- ios -->
     <platform name="ios">
+    	<pods-config use-frameworks="true" ios-min-version="8.0" />
+    	<pod id="BMSCore" git="https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-swift-core" branch="swift-3"/>
+        <!--<pod id="BMSAnalytics" git="https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-swift-analytics" branch="swift-3"/>-->
+        <!--<pod id="BMSSecurity" git="https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-swift-security" branch="swift_3"/>-->
         <config-file parent="/*" target="config.xml">
 
             <feature name="BMSClient">
                 <param name="ios-package" value="CDVBMSClient"/>
             </feature>
 
-            <feature name="MFPRequest">
-                <param name="ios-package" value="CDVMFPRequest"/>
+            <feature name="BMSRequest">
+                <param name="ios-package" value="CDVBMSRequest"/>
             </feature>
 
-            <feature name="MFPLogger">
-                <param name="ios-package" value="CDVMFPLogger"/>
+            <feature name="BMSLogger">
+                <param name="ios-package" value="CDVBMSLogger"/>
             </feature>
 
-            <feature name="MFPAnalytics">
-                <param name="ios-package" value="CDVMFPAnalytics"/>
+            <feature name="BMSAnalytics">
+                <param name="ios-package" value="CDVBMSAnalytics"/>
             </feature>
 
-            <feature name="MFPAuthorizationManager">
-                <param name="ios-package" value="CDVMFPAuthorizationManager"/>
+            <feature name="BMSAuthorizationManager">
+                <param name="ios-package" value="CDVBMSAuthorizationManager"/>
             </feature>
 
-            <feature name="MFPAuthenticationContext">
-                <param name="ios-package" value="CDVMFPAuthenticationContext"/>
+            <feature name="BMSAuthenticationContext">
+                <param name="ios-package" value="CDVBMSAuthenticationContext"/>
             </feature>
 
         </config-file>
 
-        <framework src="src/ios/Frameworks/IMFCore.framework" custom="true" />
-
         <header-file src="src/ios/Bridging-Header.h" />
-        <header-file src="src/ios/IMFClient+initializeException.h" />
-        <source-file src="src/ios/IMFClient+initializeException.m" />
         <source-file src="src/ios/CDVBMSClient.swift" />
-        <source-file src="src/ios/CDVMFPRequest.swift" />
-        <source-file src="src/ios/CDVMFPLogger.swift" />
-        <source-file src="src/ios/CDVMFPAnalytics.swift" />
-        <source-file src="src/ios/CDVMFPAuthorizationManager.swift" />
-        <source-file src="src/ios/CDVMFPAuthenticationContext.swift" />
+        <source-file src="src/ios/CDVBMSRequest.swift" />
+        <source-file src="src/ios/CDVBMSLogger.swift" />
+        <source-file src="src/ios/CDVBMSAnalytics.swift" />
+        <source-file src="src/ios/CDVBMSAuthorizationManager.swift" />
+        <source-file src="src/ios/CDVBMSAuthenticationContext.swift" />
         <source-file src="src/ios/CustomErrorTypes.swift" />
         <source-file src="src/ios/Utils.swift" />
     </platform>
