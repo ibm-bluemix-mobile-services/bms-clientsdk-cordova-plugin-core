@@ -19,43 +19,76 @@ class CDVBMSAnalytics : CDVPlugin {
 
     func enable(command: CDVInvokedUrlCommand) {
 
-        self.commandDelegate!.run(inBackground: {
-            Analytics.isEnabled = true
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: true)
-            // call success callback
-            self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
-        })
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                Analytics.isEnabled = true
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: true)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+                Analytics.isEnabled = true
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: true)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+            })
+        #endif
     }
 
     func disable(command: CDVInvokedUrlCommand) {
 
-        self.commandDelegate!.run(inBackground: {
-            Analytics.isEnabled = false
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: false)
-            // call success callback
-            self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
-        })
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                Analytics.isEnabled = false
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: false)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+                Analytics.isEnabled = false
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: false)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+            })
+        #endif
     }
 
     func isEnabled(command: CDVInvokedUrlCommand) {
 
         // has success, failure callbacks
 
-        self.commandDelegate!.run(inBackground: {
-            let isEnabled = Analytics.isEnabled
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: isEnabled)
-            // call success callback
-            self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
-        })
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                let isEnabled = Analytics.isEnabled
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: isEnabled)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+                Analytics.isEnabled = false
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: false)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+            })
+        #endif
     }
 
 
 
     func send(command: CDVInvokedUrlCommand) {
     // has success, failure callbacks
-        self.commandDelegate!.run(inBackground: {
-        //TODO: Need Analytics (Nana)    Analytics.send()
-        })
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                //TODO: Need Analytics (Nana)    Analytics.send()
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+                //TODO: Need Analytics (Nana)    Analytics.send()
+            })
+        #endif
     }
 
     // TODO (For future release)

@@ -14,13 +14,14 @@
 import Foundation
 import BMSCore
 
+
 class CDVBMSClient : CDVPlugin {
 
     static var jsChallengeHandlers:NSMutableDictionary = [:]
     static var authenticationContexts:NSMutableDictionary = [:]
 
     func initialize(command: CDVInvokedUrlCommand) {
-
+#if swift(>=3.0)
         self.commandDelegate!.run(inBackground: {
 
             guard let region  = command.arguments[0] as? String else {
@@ -41,22 +42,56 @@ class CDVBMSClient : CDVPlugin {
             self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
 
         })
+#else
+        self.commandDelegate.runInBackground({
+
+            guard let region  = command.arguments[0] as? String else {
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: CustomErrorMessages.invalidRoute)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            let client = BMSClient.sharedInstance;
+
+            //use category to handle objective-c exception
+            client.initialize(bluemixAppRoute: region)
+
+
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "")
+            // call success callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        })
+#endif
     }
 
     func getBluemixAppRoute(command: CDVInvokedUrlCommand) {
 
-        self.commandDelegate!.run(inBackground: {
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
 
             let client = BMSClient.sharedInstance
             let backendRoute: String = client.bluemixAppRoute!
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: backendRoute)
             // call success callback
             self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
-        })
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+
+                let client = BMSClient.sharedInstance
+                let backendRoute: String = client.bluemixAppRoute!
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendRoute)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
+
     }
 
     func getBluemixAppGUID(command: CDVInvokedUrlCommand) {
 
+        #if swift(>=3.0)
         self.commandDelegate!.run(inBackground: {
 
             let client = BMSClient.sharedInstance
@@ -65,11 +100,22 @@ class CDVBMSClient : CDVPlugin {
             // call success callback
             self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
         })
+            #else
+            self.commandDelegate!.runInBackground({
+
+                let client = BMSClient.sharedInstance
+                let backendGUID: String = client.bluemixAppGUID!
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: backendGUID)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
 
     }
 
     func addCallbackHandler(command: CDVInvokedUrlCommand) {
 
+        #if swift(>=3.0)
         self.commandDelegate!.run(inBackground: {
             var errorText: String = ""
 
@@ -93,6 +139,31 @@ class CDVBMSClient : CDVPlugin {
                 errorText = CustomErrorMessages.unexpectedError
             }
         })
+            #else
+            self.commandDelegate!.runInBackground({
+                var errorText: String = ""
+
+                do {
+                    let realm = try self.unpackRealm(command)
+                    CDVBMSClient.jsChallengeHandlers.setValue(command, forKey: realm)
+
+                    defer {
+                        if (!errorText.isEmpty) {
+                            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: errorText)
+                            pluginResult?.setKeepCallbackAsBool(true)
+                            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                        }
+                    }
+
+                } catch CustomErrors.InvalidParameterType(let expected, let actual) {
+                    errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
+                } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
+                    errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
+                } catch {
+                    errorText = CustomErrorMessages.unexpectedError
+                }
+            })
+        #endif
     }
 
     private func unpackRealm(command: CDVInvokedUrlCommand) throws -> String {
@@ -100,9 +171,16 @@ class CDVBMSClient : CDVPlugin {
             throw CustomErrors.InvalidParameterCount(expected: 1, actual: 0)
         }
 
-        guard let realm = command.argument(at: 0) as? String else {
-            throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argument(at: 0) as AnyObject)
-        }
+        #if swift(>=3.0)
+            guard let realm = command.argument(at: 0) as? String else {
+                throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argument(at: 0) as AnyObject)
+            }
+        #else
+            guard let realm = command.argumentAtIndex(0) as? String else {
+                throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argumentAtIndex(0) as AnyObject)
+            }
+        #endif
+
 
         return realm
     }
@@ -130,9 +208,16 @@ class CDVBMSClient : CDVPlugin {
 
             CDVBMSClient.authenticationContexts.setValue(context, forKey: realm)
 
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: jsonResponse)
-            pluginResult?.setKeepCallbackAs(true)
-            commandDelegate.send(pluginResult, callbackId: command.callbackId)
+            #if swift(>=3.0)
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: jsonResponse)
+                pluginResult?.setKeepCallbackAs(true)
+                commandDelegate.send(pluginResult, callbackId: command.callbackId)
+            #else
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: jsonResponse)
+                pluginResult?.setKeepCallbackAsBool(true)
+                commandDelegate.sendPluginResult(pluginResult, callbackId: command.callbackId)
+            #endif
+
         }
 
         /**
@@ -142,7 +227,13 @@ class CDVBMSClient : CDVPlugin {
          */
         @objc @available(iOS 2.0, *)
         internal func authenticationContext(context: AuthenticationContext!, didReceiveAuthenticationSuccess userInfo: [NSObject : AnyObject]!) {
-            self.handleAuthSuccessOrFailure(userInfo: userInfo, callbackName: "onAuthenticationSuccess")
+
+            #if swift(>=3.0)
+                self.handleAuthSuccessOrFailure(userInfo: userInfo, callbackName: "onAuthenticationSuccess")
+            #else
+                self.handleAuthSuccessOrFailure(userInfo, callbackName: "onAuthenticationSuccess")
+            #endif
+
         }
 
         /**
@@ -152,16 +243,28 @@ class CDVBMSClient : CDVPlugin {
          */
         @objc @available(iOS 2.0, *)
         internal func authenticationContext(context: AuthenticationContext!, didReceiveAuthenticationFailure userInfo: [NSObject : AnyObject]!) {
-            self.handleAuthSuccessOrFailure(userInfo: userInfo, callbackName: "onAuthenticationFailure")
+            #if swift(>=3.0)
+                self.handleAuthSuccessOrFailure(userInfo: userInfo, callbackName: "onAuthenticationFailure")
+            #else
+                self.handleAuthSuccessOrFailure(userInfo, callbackName: "onAuthenticationFailure")
+            #endif
+
         }
 
         private func handleAuthSuccessOrFailure(userInfo: [NSObject : AnyObject], callbackName: String) {
             let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm] as! CDVInvokedUrlCommand
             let jsonResponse: [NSString: AnyObject] = ["action": callbackName as AnyObject, "info": userInfo as AnyObject];
 
-            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: jsonResponse)
-            pluginResult?.setKeepCallbackAs(true)
-            commandDelegate.send(pluginResult, callbackId: command.callbackId)
+            #if swift(>=3.0)
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: jsonResponse)
+                pluginResult?.setKeepCallbackAs(true)
+                commandDelegate.send(pluginResult, callbackId: command.callbackId)
+            #else
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary:  jsonResponse)
+                pluginResult?.setKeepCallbackAsBool(true)
+                commandDelegate.sendPluginResult(pluginResult, callbackId: command.callbackId)
+            #endif
+
         }
     }
 }
