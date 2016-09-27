@@ -34,9 +34,15 @@ class Utils {
                         }
                         let tempValue:[String:AnyObject] = [key as! String: actualValue as AnyObject]
 
-                        if JSONSerialization.isValidJSONObject(tempValue) {
-                            validUserInfo[k] = actualValue as AnyObject?
-                        }
+                        #if swift(>=3.0)
+                            if JSONSerialization.isValidJSONObject(tempValue) {
+                                validUserInfo[k] = actualValue as AnyObject?
+                            }
+                        #else
+                            if NSJSONSerialization.isValidJSONObject(tempValue) {
+                                validUserInfo[k] = actualValue as AnyObject?
+                            }
+                        #endif
                     }
                 }
 
@@ -68,18 +74,32 @@ class Utils {
             jsonResponse["status"] = response.statusCode as AnyObject?
         }
 
-        responseString = try Utils.stringifyResponse(value: jsonResponse as AnyObject) as NSString;
+        #if swift(>=3.0)
+            responseString = try Utils.stringifyResponse(value: jsonResponse as AnyObject) as NSString;
+        #else
+            responseString = try Utils.stringifyResponse(jsonResponse as AnyObject) as NSString;
+        #endif
         return responseString as String
     }
 
     static func stringifyResponse(value: AnyObject,prettyPrinted:Bool = false) throws -> String {
-        let options = prettyPrinted ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions(rawValue: 0)
-        var jsonString : String? = ""
+        #if swift(>=3.0)
+            let options = prettyPrinted ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions(rawValue: 0)
+            var jsonString : String? = ""
 
-        if JSONSerialization.isValidJSONObject(value) {
-            let data = try JSONSerialization.data(withJSONObject: value, options: options)
-            jsonString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
-        }
+            if JSONSerialization.isValidJSONObject(value) {
+                let data = try JSONSerialization.data(withJSONObject: value, options: options)
+                jsonString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
+            }
+        #else
+            let options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions(rawValue: 0)
+            var jsonString : String? = ""
+
+            if NSJSONSerialization.isValidJSONObject(value) {
+                let data = try NSJSONSerialization.dataWithJSONObject(value, options: options)
+                jsonString = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
+            }
+        #endif
         return jsonString!
     }
 
