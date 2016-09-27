@@ -102,7 +102,7 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 **Note**: If you get the message that your application requires `Use Legacy Swift Language Version` enable the flag to NO by going
  into your Build Settings and search for `Use Legacy Swift Language Version`
  
- **Note** If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`
+ **Note**: If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`
 
 
 #### Configuring Your Android Environment
@@ -226,18 +226,18 @@ response.errorDescription  =>  Undefined or String
 Below are some examples of how to use the Logger class.
 
 ```JavaScript
-var myPackageLogger = Logger.getLogger("myPackage");
+var myPackageLogger = BMSLogger.getInstance("myPackage");
 
 
 // Globally set the logging level
-Logger.setLogLevel(Logger.WARN);
+BMSLogger.setLogLevel(BMSLogger.WARN);
 
 // Log a message at FATAL level
 myPackageLogger.fatal("Fatal level message");
 
 
 // Send the logs to the server
-Logger.send();
+BMSLogger.send();
 ```
 
 ### Using BMSAnalytics
