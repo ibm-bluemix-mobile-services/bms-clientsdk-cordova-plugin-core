@@ -1,195 +1,400 @@
 /*
-    Copyright 2015 IBM Corp.
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-        http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+Copyright 2016 IBM Corp.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
-package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
+import Foundation
+import BMSCore
 
-import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.*;
-import com.ibm.mobilefirstplatform.clientsdk.android.core.api.Response;
-import com.ibm.mobilefirstplatform.clientsdk.android.core.api.ResponseListener;
-import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.Logger.LEVEL;
+class CDVMFPLogger : CDVPlugin {
 
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CallbackContext;
+    let logLevelDictionary: Dictionary<String,LogLevel> = [
+        "NONE"      : LogLevel.none,
+        "DEBUG"     : LogLevel.debug,
+        "INFO"      : LogLevel.info,
+        "WARN"      : LogLevel.warn,
+        "ERROR"     : LogLevel.error,
+        "FATAL"     : LogLevel.fatal,
+        "ANALYTICS" : LogLevel.analytics,
+    ]
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
+    func storeLogs(command: CDVInvokedUrlCommand){
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
 
-public class CDVBMSLogger extends CordovaPlugin {
+            let isLogStorageEnabled = Logger.isLogStorageEnabled ?  1 : 0
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: isLogStorageEnabled)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
 
-    private static final Logger mfpLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPLogger");
-
-    @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        mfpLogger.debug("execute :: action = " + action);
-        if("storeLogs".equals(action)) {
-            boolean shouldStoreLogs = args.getBoolean(0);
-            Logger.storeLogs(shouldStoreLogs);
-            return true;
-        }  else if("isStoringLogs".equals(action)) {
-            this.isStoringLogs(callbackContext);
-            return true;
-        }  else if("getMaxLogStoreSize".equals(action)) {
-            this.getMaxLogStoreSize(callbackContext);
-            return true;
-        } else if("setMaxLogStoreSize".equals(action)) {
-            int newStoreSize = args.getInt(0);
-            Logger.setMaxLogStoreSize(newStoreSize);
-            callbackContext.success();
-            return true;
-        } else if("getLogLevel".equals(action)) {
-            this.getLogLevel(callbackContext);
-            return true;
-        } else if("setLogLevel".equals(action)) {
-            LEVEL newLevel = LEVEL.fromString(args.getString(0));
-            Logger.setLogLevel(newLevel);
-            callbackContext.success();
-            return true;
-        } else if("setSDKDebugLoggingEnabled".equals(action)) {
-            boolean debugEnabled = args.getBoolean(0);
-            Logger.setSDKDebugLoggingEnabled(debugEnabled);
-            callbackContext.success();
-            return true;
-        }  else if("isSDKDebugLoggingEnabled".equals(action)) {
-            this.isSDKDebugLoggingEnabled(callbackContext);
-            return true;
-        } else if("isUncaughtExceptionDetected".equals(action)) {
-            String uncaughtExceptionFlag = String.valueOf(Logger.isUnCaughtExceptionDetected());
-            callbackContext.success(uncaughtExceptionFlag);
-            return true;
-        }  else if("send".equals(action)) {
-            this.send(callbackContext);
-            return true;
-
-        } else if("fatal".equals(action)) {
-            String packageName = args.getString(0);
-            String message = args.getString(1);
-
-            Logger instance = Logger.getLogger(packageName);
-            instance.fatal(message);
-
-            callbackContext.success();
-            return true;
-        } else if("error".equals(action)) {
-            String packageName = args.getString(0);
-            String message = args.getString(1);
-
-            Logger instance = Logger.getLogger(packageName);
-            instance.error(message);
-
-            callbackContext.success();
-            return true;
-        } else if("warn".equals(action)) {
-            String packageName = args.getString(0);
-            String message = args.getString(1);
-
-            Logger instance = Logger.getLogger(packageName);
-            instance.warn(message);
-
-            callbackContext.success();
-            return true;
-        } else if("info".equals(action)) {
-            String packageName = args.getString(0);
-            String message = args.getString(1);
-
-            Logger instance = Logger.getLogger(packageName);
-            instance.info(message);
-
-            callbackContext.success();
-            return true;
-        } else if("debug".equals(action)) {
-            String packageName = args.getString(0);
-            String message = args.getString(1);
-
-            Logger instance = Logger.getLogger(packageName);
-            instance.debug(message);
-
-            callbackContext.success();
-            return true;
-        }
-        return false;
+                let isLogStorageEnabled = Logger.isLogStorageEnabled ? 1 : 0
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsInt: Int32(isLogStorageEnabled))
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
     }
 
+    func getMaxLogStoreSize(command: CDVInvokedUrlCommand){
 
-    public void getMaxLogStoreSize(final CallbackContext callbackContext) {
-        final int maxStoreSize = Logger.getMaxLogStoreSize();
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                let maxStoreSize = Logger.maxLogStoreSize
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: Int32(maxStoreSize))
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+                let maxStoreSize = Logger.maxLogStoreSize
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsInt: Int32(maxStoreSize))
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
+    }
 
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                callbackContext.success(maxStoreSize);
+    func setMaxLogStoreSize(command: CDVInvokedUrlCommand){
+        // parms: [maxStoreSize]
+
+        #if swift(>=3.0)
+            guard let maxStoreSize  = (command.arguments[0] as? Int) else {
+                let message = "MaxLogStoreSize is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
             }
-        });
-    }
-
-    public void isStoringLogs(final CallbackContext callbackContext){
-        final int isStoring = Logger.isStoringLogs() ? 1 : 0;
-
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                callbackContext.success(isStoring);
+        #else
+            guard let maxStoreSize  = (command.arguments[0] as? Int) else {
+                let message = "MaxLogStoreSize is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
             }
-        });
+        #endif
+
+        Logger.maxLogStoreSize = UInt64(maxStoreSize)
+
     }
 
-    public void getLogLevel(final CallbackContext callbackContext) {
-        final String currentLevel = String.valueOf(Logger.getLogLevel());
+    func getLevel(command: CDVInvokedUrlCommand){
 
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                callbackContext.success(currentLevel);
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+
+                let logLevel: String = Logger.logLevelFilter.asString
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: logLevel)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+
+                let logLevel: String = Logger.logLevelFilter.asString
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: logLevel)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
+    }
+
+    func setLevel(command: CDVInvokedUrlCommand){
+        // parms: [logLevel]
+
+        #if swift(>=3.0)
+            guard let levelString =  command.arguments[0] as? String else {
+                let message = "LogLevel Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
             }
-        });
-    }
 
-
-    public void isSDKDebugLoggingEnabled(final CallbackContext callbackContext) {
-        final int SDKDebugLoggingEnabled = Logger.isSDKDebugLoggingEnabled() ? 1 : 0;
-
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                callbackContext.success(SDKDebugLoggingEnabled);
+            // covert inputLevel to the enum type
+            guard let logLevel : LogLevel = self.logLevelDictionary[levelString] else
+            {
+                let message = "LogLevel Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
             }
-        });
-    }
-
-
-    /**
-     * Sends non-Analytics logs to the server
-     * @param callbackContext Callback that will indicate whether the request succeeded or failed
-     */
-    public void send(final CallbackContext callbackContext) {
-        cordova.getThreadPool().execute(new Runnable() {
-            public void run() {
-                Logger.send(new ResponseListener() {
-                    @Override
-                    public void onSuccess(Response r) {
-                        callbackContext.success("send(): Successfully sent logs");
-                    }
-
-                    @Override
-                    public void onFailure(Response r, Throwable t, JSONObject extendedInfo) {
-                        callbackContext.error("send(): Failed to send logs");
-                    }
-                });
+        #else
+            guard let levelString =  command.arguments[0] as? String else {
+                let message = "LogLevel Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
             }
-        });
+
+            // covert inputLevel to the enum type
+            guard let logLevel : LogLevel = self.logLevelDictionary[levelString] else
+            {
+                let message = "LogLevel Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #endif
+
+        Logger.logLevelFilter = logLevel
+
     }
 
+    func isUncaughtExceptionDetected(command: CDVInvokedUrlCommand){
 
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+
+                let uncaughtExeptionDetected = Logger.isUncaughtExceptionDetected
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: uncaughtExeptionDetected)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+
+                let uncaughtExeptionDetected = Logger.isUncaughtExceptionDetected
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: uncaughtExeptionDetected)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
+    }
+
+    //TODO: (Nana) Need to get Logger.send from Analytics
+    /*
+    func send(command: CDVInvokedUrlCommand){
+
+        self.commandDelegate!.runInBackground({
+            Logger.send()
+        })
+    }
+ */
+
+    func debug(command: CDVInvokedUrlCommand) {
+        // parms: [name, message]
+
+        #if swift(>=3.0)
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: msg)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #else
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #endif
+
+
+        let logger = Logger.logger(name: name)
+        logger.debug(message: message)
+    }
+
+    func info(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
+
+        #if swift(>=3.0)
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: msg)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #else
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #endif
+
+        let logger = Logger.logger(name: name)
+        logger.info(message: message)
+
+
+    }
+
+    func warn(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
+
+        #if swift(>=3.0)
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: msg)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #else
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #endif
+
+        let logger = Logger.logger(name: name)
+        logger.warn(message: message)
+    }
+
+    func error(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
+
+        #if swift(>=3.0)
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: msg)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #else
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #endif
+
+        let logger = Logger.logger(name: name)
+        logger.error(message: message)
+    }
+
+    func fatal(command: CDVInvokedUrlCommand){
+        // parms: [name, message]
+
+        #if swift(>=3.0)
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: msg)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #else
+            guard let name  = command.arguments[0] as? String else {
+                let message = "Name  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+
+            guard let message  = command.arguments[1] as? String else {
+                let msg = "message  Parameter is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: msg)
+                // call error callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #endif
+
+        let logger = Logger.logger(name: name)
+        logger.fatal(message: message)
+
+    }
 }
