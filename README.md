@@ -48,7 +48,7 @@ The following videos demonstrate how to install and use the Cordova Plugin for t
 Run the following commands for the platforms that you want to add to your Cordova application
 
 ```Bash
-cordova platform add ios
+cordova platform add ios@4.1.0
 
 cordova platform add android
 ```
@@ -58,7 +58,7 @@ cordova platform add android
 Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
 
 ```Bash
-cordova plugin add ibm-mfp-core
+cordova plugin add bms-core
 ```
 
 You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
@@ -72,22 +72,6 @@ cordova plugin list
 #### Configuring Your iOS Environment
 
 **Note**: Before you begin, make sure that you are using the latest version of Xcode.
-
-1. Open your `[your-app-name].xcodeproj` file in `[your-app-name]/platforms/ios` directory with Xcode
-
-	> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
-
-1. Add the Bridging Header. Go to `Build settings` > `Swift Compiler - Code Generation` > `Objective-C Bridging Header` and add the following path:
-
-	```
-	[your-project-name]/Plugins/ibm-mfp-core/src/ios/Bridging-Header.h
-	```
-	
-1. Add the Frameworks parameter. Go to `Build Settings` > `Linking` > `Runpath Search Paths` and add the following parameter
-	
-	```
-	@executable_path/Frameworks
-	```
 
 1. Build and run your application with Xcode or by running the following command:
 
@@ -114,6 +98,11 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 	"[your-project-name]/Plugins/ibm-mfp-core"
 	```
 !-->
+
+**Note**: If you get the message that your application requires `Use Legacy Swift Language Version` enable the flag to NO by going
+ into your Build Settings and search for `Use Legacy Swift Language Version`
+ 
+ **Note** If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`
 
 
 #### Configuring Your Android Environment
