@@ -15,9 +15,9 @@
 import Foundation
 import BMSCore
 
-class CDVBMSAnalytics : CDVPlugin {
+@objc(CDVBMSAnalytics) class CDVBMSAnalytics : CDVPlugin {
 
-    func enable(command: CDVInvokedUrlCommand) {
+    func enable(_ command: CDVInvokedUrlCommand) {
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -36,7 +36,7 @@ class CDVBMSAnalytics : CDVPlugin {
         #endif
     }
 
-    func disable(command: CDVInvokedUrlCommand) {
+    func disable(_ command: CDVInvokedUrlCommand) {
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -55,7 +55,7 @@ class CDVBMSAnalytics : CDVPlugin {
         #endif
     }
 
-    func isEnabled(command: CDVInvokedUrlCommand) {
+    func isEnabled(_ command: CDVInvokedUrlCommand) {
 
         // has success, failure callbacks
 
@@ -78,7 +78,7 @@ class CDVBMSAnalytics : CDVPlugin {
 
 
 
-    func send(command: CDVInvokedUrlCommand) {
+    func send(_ command: CDVInvokedUrlCommand) {
     // has success, failure callbacks
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -92,7 +92,7 @@ class CDVBMSAnalytics : CDVPlugin {
     }
 
     // TODO (For future release)
-    func logEvent(command: CDVInvokedUrlCommand) {
+    func logEvent(_ command: CDVInvokedUrlCommand) {
     // takes parms: msg, name
 
     }

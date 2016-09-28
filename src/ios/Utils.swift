@@ -16,7 +16,7 @@ import Foundation
 import BMSCore
 
 class Utils {
-    static func packResponse(response: Response!,error:NSError?=nil) throws -> String {
+    static func packResponse(_ response: Response!,error:NSError?=nil) throws -> String {
         var jsonResponse = [String:AnyObject]()
         var responseString: NSString = ""
 
@@ -29,9 +29,15 @@ class Utils {
                 for (key, value) in userInfo {
                     if let k = key as? String  {
                         var actualValue = value
-                        if let url = value as? NSURL {
-                            actualValue = url.absoluteString
-                        }
+                        #if swift(>=3.0)
+                            if let url = value as? URL {
+                                actualValue = url.absoluteString
+                            }
+                        #else
+                            if let url = value as? NSURL {
+                                actualValue = url.absoluteString
+                            }
+                        #endif
                         let tempValue:[String:AnyObject] = [key as! String: actualValue as AnyObject]
 
                         #if swift(>=3.0)
@@ -75,14 +81,14 @@ class Utils {
         }
 
         #if swift(>=3.0)
-            responseString = try Utils.stringifyResponse(value: jsonResponse as AnyObject) as NSString;
+            responseString = try Utils.stringifyResponse(jsonResponse as AnyObject) as NSString;
         #else
             responseString = try Utils.stringifyResponse(jsonResponse as AnyObject) as NSString;
         #endif
         return responseString as String
     }
 
-    static func stringifyResponse(value: AnyObject,prettyPrinted:Bool = false) throws -> String {
+    static func stringifyResponse(_ value: AnyObject,prettyPrinted:Bool = false) throws -> String {
         #if swift(>=3.0)
             let options = prettyPrinted ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions(rawValue: 0)
             var jsonString : String? = ""

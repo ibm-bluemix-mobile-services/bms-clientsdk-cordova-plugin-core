@@ -19,9 +19,9 @@ enum PersistencePolicy: String {
     case PersistencePolicyNever = "NEVER"
 }
 
-class CDVBMSAuthorizationManager : CDVPlugin {
+@objc(CDVBMSAuthenticationContext) class CDVBMSAuthorizationManager : CDVPlugin {
 
-    func initialize(command: CDVInvokedUrlCommand) {
+    func initialize(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
 
@@ -56,7 +56,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func obtainAuthorizationHeader(command: CDVInvokedUrlCommand) {
+    func obtainAuthorizationHeader(_ command: CDVInvokedUrlCommand) {
         let authManager = MCAAuthorizationManager.sharedInstance;
 
         #if swift(>=3.0)
@@ -113,7 +113,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
 
     }
 
-    func isAuthorizationRequired(command: CDVInvokedUrlCommand) {
+    func isAuthorizationRequired(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
 
@@ -147,7 +147,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func clearAuthorizationData(command: CDVInvokedUrlCommand) {
+    func clearAuthorizationData(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -165,7 +165,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func getCachedAuthorizationHeader(command: CDVInvokedUrlCommand) {
+    func getCachedAuthorizationHeader(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -193,7 +193,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func getUserIdentity(command: CDVInvokedUrlCommand) {
+    func getUserIdentity(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -225,7 +225,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func getAppIdentity(command: CDVInvokedUrlCommand) {
+    func getAppIdentity(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -257,7 +257,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func getDeviceIdentity(command: CDVInvokedUrlCommand) {
+    func getDeviceIdentity(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -289,7 +289,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func getAuthorizationPersistencePolicy(command: CDVInvokedUrlCommand) {
+    func getAuthorizationPersistencePolicy(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -327,7 +327,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func setAuthorizationPersistencePolicy(command: CDVInvokedUrlCommand) {
+    func setAuthorizationPersistencePolicy(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -373,7 +373,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func logout(command: CDVInvokedUrlCommand) {
+    func logout(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
@@ -425,7 +425,7 @@ class CDVBMSAuthorizationManager : CDVPlugin {
         #endif
     }
 
-    func unpackIsAuthorizationRequiredParams(command: CDVInvokedUrlCommand) throws -> (statusCode: Int32, authorizationHeaderValue: String) {
+    func unpackIsAuthorizationRequiredParams(_ command: CDVInvokedUrlCommand) throws -> (statusCode: Int32, authorizationHeaderValue: String) {
         if (command.arguments.count < 2) {
             throw CustomErrors.InvalidParameterCount(expected: 2, actual: command.arguments.count)
         }

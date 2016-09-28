@@ -15,12 +15,12 @@ import Foundation
 import BMSCore
 
 
-class CDVBMSClient : CDVPlugin {
+@objc(CDVBMSClient) class CDVBMSClient : CDVPlugin {
 
     static var jsChallengeHandlers:NSMutableDictionary = [:]
     static var authenticationContexts:NSMutableDictionary = [:]
 
-    func initialize(command: CDVInvokedUrlCommand) {
+    func initialize(_ command: CDVInvokedUrlCommand) {
 #if swift(>=3.0)
         self.commandDelegate!.run(inBackground: {
 
@@ -34,7 +34,7 @@ class CDVBMSClient : CDVPlugin {
             let client = BMSClient.sharedInstance;
 
             //use category to handle objective-c exception
-            client.initialize(bluemixAppRoute: region)
+            client.initialize(bluemixAppRoute: "", bluemixAppGUID: "", bluemixRegion: region)
 
 
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "")
@@ -55,7 +55,7 @@ class CDVBMSClient : CDVPlugin {
             let client = BMSClient.sharedInstance;
 
             //use category to handle objective-c exception
-            client.initialize(bluemixAppRoute: region)
+            client.initialize(bluemixAppRoute: "", bluemixAppGUID: "", bluemixRegion: region)
 
 
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "")
@@ -65,7 +65,7 @@ class CDVBMSClient : CDVPlugin {
 #endif
     }
 
-    func getBluemixAppRoute(command: CDVInvokedUrlCommand) {
+    func getBluemixAppRoute(_ command: CDVInvokedUrlCommand) {
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -89,7 +89,7 @@ class CDVBMSClient : CDVPlugin {
 
     }
 
-    func getBluemixAppGUID(command: CDVInvokedUrlCommand) {
+    func getBluemixAppGUID(_ command: CDVInvokedUrlCommand) {
 
         #if swift(>=3.0)
         self.commandDelegate!.run(inBackground: {
@@ -113,14 +113,14 @@ class CDVBMSClient : CDVPlugin {
 
     }
 
-    func addCallbackHandler(command: CDVInvokedUrlCommand) {
+    func addCallbackHandler(_ command: CDVInvokedUrlCommand) {
 
         #if swift(>=3.0)
         self.commandDelegate!.run(inBackground: {
             var errorText: String = ""
 
             do {
-                let realm = try self.unpackRealm(command: command)
+                let realm = try self.unpackRealm(command)
                 CDVBMSClient.jsChallengeHandlers.setValue(command, forKey: realm)
 
                 defer {
@@ -134,7 +134,7 @@ class CDVBMSClient : CDVPlugin {
             } catch CustomErrors.InvalidParameterType(let expected, let actual) {
                 errorText = CustomErrorMessages.invalidParameterTypeError(expected: expected, actual: actual)
             } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
-                errorText = CustomErrorMessages.invalidParameterCountError(expected: expected, actual: actual)
+                errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
             } catch {
                 errorText = CustomErrorMessages.unexpectedError
             }
@@ -165,27 +165,33 @@ class CDVBMSClient : CDVPlugin {
             })
         #endif
     }
+    #if swift(>=3.0)
+        fileprivate func unpackRealm(_ command: CDVInvokedUrlCommand) throws -> String {
+            if (command.arguments.count < 1) {
+                throw CustomErrors.InvalidParameterCount(expected: 1, actual: 0)
+            }
 
-    private func unpackRealm(command: CDVInvokedUrlCommand) throws -> String {
-        if (command.arguments.count < 1) {
-            throw CustomErrors.InvalidParameterCount(expected: 1, actual: 0)
-        }
-
-        #if swift(>=3.0)
             guard let realm = command.argument(at: 0) as? String else {
                 throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argument(at: 0) as AnyObject)
             }
-        #else
-            guard let realm = command.argumentAtIndex(0) as? String else {
-                throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argumentAtIndex(0) as AnyObject)
+            return realm
+        }
+    #else
+        private func unpackRealm(_ command: CDVInvokedUrlCommand) throws -> String {
+                if (command.arguments.count < 1) {
+                    throw CustomErrors.InvalidParameterCount(expected: 1, actual: 0)
+                }
+
+                guard let realm = command.argumentAtIndex(0) as? String else {
+                        throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argumentAtIndex(0) as AnyObject)
+                }
+
+                return realm
             }
-        #endif
 
+    #endif
 
-        return realm
-    }
-
-    internal class InternalAuthenticationDelegate : NSObject, AuthenticationDelegate {
+  /*  internal class InternalAuthenticationDelegate : NSObject, AuthenticationDelegate {
 
         var realm: String
         var commandDelegate: CDVCommandDelegate
@@ -267,4 +273,6 @@ class CDVBMSClient : CDVPlugin {
 
         }
     }
+
+    */
 }

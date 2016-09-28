@@ -14,15 +14,15 @@
 import Foundation
 import BMSCore
 
-class CDVBMSRequest : CDVPlugin {
+@objc(CDVBMSRequest) class CDVBMSRequest : CDVPlugin {
 
-    func send(command: CDVInvokedUrlCommand) {
+    func send(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
         self.commandDelegate!.run(inBackground: {
             let requestDict = command.arguments[0] as! NSDictionary
             var bodyData : Data? = nil
 
-            let nativeRequest = self.unPackRequest(requestDict: requestDict)
+            let nativeRequest = self.unPackRequest(requestDict)
 
             if let body = requestDict.object(forKey: "body") as? String {
                 bodyData = body.data(using: String.Encoding.utf8)
@@ -34,12 +34,12 @@ class CDVBMSRequest : CDVPlugin {
 
                     if (error != nil) {
                         // process the error
-                        try responseString = self.packResponse(response: response,error: error)
+                        try responseString = self.packResponse(response,error: error)
                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseString)
                         self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
                     } else {
                         // process success
-                        try responseString = self.packResponse(response: response)
+                        try responseString = self.packResponse(response)
                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: responseString)
                         self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
                     }
@@ -89,90 +89,125 @@ class CDVBMSRequest : CDVPlugin {
         #endif
     }
 
-    private func unPackRequest(requestDict:NSDictionary) -> BaseRequest {
-        // create a native request
-        #if swift(>=3.0)
+    #if swift(>=3.0)
+        fileprivate func unPackRequest(_ requestDict:NSDictionary) -> BaseRequest {
+            // create a native request
             var url     = requestDict.object(forKey: "url") as! String
 
-        #else
-            var url     = requestDict.objectForKey("url") as! String
-        #endif
-
-        // Detect if url is relative and convert to absolute
-        if((url ?? "").isEmpty == false && url[url.startIndex] == "/") {
-            #if swift(>=3.0)
-                url = convertRelativeURLToBluemixAbsolute(url: url)
-            #else
+            // Detect if url is relative and convert to absolute
+            if((url ?? "").isEmpty == false && url[url.startIndex] == "/") {
                 url = convertRelativeURLToBluemixAbsolute(url)
-            #endif
-        }
 
-        // method
-        #if swift(>=3.0)
+            }
+
+            // method
             let methodString = requestDict.object(forKey: "method") as? String
-        #else
-            let methodString = requestDict.objectForKey("method") as? String
-        #endif
             var method : HttpMethod = HttpMethod.GET;
-        switch(methodString){
-            case "GET"?:
-                method = HttpMethod.GET
-                break
-            case "POST"?:
-                method = HttpMethod.POST
-                break
-            case "PUT"?:
-                method = HttpMethod.PUT
-                break
-            case "DELETE"?:
-                method = HttpMethod.DELETE
-                break
-            case "TRACE"?:
-                method = HttpMethod.TRACE
-                break
-            case "HEAD"?:
-                method = HttpMethod.HEAD
-                break
-            case "OPTIONS"?:
-                method = HttpMethod.OPTIONS
-                break
-            case "CONNECT"?:
-                method = HttpMethod.CONNECT
-                break
-            case "PATCH"?:
-                method = HttpMethod.PATCH
-                break
-            default:
-                method = HttpMethod.GET
-        }
+            switch(methodString){
+                case "GET"?:
+                    method = HttpMethod.GET
+                    break
+                case "POST"?:
+                    method = HttpMethod.POST
+                    break
+                case "PUT"?:
+                    method = HttpMethod.PUT
+                    break
+                case "DELETE"?:
+                    method = HttpMethod.DELETE
+                    break
+                case "TRACE"?:
+                    method = HttpMethod.TRACE
+                    break
+                case "HEAD"?:
+                    method = HttpMethod.HEAD
+                    break
+                case "OPTIONS"?:
+                    method = HttpMethod.OPTIONS
+                    break
+                case "CONNECT"?:
+                    method = HttpMethod.CONNECT
+                    break
+                case "PATCH"?:
+                    method = HttpMethod.PATCH
+                    break
+                default:
+                    method = HttpMethod.GET
+            }
 
-        // get the query parameters
-        #if swift(>=3.0)
+            // get the query parameters
             let requestQueryParamsDict = requestDict.object(forKey: "queryParameters") as! Dictionary<String,String>
-        #else
-            let requestQueryParamsDict = requestDict.objectForKey("queryParameters") as! Dictionary<String,String>
-        #endif
 
-        // timeout
-        #if swift(>=3.0)
+            // timeout
             let timeout = (requestDict.object(forKey: "timeout") as! Double) / Double(1000)
-        #else
-            let timeout = (requestDict.objectForKey("timeout") as! Double) / Double(1000)
-        #endif
 
-        // get the headers
-        #if swift(>=3.0)
+            // get the headers
             let requestHeaderDict = requestDict.object(forKey: "headers") as! Dictionary<String,String>
-        #else
-            let requestHeaderDict = requestDict.objectForKey("headers") as! Dictionary<String,String>
-        #endif
 
-        let nativeRequest = BaseRequest(url: url, method: method, headers: requestHeaderDict, queryParameters: requestQueryParamsDict, timeout: timeout)
-        return nativeRequest
-    }
+            let nativeRequest = BaseRequest(url: url, method: method, headers: requestHeaderDict, queryParameters: requestQueryParamsDict, timeout: timeout)
+            return nativeRequest
+        }
+    #else
+        private func unPackRequest(requestDict:NSDictionary) -> BaseRequest {
+                // create a native request
+                var url     = requestDict.objectForKey("url") as! String
+
+                // Detect if url is relative and convert to absolute
+                if((url ?? "").isEmpty == false && url[url.startIndex] == "/") {
+                    url = convertRelativeURLToBluemixAbsolute(url)
+                }
+
+                // method
+                let methodString = requestDict.objectForKey("method") as? String
+                var method : HttpMethod = HttpMethod.GET;
+                switch(methodString){
+                    case "GET"?:
+                        method = HttpMethod.GET
+                        break
+                    case "POST"?:
+                        method = HttpMethod.POST
+                        break
+                    case "PUT"?:
+                        method = HttpMethod.PUT
+                        break
+                    case "DELETE"?:
+                        method = HttpMethod.DELETE
+                        break
+                    case "TRACE"?:
+                        method = HttpMethod.TRACE
+                        break
+                    case "HEAD"?:
+                        method = HttpMethod.HEAD
+                        break
+                    case "OPTIONS"?:
+                        method = HttpMethod.OPTIONS
+                        break
+                    case "CONNECT"?:
+                        method = HttpMethod.CONNECT
+                        break
+                    case "PATCH"?:
+                        method = HttpMethod.PATCH
+                        break
+                    default:
+                        method = HttpMethod.GET
+                }
+
+                // get the query parameters
+                let requestQueryParamsDict = requestDict.objectForKey("queryParameters") as! Dictionary<String,String>
+
+                // timeout
+                let timeout = (requestDict.objectForKey("timeout") as! Double) / Double(1000)
+
+                // get the headers
+                let requestHeaderDict = requestDict.objectForKey("headers") as! Dictionary<String,String>
+                let nativeRequest = BaseRequest(url: url, method: method, headers: requestHeaderDict, queryParameters: requestQueryParamsDict, timeout: timeout)
+                return nativeRequest
+            }
+
+    #endif
 
     #if swift(>=3.0)
-    func packResponse(response: Response!,error:Error?=nil) throws -> String {
+    func packResponse(_ response: Response!,error:Error?=nil) throws -> String {
         let jsonResponse:NSMutableDictionary = [:]
         var responseString: NSString = ""
 
@@ -181,7 +216,7 @@ class CDVBMSRequest : CDVPlugin {
           // TODO: Need to find out if userInfo is needed jsonResponse.setObject((error!.userInfo), forKey: "userInfo")
         }
         else {
-            jsonResponse.setObject(Int((0)), forKey: "errorCode" as NSCopying)
+            jsonResponse.setObject(Int(0), forKey: "errorCode" as NSCopying)
             jsonResponse.setObject("", forKey: "errorDescription" as NSCopying)
         }
 
@@ -196,7 +231,7 @@ class CDVBMSRequest : CDVPlugin {
             jsonResponse.setObject(responseText, forKey: "responseText" as NSCopying)
 
             if response.headers != nil {
-                jsonResponse.setObject(response.headers, forKey:"headers" as NSCopying)
+                jsonResponse.setObject(response.headers as! [String:Any], forKey:"headers" as NSCopying)
             }
             else {
                 jsonResponse.setObject([], forKey:"headers" as NSCopying)
@@ -205,7 +240,7 @@ class CDVBMSRequest : CDVPlugin {
             jsonResponse.setObject(response.statusCode, forKey:"status" as NSCopying)
         }
 
-        responseString = try self.stringifyResponse(value: jsonResponse) as NSString;
+        responseString = try self.stringifyResponse(jsonResponse) as NSString;
         return responseString as String
     }
     #else
@@ -248,7 +283,7 @@ class CDVBMSRequest : CDVPlugin {
 
     #endif
 
-    func stringifyResponse(value: AnyObject,prettyPrinted:Bool = false) throws -> String {
+    func stringifyResponse(_ value: AnyObject,prettyPrinted:Bool = false) throws -> String {
         #if swift(>=3.0)
             let options = prettyPrinted ? JSONSerialization.WritingOptions.prettyPrinted : JSONSerialization.WritingOptions(rawValue: 0)
             var jsonString : String? = ""
@@ -271,7 +306,7 @@ class CDVBMSRequest : CDVPlugin {
         return jsonString!
     }
 
-    func convertRelativeURLToBluemixAbsolute(url:String) -> String {
+    func convertRelativeURLToBluemixAbsolute(_ url:String) -> String {
         let client = BMSClient.sharedInstance
         let bluemixAppRoute: String = client.bluemixAppRoute!
 

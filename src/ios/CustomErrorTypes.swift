@@ -37,7 +37,7 @@ class CustomErrorMessages {
     }
 #endif
 
-    static func invalidParameterCountError(expected: Int, actual: Int) -> String {
+    static func invalidParameterCountError(_ expected: Int, actual: Int) -> String {
         return "Parameter count is invalid. Expected: \(expected), actual: \(actual)"
     }
 

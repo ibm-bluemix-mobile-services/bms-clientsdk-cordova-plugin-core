@@ -13,7 +13,7 @@ limitations under the License.
 import Foundation
 import BMSCore
 
-class CDVMFPLogger : CDVPlugin {
+@objc(CDVMFPLogger) class CDVMFPLogger : CDVPlugin {
 
     let logLevelDictionary: Dictionary<String,LogLevel> = [
         "NONE"      : LogLevel.none,
@@ -25,7 +25,7 @@ class CDVMFPLogger : CDVPlugin {
         "ANALYTICS" : LogLevel.analytics,
     ]
 
-    func storeLogs(command: CDVInvokedUrlCommand){
+    func storeLogs(_ command: CDVInvokedUrlCommand){
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -46,7 +46,7 @@ class CDVMFPLogger : CDVPlugin {
         #endif
     }
 
-    func getMaxLogStoreSize(command: CDVInvokedUrlCommand){
+    func getMaxLogStoreSize(_ command: CDVInvokedUrlCommand){
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -65,7 +65,7 @@ class CDVMFPLogger : CDVPlugin {
         #endif
     }
 
-    func setMaxLogStoreSize(command: CDVInvokedUrlCommand){
+    func setMaxLogStoreSize(_ command: CDVInvokedUrlCommand){
         // parms: [maxStoreSize]
 
         #if swift(>=3.0)
@@ -90,7 +90,7 @@ class CDVMFPLogger : CDVPlugin {
 
     }
 
-    func getLevel(command: CDVInvokedUrlCommand){
+    func getLevel(_ command: CDVInvokedUrlCommand){
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -111,7 +111,7 @@ class CDVMFPLogger : CDVPlugin {
         #endif
     }
 
-    func setLevel(command: CDVInvokedUrlCommand){
+    func setLevel(_ command: CDVInvokedUrlCommand){
         // parms: [logLevel]
 
         #if swift(>=3.0)
@@ -156,7 +156,7 @@ class CDVMFPLogger : CDVPlugin {
 
     }
 
-    func isUncaughtExceptionDetected(command: CDVInvokedUrlCommand){
+    func isUncaughtExceptionDetected(_ command: CDVInvokedUrlCommand){
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -187,7 +187,7 @@ class CDVMFPLogger : CDVPlugin {
     }
  */
 
-    func debug(command: CDVInvokedUrlCommand) {
+    func debug(_ command: CDVInvokedUrlCommand) {
         // parms: [name, message]
 
         #if swift(>=3.0)
@@ -231,7 +231,7 @@ class CDVMFPLogger : CDVPlugin {
         logger.debug(message: message)
     }
 
-    func info(command: CDVInvokedUrlCommand){
+    func info(_ command: CDVInvokedUrlCommand){
         // parms: [name, message]
 
         #if swift(>=3.0)
@@ -274,7 +274,7 @@ class CDVMFPLogger : CDVPlugin {
 
     }
 
-    func warn(command: CDVInvokedUrlCommand){
+    func warn(_ command: CDVInvokedUrlCommand){
         // parms: [name, message]
 
         #if swift(>=3.0)
@@ -315,7 +315,7 @@ class CDVMFPLogger : CDVPlugin {
         logger.warn(message: message)
     }
 
-    func error(command: CDVInvokedUrlCommand){
+    func error(_ command: CDVInvokedUrlCommand){
         // parms: [name, message]
 
         #if swift(>=3.0)
@@ -356,7 +356,7 @@ class CDVMFPLogger : CDVPlugin {
         logger.error(message: message)
     }
 
-    func fatal(command: CDVInvokedUrlCommand){
+    func fatal(_ command: CDVInvokedUrlCommand){
         // parms: [name, message]
 
         #if swift(>=3.0)

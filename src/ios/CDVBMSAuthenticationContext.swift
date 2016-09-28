@@ -15,9 +15,9 @@
 import Foundation
 import BMSCore
 
-class CDVBMSAuthenticationContext : CDVPlugin {
+@objc(CDVBMSAuthenticationContext) class CDVBMSAuthenticationContext : CDVPlugin {
 
-    func submitAuthenticationChallengeAnswer(command: CDVInvokedUrlCommand) {
+    func submitAuthenticationChallengeAnswer(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let answer = command.argument(at: 0)
@@ -35,7 +35,7 @@ class CDVBMSAuthenticationContext : CDVPlugin {
         #endif
     }
 
-    func submitAuthenticationSuccess(command: CDVInvokedUrlCommand) {
+    func submitAuthenticationSuccess(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let realm = command.argument(at: 0) as! String
@@ -51,7 +51,7 @@ class CDVBMSAuthenticationContext : CDVPlugin {
         #endif
     }
 
-    func submitAuthenticationFailure(command: CDVInvokedUrlCommand) {
+    func submitAuthenticationFailure(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let info = command.argument(at: 0) as! [NSObject : AnyObject]
