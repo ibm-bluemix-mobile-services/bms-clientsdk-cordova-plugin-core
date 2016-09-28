@@ -178,7 +178,7 @@ public class CDVBMSClient extends CordovaPlugin {
 
 
     //AuthenticationListener class that handles the challenges from the server
-    private class InternalAuthenticationListener implements AuthenticationListener {
+/*    private class InternalAuthenticationListener implements AuthenticationListener {
 
         private final String realm;
 
@@ -230,4 +230,5 @@ public class CDVBMSClient extends CordovaPlugin {
         }
 
     }
+    */
 }
