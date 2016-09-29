@@ -22,13 +22,18 @@ import android.util.Log;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
+import android.app.Application;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+import java.util.Arrays;
+
 public class CDVBMSAnalytics extends CordovaPlugin {
 
     private static final Logger analyticsLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAnalytics");
+    private String errorEmptyArg = "Expected non-empty string argument.";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -52,6 +57,12 @@ public class CDVBMSAnalytics extends CordovaPlugin {
         } else if("logEvent".equals(action)) {
             // TODO: Not yet implemented for the Android SDK
             callbackContext.error("Not yet implemented");
+            return true;
+        } else if("init".equals(action)){
+            this.init(args, callbackContext);
+            return true;
+        } else if("log".equals(action)){
+            this.log(args, callbackContext);
             return true;
         }
         return false;
@@ -80,6 +91,57 @@ public class CDVBMSAnalytics extends CordovaPlugin {
         });
 
 
+    }
+
+    /**
+     * Initialize BMSAnalytics API
+     * @param args  JSONArray that contains the argument the to initialize Analytics
+     * @param callbackContext
+     */
+    public void init(final JSONArray args, final CallbackContext callbackContext){
+
+        final Application app = cordova.getActivity().getApplication();
+        try {
+            String applicationName = args.getString(0);
+            String clientApiKey = args.getString(1);
+            boolean hasContext = args.getBoolean(2);
+            JSONArray deviceEventsArray = args.getJSONArray(3);
+            Analytics.DeviceEvent[] devices = new Analytics.DeviceEvent[deviceEventsArray.length()];
+            for(int i = 0; i < deviceEventsArray.length(); i++ ){
+                if(deviceEventsArray.getInt(i) == 0){
+                    devices[i] = Analytics.DeviceEvent.NONE;
+                } else if(deviceEventsArray.getInt(i) == 1){
+                    devices[i] = Analytics.DeviceEvent.ALL;
+                } else if(deviceEventsArray.getInt(i) == 2){
+                    devices[i] = Analytics.DeviceEvent.LIFECYCLE;
+                }
+            }
+            Analytics.init(app, applicationName, clientApiKey, hasContext, devices);
+        } catch (JSONException e) {
+            analyticsLogger.error("init :: Analytics failed to initialize. Please review arguments");
+            callbackContext.error(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Log an analytics event
+     * @param args  JSONArray that contains the description for the event
+     * @param callbackContext
+     */
+
+    public void log(final JSONArray args, final CallbackContext callbackContext){
+        cordova.getThreadPool().execute(new Runnable() {
+            public void run() {
+                try {
+                    JSONObject meta = args.getJSONObject(0);
+                    Analytics.log(meta);
+                } catch (JSONException e) {
+                    analyticsLogger.error("log :: " + errorEmptyArg);
+                    callbackContext.error(e.getMessage());
+                }
+            }
+        });
     }
 
 }
