@@ -18,6 +18,14 @@ var failure = function() { console.log("Error: BMSAnalytics"); };
 var BMSAnalytics = {
 
     /**
+     * Define Device Events
+     * @type {int}
+     */
+    NONE: 0,
+    ALL: 1,
+    LIFECYCLE: 2,
+
+    /**
      * Turns on the global setting for persisting of the analytics data.
      */
     enable: function () {
@@ -45,6 +53,26 @@ var BMSAnalytics = {
      */
     send: function (success, failure) {
         cordova.exec(success , failure, "BMSAnalytics", "send", []);
+    },
+    /**
+     * Initialize BMSAnalytics API
+     * <p>This method must be called before any analytics methods can be called.</p>
+     * @param applicationName Application's common name.  Should be consistent across platforms.
+     * @param clientApiKey The Client API Key used to communicate with your MFPAnalytics service.
+     * @param hasUserContext If true, Analytics only records one user per device. If false, setting the user identity will keep a record of all users.
+     * @param deviceEvents One or more context attributes BMSAnalytics will register event listeners for.
+     * (e.g BMSAnalytics.NONE, BMSAnalytics.ALL or BMSAnalytics.LIFECYCLE)
+     */
+    init : function(applicationName, clientApiKey, hasUserContext, deviceEvents){
+        cordova.exec(success, failure, "BMSAnalytics", "init", [applicationName, clientApiKey, hasUserContext, deviceEvents])
+
+    },
+    /**
+     * Log an analytics event
+     * @param metadata An object that contains the description for the event
+     */
+    log: function(metadata){
+        cordova.exec(success, failure, "BMSAnalytics", "log", [metadata]);
     }
 };
 
