@@ -90,9 +90,25 @@ public class CDVBMSClient extends CordovaPlugin {
                     realm = args.getString(0);
                     if (realm != null && realm.length() > 0) {
                         MCAAuthorizationManager.createInstance(cordova.getActivity().getApplicationContext()).
-                                registerAuthenticationListener(realm, new InternalAuthenticationListener(realm));
-                        bmsLogger.debug("Called registerAuthenticationListener");
-                        callbackContext.success(realm);
+                                registerAuthenticationListener(realm, new AuthenticationListener() {
+                                    @Override
+                                    public void onAuthenticationChallengeReceived(AuthenticationContext authContext, JSONObject challenge, Context context) {
+
+                                    }
+
+                                    @Override
+                                    public void onAuthenticationSuccess(Context context, JSONObject info) {
+                                        bmsLogger.debug("Called registerAuthenticationListener");
+                                        callbackContext.success(realm);
+                                    }
+
+                                    @Override
+                                    public void onAuthenticationFailure(Context context, JSONObject info) {
+                                        bmsLogger.error("Failed to register authentication listener with " + realm);
+                                        callbackContext.error(errorEmptyArg);
+                                    }
+                                });
+
                     } else {
                         bmsLogger.error(errorEmptyArg);
                         callbackContext.error(errorEmptyArg);
