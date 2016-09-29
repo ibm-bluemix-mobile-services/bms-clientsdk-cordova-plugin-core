@@ -100,9 +100,9 @@ Verify that your Cordova application was correctly linked with the iOS Bluemix C
 !-->
 
 **Note**: If you get the message that your application requires `Use Legacy Swift Language Version` enable the flag to NO by going
- into your Build Settings and search for `Use Legacy Swift Language Version`
+ into your Build Settings and search for `Use Legacy Swift Language Version`. You may need to do this for the Pods as well by going to the Pod's Build Setting and updating the flag.
  
- **Note**: If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`
+ **Note**: If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`.
 
 
 #### Configuring Your Android Environment
