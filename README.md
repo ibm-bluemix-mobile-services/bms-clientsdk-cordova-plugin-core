@@ -276,6 +276,9 @@ Below are some examples of how to use the BMSAnalytics class.
 //Initialize BMSClient
 BMSClient.initialize(BMClient.REGION_US_SOUTH);
 
+//Initialize BMSAnalytics
+BMSAnalytics.initialize(appName, apiKey, hasUserContext, [BMSAnalytics.ALL]
+
 // Enable analytics logging
 BMSAnalytics.enable();
 

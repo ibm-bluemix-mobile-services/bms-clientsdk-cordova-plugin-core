@@ -58,7 +58,7 @@ public class CDVBMSAnalytics extends CordovaPlugin {
             // TODO: Not yet implemented for the Android SDK
             callbackContext.error("Not yet implemented");
             return true;
-        } else if("init".equals(action)){
+        } else if("initialize".equals(action)){
             this.init(args, callbackContext);
             return true;
         } else if("log".equals(action)){
