@@ -14,6 +14,8 @@
 
 import Foundation
 import BMSCore
+import BMSAnalytics
+
 
 @objc(CDVBMSAnalytics) class CDVBMSAnalytics : CDVPlugin {
 
@@ -79,21 +81,72 @@ import BMSCore
 
 
     func send(_ command: CDVInvokedUrlCommand) {
-    // has success, failure callbacks
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
-                //TODO: Need Analytics (Nana)    Analytics.send()
+                Analytics.send(completionHandler: { (response: Response?, error:Error?) in
+                        if (error != nil) {
+                            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: false)
+                            self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                        } else {
+                            let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: true)
+                            self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                        }
+                })
             })
         #else
             self.commandDelegate!.runInBackground({
-                //TODO: Need Analytics (Nana)    Analytics.send()
-            })
+                Analytics.send(completionHandler: { (response: Response?, error:NSError?) in
+                    if (error != nil) {
+                        // process the error
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsBool:false)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    } else {
+                        // process success
+                        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: true)
+                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    }
+                })
         #endif
     }
 
-    // TODO (For future release)
-    func logEvent(_ command: CDVInvokedUrlCommand) {
-    // takes parms: msg, name
+    func initialize(_ command: CDVInvokedUrlCommand){
+
+        let appName = command.arguments[0] as! String
+        let clientApiKey = command.arguments[1] as! String
+        let hasUserContext = command.arguments[2] as! Bool
+
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:true)
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+        })
+        #else
+            self.commandDelegate!.runInBackground({
+                Analytics.initialize(appName, clientApiKey, hasUserContext, Analytics.lifecycle)
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
+
+    }
+
+    func log(_ command: CDVInvokedUrlCommand) {
+        let meta = command.arguments[0] as! Dictionary<String, Any>
+
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                Analytics.log(metadata: meta)
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:true)
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+                Analytics.log(meta)
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
 
     }
 }
