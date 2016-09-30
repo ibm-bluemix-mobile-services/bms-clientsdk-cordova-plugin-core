@@ -64,7 +64,7 @@ var BMSAnalytics = {
      * (e.g BMSAnalytics.NONE, BMSAnalytics.ALL or BMSAnalytics.LIFECYCLE)
      */
     init : function(applicationName, clientApiKey, hasUserContext, deviceEvents){
-        cordova.exec(success, failure, "BMSAnalytics", "init", [applicationName, clientApiKey, hasUserContext, deviceEvents])
+        cordova.exec(success, failure, "BMSAnalytics", "initialize", [applicationName, clientApiKey, hasUserContext, deviceEvents])
 
     },
     /**
