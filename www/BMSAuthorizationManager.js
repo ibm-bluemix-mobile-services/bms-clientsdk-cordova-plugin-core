@@ -23,13 +23,6 @@ var BMSAuthorizationManager = function() {
 	var success = function() { console.log("AuthorizationManager Success: default success is called"); };
     var failure = function() { console.log("AuthorizationManager Error: default failure is called"); };
 
-    /**
-     * The intializer for the AuthorizationManager
-     * @param {string} tenantId Specifies the tenant id of the MCA service.
-     */
-    this.initialize = function(tenantId) {
-        cordova.exec(success, failure, AuthorizationManagerString, "initialize", [tenantId]);
-    };
     
     /**
      * Invoke process for obtaining authorization header. during this process

@@ -37,7 +37,7 @@ import java.util.HashMap;
 
 public class CDVBMSAuthorizationManager extends CordovaPlugin {
 
-    private static final Logger amLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAuthorizationManager");
+    private static final Logger amLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVBMSAuthorizationManager");
 
     private static final String PersistencePolicyAlways = "ALWAYS";
     private static final String PersistencePolicyNever = "NEVER";

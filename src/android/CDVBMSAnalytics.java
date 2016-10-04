@@ -32,7 +32,7 @@ import java.util.Arrays;
 
 public class CDVBMSAnalytics extends CordovaPlugin {
 
-    private static final Logger analyticsLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVMFPAnalytics");
+    private static final Logger analyticsLogger = Logger.getLogger(Logger.INTERNAL_PREFIX + "CDVBMSAnalytics");
     private String errorEmptyArg = "Expected non-empty string argument.";
 
     @Override
