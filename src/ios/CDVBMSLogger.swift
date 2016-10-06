@@ -177,15 +177,33 @@ import BMSCore
         #endif
     }
 
-    //TODO: (Nana) Need to get Logger.send from Analytics
-    /*
-    func send(command: CDVInvokedUrlCommand){
-
-        self.commandDelegate!.runInBackground({
-            Logger.send()
-        })
-    }
- */
+     func send(command: CDVInvokedUrlCommand){
+         #if swift(>=3.0)
+             self.commandDelegate!.run(inBackground: {
+                 Logger.send(completionHandler: { (response: Response?, error:Error?) in
+                     if (error != nil) {
+                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: false)
+                         self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                     } else {
+                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: true)
+                         self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                     }
+                 })
+             })
+         #else
+             self.commandDelegate!.runInBackground({
+                 Logger.send(completionHandler: { (response: Response?, error:Error?) in
+                     if (error != nil) {
+                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsBool: false)
+                         self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                     } else {
+                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: true)
+                         self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                     }
+                 })
+             })
+         #endif
+     }
 
     func debug(_ command: CDVInvokedUrlCommand) {
         // parms: [name, message]
