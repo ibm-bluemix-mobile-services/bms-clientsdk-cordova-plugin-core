@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>BMSCore</name>
 
+    <dependency id="cordova-plugin-cocoapod-support"/>
     <dependency id="cordova-plugin-add-swift-support"/>
 
     <js-module name="BMSClient" src="www/BMSClient.js">
@@ -26,7 +27,7 @@
     </js-module>
 
 
-    <dependency id="cordova-plugin-cocoapod-support"/>
+
 
 
 
@@ -85,10 +86,9 @@
 
     <!-- ios -->
     <platform name="ios">
-    	<pods-config use-frameworks="true" ios-min-version="8.0" />
-    	<pod id="BMSCore" git="https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-swift-core" branch="swift-3"/>
-        <!--<pod id="BMSAnalytics" git="https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-swift-analytics" branch="swift-3"/>-->
-        <!--<pod id="BMSSecurity" git="https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-swift-security" branch="swift_3"/>-->
+    	<pods-config use-frameworks="true" ios-min-version="8.0"/>
+        <pod id="BMSAnalytics" version="2.0.0"/>
+        <pod id="BMSSecurity" version="2.0.0"/>
         <config-file parent="/*" target="config.xml">
 
             <feature name="BMSClient">
@@ -106,7 +106,6 @@
             <feature name="BMSAnalytics">
                 <param name="ios-package" value="CDVBMSAnalytics"/>
             </feature>
-
             <feature name="BMSAuthorizationManager">
                 <param name="ios-package" value="CDVBMSAuthorizationManager"/>
             </feature>
@@ -114,7 +113,6 @@
             <feature name="BMSAuthenticationContext">
                 <param name="ios-package" value="CDVBMSAuthenticationContext"/>
             </feature>
-
         </config-file>
 
         <header-file src="src/ios/Bridging-Header.h" />
