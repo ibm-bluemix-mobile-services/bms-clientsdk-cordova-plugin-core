@@ -106,6 +106,7 @@ import BMSAnalytics
                         self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                     }
                 })
+            })
         #endif
     }
 
@@ -123,7 +124,7 @@ import BMSAnalytics
         })
         #else
             self.commandDelegate!.runInBackground({
-                Analytics.initialize(appName, clientApiKey, hasUserContext, Analytics.lifecycle)
+                Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
             })
@@ -142,7 +143,7 @@ import BMSAnalytics
             })
         #else
             self.commandDelegate!.runInBackground({
-                Analytics.log(meta)
+                Analytics.log(metadata: (meta as? [String: AnyObject])!)
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
             })

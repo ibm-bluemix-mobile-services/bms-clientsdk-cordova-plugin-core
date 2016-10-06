@@ -192,7 +192,7 @@ import BMSCore
              })
          #else
              self.commandDelegate!.runInBackground({
-                 Logger.send(completionHandler: { (response: Response?, error:Error?) in
+                 Logger.send(completionHandler: { (response: Response?, error:NSError?) in
                      if (error != nil) {
                          let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsBool: false)
                          self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)

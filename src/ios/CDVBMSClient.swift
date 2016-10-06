@@ -163,11 +163,11 @@ import BMSSecurity
 
                 defer {
                     let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: errorText)
-                    self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 }
 
                 } catch CustomErrors.InvalidParameterType(let expected, let actual) {
-                    errorText = CustomErrorMessages.invalidParameterTypeError(expected: expected, actual: actual)
+                    errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
                 } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
                     errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
                 } catch {
@@ -211,10 +211,10 @@ import BMSSecurity
 
                 defer {
                     let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: errorText)
-                    self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 }
             } catch CustomErrors.InvalidParameterType(let expected, let actual) {
-                errorText = CustomErrorMessages.invalidParameterTypeError(expected: expected, actual: actual)
+                errorText = CustomErrorMessages.invalidParameterTypeError(expected, actual: actual)
             } catch CustomErrors.InvalidParameterCount(let expected, let actual) {
                 errorText = CustomErrorMessages.invalidParameterCountError(expected, actual: actual)
             } catch {
@@ -222,19 +222,6 @@ import BMSSecurity
             }
         })
         #endif
-    }
-
-
-    private func unpackRealm(command: CDVInvokedUrlCommand) throws -> String {
-        if (command.arguments.count < 1) {
-            throw CustomErrors.InvalidParameterCount(expected: 1, actual: 0)
-        }
-
-        guard let realm = command.argument(at: 0) as? String else {
-            throw CustomErrors.InvalidParameterType(expected: "String", actual: command.argument(at: 0) as AnyObject)
-        }
-
-        return realm
     }
 
 
@@ -325,7 +312,7 @@ import BMSSecurity
             #if swift(>=3.0)
                 self.handleAuthSuccessOrFailure(userInfo: info as! [NSObject : AnyObject], callbackName: "onAuthenticationFailure")
             #else
-                self.handleAuthSuccessOrFailure(info, callbackName: "onAuthenticationFailure")
+                self.handleAuthSuccessOrFailure(info as! [NSObject:AnyObject], callbackName: "onAuthenticationFailure")
             #endif
         }
 
@@ -337,7 +324,7 @@ import BMSSecurity
             #if swift(>=3.0)
                 self.handleAuthSuccessOrFailure(userInfo: info as! [NSObject : AnyObject], callbackName: "onAuthenticationSuccess")
             #else
-                self.handleAuthSuccessOrFailure(info, callbackName: "onAuthenticationSuccess")
+                self.handleAuthSuccessOrFailure(info as! [NSObject: AnyObject], callbackName: "onAuthenticationSuccess")
             #endif
 
         }
@@ -353,7 +340,7 @@ import BMSSecurity
             let command: CDVInvokedUrlCommand = jsChallengeHandlers[realm] as! CDVInvokedUrlCommand
             let jsonResponse: [NSString: AnyObject] = ["action": "onAuthenticationChallengeReceived" as AnyObject, "challenge": challenge as AnyObject];
 
-            CDVBMSClient.authenticationContexts.setValue(authContext, forKey: realm)
+            CDVBMSClient.authenticationContexts.setValue(authContext as? AnyObject, forKey: realm)
 
             #if swift(>=3.0)
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: jsonResponse)

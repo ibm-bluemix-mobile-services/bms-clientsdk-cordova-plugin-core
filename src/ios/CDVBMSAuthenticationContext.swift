@@ -30,8 +30,8 @@ import BMSSecurity
             self.commandDelegate!.runInBackground({
                 let answer = command.argumentAtIndex(0)
                 let realm = command.argumentAtIndex(1) as! String
-                let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
-                context.submitAuthenticationChallengeAnswer(answer as! [NSObject : AnyObject])
+                let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
+                context.submitAuthenticationChallengeAnswer(answer as? [String : AnyObject])
             })
         #endif
     }
@@ -64,8 +64,8 @@ import BMSSecurity
             self.commandDelegate!.runInBackground({
                 let info = command.argumentAtIndex(0) as! [NSObject : AnyObject]
                 let realm = command.argumentAtIndex(1) as! String
-                let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
-                context.submitAuthenticationFailure(info)
+                let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
+                context.submitAuthenticationFailure(info as? [String: AnyObject])
             })
         #endif
     }

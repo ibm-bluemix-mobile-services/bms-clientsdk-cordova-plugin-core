@@ -45,7 +45,7 @@ import BMSSecurity
                 }
 
                 let authManager = MCAAuthorizationManager.sharedInstance
-                authManager.initializeWithTenantId(tenantId)
+                authManager.initialize(tenantId: tenantId)
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
             });
@@ -84,7 +84,7 @@ import BMSSecurity
         #else
             self.commandDelegate!.runInBackground({
 
-                authManager.obtainAuthorizationHeaderWithCompletionHandler { (response: Response!, error: NSError!) -> Void in
+                authManager.obtainAuthorization { (response: Response?, error: NSError?) -> Void in
                     var responseString: String?
 
                     do {
@@ -133,7 +133,7 @@ import BMSSecurity
                     let authManager = MCAAuthorizationManager.sharedInstance
                     let params = try self.unpackIsAuthorizationRequiredParams(command);
 
-                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:authManager.isAuthorizationRequired(params.statusCode, authorizationHeaderValue: params.authorizationHeaderValue))
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:authManager.isAuthorizationRequired(for: Int(params.statusCode), httpResponseAuthorizationHeader: params.authorizationHeaderValue))
 
                     self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
                 } catch {
@@ -211,7 +211,7 @@ import BMSSecurity
                 var pluginResult: CDVPluginResult? = nil
 
                 do {
-                    let userIdentity: String = try Utils.stringifyResponse(authManager.userIdentity)
+                    let userIdentity: String = try Utils.stringifyResponse(authManager.userIdentity as! AnyObject)
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:userIdentity)
                 } catch {
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainUserIdentity)
@@ -243,7 +243,7 @@ import BMSSecurity
                 var pluginResult: CDVPluginResult? = nil
 
                 do {
-                    let appIdentity: String = try Utils.stringifyResponse(authManager.appIdentity)
+                    let appIdentity: String = try Utils.stringifyResponse(authManager.appIdentity as! AnyObject)
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:appIdentity)
                 } catch {
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainAppIdentity)
@@ -275,7 +275,7 @@ import BMSSecurity
                 var pluginResult: CDVPluginResult? = nil
 
                 do {
-                    let deviceIdentity: String = try Utils.stringifyResponse(authManager.deviceIdentity)
+                    let deviceIdentity: String = try Utils.stringifyResponse(authManager.deviceIdentity as! AnyObject)
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:deviceIdentity)
                 } catch {
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.errorObtainDeviceIdentity)
@@ -311,10 +311,10 @@ import BMSSecurity
                 var pluginResult: CDVPluginResult? = nil
 
                 switch policy {
-                case PersistencePolicy.PersistencePolicyAlways:
-                    pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:PersistencePolicy.PersistencePolicyAlways.rawValue)
-                case PersistencePolicy.PersistencePolicyNever:
-                    pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:PersistencePolicy.PersistencePolicyNever.rawValue)
+                case PersistencePolicy.always:
+                    pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:PersistencePolicy.always.rawValue)
+                case PersistencePolicy.never:
+                    pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString:PersistencePolicy.never.rawValue)
                 default:
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString:CustomErrorMessages.invalidPolicyType)
                 }
@@ -356,12 +356,12 @@ import BMSSecurity
                 }
 
                 switch policy {
-                    case PersistencePolicy.PersistencePolicyAlways.rawValue:
-                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.PersistencePolicyAlways)
-                    case PersistencePolicy.PersistencePolicyNever.rawValue:
-                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.PersistencePolicyNever)
+                    case PersistencePolicy.always.rawValue:
+                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.always)
+                    case PersistencePolicy.never.rawValue:
+                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.never)
                     default:
-                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.PersistencePolicyNever)
+                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.never)
                 }
 
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
@@ -398,7 +398,7 @@ import BMSSecurity
         #else
             self.commandDelegate!.runInBackground({
                 let authManager = MCAAuthorizationManager.sharedInstance
-                authManager.logout{ (response: Response!, error: NSError!) -> Void in
+                authManager.logout{ (response: Response?, error: NSError?) -> Void in
                     var responseString: String?
                     do {
                         if (error != nil) {
