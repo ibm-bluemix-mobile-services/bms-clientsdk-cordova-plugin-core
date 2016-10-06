@@ -430,11 +430,17 @@ exports.defineAutoTests = function () {
 				expect(typeof BMSAnalytics.send == 'function').toBe(true);
 			});
 
-			// (TODO: For future release)
-			xit('should have logEvent() and is a function', function() {
-				expect(typeof BMSAnalytics.logEvent).toBeDefined();
-				expect(typeof BMSAnalytics.logEvent == 'function').toBe(true);
+			it('should have log() and is a function', function() {
+				expect(typeof BMSAnalytics.log).toBeDefined();
+				expect(typeof BMSAnalytics.log == 'function').toBe(true);
 			});
+			
+			it('should have initialize() and is a function', function() {
+				expect(typeof BMSAnalytics.initialize).toBeDefined();
+				expect(typeof BMSAnalytics.initialize == 'function').toBe(true)
+			});
+
+
 		});
 
 		describe('BMSAnalytics behavior', function() {
@@ -454,7 +460,7 @@ exports.defineAutoTests = function () {
 				BMSAnalytics.disable();
 			}, 5000);
 
-			xit('should use isEnabled to get Capture flag and return the value to success callback', function(done) {
+			it('should use isEnabled to get Capture flag and return the value to success callback', function(done) {
 			}, 5000);
 
 			it('should invoke failure callback if using send without setting up correctly', function(done) {
@@ -464,6 +470,5 @@ exports.defineAutoTests = function () {
 				BMSAnalytics.send();
 			}, 5000);
 		});
-
 	});
 };
