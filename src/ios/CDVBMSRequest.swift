@@ -90,7 +90,7 @@ import BMSCore
     }
 
     #if swift(>=3.0)
-        fileprivate func unPackRequest(_ requestDict:NSDictionary) -> BaseRequest {
+        fileprivate func unPackRequest(_ requestDict:NSDictionary) -> Request {
             // create a native request
             var url     = requestDict.object(forKey: "url") as! String
 
@@ -144,11 +144,11 @@ import BMSCore
             // get the headers
             let requestHeaderDict = requestDict.object(forKey: "headers") as! Dictionary<String,String>
 
-            let nativeRequest = BaseRequest(url: url, method: method, headers: requestHeaderDict, queryParameters: requestQueryParamsDict, timeout: timeout)
+            let nativeRequest = Request(url: url, method: method, headers: requestHeaderDict, queryParameters: requestQueryParamsDict, timeout: timeout)
             return nativeRequest
         }
     #else
-        private func unPackRequest(requestDict:NSDictionary) -> BaseRequest {
+        private func unPackRequest(requestDict:NSDictionary) -> Request {
                 // create a native request
                 var url     = requestDict.objectForKey("url") as! String
 
@@ -200,7 +200,7 @@ import BMSCore
 
                 // get the headers
                 let requestHeaderDict = requestDict.objectForKey("headers") as! Dictionary<String,String>
-                let nativeRequest = BaseRequest(url: url, method: method, headers: requestHeaderDict, queryParameters: requestQueryParamsDict, timeout: timeout)
+                let nativeRequest = Request(url: url, method: method, headers: requestHeaderDict, queryParameters: requestQueryParamsDict, timeout: timeout)
                 return nativeRequest
             }
 
@@ -208,39 +208,41 @@ import BMSCore
 
     #if swift(>=3.0)
     func packResponse(_ response: Response!,error:Error?=nil) throws -> String {
-        let jsonResponse:NSMutableDictionary = [:]
-        var responseString: NSString = ""
+        var jsonResponse:[String: Any] = [:]
+        var responseString: String = ""
 
         if error != nil {
-            jsonResponse.setObject((error!.localizedDescription), forKey: "errorDescription" as NSCopying)
-          // TODO: Need to find out if userInfo is needed jsonResponse.setObject((error!.userInfo), forKey: "userInfo")
+            jsonResponse["errorDescription"] = error!.localizedDescription
         }
         else {
-            jsonResponse.setObject(Int(0), forKey: "errorCode" as NSCopying)
-            jsonResponse.setObject("", forKey: "errorDescription" as NSCopying)
+            jsonResponse["errorCode"] = 0
+            jsonResponse["errorDescription"] = ""
         }
 
         if (response == nil)
         {
-            jsonResponse.setObject("", forKey: "responseText" as NSCopying)
-            jsonResponse.setObject([], forKey:"headers" as NSCopying)
-            jsonResponse.setObject(Int(0), forKey:"status" as NSCopying)
+            jsonResponse["responseText"] = ""
+            jsonResponse["headers"] = []
+            jsonResponse["status"] = 0
         }
         else {
             let responseText: String = (response.responseText != nil)    ? response.responseText! : ""
-            jsonResponse.setObject(responseText, forKey: "responseText" as NSCopying)
+            jsonResponse["responseText"] = responseText
+
 
             if response.headers != nil {
-                jsonResponse.setObject(response.headers as! [String:Any], forKey:"headers" as NSCopying)
+                jsonResponse["headers"] = response.headers as! [String:Any]
             }
             else {
-                jsonResponse.setObject([], forKey:"headers" as NSCopying)
+                jsonResponse["headers"] = [:]
             }
 
-            jsonResponse.setObject(response.statusCode, forKey:"status" as NSCopying)
+            jsonResponse["status"] = response.statusCode
         }
 
-        responseString = try self.stringifyResponse(jsonResponse) as NSString;
+        let responseData = try JSONSerialization.data(withJSONObject: jsonResponse, options: [])
+
+        responseString =  String(data: responseData, encoding: .utf8)!//try self.stringifyResponse(jsonResponse) as NSString;
         return responseString as String
     }
     #else
@@ -250,7 +252,6 @@ import BMSCore
 
         if error != nil {
             jsonResponse.setObject((error!.localizedDescription), forKey: "errorDescription" as NSCopying)
-            // TODO: Need to find out if userInfo is needed jsonResponse.setObject((error!.userInfo), forKey: "userInfo")
         }
         else {
             jsonResponse.setObject(Int((0)), forKey: "errorCode" as NSCopying)
