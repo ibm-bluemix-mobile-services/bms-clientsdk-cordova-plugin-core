@@ -13,13 +13,10 @@
 
 import Foundation
 import BMSCore
+import BMSSecurity
 
-enum PersistencePolicy: String {
-    case PersistencePolicyAlways = "ALWAYS"
-    case PersistencePolicyNever = "NEVER"
-}
 
-@objc(CDVBMSAuthenticationContext) class CDVBMSAuthorizationManager : CDVPlugin {
+@objc(CDVBMSAuthenticationManager) class CDVBMSAuthorizationManager : CDVPlugin {
 
     func initialize(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
@@ -33,7 +30,7 @@ enum PersistencePolicy: String {
                 }
 
                 let authManager = MCAAuthorizationManager.sharedInstance
-                authManager.initializeWithTenantId(tenantId)
+                authManager.initialize(tenantId: tenantId)
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
                 self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
             });
@@ -61,27 +58,27 @@ enum PersistencePolicy: String {
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
-
-                authManager.obtainAuthorizationHeaderWithCompletionHandler { (response: Response!, error: Error!) -> Void in
+                authManager.obtainAuthorization{ (response: Response?, error: Error?) -> Void in
                     var responseString: String?
 
                     do {
                         if (error != nil) {
                             // process the error
-                            try responseString = Utils.packResponse(response, error: error)
+                            try responseString = Utils.packResponse(response, error: error as NSError?)
                             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseString)
-                            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                            self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
                         } else {
                             // process success
                             try responseString = Utils.packResponse(response)
                             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: responseString)
-                            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                            self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
                         }
                     } catch {
                         let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: CustomErrorMessages.errorParsingJSONResponse)
-                        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                        self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
                     }
                 }
+
 
             });
         #else
@@ -119,11 +116,11 @@ enum PersistencePolicy: String {
 
                 do {
                     let authManager = MCAAuthorizationManager.sharedInstance
-                    let params = try self.unpackIsAuthorizationRequiredParams(command: command);
+                    let params = try self.unpackIsAuthorizationRequiredParams(command);
 
-                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:authManager.isAuthorizationRequired(params.statusCode, authorizationHeaderValue: params.authorizationHeaderValue))
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:authManager.isAuthorizationRequired(for: Int(params.statusCode), httpResponseAuthorizationHeader: params.authorizationHeaderValue))
 
-                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                    self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
                 } catch {
                     let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Invalid parameters passed to isAuthorizationRequired method")
                     self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
@@ -200,7 +197,7 @@ enum PersistencePolicy: String {
                 var pluginResult: CDVPluginResult? = nil
 
                 do {
-                    let userIdentity: String = try Utils.stringifyResponse(authManager.userIdentity)
+                    let userIdentity: String = try Utils.stringifyResponse(authManager.userIdentity as AnyObject)
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:userIdentity)
                 } catch {
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs:CustomErrorMessages.errorObtainUserIdentity)
@@ -232,7 +229,7 @@ enum PersistencePolicy: String {
                 var pluginResult: CDVPluginResult? = nil
 
                 do {
-                    let appIdentity: String = try Utils.stringifyResponse(authManager.appIdentity)
+                    let appIdentity: String = try Utils.stringifyResponse(authManager.appIdentity as AnyObject)
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:appIdentity)
                 } catch {
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs:CustomErrorMessages.errorObtainAppIdentity)
@@ -264,7 +261,7 @@ enum PersistencePolicy: String {
                 var pluginResult: CDVPluginResult? = nil
 
                 do {
-                    let deviceIdentity: String = try Utils.stringifyResponse(authManager.deviceIdentity)
+                    let deviceIdentity: String = try Utils.stringifyResponse(authManager.deviceIdentity as AnyObject)
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:deviceIdentity)
                 } catch {
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs:CustomErrorMessages.errorObtainDeviceIdentity)
@@ -297,10 +294,10 @@ enum PersistencePolicy: String {
                 var pluginResult: CDVPluginResult? = nil
 
                 switch policy {
-                    case PersistencePolicy.PersistencePolicyAlways:
-                        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:PersistencePolicy.PersistencePolicyAlways.rawValue)
-                    case PersistencePolicy.PersistencePolicyNever:
-                        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:PersistencePolicy.PersistencePolicyNever.rawValue)
+                    case PersistencePolicy.always:
+                        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:PersistencePolicy.always.rawValue)
+                    case PersistencePolicy.never:
+                        pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:PersistencePolicy.never.rawValue)
                     default:
                         pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs:CustomErrorMessages.invalidPolicyType)
                 }
@@ -338,12 +335,12 @@ enum PersistencePolicy: String {
                 }
 
                 switch policy {
-                    case PersistencePolicy.PersistencePolicyAlways.rawValue:
-                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.PersistencePolicyAlways)
-                    case PersistencePolicy.PersistencePolicyNever.rawValue:
-                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.PersistencePolicyNever)
+                    case PersistencePolicy.always.rawValue:
+                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.always)
+                    case PersistencePolicy.never.rawValue:
+                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.never)
                     default:
-                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.PersistencePolicyNever)
+                        authManager.setAuthorizationPersistencePolicy(PersistencePolicy.never)
                 }
 
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
@@ -377,12 +374,12 @@ enum PersistencePolicy: String {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let authManager = MCAAuthorizationManager.sharedInstance
-                    authManager.logout{ (response: Response!, error: Error!) -> Void in
+                    authManager.logout{ (response: Response?, error: Error?) -> Void in
                     var responseString: String?
                     do {
                         if (error != nil) {
                             // process the error
-                            try responseString = Utils.packResponse(response, error: error)
+                            try responseString = Utils.packResponse(response, error: error as NSError?)
                             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseString)
                             self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
                         } else {

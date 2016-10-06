@@ -14,6 +14,7 @@
 
 import Foundation
 import BMSCore
+import BMSSecurity
 
 @objc(CDVBMSAuthenticationContext) class CDVBMSAuthenticationContext : CDVPlugin {
 
@@ -22,15 +23,15 @@ import BMSCore
             self.commandDelegate!.run(inBackground: {
                 let answer = command.argument(at: 0)
                 let realm = command.argument(at: 1) as! String
-                //TODO: Fix later (Nana) let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
-                //context.submitAuthenticationChallengeAnswer(answer as! [NSObject : AnyObject])
+                 let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
+                context.submitAuthenticationChallengeAnswer(answer as! [String : AnyObject]?)
             })
         #else
             self.commandDelegate!.runInBackground({
                 let answer = command.argumentAtIndex(0)
                 let realm = command.argumentAtIndex(1) as! String
-                //TODO: Fix later (Nana) let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
-                //context.submitAuthenticationChallengeAnswer(answer as! [NSObject : AnyObject])
+                let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
+                context.submitAuthenticationChallengeAnswer(answer as! [NSObject : AnyObject])
             })
         #endif
     }
@@ -39,14 +40,14 @@ import BMSCore
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
                 let realm = command.argument(at: 0) as! String
-                //TODO: Fix later (Nana) let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
+                let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
                 context.submitAuthenticationSuccess()
             })
         #else
             self.commandDelegate!.runInBackground({
                 let realm = command.argumentAtIndex(0) as! String
-                //let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
-              //  context.submitAuthenticationSuccess()
+                let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
+                context.submitAuthenticationSuccess()
             })
         #endif
     }
@@ -54,17 +55,17 @@ import BMSCore
     func submitAuthenticationFailure(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
-                let info = command.argument(at: 0) as! [NSObject : AnyObject]
+                let info = command.argument(at: 0) as! [String : AnyObject]
                 let realm = command.argument(at: 1) as! String
-                //TODO: Fix later (Nana) let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
-                //context.submitAuthenticationFailure(info)
+                let context = CDVBMSClient.authenticationContexts[realm] as! AuthenticationContext
+                context.submitAuthenticationFailure(info)
         })
         #else
             self.commandDelegate!.runInBackground({
                 let info = command.argumentAtIndex(0) as! [NSObject : AnyObject]
                 let realm = command.argumentAtIndex(1) as! String
-                //TODO: Fix later (Nana) let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
-                //context.submitAuthenticationFailure(info)
+                let context = CDVBMSClient.authenticationContexts[realm] as! IMFAuthenticationContext
+                context.submitAuthenticationFailure(info)
             })
         #endif
     }
