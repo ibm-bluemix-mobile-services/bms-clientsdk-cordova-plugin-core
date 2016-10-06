@@ -48,22 +48,22 @@ The following videos demonstrate how to install and use the Cordova Plugin for t
 ##### iOS
   For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
 
-	```XML
+```XML
 	<platform name="ios">
 		<preference name="deployment-target" value="8.0" />
 		<!-- add deployment target declaration -->
 	</platform>
-	```
+```
 ##### Android
   For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
 
-	```XML
+```XML
 	<platform name="android">
 		<preference name="android-minSdkVersion" value="15" />
 		<preference name="android-targetSdkVersion" value="23" />
 		<!-- add minimum and target Android API level declaration -->
 	</platform>
-	```
+```
 
 	> The minSdkVersion should be above 15.
 	
@@ -105,31 +105,18 @@ cordova plugin list
 ```Bash
 cordova build ios
 ``` 
+2. Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK bundled with the  Plugin.
 
-
-<!---
-Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK bundled with the  Plugin.
-
-	Verification Steps:
 	
-	> If you get a prompt asking whether you want to convert Swift code to the latest version click Cancel
-
-1. Click your project name in the project directory and go to `Build Phases` > `Link Library with Libraries`
-
-1. Verify that the `IMFCore.framework` is present in the linked libraries list
-
-1. Go to `Build Settings` > `Search Paths` > `Framework Search Paths` and verify that the following parameters are included in the Target field for your project.
-	
-	```
-	$(inherited)	
-	"[your-project-name]/Plugins/ibm-mfp-core"
-	```
-!-->
-
-**Note**: If you get the message that your application requires `Use Legacy Swift Language Version` enable the flag to NO by going
- into your Build Settings and search for `Use Legacy Swift Language Version`. You may need to do this for the Pods as well by going to the Pod's Build Setting and updating the flag.
+* If you get a prompt asking whether you want to convert Swift code to the latest version click Cancel
+  * Click your project name in the project directory and go to `Build Phases` > `Link Library with Libraries`
+ * Verify that the `Pods_{Project_Module}.framework` is present in the linked libraries list
  
- **Note**: If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`.
+**Note**: If you get the message that your application requires `Use Legacy Swift Language Version` set the flag to `NO` 
+* Go to `Build Settings` > `Use Legacy Swift Language` 
+* You may need to do this with other Pod dependencies such as `BMSAnalytics` and `BMSAnalyticsAPI` 
+ 
+**Note**: If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`.
 
 
 #### Configuring Your Android Environment
@@ -162,7 +149,7 @@ onDeviceReady: function() {
 },
 ```
 
-* Modify the code snippet to use your Bluemix Route and appGUID parameters. To get these parameters, click the **Mobile Options** link in your Bluemix Application Dashboard to get the application route and application GUID. Use the Route and App GUID values as your parameters in your BMSClient.initialize code snippet.
+* Modify the code snippet to use your respective region. If your application resides in the UK use `BMSClient.REGION_UK`. If your application resides in Sydney use `BMSClient.REGION_SYDNEY`.
 
 
 ## Examples
@@ -209,7 +196,7 @@ request.setHeaders(headers);
 ```
 
 
-#### Setting your MFPRequest's query parameters
+#### Setting your BMSRequest's query parameters
 
 ```JavaScript
 var queryParams = {
@@ -286,7 +273,6 @@ BMSAnalytics.enable();
 BMSAnalytics.send();
 ```
 
-
 **Note**: For more information about Analytics see [README](https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-android-analytics).
 
 ### Custom Authentication
@@ -332,6 +318,8 @@ var customAuthenticationListener = {
 BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
 ```
 
+**Note**: For more information about Custom Authentication see [Documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
+
 ## Change log
  
 ##### 2.0.0
@@ -339,12 +327,11 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
  * Removed the use of using a copy of Briding-Header.h
  * Changed the BMSClient.intialize method
  * Removed filters and capture methods for BMSLogger
- * Added iniit method for BMSAnalytics
+ * Added init method for BMSAnalytics
   
 
 ## Release Notes
-
-
+ 
 ## Copyrights
 Copyright 2016 IBM Corp.
 
