@@ -95,18 +95,6 @@ var BMSLogger = (function () {
         return logger;
     }
 
-    function boolWrap(callback, result) {
-        /*   For now, it seems that Java cannot 
-         return boolean values to their callbacks.
-         So we intercept the callback, check if it's a string
-         and convert the result to a boolean.
-        */ 
-        if(typeof(result) == "string") {
-            result = (result === "true");
-        }
-        callback(result);
-    }
-
     return {
         /**
          *  Returns a named Logger Instance
@@ -124,7 +112,7 @@ var BMSLogger = (function () {
          * @param {Boolean} enabled - Boolean used to indicate whether the log data must be saved persistently
          */
         storeLogs : function (enabled) {
-            cordova.exec(boolWrap.bind(null, success), failure, "BMSLogger", "storeLogs", [enabled]);
+            cordova.exec(success, failure, "BMSLogger", "storeLogs", [enabled]);
         },
         /**
          * Gets the current setting for the maximum storage size threshold
@@ -154,7 +142,7 @@ var BMSLogger = (function () {
          * @param enabled Determines whether to display Bluemix Mobile Services SDK debug logs in Logcat.
          */
         setSDKDebugLoggingEnabled : function (enabled) {
-            cordova.exec(boolWrap(null, success), failure, "BMSLogger", "setSDKDebugLoggingEnabled", [enabled]);
+            cordova.exec(success, failure, "BMSLogger", "setSDKDebugLoggingEnabled", [enabled]);
         },
         /** Check if displaying all Bluemix Mobile Services SDK debug logs in Logcat is enabled.
          * @param success - single parameter receives Integer indicating the maximum storage size threshold
