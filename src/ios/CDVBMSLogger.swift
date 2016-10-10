@@ -25,7 +25,7 @@ import BMSCore
         "ANALYTICS" : LogLevel.analytics,
     ]
 
-    func storeLogs(_ command: CDVInvokedUrlCommand){
+    func isStoringLogs(_ command: CDVInvokedUrlCommand){
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -44,6 +44,77 @@ import BMSCore
                 self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
             })
         #endif
+    }
+
+    func storeLogs(_ command: CDVInvokedUrlCommand){
+        // parms: [LogStorageEnabled]
+
+        #if swift(>=3.0)
+            guard let LogStorageEnabled  = (command.arguments[0] as? Bool) else {
+                let message = "LogStorageEnabled is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #else
+            guard let LogStorageEnabled  = (command.arguments[0] as? Bool) else {
+            let message = "LogStorageEnabled is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+            }
+        #endif
+
+        Logger.isLogStorageEnabled = LogStorageEnabled
+
+    }
+
+    func isSDKDebugLoggingEnabled(_ command: CDVInvokedUrlCommand){
+
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+
+                let isInternalDebugLoggingEnabled = Logger.isInternalDebugLoggingEnabled
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: isInternalDebugLoggingEnabled)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+
+                let isInternalDebugLoggingEnabled = Logger.isInternalDebugLoggingEnabled
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: isInternalDebugLoggingEnabled)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            })
+        #endif
+    }
+
+    func setSDKDebugLoggingEnabled(_ command: CDVInvokedUrlCommand){
+        // parms: [isInternalDebugLoggingEnabled]
+
+        #if swift(>=3.0)
+            guard let isInternalDebugLoggingEnabled  = (command.arguments[0] as? Bool) else {
+                let message = "isInternalDebugLoggingEnabled is Invalid."
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
+                // call error callback
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+                return
+            }
+        #else
+            guard let isInternalDebugLoggingEnabled  = (command.arguments[0] as? Bool) else {
+            let message = "isInternalDebugLoggingEnabled is Invalid."
+            let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)
+            // call error callback
+            self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            return
+            }
+        #endif
+
+        Logger.isInternalDebugLoggingEnabled = isInternalDebugLoggingEnabled
+
     }
 
     func getMaxLogStoreSize(_ command: CDVInvokedUrlCommand){
@@ -90,7 +161,8 @@ import BMSCore
 
     }
 
-    func getLevel(_ command: CDVInvokedUrlCommand){
+
+    func getLogLevel(_ command: CDVInvokedUrlCommand){
 
         #if swift(>=3.0)
             self.commandDelegate!.run(inBackground: {
@@ -111,7 +183,7 @@ import BMSCore
         #endif
     }
 
-    func setLevel(_ command: CDVInvokedUrlCommand){
+    func setLogLevel(_ command: CDVInvokedUrlCommand){
         // parms: [logLevel]
 
         #if swift(>=3.0)
@@ -177,7 +249,7 @@ import BMSCore
         #endif
     }
 
-     func send(command: CDVInvokedUrlCommand){
+     func send(_ command: CDVInvokedUrlCommand){
          #if swift(>=3.0)
              self.commandDelegate!.run(inBackground: {
                  Logger.send(completionHandler: { (response: Response?, error:Error?) in
