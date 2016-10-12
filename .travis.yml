@@ -1,6 +1,6 @@
 language: objective-c
 install:
-    - gem install cocapods --pre
+    - gem install cocoapods --pre
 before_script:
     - wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
 script:
