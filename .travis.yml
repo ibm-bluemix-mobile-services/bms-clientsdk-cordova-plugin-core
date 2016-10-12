@@ -3,6 +3,7 @@ install:
     - gem install cocoapods --pre
 before_script:
     - rm -rf ~/Library/Developer/Xcode/DerivedData
+    - npm install -g cordova"
 script:
     - cordova create app
     - cd app
