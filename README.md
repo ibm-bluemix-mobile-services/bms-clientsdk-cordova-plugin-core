@@ -324,10 +324,11 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
  
 ##### 2.0.0
  * Changed JS API signatures 
- * Removed the use of using a copy of Briding-Header.h
- * Changed the BMSClient.intialize method
+ * Removed the use of using a copy of Bridging-Header.h
+ * Changed the BMSClient.initialize method
  * Removed filters and capture methods for BMSLogger
  * Added init method for BMSAnalytics
+ * Added initMCAAuthorizationManagerManager to handle initialize MCA in Native 
   
 
 ## Release Notes
