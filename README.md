@@ -330,14 +330,12 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
  
 ##### 2.0.0
  * Changed JS API signatures 
-      * `BMSClient(backendRoute, backendGuid)` --> `BMSClient(region)`
+      * `BMSClient.initialize(backendRoute, backendGuid)` --> `BMSClient.initialize(region)`
       * `MFPRequest` --> `BMSClient`
       * `MFPLogger` --> `BMSLogger`
        * `getInstance` --> `getLogger`
        * `getCapture` --> `isStoringLogs`
        * `setCapture` --> `storeLogs`
-       * `getFilters` --> `getLogLevel`
-       * `setFilters` --> `setLogLevel`
        * `getMaxStoreSize` --> `getMaxLogStoreSize`
        * `setMaxStoreSize` --> `setMaxLogStoreSize`
        * `getLevel` --> `getLogLevel`
@@ -348,7 +346,7 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
  * Added `isSDKDebugLoggingEnabled` to `BMSLogger`/`MFPLogger`
  * Added `BMSAnalytics.NONE`, `BMSAnalytics.ALL`, and `BMSAnalytics.LIFECYCLE` to `BMSLogger`/`MFPLogger`
  * Added `BMSAnalytics.initialize` to `BMSLogger`/`MFPLogger`
- * Removed `initialize` from `BMSAuthorization`/`MFPLogger`, use native implementation
+ * Removed `initialize` from `BMSAuthorization`/`MFPAuthorizationManager`, use native implementation
  * Removed the use of using a copy of `Bridging-Header.h`, so that developers will no longer need to do this manually
  * Added a new initializer for BMSClient that does not require the app route and app guid: `BMSClient.initialize(BMSClient.REGION_US_SOUTH);`
  * Removed filters and capture methods for `BMSLogger`, use `BMSLogger.getLogLevel` or `BMSLogger.setLogLevel`
