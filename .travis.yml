@@ -19,4 +19,4 @@ script:
     - cordova platform add android
     - cordova platform add ios
     - cordova plugin add https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git#development
-    - cordova build 
+    - cordova build android
