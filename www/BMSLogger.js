@@ -101,7 +101,7 @@ var BMSLogger = (function () {
          * @param name - the name for the logger
          * @returns {*} a Logger instance
          */
-        getInstance: function (name) {
+        getLogger: function (name) {
             if (!instances[name]) {
                 instances[name] = createInstance(name);
             }

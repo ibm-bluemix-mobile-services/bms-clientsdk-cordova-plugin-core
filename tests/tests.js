@@ -205,8 +205,8 @@ exports.defineAutoTests = function () {
 			});
 
 			it('should have getInstance() and is a function', function() {
-				expect(typeof BMSLogger.getInstance).toBeDefined();
-				expect(typeof BMSLogger.getInstance == 'function').toBe(true);
+				expect(typeof BMSLogger.getLogger).toBeDefined();
+				expect(typeof BMSLogger.getLogger == 'function').toBe(true);
 			});
 
 			it('should have storeLogs() and is a function', function() {
@@ -265,7 +265,7 @@ exports.defineAutoTests = function () {
 			var logger;
 
 			beforeEach(function () {
-				logger = BMSLogger.getInstance("logger-test");
+				logger = BMSLogger.getLogger("logger-test");
 			});
 
 			it('should exist', function() {
@@ -304,16 +304,23 @@ exports.defineAutoTests = function () {
 		});
 
 		describe('BMSLogger behavior', function() {
+			beforeEach(function () {
+				cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSAnalytics", "initialize", ["dummyApp",
+					"dummyApiKey", true, [BMSAnalytics.ALL] ]);
+
+				BMSAnalytics.initialize('dummyApp', 'dummyApiKey', true, [BMSAnalytics.ALL])
+			}, 5000);
+			
 			it('should create a new instance for a new name', function() {
-				var log1 = BMSLogger.getInstance("logger1");
-				var log2 = BMSLogger.getInstance("logger2");
+				var log1 = BMSLogger.getLogger("logger1");
+				var log2 = BMSLogger.getLogger("logger2");
 
 				expect(log1).not.toBe(log2);
 			});
 
 			it('should retrieve the same internal instance if using the same name ', function() {
-				var log1 = BMSLogger.getInstance("logger1");
-				var log2 = BMSLogger.getInstance("logger1");
+				var log1 = BMSLogger.getLogger("logger1");
+				var log2 = BMSLogger.getLogger("logger1");
 
 				expect(log1).toBe(log2);
 			});
@@ -406,6 +413,13 @@ exports.defineAutoTests = function () {
 		});
 
 		describe('BMSAnalytics API', function() {
+			beforeEach(function () {
+				cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSAnalytics", "initialize", ["dummyApp",
+					"dummyApiKey", true, [BMSAnalytics.ALL] ]);
+
+				BMSAnalytics.initialize('dummyApp', 'dummyApiKey', true, [BMSAnalytics.ALL])
+			}, 5000);
+
 			it('should exist', function() {
 				expect(BMSAnalytics).toBeDefined();
 			});
