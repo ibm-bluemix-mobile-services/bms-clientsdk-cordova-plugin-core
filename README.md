@@ -1,4 +1,4 @@
-[![npm package](https://nodei.co/npm/ibm-mfp-core.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ibm-mfp-core/)
+[![npm package](https://nodei.co/npm/bms-core.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/bms-core/)
 
 # Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 
