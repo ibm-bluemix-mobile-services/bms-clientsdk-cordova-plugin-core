@@ -2,6 +2,13 @@
 
 # Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 
+## Table of Contents
+
+* [Installing the Cordova Plugin for Bluemix Mobile Services Core SDK](#init_sdk)
+
+
+
+
 
 ## Before you begin
 
@@ -18,19 +25,8 @@ To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobi
 1. Add Cordova plugin
 1. Configure your platform 
 
-## Video tutorials 
-
-The following videos demonstrate how to install and use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK in iOS and Android applications. 
-
-<a href="https://www.youtube.com/watch?v=AbUpUjP9wmQ" target="_blank">
-<img src="ios-video.png"/>
-</a>
-<a href="https://www.youtube.com/watch?v=kQLA8AYYSoA" target="_blank">
-<img src="android-video.png"/>
-</a>
-
-
 ## Installing the Cordova Plugin for Bluemix Mobile Services Core SDK
+{: #init_sdk}
 
 ### 1. Creating a Cordova application
 
@@ -98,12 +94,13 @@ cordova plugin list
 
 #### Configuring Your iOS Environment
 
-**Note**: Before you begin, make sure that you are using the latest version of Xcode.
+**Note**: Before you begin, make sure that you are using Xcode 7 or above.
 
 1. Build and run your application with Xcode or by running the following command:
 
 ```Bash
 cordova build ios
+cordova prepare ios
 ``` 
 2. Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK bundled with the  Plugin.
 
@@ -116,9 +113,6 @@ cordova build ios
 * Go to `Build Settings` > `Use Legacy Swift Language` 
 * You may need to do this with other Pod dependencies such as `BMSAnalytics` and `BMSAnalyticsAPI` 
  
-**Note**: If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`.
-
-
 #### Configuring Your Android Environment
 
 1. Build your Android project by running the following command:
@@ -170,19 +164,11 @@ The following JavaScript code is your entry point to the Bluemix Mobile Services
 BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 ```
 
-#### Initializing BMSAuthorizationManager
-
-The following JavaScript code initialize the BMSAuthorizationManager with the MCA service tenantId, the tenantId can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
-
-```JavaScript
-BMSAuthorizationManager.initialize("tenantId");
-```
-
 #### Creating a request 
 After initializing the client you may create a new BMSRequest instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
 
 ```JavaScript
-var request = new BMSRequest("/myapp/API/action", BMSRequest.GET, 20000);
+var request = new BMSRequest("http://your_app.mybluemix.net/protected", BMSRequest.GET, 20000);
 ```
 
 #### Setting headers for your request 
@@ -273,7 +259,7 @@ BMSAnalytics.enable();
 BMSAnalytics.send();
 ```
 
-**Note**: For more information about Analytics see [README](https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-android-analytics).
+**Note**: For more information refer to [Mobile Analytics Documentation](https://new-console.stage1.ng.bluemix.net/docs/services/mobileanalytics/index.html).
 
 ### Custom Authentication
 
@@ -318,7 +304,7 @@ var customAuthenticationListener = {
 BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
 ```
 
-**Note**: For more information about Custom Authentication see [Documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
+**Note**: For more information about [Mobile Custom Authentication Documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
 
 ## Change log
  
@@ -329,9 +315,10 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
  * Removed filters and capture methods for BMSLogger
  * Added init method for BMSAnalytics
  * Added initMCAAuthorizationManagerManager to handle initialize MCA in Native 
-  
 
-## Release Notes
+##### 1.0.0
+ * Initial release
+ 
  
 ## Copyrights
 Copyright 2016 IBM Corp.
