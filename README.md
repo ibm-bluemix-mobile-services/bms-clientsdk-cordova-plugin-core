@@ -2,6 +2,13 @@
 
 # Cordova Plugin for IBM Bluemix Mobile Services Core SDK
 
+## Table of Contents
+
+* [Installing the Cordova Plugin for Bluemix Mobile Services Core SDK](#init_sdk)
+
+
+
+
 
 ## Before you begin
 
@@ -18,18 +25,7 @@ To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobi
 1. Add Cordova plugin
 1. Configure your platform 
 
-## Video tutorials 
-
-The following videos demonstrate how to install and use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK in iOS and Android applications. 
-
-<a href="https://www.youtube.com/watch?v=AbUpUjP9wmQ" target="_blank">
-<img src="ios-video.png"/>
-</a>
-<a href="https://www.youtube.com/watch?v=kQLA8AYYSoA" target="_blank">
-<img src="android-video.png"/>
-</a>
-
-
+<a name="init_sdk"></a>
 ## Installing the Cordova Plugin for Bluemix Mobile Services Core SDK
 
 ### 1. Creating a Cordova application
@@ -41,12 +37,12 @@ The following videos demonstrate how to install and use the Cordova Plugin for t
 	$ cd {appName}
 	```
 	
-2. Edit `config.xml` file and set the desired application name in the `<name>` element instead of a default HelloCordova.
+2. Edit the `config.xml` file and set the desired application name in the `<name>` element instead of a default HelloCordova.
 
 3. Continue editing `config.xml`
 
 ##### iOS
-  For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
+  For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the following code snippet.
 
 ```XML
 	<platform name="ios">
@@ -55,7 +51,7 @@ The following videos demonstrate how to install and use the Cordova Plugin for t
 	</platform>
 ```
 ##### Android
-  For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
+  For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the following code snippet.
 
 ```XML
 	<platform name="android">
@@ -65,14 +61,16 @@ The following videos demonstrate how to install and use the Cordova Plugin for t
 	</platform>
 ```
 
-	> The minSdkVersion should be above 15.
-	
-	> The targetSdkVersion should always reflect the latest Android SDK available from Google.
+Note: 
+
+* The minSdkVersion should be above 15.
+
+* The targetSdkVersion should always reflect the latest Android SDK available from Google.
 
 
 ### 2. Adding Cordova platforms
 
-Run the following commands for the platforms that you want to add to your Cordova application
+Run the following commands for the platforms that you want to add to your Cordova application:
 
 ```Bash
 cordova platform add ios@4.1.0
@@ -82,7 +80,7 @@ cordova platform add android
 
 ### 3. Adding Cordova plugin
 
-Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
+Run the following command from your Cordova application's root directory to add the bms-core plugin:
 
 ```Bash
 cordova plugin add bms-core
@@ -98,34 +96,33 @@ cordova plugin list
 
 #### Configuring Your iOS Environment
 
-**Note**: Before you begin, make sure that you are using the latest version of Xcode.
+**Note**: Before you begin, make sure that you are using Xcode 7 or above.
 
-1. Build and run your application with Xcode or by running the following command:
+1. Run `cordova prepare ios` to prepare the Cordova application with the necessary CocoaPod dependencies.
 
-```Bash
-cordova build ios
-``` 
-2. Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK bundled with the  Plugin.
+2. Build and run your application with Xcode or by running the following command:
 
-	
-* If you get a prompt asking whether you want to convert Swift code to the latest version click Cancel
-  * Click your project name in the project directory and go to `Build Phases` > `Link Library with Libraries`
- * Verify that the `Pods_{Project_Module}.framework` is present in the linked libraries list
+    ```Bash
+    cordova build ios
+    ``` 
+
+3. Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK that is bundled with the Plugin.
+
+* If you get a prompt asking whether you want to convert Swift code to the latest version, click **Cancel**.
+    1. Click your project name in the project directory and go to **Build Phases** > **Link Library with Libraries**.
+    2. Verify that the `Pods_{YOUR_PROJECT_MODULE_NAME}.framework` is present in the linked libraries list.
  
-**Note**: If you get the message that your application requires `Use Legacy Swift Language Version` set the flag to `NO` 
-* Go to `Build Settings` > `Use Legacy Swift Language` 
-* You may need to do this with other Pod dependencies such as `BMSAnalytics` and `BMSAnalyticsAPI` 
+* **Note**: If you get the message that your application requires `Use Legacy Swift Language Version`, set the flag to `NO`.
+    1. Go to **Build Settings** > **Use Legacy Swift Language**.
+    2. You may need to do this with other Pod dependencies such as `BMSAnalytics` and `BMSAnalyticsAPI`. 
  
-**Note**: If the Pod files were not install when you run added the plugins. Run `cordova prepare ios`.
-
-
 #### Configuring Your Android Environment
 
 1. Build your Android project by running the following command:
 
-```Bash
-cordova build android
-```
+    ```Bash
+    cordova build android
+    ```
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
 
@@ -135,13 +132,13 @@ cordova build android
 
 The `BMSClient` class allows you to initialize the SDK. By initializing the SDK, you can connect to the server app that you created in the Bluemix dashboard. Initializing the `BMSClient` instance is required before sending requests.
 
-* Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file. If your app in a different region the following constants are available: `BMSClient.REGION_UK`, `BMSClient.REGION_UK`, and `BMSClient.REGION_SYDNEY`
+* Initialize the `BMSClient` by copying and pasting the following code snippet into your main JavaScript file. If your app is in a different region, the following constants are available: `BMSClient.REGION_US_SOUTH`, `BMSClient.REGION_UK`, and `BMSClient.REGION_SYDNEY`
 
-```JavaScript
-BMSClient.initialize(BMSClient.REGION_US_SOUTH);
-```
+    ```JavaScript
+    BMSClient.initialize(BMSClient.REGION_US_SOUTH);
+    ```
 
-**Note**: If you have created a Cordova app using the cordova CLI, for example, `cordova create app-name` command with the Cordova command-line, put this Javascript code in the **index.js** file, within the `onDeviceReady` function to initialize the BMS client.
+**Note**: If you created a Cordova app using the cordova CLI, for example, `cordova create app-name` command with the Cordova command-line, add the following Javascript code in the `index.js` file, within the `onDeviceReady` function to initialize the `BMSClient`.
 
 ```JavaScript
 onDeviceReady: function() {
@@ -149,16 +146,13 @@ onDeviceReady: function() {
 },
 ```
 
-* Modify the code snippet to use your respective region. If your application resides in the UK use `BMSClient.REGION_UK`. If your application resides in Sydney use `BMSClient.REGION_SYDNEY`.
-
-
 ## Examples
 
-### Using BMSClient, BMSAuthorizationManager and BMSRequest
+### Using BMSClient and BMSRequest
 
 #### Initializing BMSClient
 
-The following JavaScript code is your entry point to the Bluemix Mobile Services. This method should be called before making a request. You will need to pass in the region for your application. The following constants are provided: 
+The following JavaScript code is your entry point to the Bluemix Mobile services. Call this method before making any request. You must pass in the region for your application. The following constants are provided: 
 
 ```JavaScript
  REGION_US_SOUTH // ".ng.bluemix.net";
@@ -170,19 +164,11 @@ The following JavaScript code is your entry point to the Bluemix Mobile Services
 BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 ```
 
-#### Initializing BMSAuthorizationManager
-
-The following JavaScript code initialize the BMSAuthorizationManager with the MCA service tenantId, the tenantId can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
-
-```JavaScript
-BMSAuthorizationManager.initialize("tenantId");
-```
-
 #### Creating a request 
-After initializing the client you may create a new BMSRequest instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
+After you initialize the client, you can create a new `BMSRequest` instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
 
 ```JavaScript
-var request = new BMSRequest("/myapp/API/action", BMSRequest.GET, 20000);
+var request = new BMSRequest("http://your_app.mybluemix.net/protected", BMSRequest.GET, 20000);
 ```
 
 #### Setting headers for your request 
@@ -194,7 +180,6 @@ var headers = {
 };
 request.setHeaders(headers);
 ```
-
 
 #### Setting your BMSRequest's query parameters
 
@@ -225,7 +210,7 @@ request.send("some body",
 );
 ```
 
-The successResponse and failureResponse parameters are JSON objects that will be passed to your callbacks with the following fields:
+The `successResponse` and `failureResponse` parameters are JSON objects that will be passed to your callbacks with the following fields:
 
 ```JavaScript
 response.status  =>  Integer
@@ -237,10 +222,8 @@ response.errorDescription  =>  Undefined or String
 
 ### Using BMSLogger
 
-Below are some examples of how to use the Logger class.
-
 ```JavaScript
-var myPackageLogger = BMSLogger.getInstance("myPackage");
+var myPackageLogger = BMSLogger.getLogger("myPackage");
 
 
 // Globally set the logging level
@@ -255,8 +238,6 @@ BMSLogger.send();
 ```
 
 ### Using BMSAnalytics
-
-Below are some examples of how to use the BMSAnalytics class.
 
 ```JavaScript
 
@@ -273,7 +254,7 @@ BMSAnalytics.enable();
 BMSAnalytics.send();
 ```
 
-**Note**: For more information about Analytics see [README](https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-android-analytics).
+**Note**: For more information about Mobile Analytics, see the [documentation](https://new-console.stage1.ng.bluemix.net/docs/services/mobileanalytics/index.html).
 
 ### Custom Authentication
 
@@ -318,20 +299,21 @@ var customAuthenticationListener = {
 BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
 ```
 
-**Note**: For more information about Custom Authentication see [Documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
+**Note**: For more information about Mobile Client Access, see the [documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
 
 ## Change log
  
 ##### 2.0.0
  * Changed JS API signatures 
- * Removed the use of using a copy of Bridging-Header.h
- * Changed the BMSClient.initialize method
- * Removed filters and capture methods for BMSLogger
- * Added init method for BMSAnalytics
- * Added initMCAAuthorizationManagerManager to handle initialize MCA in Native 
-  
+ * Removed the use of using a copy of `Bridging-Header.h`, so that developers will no longer need to do this manually
+ * Added a new initializer for BMSClient that does not require the app route and app guid: `BMSClient.initialize(BMSClient.REGION_US_SOUTH);`
+ * Removed filters and capture methods for `BMSLogger`
+ * Added `inititialize` method for `BMSAnalytics`
+ * Added `initMCAAuthorizationManagerManager` to handle initialize MCA in iOS native 
 
-## Release Notes
+##### 1.0.0
+ * Initial release
+ 
  
 ## Copyrights
 Copyright 2016 IBM Corp.
