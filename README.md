@@ -153,7 +153,7 @@ onDeviceReady: function() {
 <a name="examples"></a>
 ## Examples
 
-### Using BMSClient and BMSRequest
+### Using BMSClient, BMSAuthorizationManager, and BMSRequest
 
 #### Initializing BMSClient
 
@@ -167,6 +167,21 @@ The following JavaScript code is your entry point to the Bluemix Mobile services
 
 ```JavaScript
 BMSClient.initialize(BMSClient.REGION_US_SOUTH);
+```
+#### Initializing BMSAuthorizationManager
+
+The following native code initializes the `BMSAuthorizationManager` with the MCA service `tenantId`, the `tenantId` can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
+
+* Android
+```Java
+MCAAuthorizationManager mcaAuthorizationManager = MCAAuthorizationManager.createInstance(this.getApplicationContext(),"<tenantId>");
+BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager)
+MFPAuthorizationManager.initialize("<tenantId>");
+```
+* iOS 
+```Objective-C
+  [CDVBMSClient initMCAAuthorizationManagerManager:@"<tenantId>"]; //Xcode 7 and Xcode 8 with Swift 3
+  [CDVBMSClient initMCAAuthorizationManagerManagerWithTenantId:@"<tenantId>"]; // Xcode 8 with Swift 3
 ```
 
 #### Creating a request 
