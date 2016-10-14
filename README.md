@@ -4,12 +4,16 @@
 
 ## Table of Contents
 
+* [Before you begin](#before_you_begin) 
 * [Installing the Cordova Plugin for Bluemix Mobile Services Core SDK](#init_sdk)
+* [Using the Cordova Plugin](#using_cordova)
+* [Examples](#examples)
+* [ChangeLog](#change_log)
+* [Copyrights](#copyrights)
 
 
 
-
-
+<a name="before_you_begin"></a>
 ## Before you begin
 
 Make sure you install the following tools and libraries.
@@ -126,6 +130,7 @@ cordova plugin list
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
 
+<a name="using_cordova"></a>
 ## Using the Cordova Plugin
 
 ### BMSClient
@@ -145,7 +150,7 @@ onDeviceReady: function() {
     BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 },
 ```
-
+<a name="examples"></a>
 ## Examples
 
 ### Using BMSClient and BMSRequest
@@ -301,20 +306,40 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 
 **Note**: For more information about Mobile Client Access, see the [documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
 
+<a name="change_log"></a>
 ## Change log
  
 ##### 2.0.0
  * Changed JS API signatures 
+      * `BMSClient(backendRoute, backendGuid)` --> `BMSClient(region)`
+      * `MFPRequest` --> `BMSClient`
+      * `MFPLogger` --> `BMSLogger`
+       * `getInstance` --> `getLogger`
+       * `getCapture` --> `isStoringLogs`
+       * `setCapture` --> `storeLogs`
+       * `getFilters` --> `getLogLevel`
+       * `setFilters` --> `setLogLevel`
+       * `getMaxStoreSize` --> `getMaxLogStoreSize`
+       * `setMaxStoreSize` --> `setMaxLogStoreSize`
+       * `getLevel` --> `getLogLevel`
+       * `setLevel` --> `setLogLevel`
+      * `MFPAuthorizationManager` --> `BMSAuthorizationManager`
+      * `MFPAnalytics` --> `BMSAnalytics`
+       
+ * Added `isSDKDebugLoggingEnabled` to `BMSLogger`/`MFPLogger`
+ * Added `BMSAnalytics.NONE`, `BMSAnalytics.ALL`, and `BMSAnalytics.LIFECYCLE` to `BMSLogger`/`MFPLogger`
+ * Added `BMSAnalytics.initialize` to `BMSLogger`/`MFPLogger`
+ * Removed `initialize` from `BMSAuthorization`/`MFPLogger`, use native implementation
  * Removed the use of using a copy of `Bridging-Header.h`, so that developers will no longer need to do this manually
  * Added a new initializer for BMSClient that does not require the app route and app guid: `BMSClient.initialize(BMSClient.REGION_US_SOUTH);`
- * Removed filters and capture methods for `BMSLogger`
- * Added `inititialize` method for `BMSAnalytics`
+ * Removed filters and capture methods for `BMSLogger`, use `BMSLogger.getLogLevel` or `BMSLogger.setLogLevel`
  * Added `initMCAAuthorizationManagerManager` to handle initialize MCA in iOS native 
 
 ##### 1.0.0
  * Initial release
  
  
+<a name="copyrights"></a>
 ## Copyrights
 Copyright 2016 IBM Corp.
 
