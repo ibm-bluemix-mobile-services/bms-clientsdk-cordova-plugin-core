@@ -102,9 +102,10 @@ cordova plugin list
 
 2. Build and run your application with Xcode or by running the following command:
 
-```Bash
-cordova build ios
-``` 
+    ```Bash
+    cordova build ios
+    ``` 
+
 3. Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK that is bundled with the Plugin.
 
 * If you get a prompt asking whether you want to convert Swift code to the latest version, click **Cancel**.
@@ -119,9 +120,9 @@ cordova build ios
 
 1. Build your Android project by running the following command:
 
-```Bash
-cordova build android
-```
+    ```Bash
+    cordova build android
+    ```
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
 
@@ -133,9 +134,9 @@ The `BMSClient` class allows you to initialize the SDK. By initializing the SDK,
 
 * Initialize the `BMSClient` by copying and pasting the following code snippet into your main JavaScript file. If your app is in a different region, the following constants are available: `BMSClient.REGION_US_SOUTH`, `BMSClient.REGION_UK`, and `BMSClient.REGION_SYDNEY`
 
-```JavaScript
-BMSClient.initialize(BMSClient.REGION_US_SOUTH);
-```
+    ```JavaScript
+    BMSClient.initialize(BMSClient.REGION_US_SOUTH);
+    ```
 
 **Note**: If you created a Cordova app using the cordova CLI, for example, `cordova create app-name` command with the Cordova command-line, add the following Javascript code in the `index.js` file, within the `onDeviceReady` function to initialize the `BMSClient`.
 
