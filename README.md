@@ -25,8 +25,9 @@ To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobi
 1. Add Cordova plugin
 1. Configure your platform 
 
-## Installing the Cordova Plugin for Bluemix Mobile Services Core SDK
 <a name="init_sdk"></a>
+## Installing the Cordova Plugin for Bluemix Mobile Services Core SDK
+
 ### 1. Creating a Cordova application
 
 1. Run the following commands to create a new Cordova application. Alternatively you can use an existing application as well. 
