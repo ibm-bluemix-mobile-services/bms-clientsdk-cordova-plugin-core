@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-* [Installing the Cordova Plugin for Bluemix Mobile Services Core SDK](#init_sdk)
+* [Installing the Cordova Plugin for Bluemix Mobile Services Core SDK](#Installing the Cordova Plugin for Bluemix Mobile Services Core SDK)
 
 
 
@@ -26,7 +26,6 @@ To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobi
 1. Configure your platform 
 
 ## Installing the Cordova Plugin for Bluemix Mobile Services Core SDK
-{: #init_sdk}
 
 ### 1. Creating a Cordova application
 
