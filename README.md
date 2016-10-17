@@ -113,6 +113,17 @@ cordova plugin list
     ```Bash
     cordova build ios
     ``` 
+**Note**: You may receive the following error when running `cordova build ios`
+
+```
+xcodebuild: error: Unable to find a destination matching the provided destination specifier:
+		{ platform:iOS Simulator }
+
+	Missing required device specifier option.
+	The device type “iOS Simulator” requires that either “name” or “id” be specified.
+	Please supply either “name” or “id”.
+```
+This issue is due to a bug in a dependency plugin which is being tracked in [Issue 12](https://github.com/blakgeek/cordova-plugin-cocoapods-support/issues/12). You can still run the iOS project in XCode through a simulator or device. 
 
 3. Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK that is bundled with the Plugin.
 
