@@ -81,7 +81,7 @@ Note:
 Run the following commands for the platforms that you want to add to your Cordova application:
 
 ```Bash
-cordova platform add ios@4.1.0
+cordova platform add ios
 
 cordova platform add android
 ```
