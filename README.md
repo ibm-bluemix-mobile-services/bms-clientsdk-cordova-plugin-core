@@ -113,8 +113,8 @@ cordova plugin list
     ```Bash
     cordova build ios
     ``` 
+    
 **Note**: You may receive the following error when running `cordova build ios`
-
 ```
 xcodebuild: error: Unable to find a destination matching the provided destination specifier:
 		{ platform:iOS Simulator }
