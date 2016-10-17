@@ -190,8 +190,7 @@ In order to use `BMSAuthorizationManager` you will need to add the following cod
 * Android (*OnCreate in MainActivity.java before `loadUrl`*)
 ```Java
 MCAAuthorizationManager mcaAuthorizationManager = MCAAuthorizationManager.createInstance(this.getApplicationContext(),"<tenantId>");
-BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager)
-BMSAuthorizationManager.initialize("<tenantId>");
+BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager);
 ```
 * iOS (*AppDelegate.m*)
 ```Objective-C
