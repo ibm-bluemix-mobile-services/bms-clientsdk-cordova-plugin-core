@@ -1,6 +1,23 @@
 # Cordova Plugin for IBM Bluemix Mobile Services Core SDK
+ [![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core
+.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core
+)
+
+ [![npm package](https://nodei.co/npm/bms-core.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/bms-core/)
 
 
+## Table of Contents
+
+* [Before you begin](#before_you_begin) 
+* [Installing the Cordova Plugin for Bluemix Mobile Services Core SDK](#init_sdk)
+* [Using the Cordova Plugin](#using_cordova)
+* [Examples](#examples)
+* [ChangeLog](#change_log)
+* [Copyrights](#copyrights)
+
+
+
+<a name="before_you_begin"></a>
 ## Before you begin
 
 Make sure you install the following tools and libraries.
@@ -16,18 +33,7 @@ To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobi
 1. Add Cordova plugin
 1. Configure your platform 
 
-## Video tutorials 
-
-The following videos demonstrate how to install and use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK in iOS and Android applications. 
-
-<a href="https://www.youtube.com/watch?v=AbUpUjP9wmQ" target="_blank">
-<img src="ios-video.png"/>
-</a>
-<a href="https://www.youtube.com/watch?v=kQLA8AYYSoA" target="_blank">
-<img src="android-video.png"/>
-</a>
-
-
+<a name="init_sdk"></a>
 ## Installing the Cordova Plugin for Bluemix Mobile Services Core SDK
 
 ### 1. Creating a Cordova application
@@ -39,36 +45,40 @@ The following videos demonstrate how to install and use the Cordova Plugin for t
 	$ cd {appName}
 	```
 	
-1. Edit `config.xml` file and set the desired application name in the `<name>` element instead of a default HelloCordova.
+2. Edit the `config.xml` file and set the desired application name in the `<name>` element instead of a default HelloCordova.
 
-1. Continue editing `config.xml`. 
+3. Continue editing `config.xml`
+
 ##### iOS
-  For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the code snippet below.
+  For iOS, update the `<platform name="ios">` element with a deployment target declaration as shown in the following code snippet.
 
-	```XML
+```XML
 	<platform name="ios">
 		<preference name="deployment-target" value="8.0" />
 		<!-- add deployment target declaration -->
 	</platform>
-	```
+```
 ##### Android
-  For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the code snippet below.
+  For Android, update the `<platform name="android">` element with a minimum and target SDK versions as shown in the following code snippet.
 
-	```XML
+```XML
 	<platform name="android">
 		<preference name="android-minSdkVersion" value="15" />
 		<preference name="android-targetSdkVersion" value="23" />
 		<!-- add minimum and target Android API level declaration -->
 	</platform>
-	```
+```
 
-	> The minSdkVersion should be above 15.
-	
-	> The targetSdkVersion should always reflect the latest Android SDK available from Google.
+Note: 
+
+* The minSdkVersion should be above 15.
+
+* The targetSdkVersion should always reflect the latest Android SDK available from Google.
+
 
 ### 2. Adding Cordova platforms
 
-Run the following commands for the platforms that you want to add to your Cordova application
+Run the following commands for the platforms that you want to add to your Cordova application:
 
 ```Bash
 cordova platform add ios
@@ -78,10 +88,10 @@ cordova platform add android
 
 ### 3. Adding Cordova plugin
 
-Run the following command from your Cordova application's root directory to add the ibm-mfp-core plugin:
+Run the following command from your Cordova application's root directory to add the bms-core plugin:
 
 ```Bash
-cordova plugin add ibm-mfp-core
+cordova plugin add bms-core
 ```
 
 You can check if the plugin installed successfully by running the following command, which lists your installed Cordova plugins:
@@ -94,280 +104,106 @@ cordova plugin list
 
 #### Configuring Your iOS Environment
 
-**Note**: Before you begin, make sure that you are using the latest version of Xcode.
+**Note**: Before you begin, make sure that you are using Xcode 7 or above.
 
-1. Open your `[your-app-name].xcodeproj` file in `[your-app-name]/platforms/ios` directory with Xcode
+1. Run `cordova prepare ios` to prepare the Cordova application with the necessary CocoaPod dependencies.
 
-	> If confronted with an alert asking to “Convert to Latest Swift Syntax”, click **Cancel**.
+2. Build and run your application with Xcode or by running the following command:
 
-1. Add the Bridging Header. Go to `Build settings` > `Swift Compiler - Code Generation` > `Objective-C Bridging Header` and add the following path:
+    ```Bash
+    cordova build ios
+    ``` 
+    
+**Note**: You may receive the following error when running `cordova build ios`. This issue is due to a bug in a dependency plugin which is being tracked in [Issue 12](https://github.com/blakgeek/cordova-plugin-cocoapods-support/issues/12). You can still run the iOS project in XCode through a simulator or device. 
 
-	```
-	[your-project-name]/Plugins/ibm-mfp-core/Bridging-Header.h
-	```
-	
-1. Add the Frameworks parameter. Go to `Build Settings` > `Linking` > `Runpath Search Paths` and add the following parameter
-	
-	```
-	@executable_path/Frameworks
-	```
+```
+xcodebuild: error: Unable to find a destination matching the provided destination specifier:
+		{ platform:iOS Simulator }
 
-1. Build and run your application with Xcode or by running the following command:
+	Missing required device specifier option.
+	The device type “iOS Simulator” requires that either “name” or “id” be specified.
+	Please supply either “name” or “id”.
+```
 
-```Bash
-cordova build ios
-``` 
+3. Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK that is bundled with the Plugin.
 
-
-<!---
-Verify that your Cordova application was correctly linked with the iOS Bluemix Core SDK bundled with the  Plugin.
-
-	Verification Steps:
-	
-	> If you get a prompt asking whether you want to convert Swift code to the latest version click Cancel
-
-1. Click your project name in the project directory and go to `Build Phases` > `Link Library with Libraries`
-
-1. Verify that the `IMFCore.framework` is present in the linked libraries list
-
-1. Go to `Build Settings` > `Search Paths` > `Framework Search Paths` and verify that the following parameters are included in the Target field for your project.
-	
-	```
-	$(inherited)	
-	"[your-project-name]/Plugins/ibm-mfp-core"
-	```
-!-->
-
-
+* If you get a prompt asking whether you want to convert Swift code to the latest version, click **Cancel**.
+    1. Click your project name in the project directory and go to **Build Phases** > **Link Library with Libraries**.
+    2. Verify that the `Pods_{YOUR_PROJECT_MODULE_NAME}.framework` is present in the linked libraries list.
+ 
+* **Note**: If you get the message that your application requires `Use Legacy Swift Language Version`, set the flag to `NO`.
+    1. Go to **Build Settings** > **Use Legacy Swift Language**.
+    2. You may need to do this with other Pod dependencies such as `BMSAnalytics` and `BMSAnalyticsAPI`. 
+ 
 #### Configuring Your Android Environment
 
 1. Build your Android project by running the following command:
 
-```Bash
-cordova build android
-```
+    ```Bash
+    cordova build android
+    ```
 
 **Important**: Before opening your project in Android Studio, you **must** first build your Cordova application through the Cordova commmand-line interface (CLI). Otherwise, you will encounter build errors.
 
+<a name="using_cordova"></a>
 ## Using the Cordova Plugin
 
 ### BMSClient
 
 The `BMSClient` class allows you to initialize the SDK. By initializing the SDK, you can connect to the server app that you created in the Bluemix dashboard. Initializing the `BMSClient` instance is required before sending requests.
 
-* Initialize the BMSClient by copying and pasting the following code snippet into your main JavaScript file.
+* Initialize the `BMSClient` by copying and pasting the following code snippet into your main JavaScript file. If your app is in a different region, the following constants are available: `BMSClient.REGION_US_SOUTH`, `BMSClient.REGION_UK`, and `BMSClient.REGION_SYDNEY`
 
-```JavaScript
-BMSClient.initialize("Route", "appGUID");
-```
+    ```JavaScript
+    BMSClient.initialize(BMSClient.REGION_US_SOUTH);
+    ```
 
-**Note**: If you have created a Cordova app using the cordova CLI, for example, `cordova create app-name` command with the Cordova command-line, put this Javascript code in the **index.js** file, within the `onDeviceReady` function to initialize the BMS client.
+**Note**: If you created a Cordova app using the cordova CLI, for example, `cordova create app-name` command with the Cordova command-line, add the following Javascript code in the `index.js` file, within the `onDeviceReady` function to initialize the `BMSClient`.
 
 ```JavaScript
 onDeviceReady: function() {
-    BMSClient.initialize("Route", "appGUID");
+    BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 },
 ```
-
-* Modify the code snippet to use your Bluemix Route and appGUID parameters. To get these parameters, click the **Mobile Options** link in your Bluemix Application Dashboard to get the application route and application GUID. Use the Route and App GUID values as your parameters in your BMSClient.initialize code snippet.
-
-
-## API reference
-
-| Javascript Function | Description |
-| :---|:---|
-initialize(bluemixRoute, bluemixAppGUID) | Sets the base URL for the authorization server. This method should be called before you send the first request that requires authorization.
-getBluemixAppRoute(callback) | Return the Bluemix app route.
-getBluemixAppGUID(callback) | Return the Bluemix app GUID.
-registerAuthenticationListener(realm, authenticationListener) | Registers authentication callback for the specified realm.
-unregisterAuthenticationListener(realm) | Unregisters the authentication callback for the specified realm.
-
-### MFPRequest
-
-After initializing the client you may create a new MFPRequest instance, used to send a request to a specified URL.
-
-You can specify a path relative to your Bluemix app route
-
-```JavaScript
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET);
-```
-
-or you can specify a full URL path:
-
-```JavaScript
-var request = new MFPRequest("http://www.example.com", MFPRequest.GET);
-```
-
-Following HTTP verbs are supported by MFPRequest
-
-| Method |
-|:---|
-MFPRequest.GET |
-MFPRequest.PUT |
-MFPRequest.POST |
-MFPRequest.DELETE |
-MFPRequest.TRACE |
-MFPRequest.HEAD |
-MFPRequest.OPTIONS |
-
-Following methods are available for MFPRequest objects
-
-| Javascript Function | Description |
-|:---|:---|
-setHeaders(jsonObj) | Set the headers for the request object in JSON format.
-getHeaders | Return the headers object for the request object.
-getUrl | Return the url for this request.
-getMethod | Return the HTTP method for this request.
-getTimeout | Return the timeout (in ms) for this request.
-setQueryParameters(jsonObj) | Return the queryParameters object for this request.
-getQueryParameters | Set the Query Parameters for the request object in JSON format.
-send(success, failure) | Send this resource request asynchronously. You must supply success and failure callback functions, and optionally a body parameter.
-send(body, success, failure) | With optional body text parameter.
-send(json, success, failure) | With optional JSON object parameter.
-
-Success and failure callbacks of the MFPRequest.send() receive a response object as an argument (see Examples section). The following properties are available for the response object:
-
-| Property | Info |
-|:---|:---|
-status | The response status as an integer.
-responseText | Return response text as null or string.
-headers | Return response headers in JSON format.
-errorCode | Return response error code as integer. 
-errorDescription | Return response error description as null or string.
-
-See the Examples section for more samples how to use BMSClient and MFPRequest.
-
-### MFPLogger
-
-`MFPLogger` is used for logging messages. In addition to printing log messages to respective log console it can persist logs to file. When you call the send() function it will send the persisted logs to the Mobile Client Access Service.
-
-You can create an instance of MFPLogger using:
-
-```JavaScript
-MFPLogger.getInstance("myLogger");
-```
-
-Example of sending a specific log message using your logger instance:
-
-```JavaScript
-myLogger.debug(message);
-```
-
-Following static methods are exposed by the MFPLogger 
-
-| Javascript Function | Description |
-|:---|:---|
-getInstance(name) | Return a named logger instance.
-getCapture(success, failure) | Get the current setting for determining if log data should be saved persistently.
-setCapture(enabled) | Global setting: turn on or off the persisting of the log data that is passed to the log methods of this class.
-getFilters(success, failure) | Retrieve the filters that are used to determine which log messages are persisted.
-setFilters(filters) | Set the filters that are used to determine which log messages are persisted. Each key defines a name and each value defines a logging level.
-getMaxStoreSize(success, failure) | Gets the current setting for the maximum storage size threshold.
-setMaxStoreSize(size) | Set the maximum size of the local persistent storage for queuing log data. When the maximum storage size is reached, no more data is queued. This content of the storage is sent to a server.
-getLevel(success, failure) | Get the currently configured Log Level.
-setLevel(logLevel) | Set the level from which log messages must be saved and printed. For example, passing MFPLogger.INFO logs INFO, WARN, and ERROR.
-isUncaughtExceptionDetected(success, failure) | Indicates that an uncaught exception was detected. The indicator is cleared on successful send.
-send(success, failure) | Send the log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
-
-Log levels available:
-
-| Level |
-|:---|
-FATAL |
-ERROR |
-WARN |
-INFO |
-DEBUG |
-
-The following instance methods are available for the logger instances to send a specific log message:
-
-| Function |
-|:---|
-debug(message) |
-info(message) |
-warn(message) | 
-error(message) |
-fatal(message) |
-
-See below for more Examples of how to use MFPLogger.
-
-### MFPAnalytics
-
-MFPAnalytics is used for sending operational analytics information to the Mobile Client Access Service.
-
-MFPAnalytics methods:
-
-| Javascript Function | Description |
-|:---|:---|
-enable() | Turn on the global setting for persisting of the analytics data.
-disable() | Turn off the global setting for persisting of the analytics data.
-isEnabled(success, failure) | Get the current setting for determining if log data should be saved persistently.
-send(success, failure) | Send the analytics log file when the log store exists and is not empty. If the send fails, the local store is preserved. If the send succeeds, the local store is deleted.
-
-See below for Examples of how to use MFPAnalytics.
-
-### MFPAuthorizationManager
-
-MFPAuthorizationManager is used for obtaining authorization tokens from Mobile Client Access service and providing user, device and application identities. 
-
-| Javascript Function | Description |
-|:---|:---|
-initialize(tenantId) | Sets the base URL for the authorization server to use the MCA service tenantId. This method should be called before you send the first request that requires authorization.
-obtainAuthorizationHeader(success, failure) | Start a process of obtaining an authorization header. Mobile Client Access Service might require client to authenticate as a part of this process. 
-isAuthorizationRequired(statusCode, responseAuthHeader, success, failure) | Checks if supplied status code and Authorization header from an HTTP response were sent by Mobile Client Access Service
-clearAuthorizationData() | Clears the locally persisted authorization data
-getCachedAuthorizationHeader(success, failure) | Returns the locally persisted authorization header or null if it wasn't obtained yet
-getAuthorizationPersistencePolicy(success, failure) | Returns current authorization persistence policy
-setAuthorizationPersistencePolicy(policy) | Changes the state of the current authorization persistence policy
-getUserIdentity(success, failure) | Return JSON object with authorized user identity
-getAppIdentity(success, failure) | Return JSON object with application identity
-getDeviceIdentity(success, failure) | Return JSON object with device identity
-
-### MFPAuthenticationListener interface
-
-Mobile Client Access Client SDK provides an Authentication Listener interface to implement custom authentication flows.Developer implementing Authentication Listener is expected to add three below methods that will be called in different phases of an authentication process.
-
-| Method | Use |
-|:---|:---|
-onAuthenticationChallengeReceived(authContext, challenge) | Triggered when authentication challenge was received
-onAuthenticationSuccess(info) | Triggered when authentication succeeded
-onAuthenticationFailure(info) | Triggered when authentication failed
-
-### MFPAuthenticationContext 
-
-authenticationContext is supplied as an argument to the onAuthenticationChallengeReceived method of a custom Authentication Listener. It is developer's responsibility to collect credentials and use authenticationContext methods to either return credentials to Mobile Client Access Client SDK or report a failure. Use one of the below methods.
-
-| Method | Use |
-|:---|:---|
-submitAuthenticationChallengeAnswer(answer) | Submits authentication challenge response
-submitAuthenticationFailure(info) | Informs client about failed authentication
-
-
+<a name="examples"></a>
 ## Examples
 
-### Using BMSClient, MFPAuthorizationManager and MFPRequest
+### Using BMSClient, BMSAuthorizationManager, and BMSRequest
 
 #### Initializing BMSClient
 
-The following JavaScript code is your entry point to the Bluemix Mobile Services. This method should be called before making a request. Your appRoute and appGUID can be found by going to your app's dashboard on Bluemix and clicking on "Mobile Options".
+The following JavaScript code is your entry point to the Bluemix Mobile services. Call this method before making any request. You must pass in the region for your application. The following constants are provided: 
 
 ```JavaScript
-BMSClient.initialize("appRoute", "appGUID");
+ REGION_US_SOUTH // ".ng.bluemix.net";
+ REGION_UK //".eu-gb.bluemix.net";
+ REGION_SYDNEY // ".au-syd.bluemix.net";
 ```
 
-#### Initializing MFPAuthorizationManager
-
-The following JavaScript code initialize the MFPAuthorizationManager with the MCA service tenantId, the tenantId can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
-
 ```JavaScript
-MFPAuthorizationManager.initialize("tenantId");
+BMSClient.initialize(BMSClient.REGION_US_SOUTH);
+```
+#### Initializing BMSAuthorizationManager
+
+In order to use `BMSAuthorizationManager` you will need to add the following code snippet. The following native code initializes the `BMSAuthorizationManager` with the MCA service `tenantId`, the `tenantId` can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
+
+* Android (*OnCreate in MainActivity.java before `loadUrl`*)
+```Java
+MCAAuthorizationManager mcaAuthorizationManager = MCAAuthorizationManager.createInstance(this.getApplicationContext(),"<tenantId>");
+BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager)
+MFPAuthorizationManager.initialize("<tenantId>");
+```
+* iOS (*AppDelegate.m*)
+```Objective-C
+  [CDVBMSClient initMCAAuthorizationManagerManager:@"<tenantId>"]; //Xcode 7 and Xcode 8 with Swift 3
+  [CDVBMSClient initMCAAuthorizationManagerManagerWithTenantId:@"<tenantId>"]; // Xcode 8 with Swift 3
 ```
 
 #### Creating a request 
-After initializing the client you may create a new MFPRequest instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
+After you initialize the client, you can create a new `BMSRequest` instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
 
 ```JavaScript
-var request = new MFPRequest("/myapp/API/action", MFPRequest.GET, 20000);
+var request = new BMSRequest("http://your_app.mybluemix.net/protected", BMSRequest.GET, 20000);
 ```
 
 #### Setting headers for your request 
@@ -380,8 +216,7 @@ var headers = {
 request.setHeaders(headers);
 ```
 
-
-#### Setting your MFPRequest's query parameters
+#### Setting your BMSRequest's query parameters
 
 ```JavaScript
 var queryParams = {
@@ -410,7 +245,7 @@ request.send("some body",
 );
 ```
 
-The successResponse and failureResponse parameters are JSON objects that will be passed to your callbacks with the following fields:
+The `successResponse` and `failureResponse` parameters are JSON objects that will be passed to your callbacks with the following fields:
 
 ```JavaScript
 response.status  =>  Integer
@@ -420,41 +255,41 @@ response.errorCode  =>  Integer
 response.errorDescription  =>  Undefined or String
 ```
 
-### Using MFPLogger
-
-Below are some examples of how to use the MFPLogger class.
+### Using BMSLogger
 
 ```JavaScript
-var myPackageLogger = MFPLogger.getInstance("myPackage");
+var myPackageLogger = BMSLogger.getLogger("myPackage");
 
-// Persist logs to a file
-MFPLogger.setCapture(true);
 
 // Globally set the logging level
-MFPLogger.setLevel(MFPLogger.WARN);
+BMSLogger.setLogLevel(BMSLogger.WARN);
 
 // Log a message at FATAL level
 myPackageLogger.fatal("Fatal level message");
 
-// Only use the logger specified here. 
-// All others will be ignored, including Analytics.
-MFPLogger.setFilters( { "myPackage": MFPLogger.WARN} );
 
 // Send the logs to the server
-MFPLogger.send();
+BMSLogger.send();
 ```
 
-### Using MFPAnalytics
-
-Below are some examples of how to use the MFPAnalytics class.
+### Using BMSAnalytics
 
 ```JavaScript
+
+//Initialize BMSClient
+BMSClient.initialize(BMClient.REGION_US_SOUTH);
+
+//Initialize BMSAnalytics
+BMSAnalytics.initialize(appName, apiKey, hasUserContext, [BMSAnalytics.ALL]
+
 // Enable analytics logging
-MFPAnalytics.enable();
+BMSAnalytics.enable();
 
 // Send the analytics log to the server 
-MFPAnalytics.send();
+BMSAnalytics.send();
 ```
+
+**Note**: For more information about Mobile Analytics, see the [documentation](https://new-console.stage1.ng.bluemix.net/docs/services/mobileanalytics/index.html).
 
 ### Custom Authentication
 
@@ -499,12 +334,42 @@ var customAuthenticationListener = {
 BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
 ```
 
+**Note**: For more information about Mobile Client Access, see the [documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
 
-## Release Notes
+<a name="change_log"></a>
+## Change log
+ 
+##### 2.0.0
+ * Changed JS API signatures 
+      * `BMSClient.initialize(backendRoute, backendGuid)` --> `BMSClient.initialize(region)`
+      * `MFPRequest` --> `BMSClient`
+      * `MFPLogger` --> `BMSLogger`
+       * `getInstance` --> `getLogger`
+       * `getCapture` --> `isStoringLogs`
+       * `setCapture` --> `storeLogs`
+       * `getMaxStoreSize` --> `getMaxLogStoreSize`
+       * `setMaxStoreSize` --> `setMaxLogStoreSize`
+       * `getLevel` --> `getLogLevel`
+       * `setLevel` --> `setLogLevel`
+      * `MFPAuthorizationManager` --> `BMSAuthorizationManager`
+      * `MFPAnalytics` --> `BMSAnalytics`
+       
+ * Added `isSDKDebugLoggingEnabled` to `BMSLogger`/`MFPLogger`
+ * Added `BMSAnalytics.NONE`, `BMSAnalytics.ALL`, and `BMSAnalytics.LIFECYCLE` to `BMSLogger`/`MFPLogger`
+ * Added `BMSAnalytics.initialize` to `BMSLogger`/`MFPLogger`
+ * Removed `initialize` from `BMSAuthorization`/`MFPAuthorizationManager`, use native implementation
+ * Removed the use of using a copy of `Bridging-Header.h`, so that developers will no longer need to do this manually
+ * Added a new initializer for BMSClient that does not require the app route and app guid: `BMSClient.initialize(BMSClient.REGION_US_SOUTH);`
+ * Removed filters and capture methods for `BMSLogger`, use `BMSLogger.getLogLevel` or `BMSLogger.setLogLevel`
+ * Added `initMCAAuthorizationManagerManager` to handle initialize MCA in iOS native 
 
-
+##### 1.0.0
+ * Initial release
+ 
+ 
+<a name="copyrights"></a>
 ## Copyrights
-Copyright 2015 IBM Corp.
+Copyright 2016 IBM Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

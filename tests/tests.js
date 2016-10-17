@@ -1,5 +1,5 @@
 exports.defineAutoTests = function () {
-	describe('MFPCore test suite', function () {
+	describe('BMSCore test suite', function () {
 
 		var fail = function (done, context, message) {
             if (context) {
@@ -73,58 +73,58 @@ exports.defineAutoTests = function () {
 			}, 5000);
 		});
 		
-		describe('MFPRequest API', function() {
+		describe('BMSRequest API', function() {
 			var testRequest;
 
 			beforeEach(function () {
-				testRequest = new MFPRequest("url_test", "guid_test");
+				testRequest = new BMSRequest("url_test", "guid_test");
 			});
 
-			it('MFPRequest should exist', function() {
-				expect(MFPRequest).toBeDefined();
+			it('BMSRequest should exist', function() {
+				expect(BMSRequest).toBeDefined();
 			});
 
-			it('MFPRequest.getUrl() should exist and is a function', function() {
+			it('BMSRequest.getUrl() should exist and is a function', function() {
 				expect(typeof testRequest.getUrl).toBeDefined();
 				expect(typeof testRequest.getUrl == 'function').toBe(true);
 			});
 
-			it('MFPRequest.getMethod() should exist and is a function', function() {
+			it('BMSRequest.getMethod() should exist and is a function', function() {
 				expect(typeof testRequest.getMethod).toBeDefined();
 				expect(typeof testRequest.getMethod == 'function').toBe(true);
 			});
 
-			it('MFPRequest.getTimeout() should exist and is a function', function() {
+			it('BMSRequest.getTimeout() should exist and is a function', function() {
 				expect(typeof testRequest.getTimeout).toBeDefined();
 				expect(typeof testRequest.getTimeout == 'function').toBe(true);
 			});
 
-			it('MFPRequest.getQueryParameters() should exist and is a function', function() {
+			it('BMSRequest.getQueryParameters() should exist and is a function', function() {
 				expect(typeof testRequest.getQueryParameters).toBeDefined();
 				expect(typeof testRequest.getQueryParameters == 'function').toBe(true);
 			});
-			it('MFPRequest.setQueryParameters() should exist and is a function', function() {
+			it('BMSRequest.setQueryParameters() should exist and is a function', function() {
 				expect(typeof testRequest.setQueryParameters).toBeDefined();
 				expect(typeof testRequest.setQueryParameters == 'function').toBe(true);
 			});
 
-			it('MFPRequest.getheaders() should exist and is a function', function() {
+			it('BMSRequest.getheaders() should exist and is a function', function() {
 				expect(typeof testRequest.getHeaders).toBeDefined();
 				expect(typeof testRequest.getHeaders == 'function').toBe(true);
 			});
-			it('MFPRequest.setHeaders() should exist and is a function', function() {
+			it('BMSRequest.setHeaders() should exist and is a function', function() {
 				expect(typeof testRequest.setHeaders).toBeDefined();
 				expect(typeof testRequest.setHeaders == 'function').toBe(true);
 			});
 
-			it('MFPRequest.send() should exist and is a function', function() {
+			it('BMSRequest.send() should exist and is a function', function() {
 				expect(typeof testRequest.send).toBeDefined();
 				expect(typeof testRequest.send == 'function').toBe(true);
 			});
 
 		});
 
-		describe('MFPRequest behavior', function() {
+		describe('BMSRequest behavior', function() {
 			var testRequest;
 			var DEFAULT_TIMEOUT = 30000;
 			var TEST_URL = "http://httpbin.org"
@@ -132,12 +132,12 @@ exports.defineAutoTests = function () {
 			BMSClient.initialize(TEST_URL, "someGUID");
 
 			beforeEach(function() {
-				testRequest = new MFPRequest(TEST_URL, MFPRequest.GET, DEFAULT_TIMEOUT);
+				testRequest = new BMSRequest(TEST_URL, BMSRequest.GET, DEFAULT_TIMEOUT);
 			});
 
 			it('should correctly create a new request with correct URL and Method', function() {
 				expect(testRequest._url).toEqual(TEST_URL);
-				expect(testRequest._method).toEqual(MFPRequest.GET);
+				expect(testRequest._method).toEqual(BMSRequest.GET);
 			});
 
 			it('should have a default timeout of ' + DEFAULT_TIMEOUT + ' milliseconds', function() {
@@ -169,7 +169,7 @@ exports.defineAutoTests = function () {
 			});
 
 			it('should retrieve the method with getMethod', function() {
-				expect(testRequest.getMethod()).toEqual(MFPRequest.GET);
+				expect(testRequest.getMethod()).toEqual(BMSRequest.GET);
 			});
 
 			it('should retrieve the timeout with getTimeout', function() {
@@ -199,64 +199,65 @@ exports.defineAutoTests = function () {
 
 		});
 
-		describe('MFPLogger API', function() {
+		describe('BMSLogger API', function() {
 			it('should exist', function() {
-				expect(MFPLogger).toBeDefined();
+				expect(BMSLogger).toBeDefined();
 			});
 
 			it('should have getInstance() and is a function', function() {
-				expect(typeof MFPLogger.getInstance).toBeDefined();
-				expect(typeof MFPLogger.getInstance == 'function').toBe(true);
+				expect(typeof BMSLogger.getLogger).toBeDefined();
+				expect(typeof BMSLogger.getLogger == 'function').toBe(true);
 			});
 
-			it('should have getCapture() and is a function', function() {
-				expect(typeof MFPLogger.getCapture).toBeDefined();
-				expect(typeof MFPLogger.getCapture == 'function').toBe(true);
+			it('should have storeLogs() and is a function', function() {
+				expect(typeof BMSLogger.storeLogs).toBeDefined();
+				expect(typeof BMSLogger.storeLogs == 'function').toBe(true);
 			});
 
-			it('should have setCapture() and is a function', function() {
-				expect(typeof MFPLogger.setCapture).toBeDefined();
-				expect(typeof MFPLogger.setCapture == 'function').toBe(true);
+
+			it('should have getMaxLogStoreSize() and is a function', function() {
+				expect(typeof BMSLogger.getMaxLogStoreSize).toBeDefined();
+				expect(typeof BMSLogger.getMaxLogStoreSize == 'function').toBe(true);
 			});
 
-			it('should have getFilters() and is a function', function() {
-				expect(typeof MFPLogger.getFilters).toBeDefined();
-				expect(typeof MFPLogger.getFilters == 'function').toBe(true);
+			it('should have setMaxLogStoreSize() and is a function', function() {
+				expect(typeof BMSLogger.setMaxLogStoreSize).toBeDefined();
+				expect(typeof BMSLogger.setMaxLogStoreSize == 'function').toBe(true);
 			});
 
-			it('should have setFilters() and is a function', function() {
-				expect(typeof MFPLogger.setFilters).toBeDefined();
-				expect(typeof MFPLogger.setFilters == 'function').toBe(true);
+			it('should have getLogLevel() and is a function', function() {
+				expect(typeof BMSLogger.getLogLevel).toBeDefined();
+				expect(typeof BMSLogger.getLogLevel == 'function').toBe(true);
 			});
 
-			it('should have getMaxStoreSize() and is a function', function() {
-				expect(typeof MFPLogger.getMaxStoreSize).toBeDefined();
-				expect(typeof MFPLogger.getMaxStoreSize == 'function').toBe(true);
-			});
-
-			it('should have setMaxStoreSize() and is a function', function() {
-				expect(typeof MFPLogger.setMaxStoreSize).toBeDefined();
-				expect(typeof MFPLogger.setMaxStoreSize == 'function').toBe(true);
-			});
-
-			it('should have getLevel() and is a function', function() {
-				expect(typeof MFPLogger.getLevel).toBeDefined();
-				expect(typeof MFPLogger.getLevel == 'function').toBe(true);
-			});
-
-			it('should have setLevel() and is a function', function() {
-				expect(typeof MFPLogger.setLevel).toBeDefined();
-				expect(typeof MFPLogger.setLevel == 'function').toBe(true);
+			it('should have setLogLevel() and is a function', function() {
+				expect(typeof BMSLogger.setLogLevel).toBeDefined();
+				expect(typeof BMSLogger.setLogLevel == 'function').toBe(true);
 			});
 
 			it('should have isUncaughtExceptionDetected() and is a function', function() {
-				expect(typeof MFPLogger.isUncaughtExceptionDetected).toBeDefined();
-				expect(typeof MFPLogger.isUncaughtExceptionDetected == 'function').toBe(true);
+				expect(typeof BMSLogger.isUncaughtExceptionDetected).toBeDefined();
+				expect(typeof BMSLogger.isUncaughtExceptionDetected == 'function').toBe(true);
 			});
 
 			it('should have send() and is a function', function() {
-				expect(typeof MFPLogger.send).toBeDefined();
-				expect(typeof MFPLogger.send == 'function').toBe(true);
+				expect(typeof BMSLogger.send).toBeDefined();
+				expect(typeof BMSLogger.send == 'function').toBe(true);
+			});
+
+			it('should have isStoringLogs() and is a function', function() {
+				expect(typeof BMSLogger.isStoringLogs).toBeDefined();
+				expect(typeof BMSLogger.isStoringLogs == 'function').toBe(true);
+			});
+
+			it('should have setSDKDebugLoggingEnabled() and is a function', function() {
+				expect(typeof BMSLogger.setSDKDebugLoggingEnabled).toBeDefined();
+				expect(typeof BMSLogger.setSDKDebugLoggingEnabled == 'function').toBe(true);
+			});
+
+			it('should have isSDKDebugLoggingEnabled() and is a function', function() {
+				expect(typeof BMSLogger.isSDKDebugLoggingEnabled).toBeDefined();
+				expect(typeof BMSLogger.isSDKDebugLoggingEnabled == 'function').toBe(true);
 			});
 		});
 
@@ -264,7 +265,7 @@ exports.defineAutoTests = function () {
 			var logger;
 
 			beforeEach(function () {
-				logger = MFPLogger.getInstance("logger-test");
+				logger = BMSLogger.getLogger("logger-test");
 			});
 
 			it('should exist', function() {
@@ -302,101 +303,77 @@ exports.defineAutoTests = function () {
 			});
 		});
 
-		describe('MFPLogger behavior', function() {
+		describe('BMSLogger behavior', function() {
+			beforeEach(function () {
+				cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSAnalytics", "initialize", ["dummyApp",
+					"dummyApiKey", true, [BMSAnalytics.ALL] ]);
+
+				BMSAnalytics.initialize('dummyApp', 'dummyApiKey', true, [BMSAnalytics.ALL])
+			}, 5000);
+			
 			it('should create a new instance for a new name', function() {
-				var log1 = MFPLogger.getInstance("logger1");
-				var log2 = MFPLogger.getInstance("logger2");
+				var log1 = BMSLogger.getLogger("logger1");
+				var log2 = BMSLogger.getLogger("logger2");
 
 				expect(log1).not.toBe(log2);
 			});
 
 			it('should retrieve the same internal instance if using the same name ', function() {
-				var log1 = MFPLogger.getInstance("logger1");
-				var log2 = MFPLogger.getInstance("logger1");
+				var log1 = BMSLogger.getLogger("logger1");
+				var log2 = BMSLogger.getLogger("logger1");
 
 				expect(log1).toBe(log2);
 			});
 
 
-			it('should Set capture and invoke the success callback', function(done) {
-				spyOn(MFPLogger, 'setCapture').and.callFake(function(enabled) {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setCapture", [enabled]);
+			it('should store logs and invoke the success callback', function(done) {
+				spyOn(BMSLogger, 'storeLogs').and.callFake(function(enabled) {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSLogger", "storeLogs", [enabled]);
 				});
-				MFPLogger.setCapture(true);
+				BMSLogger.storeLogs(true);
 			}, 25000);
 
 
 			it('should Set AND Get the capture flag correctly #1', function(done) {
-				MFPLogger.setCapture(true);
+				BMSLogger.storeLogs(true);
 
-				MFPLogger.getCapture(
+				BMSLogger.isStoringLogs(
 					function(result) {
-						// result should be a proper 'boolean'
-						expect(typeof(result) == "boolean").toBe(true);
+						// result should be a proper 'integer'
+						expect(typeof(result) == "integer").toBe(true);
 						// result should return the value that was previously set
-						expect(result).toBe(true);
+						expect(result).toBe(1);
 						done();
 					},
 					fail.bind(null, done));
 			}, 25000);
 
 			it('should Set AND Get the capture flag correctly #2', function(done) {
-				MFPLogger.setCapture(false);
+				BMSLogger.storeLogs(false);
 
-				MFPLogger.getCapture(
+				BMSLogger.isStoringLogs(
 					function(result) {
-						// result should be a proper 'boolean'
-						expect(typeof(result) == "boolean").toBe(true);
+						// result should be a proper 'integer'
+						expect(typeof(result) == "integer").toBe(true);
 						// result should return the value that was previously set
-						expect(result).toBe(false);
+						expect(result).toBe(0);
 						done();
 					},
 					fail.bind(null, done));
 			}, 25000);
 
-			it('should Set filters and invoke success callback', function(done) {
-				spyOn(MFPLogger, 'setFilters').and.callFake(function(filters) {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setFilters", [filters]);
-				});
 
-				MFPLogger.setFilters({
-					"stuff": MFPLogger.FATAL
+			it('should Set Max Log Store Size and invoke the Succeed callback', function(done) {
+				spyOn(BMSLogger, 'setMaxLogStoreSize').and.callFake(function(intSize) {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSLogger", "setMaxLogStoreSize", [intSize]);
 				});
-
+				BMSLogger.setMaxLogStoreSize(20000);
 			}, 25000);
 
-			it('should Set AND Get the filters correctly #1', function(done) {
-				MFPLogger.setFilters({
-					"pkgOne": MFPLogger.INFO,
-					"pkgTwo": MFPLogger.DEBUG
-				});
+			it('should Set Max Log Store Size and Get the previously set value', function(done) {
+				BMSLogger.setMaxLogStoreSize(20000);
 
-				MFPLogger.getFilters(
-					function(filter) {
-						// filter should be a proper 'object'
-						expect(typeof(filter) == "object").toBe(true);
-						// filter should return the value that was previously set
-						expect(filter).toEqual(
-							{
-							"pkgOne": "INFO",
-							"pkgTwo": "DEBUG"
-							});
-						done();
-					},
-					fail.bind(null, done));
-			}, 25000);
-
-			it('should Set Max Store Size and invoke the Succeed callback', function(done) {
-				spyOn(MFPLogger, 'setMaxStoreSize').and.callFake(function(intSize) {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setMaxStoreSize", [intSize]);
-				});
-				MFPLogger.setMaxStoreSize(20000);
-			}, 25000);
-
-			it('should Set Max Store Size and Get the previously set value', function(done) {
-				MFPLogger.setMaxStoreSize(20000);
-
-				MFPLogger.getMaxStoreSize(
+				BMSLogger.getMaxLogStoreSize(
 					function(intSize) {
 						// intSize should be a proper int
 						expect(typeof(intSize) == "number").toBe(true);
@@ -409,91 +386,103 @@ exports.defineAutoTests = function () {
 
 
 			it('should Set the Logger Level and invoke the Succeed callback', function(done) {
-				spyOn(MFPLogger, 'setLevel').and.callFake(function(logLevel) {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPLogger", "setLevel", [logLevel]);
+				spyOn(BMSLogger, 'setLogLevel').and.callFake(function(logLevel) {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSLogger", "setLogLevel", [logLevel]);
 				});
-				MFPLogger.setLevel(MFPLogger.FATAL);
-			}, 25000);
+				BMSLogger.setLogLevel(BMSLogger.FATAL);
+			}, 25000);0
 
 			it('should Set and Get the logger level', function(done) {
-				MFPLogger.setLevel(MFPLogger.ERROR);
+				BMSLogger.setLogLevel(BMSLogger.ERROR);
 
-				MFPLogger.getLevel(
+				BMSLogger.getLogLevel(
 					function(logLevel){
 						// logLevel should be a proper String
 						expect(typeof(logLevel) == "string").toBe(true);
 						// logLevel should return the value that was previously set
-						expect(logLevel).toBe(MFPLogger.ERROR);
+						expect(logLevel).toBe(BMSLogger.ERROR);
 						done();
 					},
 					fail.bind(null, done));
 			}, 25000);
 
 			it('should call isUncaughtExceptionDetected and invoke the Succeed callback', function(done) {
-				MFPLogger.isUncaughtExceptionDetected(succeed.bind(null, done), fail.bind(null, done));
+				BMSLogger.isUncaughtExceptionDetected(succeed.bind(null, done), fail.bind(null, done));
 			}, 25000);
 
 		});
 
-		describe('MFPAnalytics API', function() {
+		describe('BMSAnalytics API', function() {
+			beforeEach(function () {
+				cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSAnalytics", "initialize", ["dummyApp",
+					"dummyApiKey", true, [BMSAnalytics.ALL] ]);
+
+				BMSAnalytics.initialize('dummyApp', 'dummyApiKey', true, [BMSAnalytics.ALL])
+			}, 5000);
+
 			it('should exist', function() {
-				expect(MFPAnalytics).toBeDefined();
+				expect(BMSAnalytics).toBeDefined();
 			});
 
 			it('should have enable() and is a function', function() {
-				expect(typeof MFPAnalytics.enable).toBeDefined();
-				expect(typeof MFPAnalytics.enable == 'function').toBe(true);
+				expect(typeof BMSAnalytics.enable).toBeDefined();
+				expect(typeof BMSAnalytics.enable == 'function').toBe(true);
 			});
 
 			it('should have disable() and is a function', function() {
-				expect(typeof MFPAnalytics.disable).toBeDefined();
-				expect(typeof MFPAnalytics.disable == 'function').toBe(true);
+				expect(typeof BMSAnalytics.disable).toBeDefined();
+				expect(typeof BMSAnalytics.disable == 'function').toBe(true);
 			});
 
 			it('should have isEnabled() and is a function', function() {
-				expect(typeof MFPAnalytics.isEnabled).toBeDefined();
-				expect(typeof MFPAnalytics.isEnabled == 'function').toBe(true);
+				expect(typeof BMSAnalytics.isEnabled).toBeDefined();
+				expect(typeof BMSAnalytics.isEnabled == 'function').toBe(true);
 			});
 
 			it('should have send() and is a function', function() {
-				expect(typeof MFPAnalytics.send).toBeDefined();
-				expect(typeof MFPAnalytics.send == 'function').toBe(true);
+				expect(typeof BMSAnalytics.send).toBeDefined();
+				expect(typeof BMSAnalytics.send == 'function').toBe(true);
 			});
 
-			// (TODO: For future release)
-			xit('should have logEvent() and is a function', function() {
-				expect(typeof MFPAnalytics.logEvent).toBeDefined();
-				expect(typeof MFPAnalytics.logEvent == 'function').toBe(true);
+			it('should have log() and is a function', function() {
+				expect(typeof BMSAnalytics.log).toBeDefined();
+				expect(typeof BMSAnalytics.log == 'function').toBe(true);
 			});
+			
+			it('should have initialize() and is a function', function() {
+				expect(typeof BMSAnalytics.initialize).toBeDefined();
+				expect(typeof BMSAnalytics.initialize == 'function').toBe(true)
+			});
+
+
 		});
 
-		describe('MFPAnalytics behavior', function() {
+		describe('BMSAnalytics behavior', function() {
 
 			it('should Enable Analytics logging and invoke the Succeed callback', function(done) {
-				spyOn(MFPAnalytics, 'enable').and.callFake(function() {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPAnalytics", "enable", []);
+				spyOn(BMSAnalytics, 'enable').and.callFake(function() {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSAnalytics", "enable", []);
 				});
-				MFPAnalytics.enable();
+				BMSAnalytics.enable();
 			}, 5000);
 
 			it('should disable Analytics logging and invoke the Succeed callback', function(done) {
-				spyOn(MFPAnalytics, 'disable').and.callFake(function() {
-					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "MFPAnalytics", "disable", []);
+				spyOn(BMSAnalytics, 'disable').and.callFake(function() {
+					cordova.exec(succeed.bind(null, done), fail.bind(null, done), "BMSAnalytics", "disable", []);
 				});
 
-				MFPAnalytics.disable();
+				BMSAnalytics.disable();
 			}, 5000);
 
-			xit('should use isEnabled to get Capture flag and return the value to success callback', function(done) {
+			it('should use isEnabled to get Capture flag and return the value to success callback', function(done) {
 			}, 5000);
 
 			it('should invoke failure callback if using send without setting up correctly', function(done) {
-				spyOn(MFPAnalytics, 'send').and.callFake(function() {
-					cordova.exec(fail.bind(null, done), succeed.bind(null, done), "MFPAnalytics", "send", []);
+				spyOn(BMSAnalytics, 'send').and.callFake(function() {
+					cordova.exec(fail.bind(null, done), succeed.bind(null, done), "BMSAnalytics", "send", []);
 				});
-				MFPAnalytics.send();
+				BMSAnalytics.send();
 			}, 5000);
 		});
-
 	});
 };

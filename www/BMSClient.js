@@ -14,7 +14,7 @@ var exec = require("cordova/exec");
 
 var BMSClient = function() {
     var BMSClientString = "BMSClient";
-    var AuthContextString = "MFPAuthenticationContext";
+    var AuthContextString = "BMSAuthenticationContext";
     var success = function(message) {
         console.log(BMSClientString + ": Success: " + message);
     };
@@ -23,15 +23,24 @@ var BMSClient = function() {
     };
 
     /**
+     *  Define region constants
+     * @type {string}
+     */
+    this.REGION_US_SOUTH = ".ng.bluemix.net";
+    this.REGION_UK = ".eu-gb.bluemix.net";
+    this.REGION_SYDNEY = ".au-syd.bluemix.net";
+
+
+
+    /**
      * Sets the base URL for the authorization server.
      * <p>
      * This method should be called before you send the first request that requires authorization.
      * </p>
-     * @param {string} backendRoute Specifies the base URL for the authorization server
-     * @param {string} backendGuid Specifies the GUID of the application
+     * @param {string} bluemixRegion Specifies the region of the application
      */
-    this.initialize = function(backendRoute, backendGuid) {
-        cordova.exec(success, failure, BMSClientString, "initialize", [backendRoute, backendGuid]);
+    this.initialize = function(bluemixRegion) {
+        cordova.exec(success, failure, BMSClientString, "initialize", [bluemixRegion]);
     };
 
     /**
@@ -122,7 +131,7 @@ var BMSClient = function() {
          callback(action);
      };
 
-};
+    };
 
 //Return singleton instance
 module.exports = new BMSClient();

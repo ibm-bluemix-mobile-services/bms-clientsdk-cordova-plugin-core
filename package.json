@@ -1,9 +1,9 @@
 {
-  "name": "ibm-mfp-core",
-  "version": "1.1.0",
+  "name": "bms-core",
+  "version": "2.0.0",
   "description": "Cordova Plugin for IBM Bluemix Mobile Services Core SDK",
   "cordova": {
-    "id": "ibm-mfp-core",
+    "id": "bms-core",
     "platforms": [
       "android",
       "ios"
@@ -35,8 +35,12 @@
       "email": "escotos@us.ibm.com"
     },
     {
-      "name": " Matthew Parangot",
+      "name": "Matthew Parangot",
       "email": ""
+    },
+    {
+      "name": "Nana Amfo",
+      "email": "noamfo@us.ibm.com"
     }
   ]
 }
