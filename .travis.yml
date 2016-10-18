@@ -23,7 +23,7 @@ script:
     - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
        cd ~/Documents;
        git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git;
-       cd bms-clientsdk-cordoa-plugin-core;
+       cd bms-clientsdk-cordova-plugin-core;
        echo $token >> $HOME/.npmrc;
        npm publish;
       fi
