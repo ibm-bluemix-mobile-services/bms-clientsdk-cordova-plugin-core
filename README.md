@@ -193,7 +193,7 @@ BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager);
 ```
 * iOS (*AppDelegate.m*)
 ```Objective-C
-  [CDVBMSClient initMCAAuthorizationManagerManager:@"<tenantId>"]; //Xcode 7 and Xcode 8 with Swift 3
+  [CDVBMSClient initMCAAuthorizationManagerManager:@"<tenantId>"]; //Xcode 7 and Xcode 8 with Swift 2.3
   [CDVBMSClient initMCAAuthorizationManagerManagerWithTenantId:@"<tenantId>"]; // Xcode 8 with Swift 3
 ```
 
