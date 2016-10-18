@@ -198,6 +198,10 @@ BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager);
   [CDVBMSClient initMCAAuthorizationManagerManagerWithTenantId:@"<tenantId>"]; // Xcode 8 with Swift 3
 ```
 
+#### Keychain Sharing
+
+If you plan on using BMSAuthorization in iOS you will need to enable Keychain Sharing. Also, keep in mind that Keychain Sharing requires an Apple ID. Enable `Keychain Sharing` by going to `Capabilities` > `Keychain Sharing` and switch the tab to `On`. 
+
 #### Creating a request 
 After you initialize the client, you can create a new `BMSRequest` instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
 
