@@ -21,16 +21,16 @@ script:
     - cordova plugin add https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git#development
     - cordova build android
     - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
-       cd ~/Documents
-       git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git
-       cd bms-clientsdk-cordoa-plugin-core
-       echo $token >> $HOME/.npmrc
-       npm publish
+       cd ~/Documents;
+       git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git;
+       cd bms-clientsdk-cordoa-plugin-core;
+       echo $token >> $HOME/.npmrc;
+       npm publish;
       fi
 after_script:
     - if [[ ! -z "$(tail -n 1 $HOME/.npmrc | grep _authToken)" ]]; then
-       echo "Found token in .npmrc"
-       sed -i '$d' $HOME/.npmrc > $HOME/.npmrc.bk
-       cp $HOME/.npmrc.bk $HOME/.npmrc
-       rm $HOME/.npmrc.bk
+       echo "Found token in .npmrc";
+       sed -i '$d' $HOME/.npmrc > $HOME/.npmrc.bk;
+       cp $HOME/.npmrc.bk $HOME/.npmrc;
+       rm $HOME/.npmrc.bk;
       fi
