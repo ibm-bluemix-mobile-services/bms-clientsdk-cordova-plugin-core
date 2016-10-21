@@ -19,6 +19,26 @@ import BMSAnalytics
 
 @objc(CDVBMSAnalytics) class CDVBMSAnalytics : CDVPlugin {
 
+    func setUserIdentity(_ command: CDVInvokedUrlCommand){
+        let userIdentity = command.arguments[0] as! String
+
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                Analytics.userIdentity = userIdentity
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: true)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+            })
+        #else
+            self.commandDelegate!.runInBackground({
+                Analytics.userIdentity = userIdentity
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool: true)
+                // call success callback
+                self.commandDelegate!.sendPluginResult(pluginResult, callbackId: command.callbackId)
+            })
+        #endif
+    }
+
     func enable(_ command: CDVInvokedUrlCommand) {
 
         #if swift(>=3.0)
