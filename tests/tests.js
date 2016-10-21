@@ -457,7 +457,7 @@ exports.defineAutoTests = function () {
 			it('should have setUserIdentity() and is a function', function() {
 				expect(typeof BMSAnalytics.setUserIdentity).toBeDefined();
 				expect(typeof BMSAnalytics.setUserIdentity == 'function').toBe(true);
-			})
+			});
 
 
 		});
