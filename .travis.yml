@@ -27,10 +27,3 @@ script:
        echo $token >> $HOME/.npmrc;
        npm publish;
       fi
-after_script:
-    - if [ -f $HOME/.npmrc ] && [ ! -z "$(tail -n 1 $HOME/.npmrc | grep _authToken)" ]; then
-       echo "Found token in .npmrc";
-       sed -i '$d' $HOME/.npmrc > $HOME/.npmrc.bk;
-       cp $HOME/.npmrc.bk $HOME/.npmrc;
-       rm $HOME/.npmrc.bk;
-      fi
