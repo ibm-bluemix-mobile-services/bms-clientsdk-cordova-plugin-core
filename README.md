@@ -1,6 +1,5 @@
 # Cordova Plugin for IBM Bluemix Mobile Services Core SDK
- [![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core
-.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core
+ [![Build Status](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.svg?branch=master)](https://travis-ci.org/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core
 )
 
  [![npm package](https://nodei.co/npm/bms-core.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/bms-core/)
@@ -190,14 +189,17 @@ In order to use `BMSAuthorizationManager` you will need to add the following cod
 * Android (*OnCreate in MainActivity.java before `loadUrl`*)
 ```Java
 MCAAuthorizationManager mcaAuthorizationManager = MCAAuthorizationManager.createInstance(this.getApplicationContext(),"<tenantId>");
-BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager)
-MFPAuthorizationManager.initialize("<tenantId>");
+BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager);
 ```
 * iOS (*AppDelegate.m*)
 ```Objective-C
-  [CDVBMSClient initMCAAuthorizationManagerManager:@"<tenantId>"]; //Xcode 7 and Xcode 8 with Swift 3
+  [CDVBMSClient initMCAAuthorizationManagerManager:@"<tenantId>"]; //Xcode 7 and Xcode 8 with Swift 2.3
   [CDVBMSClient initMCAAuthorizationManagerManagerWithTenantId:@"<tenantId>"]; // Xcode 8 with Swift 3
 ```
+
+#### Keychain Sharing
+
+If you plan on using BMSAuthorization in iOS you will need to enable Keychain Sharing. Also, keep in mind that Keychain Sharing requires an Apple ID. Enable `Keychain Sharing` by going to `Capabilities` > `Keychain Sharing` and switch the tab to `On`. 
 
 #### Creating a request 
 After you initialize the client, you can create a new `BMSRequest` instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.

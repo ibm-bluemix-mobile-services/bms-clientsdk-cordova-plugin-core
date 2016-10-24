@@ -64,8 +64,37 @@ public class CDVBMSAnalytics extends CordovaPlugin {
         } else if("log".equals(action)){
             this.log(args, callbackContext);
             return true;
+        } else if("setUserIdentity".equals(action)){
+            this.setUserIdentity(args, callbackContext);
+            return true;
         }
         return false;
+    }
+
+    /**
+     *
+     * Specify current application user.  This value will be hashed to ensure privacy.
+     * If your application does not have user context, then nothing will happen.
+     *
+     * @param args  JSONArray that contains the argument the to initialize Analytics
+     * @param callbackContext
+     */
+
+    public void setUserIdentity(final JSONArray args, final CallbackContext callbackContext){
+        cordova.getThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String userIdentity = args.getString(0);
+                    Analytics.setUserIdentity(userIdentity);
+                } catch(JSONException e){
+                    analyticsLogger.error("setUserIdentity :: Analytics failed to set user identity. " +
+                            "Please review arguments");
+                    callbackContext.error(e.getMessage());
+                }
+
+            }
+        });
     }
 
     /**

@@ -451,7 +451,12 @@ exports.defineAutoTests = function () {
 			
 			it('should have initialize() and is a function', function() {
 				expect(typeof BMSAnalytics.initialize).toBeDefined();
-				expect(typeof BMSAnalytics.initialize == 'function').toBe(true)
+				expect(typeof BMSAnalytics.initialize == 'function').toBe(true);
+			});
+
+			it('should have setUserIdentity() and is a function', function() {
+				expect(typeof BMSAnalytics.setUserIdentity).toBeDefined();
+				expect(typeof BMSAnalytics.setUserIdentity == 'function').toBe(true);
 			});
 
 

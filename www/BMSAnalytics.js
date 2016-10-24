@@ -73,6 +73,15 @@ var BMSAnalytics = {
      */
     log: function(metadata){
         cordova.exec(success, failure, "BMSAnalytics", "log", [metadata]);
+    },
+    /**
+     * <p>Specify current application user. This value will be hashed to ensure privacy.
+     * If your application does not have user context, then nothing will happen.</p>
+     *
+     * @param username username User id for current app user
+     */
+    setUserIdentity: function(username){
+        cordova.exec(success, failure, "BMSAnalytics", "setUserIdentity", [username]);
     }
 };
 
