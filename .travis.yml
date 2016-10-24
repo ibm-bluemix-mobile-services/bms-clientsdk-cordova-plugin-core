@@ -5,6 +5,7 @@ matrix:
         - osx_image: xcode8
 install:
     - gem install cocoapods --pre
+    - brew install jq
 before_script:
     - wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
     - tar xzf android-sdk_r24.4.1-linux.tgz
@@ -27,3 +28,9 @@ script:
        echo $token >> $HOME/.npmrc;
        npm publish;
       fi
+
+after_script:
+    - cd ~/Documents;
+    - cd bms-client-sdk-cordova-plugin-core;
+    - VERSION = jq '.version' package.json;
+    - git tag -a $VERSION -m "${VERSION}";
