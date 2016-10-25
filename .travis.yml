@@ -22,8 +22,7 @@ script:
     - cordova plugin add https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git#development
     - cordova build android
     # Publishing to NPM and Tagging to Git
-    - echo "ID " $TRAVIS_JOB_NUMBER
-    - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && [ "${TRAVIS_JOB_NUMBER}" = *".1"* ]; then
+    - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && [ "${TRAVIS_JOB_NUMBER}" == *".1"* ]; then
        cd ~/Documents;
        git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git;
        cd bms-clientsdk-cordova-plugin-core;
