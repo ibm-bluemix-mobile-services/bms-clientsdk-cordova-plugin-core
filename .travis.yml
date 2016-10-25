@@ -5,6 +5,7 @@ matrix:
         - osx_image: xcode8
 install:
     - gem install cocoapods --pre
+    - brew install jq
 before_script:
     - wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
     - tar xzf android-sdk_r24.4.1-linux.tgz
@@ -20,10 +21,14 @@ script:
     - cordova platform add ios
     - cordova plugin add https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git#development
     - cordova build android
-    - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ]; then
+    # Publishing to NPM and Tagging to Git
+    - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && [ "${TRAVIS_JOB_ID}" = *".1"* ]; then
        cd ~/Documents;
        git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git;
        cd bms-clientsdk-cordova-plugin-core;
        echo $token >> $HOME/.npmrc;
        npm publish;
+       VERSION = jq '.version' package.json;
+       git tag  $VERSION;
+       git push origin --tags;
       fi
