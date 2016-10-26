@@ -3,14 +3,13 @@ matrix:
     include:
         - osx_image: xcode7.3
         - osx_image: xcode8
-env:
-   - VERSION = ""
 install:
     - gem install cocoapods --pre
     - brew install jq
 before_script:
     - wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
     - tar xzf android-sdk_r24.4.1-linux.tgz
+    - export VERSION=""
     - export ANDROID_HOME=$PWD/android-sdk-linux
     - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
     - echo "yes" | android update sdk --filter platform-tools,extra-google-m2repository,extra-android-m2repository,build-tools-24.0.3,android-23,extra-android-support --no-ui --all --force
@@ -31,7 +30,6 @@ script:
        cd bms-clientsdk-cordova-plugin-core;
        echo $token >> $HOME/.npmrc;
        npm publish;
-       VERSION = jq '.version' package.json;
-       git tag  $VERSION;
+       git tag  $(jq '.version' package.json);
        git push origin --tags;
       fi
