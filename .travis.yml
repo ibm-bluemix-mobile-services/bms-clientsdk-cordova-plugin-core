@@ -13,6 +13,8 @@ before_script:
     - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
     - echo "yes" | android update sdk --filter platform-tools,extra-google-m2repository,extra-android-m2repository,build-tools-24.0.3,android-23,extra-android-support --no-ui --all --force
     - rm -rf ~/Library/Developer/Xcode/DerivedData
+    - git config credential.helper "store --file=.git/credentials"
+    - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
     - npm install -g cordova
 script:
     - cordova create app
@@ -28,7 +30,7 @@ script:
        git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git;
        cd bms-clientsdk-cordova-plugin-core;
        echo $token >> $HOME/.npmrc;
-       npm publish;
+       #npm publish;
        git tag  $(jq '.version' package.json);
        git push origin --tags;
       fi
