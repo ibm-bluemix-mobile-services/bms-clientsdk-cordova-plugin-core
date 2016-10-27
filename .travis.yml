@@ -29,8 +29,7 @@
          git clone https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git;
          cd bms-clientsdk-cordova-plugin-core;
          echo $token >> $HOME/.npmrc;
-         npm publish;
-         VERSION = jq '.version' package.json;
-         git tag  $VERSION;
+         #npm publish;
+         git tag  $(jq '.version' package.json);
          git push origin --tags;
         fi
