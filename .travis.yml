@@ -21,7 +21,7 @@
       - cd app
       - cordova platform add android
       - cordova platform add ios
-      - cordova plugin add https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git#development
+      - cordova plugin add https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git
       - cordova build android
       # Publishing to NPM and Tagging to Git
       - if [ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && [[ "${TRAVIS_JOB_NUMBER}" = *".1"* ]]; then
