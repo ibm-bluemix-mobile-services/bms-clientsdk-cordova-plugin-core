@@ -31,4 +31,5 @@
          echo $token >> $HOME/.npmrc;
          git tag  $(jq '.version' package.json | tr -d '"');
          git push origin --tags;
+         npm publish;
         fi
