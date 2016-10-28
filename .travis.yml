@@ -29,6 +29,6 @@
          git remote rm origin;
          git remote add origin https://ibm-bluemix-mobile-services:${GH_TOKEN}@github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core.git;
          echo $token >> $HOME/.npmrc;
-         git tag  $(jq '.version' package.json);
+         git tag  $(jq '.version' package.json | tr -d '"');
          git push origin --tags;
         fi
