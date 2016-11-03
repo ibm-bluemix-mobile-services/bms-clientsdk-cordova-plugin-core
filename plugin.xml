@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="bms-core" version="2.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+<plugin id="bms-core" version="2.2.0" xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>BMSCore</name>
 
@@ -87,8 +87,8 @@
     <!-- ios -->
     <platform name="ios">
     	<pods-config use-frameworks="true" ios-min-version="8.0"/>
-        <pod id="BMSAnalytics" version="2.0.0"/>
-        <pod id="BMSSecurity" version="2.0.0"/>
+        <pod id="BMSAnalytics" version="2.1.1"/>
+        <pod id="BMSSecurity" version="2.0.2"/>
         <config-file parent="/*" target="config.xml">
 
             <feature name="BMSClient">
