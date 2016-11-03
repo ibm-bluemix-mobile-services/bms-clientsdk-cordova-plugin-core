@@ -340,7 +340,14 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 
 <a name="change_log"></a>
 ## Change log
- 
+
+##### 2.2.0
+* Update `BMSAnalytics` pod dependency to 2.1.1
+* Update `BMSSecurity` pod dependency to 2.0.2
+
+##### 2.1.0
+* Added `setUserIdentity` method to `BMSAnalytics`
+
 ##### 2.0.0
  * Changed JS API signatures 
       * `BMSClient.initialize(backendRoute, backendGuid)` --> `BMSClient.initialize(region)`
