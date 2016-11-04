@@ -341,6 +341,9 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 <a name="change_log"></a>
 ## Change log
 
+##### 2.2.2
+* Use `<pod id=/podId/ value="~>2.0"/>` to grab the latest pod dependency from version [2.0,3.0)
+
 ##### 2.2.1
 * Use `<pod id=/podId/ value=">=2.0.0"/>` to grab the latest pod dependency
 
