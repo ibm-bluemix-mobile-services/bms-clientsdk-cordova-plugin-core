@@ -291,7 +291,11 @@ BMSAnalytics.enable();
 BMSAnalytics.send();
 ```
 
+**Note**: In iOS, BMSAnalytics.ALL and BMSAnalytics.NONE is not supported natively and will be treated as BMAnaltyics.LIFECYCLE.
+
 **Note**: For more information about Mobile Analytics, see the [documentation](https://new-console.stage1.ng.bluemix.net/docs/services/mobileanalytics/index.html).
+
+
 
 ### Custom Authentication
 
@@ -340,6 +344,9 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 
 <a name="change_log"></a>
 ## Change log
+
+##### 2.3.2
+* Added `DeviceEvent.NETWORK` as an available event for `BMSAnalytics`
 
 ##### 2.2.2
 * Use `<pod id=/podId/ value="~>2.0"/>` to grab the latest pod dependency from version [2.0,3.0)

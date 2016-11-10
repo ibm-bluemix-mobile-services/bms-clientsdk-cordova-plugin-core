@@ -143,6 +143,8 @@ public class CDVBMSAnalytics extends CordovaPlugin {
                     devices[i] = Analytics.DeviceEvent.ALL;
                 } else if(deviceEventsArray.getInt(i) == 2){
                     devices[i] = Analytics.DeviceEvent.LIFECYCLE;
+                } else if(deviceEventsArray.getInt(i) == 3){
+                    devices[i] = Analytics.DeviceEvent.NETWORK;
                 }
             }
             Analytics.init(app, applicationName, clientApiKey, hasContext, devices);
