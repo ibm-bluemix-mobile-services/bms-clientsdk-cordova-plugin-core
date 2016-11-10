@@ -130,27 +130,66 @@ import BMSAnalytics
         #endif
     }
 
-    func initialize(_ command: CDVInvokedUrlCommand){
+     func initialize(_ command: CDVInvokedUrlCommand){
 
-        let appName = command.arguments[0] as! String
-        let clientApiKey = command.arguments[1] as! String
-        let hasUserContext = command.arguments[2] as! Bool
+            let appName = command.arguments[0] as! String
+            let clientApiKey = command.arguments[1] as! String
+            let hasUserContext = command.arguments[2] as! Bool
+            let events = command.arguments[3] as! [Int]
+            var deviceEvents = [DeviceEvent]()
+            var lifecycleFlag: Bool = false
+            var networkFlag:Bool = false
 
-        #if swift(>=3.0)
-            self.commandDelegate!.run(inBackground: {
-                Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:true)
-                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
-        })
-        #else
-            self.commandDelegate!.runInBackground({
-                Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
-                self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+            for i in 0..<events.count {
+                switch(i){
+                case 2:
+                    lifecycleFlag = true
+                    deviceEvents.append(.lifecycle)
+                    break
+                case 3:
+                    networkFlag = true
+                    deviceEvents.append(.network)
+                    break
+                default:
+                    lifecycleFlag = true
+                    deviceEvents.append(.lifecycle)
+                    break
+                }
+
+            }
+
+            #if swift(>=3.0)
+                self.commandDelegate!.run(inBackground: {
+
+                    if(lifecycleFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
+                    } else if (lifecycleFlag && networkFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle, .network)
+                    } else if(networkFlag) {
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .network)
+                    }
+
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:true)
+                    self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
             })
-        #endif
+            #else
+                self.commandDelegate!.runInBackground({
 
-    }
+                    if(lifecycleFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
+                    } else if (lifecycleFlag && networkFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle, .network)
+                    } else if(networkFlag) {
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .network)
+                    }
+
+                    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
+                    self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+                })
+            #endif
+
+     }
+
 
     func log(_ command: CDVInvokedUrlCommand) {
         let meta = command.arguments[0] as! Dictionary<String, Any>

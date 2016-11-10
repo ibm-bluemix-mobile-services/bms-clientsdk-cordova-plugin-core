@@ -24,6 +24,7 @@ var BMSAnalytics = {
     NONE: 0,
     ALL: 1,
     LIFECYCLE: 2,
+    NETWORK: 3,
 
     /**
      * Turns on the global setting for persisting of the analytics data.
@@ -61,7 +62,7 @@ var BMSAnalytics = {
      * @param clientApiKey The Client API Key used to communicate with your Bluemix Analytics service.
      * @param hasUserContext If true, Analytics only records one user per device. If false, setting the user identity will keep a record of all users.
      * @param deviceEvents One or more context attributes BMSAnalytics will register event listeners for.
-     * (e.g BMSAnalytics.NONE, BMSAnalytics.ALL or BMSAnalytics.LIFECYCLE)
+     * (e.g BMSAnalytics.NONE, BMSAnalytics.ALL, BMSAnalytics.LIFECYCLE, BMSAnalytics.NETWORK)
      */
     initialize : function(applicationName, clientApiKey, hasUserContext, deviceEvents){
         cordova.exec(success, failure, "BMSAnalytics", "initialize", [applicationName, clientApiKey, hasUserContext, deviceEvents])
