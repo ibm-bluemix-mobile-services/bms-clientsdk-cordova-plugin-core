@@ -15,7 +15,7 @@ import BMSCore
 
 @objc(CDVBMSLogger) class CDVBMSLogger : CDVPlugin {
 
-    let logLevelDictionary: Dictionary<String,LogLevel> = [
+    static let logLevelDictionary: Dictionary<String,LogLevel> = [
         "NONE"      : LogLevel.none,
         "DEBUG"     : LogLevel.debug,
         "INFO"      : LogLevel.info,
@@ -196,7 +196,7 @@ import BMSCore
             }
 
             // covert inputLevel to the enum type
-            guard let logLevel : LogLevel = self.logLevelDictionary[levelString] else
+            guard let logLevel : LogLevel = CDVBMSLogger.logLevelDictionary[levelString] else
             {
                 let message = "LogLevel Parameter is Invalid."
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message)
@@ -214,7 +214,7 @@ import BMSCore
             }
 
             // covert inputLevel to the enum type
-            guard let logLevel : LogLevel = self.logLevelDictionary[levelString] else
+            guard let logLevel : LogLevel = CDVBMSLogger.logLevelDictionary[levelString] else
             {
                 let message = "LogLevel Parameter is Invalid."
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: message)

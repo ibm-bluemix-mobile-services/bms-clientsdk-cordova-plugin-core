@@ -345,6 +345,9 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 <a name="change_log"></a>
 ## Change log
 
+##### 2.3.3
+* Fixed `logLevelDictionary` EXEC_BAD_ACCESS error
+
 ##### 2.3.2
 * Added `DeviceEvent.NETWORK` as an available event for `BMSAnalytics`
 
