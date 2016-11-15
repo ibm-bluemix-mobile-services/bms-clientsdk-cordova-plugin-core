@@ -25,6 +25,8 @@ Make sure you install the following tools and libraries.
 
 * The Cordova CLI tool is also required to use this plugin. You can find instructions to install Cordova and set up your Cordova app at [https://cordova.apache.org/#getstarted](https://cordova.apache.org/#getstarted).
 
+* You should have Cocoapods installed. If you don't, you can download and install Cocoapods from [http://cocoapods.org/](http://cocoapods.org/) 
+
 To create a Cordova application, use the Cordova Plugin for the IBM Bluemix Mobile Services Core SDK:
 
 1. Create a Cordova application
@@ -235,12 +237,12 @@ The query parameters are parameters that are added to the request URL.
 ```JavaScript
 request.send("some body",
 	function(successResponse){
-		console.log("text :: " + successResponse.text);
+		console.log("text :: " + successResponse.responseText);
 		console.log("status :: " + successResponse.status);
 		console.log("headers :: " + successResponse.headers);
 	}, 
 	function (failureResponse){
-		console.log("text :: " + failureResponse.text);
+		console.log("text :: " + failureResponse.responseText);
 		console.log("errorCode:: " + failureResponse.errorCode);
 		console.log("errorDescription :: " + failureResponse.errorDescription);
 	}
@@ -344,6 +346,9 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 
 <a name="change_log"></a>
 ## Change log
+
+##### 2.3.4
+* Updated Cocoapods requirment and fixed examples in README
 
 ##### 2.3.3
 * Fixed `logLevelDictionary` EXEC_BAD_ACCESS error
