@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="bms-core" version="2.3.4" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+<plugin id="bms-core" version="2.3.6" xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>BMSCore</name>
+
 
     <dependency id="cordova-plugin-cocoapod-support"/>
     <dependency id="cordova-plugin-add-swift-support"/>
@@ -86,6 +87,7 @@
 
     <!-- ios -->
     <platform name="ios">
+
     	<pods-config use-frameworks="true" ios-min-version="8.0"/>
         <pod id="BMSAnalytics" version="~>2.0"/>
         <pod id="BMSSecurity" version="~>2.0"/>
@@ -115,7 +117,6 @@
             </feature>
         </config-file>
 
-        <header-file src="src/ios/Bridging-Header.h" />
         <source-file src="src/ios/CDVBMSClient.swift" />
         <source-file src="src/ios/CDVBMSRequest.swift" />
         <source-file src="src/ios/CDVBMSLogger.swift" />

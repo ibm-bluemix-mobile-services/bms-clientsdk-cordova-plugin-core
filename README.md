@@ -24,6 +24,7 @@ Make sure you install the following tools and libraries.
 * You should already have Node.js/npm and the Cordova package installed. If you don't, you can download and install Node from [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
 * The Cordova CLI tool is also required to use this plugin. You can find instructions to install Cordova and set up your Cordova app at [https://cordova.apache.org/#getstarted](https://cordova.apache.org/#getstarted).
+    * Make sure you are using Cordova version is 6.3.0 or below.
 
 * You should have Cocoapods installed. If you don't, you can download and install Cocoapods from [http://cocoapods.org/](http://cocoapods.org/) 
 
@@ -74,7 +75,8 @@ Note:
 
 * The minSdkVersion should be above 15.
 
-* The targetSdkVersion should always reflect the latest Android SDK available from Google.
+* The targetSdkVersion should always reflect the latest Android SDK available from Google supported by Cordova. Currently, 
+Cordova supports up to Android 24.
 
 
 ### 2. Adding Cordova platforms
@@ -84,7 +86,7 @@ Run the following commands for the platforms that you want to add to your Cordov
 ```Bash
 cordova platform add ios
 
-cordova platform add android
+cordova platform add android@5.2.2
 ```
 
 ### 3. Adding Cordova plugin
@@ -289,6 +291,9 @@ BMSAnalytics.initialize(appName, apiKey, hasUserContext, [BMSAnalytics.ALL]
 // Enable analytics logging
 BMSAnalytics.enable();
 
+// If hasUserContext is set to true set "userIdentity"
+BMSAnalytcs.setUserIdentity("user1");
+
 // Send the analytics log to the server 
 BMSAnalytics.send();
 ```
@@ -346,6 +351,12 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 
 <a name="change_log"></a>
 ## Change log
+
+##### 2.3.6
+* Update README to state only Cordova 6 and Android 24 support
+
+##### 2.3.5 
+* Update code snippet to show setting `userIdentity`
 
 ##### 2.3.4
 * Updated Cocoapods requirment and fixed examples in README
