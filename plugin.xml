@@ -4,7 +4,7 @@
     <name>BMSCore</name>
 
 
-    <dependency id="cordova-plugin-cocoapod-support"/>
+    <dependency id="cordova-plugin-cocoapod-support@1.2.10"/>
     <dependency id="cordova-plugin-add-swift-support"/>
 
     <js-module name="BMSClient" src="www/BMSClient.js">
