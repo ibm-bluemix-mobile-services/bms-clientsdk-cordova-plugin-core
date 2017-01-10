@@ -352,6 +352,9 @@ BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener
 <a name="change_log"></a>
 ## Change log
 
+##### 2.3.7
+* Fixed bug with DeviceEvents in iOS
+ * See [Issue 29](https://github.com/ibm-bluemix-mobile-services/bms-clientsdk-cordova-plugin-core/issues/29)
 ##### 2.3.6
 * Update README to state only Cordova 6 and Android 24 support
 

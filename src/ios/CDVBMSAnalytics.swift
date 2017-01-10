@@ -139,9 +139,17 @@ import BMSAnalytics
             var deviceEvents = [DeviceEvent]()
             var lifecycleFlag: Bool = false
             var networkFlag:Bool = false
+            var noneFlag:Bool = false
 
             for i in 0..<events.count {
                 switch(i){
+                case 0:
+                    noneFlag = true
+                    break; // NONE should not enable any deviceEvents
+                case 1:
+                    lifecycleFlag = true;
+                    networkFlag = true;
+                    break;
                 case 2:
                     lifecycleFlag = true
                     deviceEvents.append(.lifecycle)
@@ -160,13 +168,14 @@ import BMSAnalytics
 
             #if swift(>=3.0)
                 self.commandDelegate!.run(inBackground: {
-
-                    if(lifecycleFlag){
-                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
+                    if(noneFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext)
                     } else if (lifecycleFlag && networkFlag){
                         Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle, .network)
                     } else if(networkFlag) {
                         Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .network)
+                    } else if(lifecycleFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
                     }
 
                     let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:true)
@@ -174,12 +183,13 @@ import BMSAnalytics
             })
             #else
                 self.commandDelegate!.runInBackground({
-
-                    if(lifecycleFlag){
-                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
+                    if(noneFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext)
                     } else if (lifecycleFlag && networkFlag){
                         Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle, .network)
-                    } else if(networkFlag) {
+                    } else if(lifecycleFlag){
+                        Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .lifecycle)
+                    }  else if(networkFlag) {
                         Analytics.initialize(appName: appName, apiKey: clientApiKey, hasUserContext: hasUserContext, deviceEvents: .network)
                     }
 
