@@ -142,7 +142,7 @@ import BMSAnalytics
             var noneFlag:Bool = false
 
             for i in 0..<events.count {
-                switch(i){
+                switch(events[i]){
                 case 0:
                     noneFlag = true
                     break; // NONE should not enable any deviceEvents
