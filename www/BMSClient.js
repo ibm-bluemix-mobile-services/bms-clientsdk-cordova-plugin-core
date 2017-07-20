@@ -29,6 +29,7 @@ var BMSClient = function() {
     this.REGION_US_SOUTH = ".ng.bluemix.net";
     this.REGION_UK = ".eu-gb.bluemix.net";
     this.REGION_SYDNEY = ".au-syd.bluemix.net";
+    this.REGION_GERMANY = ".eu-de.bluemix.net";
 
 
 
@@ -113,7 +114,7 @@ var BMSClient = function() {
     };
 
     /**
-     * 
+     *
      * @return backendGUID
      */
     this.getBluemixAppGUID = function(callback) {
@@ -135,4 +136,3 @@ var BMSClient = function() {
 
 //Return singleton instance
 module.exports = new BMSClient();
-
