@@ -32,7 +32,6 @@ var BMSClient = function() {
     this.REGION_GERMANY = ".eu-de.bluemix.net";
 
 
-
     /**
      * Sets the base URL for the authorization server.
      * <p>
