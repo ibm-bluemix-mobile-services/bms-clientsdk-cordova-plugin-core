@@ -157,6 +157,7 @@ The `BMSClient` class allows you to initialize the SDK. By initializing the SDK,
 
 * Initialize the `BMSClient` by copying and pasting the following code snippet into your main JavaScript file. If your app is in a different region, the following constants are available: `BMSClient.REGION_US_SOUTH`, `BMSClient.REGION_UK`,`BMSClient.REGION_GERMANY` and `BMSClient.REGION_SYDNEY`
 
+
     ```JavaScript
     BMSClient.initialize(BMSClient.REGION_US_SOUTH);
     ```
