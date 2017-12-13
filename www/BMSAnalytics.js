@@ -1,3 +1,4 @@
+cordova.define("bms-core.BMSAnalytics", function(require, exports, module) {
 /*
     Copyright 2015 IBM Corp.
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -64,8 +65,8 @@ var BMSAnalytics = {
      * @param deviceEvents One or more context attributes BMSAnalytics will register event listeners for.
      * (e.g BMSAnalytics.NONE, BMSAnalytics.ALL, BMSAnalytics.LIFECYCLE, BMSAnalytics.NETWORK)
      */
-    initialize : function(applicationName, clientApiKey, hasUserContext, deviceEvents){
-        cordova.exec(success, failure, "BMSAnalytics", "initialize", [applicationName, clientApiKey, hasUserContext, deviceEvents])
+    initialize : function(applicationName, clientApiKey, hasUserContext, collectLocation, deviceEvents){
+        cordova.exec(success, failure, "BMSAnalytics", "initialize", [applicationName, clientApiKey, hasUserContext,collectLocation, deviceEvents])
 
     },
     /**
@@ -83,7 +84,14 @@ var BMSAnalytics = {
      */
     setUserIdentity: function(username){
         cordova.exec(success, failure, "BMSAnalytics", "setUserIdentity", [username]);
-    }
+    },
+
+    logLocation: function () {
+            cordova.exec(success , failure, "BMSAnalytics", "logLocation", []);
+        },
+
 };
 
 module.exports = BMSAnalytics;
+
+});
