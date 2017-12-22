@@ -1,4 +1,3 @@
-cordova.define("bms-core.BMSAnalytics", function(require, exports, module) {
 /*
     Copyright 2015 IBM Corp.
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -93,5 +92,3 @@ var BMSAnalytics = {
 };
 
 module.exports = BMSAnalytics;
-
-});
