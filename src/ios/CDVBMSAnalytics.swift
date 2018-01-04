@@ -135,17 +135,8 @@ import BMSAnalytics
             let appName = command.arguments[0] as! String
             let clientApiKey = command.arguments[1] as! String
             let hasUserContext = command.arguments[2] as! Bool
-            var collectLocation = false
-            var events:[Int]
-            if command.arguments[3] is Bool
-            {
-                collectLocation = command.arguments[3] as! Bool
-                events = command.arguments[4] as! [Int]
-            }
-            else {
-            events = command.arguments[3] as! [Int]
-            }
-            
+            let collectLocation = command.arguments[3] as! Bool
+            let events = command.arguments[4] as! [Int]
             var deviceEvents = [DeviceEvent]()
             var lifecycleFlag: Bool = false
             var networkFlag:Bool = false
@@ -233,17 +224,17 @@ import BMSAnalytics
     func logLocation(_ command: CDVInvokedUrlCommand) {
         
         #if swift(>=3.0)
-//            self.commandDelegate!.run(inBackground: {
+            self.commandDelegate!.run(inBackground: {
                 Analytics.logLocation()
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:true)
                 self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
-//            })
+            })
         #else
-//            self.commandDelegate!.runInBackground({
+            self.commandDelegate!.runInBackground({
             Analytics.logLocation()!)
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-//            })
+            })
         #endif
         
     }
