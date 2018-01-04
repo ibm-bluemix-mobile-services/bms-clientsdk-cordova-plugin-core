@@ -224,17 +224,17 @@ import BMSAnalytics
     func logLocation(_ command: CDVInvokedUrlCommand) {
         
         #if swift(>=3.0)
-            self.commandDelegate!.run(inBackground: {
+//            self.commandDelegate!.run(inBackground: {
                 Analytics.logLocation()
                 let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs:true)
                 self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
-            })
+//            })
         #else
-            self.commandDelegate!.runInBackground({
+//            self.commandDelegate!.runInBackground({
             Analytics.logLocation()!)
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-            })
+ //           })
         #endif
         
     }
