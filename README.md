@@ -183,7 +183,7 @@ The following JavaScript code is your entry point to the Bluemix Mobile services
  REGION_UK //".eu-gb.bluemix.net";
  REGION_SYDNEY // ".au-syd.bluemix.net";
  REGION_GERMANY // ".eu-de.bluemix.net"
- REGION_WASHINGTON // ".us-east.bluemix.net"
+ REGION_US_EAST // ".us-east.bluemix.net"
 ```
 
 ```JavaScript
