@@ -135,8 +135,16 @@ import BMSAnalytics
             let appName = command.arguments[0] as! String
             let clientApiKey = command.arguments[1] as! String
             let hasUserContext = command.arguments[2] as! Bool
-            let collectLocation = command.arguments[3] as! Bool
-            let events = command.arguments[4] as! [Int]
+            var collectLocation = false
+            var events:[Int]
+            if  !(command.arguments[4] is NSNull)
+            {
+                collectLocation = command.arguments[3] as! Bool
+                events = command.arguments[4] as! [Int]
+            }
+            else {
+                events = command.arguments[3] as! [Int]
+            }
             var deviceEvents = [DeviceEvent]()
             var lifecycleFlag: Bool = false
             var networkFlag:Bool = false
