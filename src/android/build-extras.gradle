@@ -1,3 +1,5 @@
 dependencies {
-    compile 'com.ibm.mobilefirstplatform.clientsdk.android:analytics:1.+'
+    compile 'com.ibm.mobilefirstplatform.clientsdk.android:analyticsapi:1.2.0'
+    compile 'com.ibm.mobilefirstplatform.clientsdk.android:core:3.+'
+    compile 'com.ibm.mobilefirstplatform.clientsdk.android:analytics:1.2.5'
 }
