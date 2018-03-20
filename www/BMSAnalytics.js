@@ -89,6 +89,13 @@ var BMSAnalytics = {
             cordova.exec(success , failure, "BMSAnalytics", "logLocation", []);
         },
 
+    /**
+     * <p>Invoke in app feedback module by calling this method </p>
+     *
+     */
+    triggerFeedbackMode: function(){
+        cordova.exec(success, failure, "BMSAnalytics", "triggerFeedbackMode", []);
+    },
 };
 
 module.exports = BMSAnalytics;
