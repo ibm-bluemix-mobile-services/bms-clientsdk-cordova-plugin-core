@@ -12,12 +12,14 @@
 */
 package com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core;
 
+import com.ibm.mobilefirstplatform.clientsdk.android.analytics.internal.BMSAnalytics;
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.Response;
 import com.ibm.mobilefirstplatform.clientsdk.android.core.api.ResponseListener;
 import com.ibm.mobilefirstplatform.clientsdk.android.analytics.api.*;
 import com.ibm.mobilefirstplatform.clientsdk.android.logger.api.Logger;
 
 import android.util.Log;
+import android.app.Activity;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -69,6 +71,9 @@ public class CDVBMSAnalytics extends CordovaPlugin {
             return true;
         } else if("logLocation".equals(action)){
             Analytics.logLocation();
+        } else if("triggerFeedbackMode".equals(action)){
+            Activity currentActivity = super.cordova.getActivity();
+            BMSAnalytics.triggerFeedbackMode(currentActivity);
         }
 
         return false;
@@ -115,7 +120,11 @@ public class CDVBMSAnalytics extends CordovaPlugin {
 
                     @Override
                     public void onFailure(Response failResponse, Throwable t, JSONObject extendedInfo) {
-                        callbackContext.error(failResponse.toString());
+                        if(failResponse!= null){
+                            callbackContext.error(failResponse.toString());
+                        }else {
+                            callbackContext.error("No error message returned from function");
+                        }
                     }
 
                 });
