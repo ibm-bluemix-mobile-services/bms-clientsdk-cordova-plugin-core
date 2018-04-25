@@ -246,4 +246,20 @@ import BMSAnalytics
         #endif
         
     }
+
+    func triggerFeedbackMode(_ command: CDVInvokedUrlCommand){
+
+        #if swift(>=3.0)
+            self.commandDelegate!.run(inBackground: {
+                DispatchQueue.main.async {
+                    BMSAnalytics.callersUIViewController = self.viewController
+                    Analytics.triggerFeedbackMode()
+                }
+                let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: true)
+                // call success callback
+                self.commandDelegate!.send(pluginResult, callbackId: command.callbackId)
+            })
+        #endif
+    }
+
 }
