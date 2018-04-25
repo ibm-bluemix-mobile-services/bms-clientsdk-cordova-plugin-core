@@ -299,6 +299,9 @@ BMSAnalytcs.setUserIdentity("user1");
 
 // Send the analytics log to the server 
 BMSAnalytics.send();
+
+// Invoke feedback mode on any application event such as buttons, menu actions or gestures on calling the method
+BMSAnalytics.triggerFeedbackMode();
 ```
 
 **Note**: In iOS, BMSAnalytics.ALL and BMSAnalytics.NONE is not supported natively and will be treated as BMAnaltyics.LIFECYCLE.
