@@ -172,7 +172,7 @@ onDeviceReady: function() {
 <a name="examples"></a>
 ## Examples
 
-### Using BMSClient, BMSAuthorizationManager, and BMSRequest
+### Using BMSClient
 
 #### Initializing BMSClient
 
@@ -189,24 +189,6 @@ The following JavaScript code is your entry point to the Bluemix Mobile services
 ```JavaScript
 BMSClient.initialize(BMSClient.REGION_US_SOUTH);
 ```
-#### Initializing BMSAuthorizationManager
-
-In order to use `BMSAuthorizationManager` you will need to add the following code snippet. The following native code initializes the `BMSAuthorizationManager` with the MCA service `tenantId`, the `tenantId` can be found under the service credentials by clicking on the show credentials button on the MCA service tile. This method should be called before making a request.
-
-* Android (*OnCreate in MainActivity.java before `loadUrl`*)
-```Java
-MCAAuthorizationManager mcaAuthorizationManager = MCAAuthorizationManager.createInstance(this.getApplicationContext(),"<tenantId>");
-BMSClient.getInstance().setAuthorizationManager(mcaAuthorizationManager);
-```
-* iOS (*AppDelegate.m*)
-```Objective-C
-  [CDVBMSClient initMCAAuthorizationManagerManager:@"<tenantId>"]; //Xcode 7 and Xcode 8 with Swift 2.3
-  [CDVBMSClient initMCAAuthorizationManagerManagerWithTenantId:@"<tenantId>"]; // Xcode 8 with Swift 3
-```
-
-#### Keychain Sharing
-
-If you plan on using BMSAuthorization in iOS you will need to enable Keychain Sharing. Also, keep in mind that Keychain Sharing requires an Apple ID. Enable `Keychain Sharing` by going to `Capabilities` > `Keychain Sharing` and switch the tab to `On`. 
 
 #### Creating a request 
 After you initialize the client, you can create a new `BMSRequest` instance by specifiying a URL endpoint, request method, and an optional timeout value in milliseconds.
@@ -309,54 +291,12 @@ BMSAnalytics.triggerFeedbackMode();
 **Note**: For more information about Mobile Analytics, see the [documentation](https://new-console.stage1.ng.bluemix.net/docs/services/mobileanalytics/index.html).
 
 
-
-### Custom Authentication
-
-```JavaScript
-var customAuthenticationListener = {
-    onAuthenticationChallengeReceived: function(authenticationContext, challenge) {
-        console.log("onAuthenticationChallengeReceived :: ", challenge);
-
-        // In this sample the Authentication Listener immediatelly returns a hardcoded
-        // set of credentials. In a real life scenario this is where developer would
-        // show a login screen, collect credentials and invoke 
-        // authenticationContext.submitAuthenticationChallengeAnswer() API
-
-        var challengeResponse = {
-            username: "john.lennon",
-            password: "12345"
-        }
-
-        authenticationContext.submitAuthenticationChallengeAnswer(challengeResponse);
-
-        // In case there was a failure collecting credentials you need to report
-        // it back to the authenticationContext. Otherwise Mobile Client 
-        // Access Client SDK will remain in a waiting-for-credentials state
-        // forever
-
-    },
-
-    onAuthenticationSuccess: function(info){
-        console.log("onAuthenticationSuccess :: ", info);
-    },
-
-    onAuthenticationFailure: function(info){
-        console.log("onAuthenticationFailure :: ", info);
-    }
-}
-
-// Once you create a custom Authentication Listener you need to register it 
-// with BMSClient before you can start using it. 
-// Use realmName you've specified when configuring custom authentication
-// in Mobile Client Access Dashboard
-
-BMSClient.registerAuthenticationListener(realmName, customAuthenticationListener);
-```
-
-**Note**: For more information about Mobile Client Access, see the [documentation](https://new-console.ng.bluemix.net/docs/services/mobileaccess/custom-auth-cordova.html)
-
 <a name="change_log"></a>
 ## Change log
+
+##### 2.5.0
+
+Removed BMSSecurity (mobileaccess)
 
 ##### 2.3.7
 * Fixed bug with DeviceEvents in iOS
