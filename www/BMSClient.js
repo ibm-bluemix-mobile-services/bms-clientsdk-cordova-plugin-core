@@ -14,7 +14,6 @@ var exec = require("cordova/exec");
 
 var BMSClient = function() {
     var BMSClientString = "BMSClient";
-    var AuthContextString = "BMSAuthenticationContext";
     var success = function(message) {
         console.log(BMSClientString + ": Success: " + message);
     };
@@ -46,67 +45,6 @@ var BMSClient = function() {
     };
 
     /**
-     * Registers authentication callback for the specified realm.
-     * @param {string} realm Authentication realm.
-     * @param {function} userAuthenticationListener
-     */
-    this.registerAuthenticationListener = function(realm, userAuthenticationListener) {
-
-         var AuthenticationContext = {
-
-                            submitAuthenticationChallengeAnswer: function(answer){
-                                cordova.exec(success, failure, AuthContextString, "submitAuthenticationChallengeAnswer", [answer, realm]);
-                            },
-
-                            submitAuthenticationSuccess: function(){
-                                console.log("submitAuthenticationSuccess called");
-                                cordova.exec(success, failure,  AuthContextString, "submitAuthenticationSuccess", [realm]);
-                            },
-
-                            submitAuthenticationFailure: function(info){
-                                console.log("submitAuthenticationFailure called");
-                                cordova.exec(success, failure,  AuthContextString, "submitAuthenticationFailure", [info, realm]);
-                            }
-         };
-
-        //callback Challenge Handler function definition
-        var challengeHandler = function(received)
-        {
-          if (received.action === "onAuthenticationChallengeReceived")
-          {
-            console.log("challengeHandler: onAuthenticationChallengeReceived");
-            userAuthenticationListener.onAuthenticationChallengeReceived(AuthenticationContext, received.challenge);
-
-          }else if(received.action === "onAuthenticationSuccess")
-          {
-            console.log("challengeHandler: onAuthenticationSuccess");
-            userAuthenticationListener.onAuthenticationSuccess(received.info);
-
-          }
-          else if(received.action === "onAuthenticationFailure")
-          {
-            console.log("challengeHandler: onAuthenticationFailure");
-            userAuthenticationListener.onAuthenticationFailure(received.info);
-
-          }else{
-          console.log("Failure in challengeHandler: action not recognize");
-          }
-        };
-        // register an callback Handler function
-        addCallbackHandler(realm, challengeHandler);
-        cordova.exec(success, failure, BMSClientString, "registerAuthenticationListener", [realm]);
-
-    };
-
-    /**
-     * Unregisters the authentication callback for the specified realm.
-     * @param {string} realm Authentication realm
-     */
-    this.unregisterAuthenticationListener = function(realm) {
-        cordova.exec(success, failure, BMSClientString, "unregisterAuthenticationListener", [realm]);
-    };
-
-    /**
      *
      * @return backendRoute
      */
@@ -122,18 +60,7 @@ var BMSClient = function() {
         cordova.exec(callback, failure, BMSClientString, "getBluemixAppGUID", []);
     };
 
-
-    var addCallbackHandler = function(realm, challengeHandler){
-        var cdvsuccess =  callbackWrap.bind(this, challengeHandler);
-        var cdvfailure = function() { console.log("Error: addCallbackHandler failed"); };
-        cordova.exec(cdvsuccess, cdvfailure, BMSClientString, "addCallbackHandler", [realm]);
-     };
-
-     var callbackWrap = function (callback, action) {
-         callback(action);
-     };
-
-    };
+};
 
 //Return singleton instance
 module.exports = new BMSClient();
