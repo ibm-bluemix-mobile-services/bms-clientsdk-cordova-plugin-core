@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="bms-core" version="2.4.8" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+<plugin id="bms-core" version="2.5.0" xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>BMSCore</name>
 
@@ -22,13 +22,6 @@
     <js-module name="BMSAnalytics" src="www/BMSAnalytics.js">
         <clobbers target="BMSAnalytics"/>
     </js-module>
-
-    <js-module name="BMSAuthorizationManager" src="www/BMSAuthorizationManager.js">
-        <clobbers target="BMSAuthorizationManager"/>
-    </js-module>
-
-
-
 
 
 
@@ -64,14 +57,7 @@
                 <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAnalytics"/>
             </feature>
 
-            <feature name="BMSAuthorizationManager">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAuthorizationManager" />
-            </feature>
-
-            <feature name="BMSAuthenticationContext">
-                <param name="android-package" value="com.ibm.mobilefirstplatform.clientsdk.cordovaplugins.core.CDVBMSAuthenticationContext" />
-            </feature>
-
+        
         </config-file>
 
         <config-file parent="/*" target="AndroidManifest.xml"/>
@@ -80,9 +66,7 @@
         <source-file src="src/android/CDVBMSRequest.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         <source-file src="src/android/CDVBMSLogger.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
         <source-file src="src/android/CDVBMSAnalytics.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVBMSAuthorizationManager.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-        <source-file src="src/android/CDVBMSAuthenticationContext.java" target-dir="src/com/ibm/mobilefirstplatform/clientsdk/cordovaplugins/core" />
-
+    
     </platform>
 
     <!-- ios -->
@@ -90,7 +74,6 @@
 
     	<pods-config use-frameworks="true" ios-min-version="8.0"/>
         <pod id="BMSAnalytics" version="~>2.0"/>
-        <pod id="BMSSecurity" version="~>2.0"/>
         <config-file parent="/*" target="config.xml">
 
             <feature name="BMSClient">
@@ -108,21 +91,12 @@
             <feature name="BMSAnalytics">
                 <param name="ios-package" value="CDVBMSAnalytics"/>
             </feature>
-            <feature name="BMSAuthorizationManager">
-                <param name="ios-package" value="CDVBMSAuthorizationManager"/>
-            </feature>
-
-            <feature name="BMSAuthenticationContext">
-                <param name="ios-package" value="CDVBMSAuthenticationContext"/>
-            </feature>
         </config-file>
 
         <source-file src="src/ios/CDVBMSClient.swift" />
         <source-file src="src/ios/CDVBMSRequest.swift" />
         <source-file src="src/ios/CDVBMSLogger.swift" />
         <source-file src="src/ios/CDVBMSAnalytics.swift" />
-        <source-file src="src/ios/CDVBMSAuthorizationManager.swift" />
-        <source-file src="src/ios/CDVBMSAuthenticationContext.swift" />
         <source-file src="src/ios/CustomErrorTypes.swift" />
         <source-file src="src/ios/Utils.swift" />
     </platform>
