@@ -14,7 +14,7 @@
 import Foundation
 import BMSCore
 
-@objc(CDVBMSRequest) class CDVBMSRequest : CDVPlugin {
+@objc(CDVBMSRequest) @objcMembers class CDVBMSRequest : CDVPlugin {
 
     func send(_ command: CDVInvokedUrlCommand) {
         #if swift(>=3.0)

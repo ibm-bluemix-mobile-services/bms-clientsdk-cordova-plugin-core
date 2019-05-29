@@ -13,7 +13,7 @@ limitations under the License.
 import Foundation
 import BMSCore
 
-@objc(CDVBMSLogger) class CDVBMSLogger : CDVPlugin {
+@objc(CDVBMSLogger) @objcMembers class CDVBMSLogger : CDVPlugin {
 
     static let logLevelDictionary: Dictionary<String,LogLevel> = [
         "NONE"      : LogLevel.none,

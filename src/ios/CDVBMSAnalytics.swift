@@ -17,7 +17,7 @@ import BMSCore
 import BMSAnalytics
 
 
-@objc(CDVBMSAnalytics) class CDVBMSAnalytics : CDVPlugin {
+@objc(CDVBMSAnalytics) @objcMembers class CDVBMSAnalytics : CDVPlugin {
 
     func setUserIdentity(_ command: CDVInvokedUrlCommand){
         let userIdentity = command.arguments[0] as! String
@@ -239,7 +239,7 @@ import BMSAnalytics
 //            })
         #else
 //            self.commandDelegate!.runInBackground({
-            Analytics.logLocation()!)
+            Analytics.logLocation()
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsBool:true)
             self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
  //           })
