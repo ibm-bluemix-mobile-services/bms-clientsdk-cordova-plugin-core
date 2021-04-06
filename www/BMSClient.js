@@ -31,6 +31,7 @@ var BMSClient = function() {
     this.REGION_GERMANY = ".eu-de.bluemix.net";
     this.REGION_US_EAST = ".us-east.bluemix.net";
     this.REGION_TOKYO = ".jp-tok.bluemix.net";
+    this.REGION_JP_OSA = ".jp-osa.bluemix.net";
 
 
     /**
